@@ -1,14 +1,20 @@
 """Context builder.
 
-Assembles the context messages sent to the model provider, including
-the user's retrieved active experience.
+Selects the most relevant active memories within a budget and assembles
+the context messages sent to the model provider. Selection is
+deterministic: keyword overlap with the current message, then kind
+priority (instructions > facts > preferences), then recency.
 """
 
 from __future__ import annotations
 
+import re
+from dataclasses import dataclass, field
+
 from experienceos.memory.schema import ExperienceEntry, MemoryKind
 
 MEMORY_HEADER = "ExperienceOS retrieved these active user experiences:"
+DEFAULT_MEMORY_BUDGET = 4
 
 _KIND_SECTIONS = (
     (MemoryKind.PREFERENCE, "Preferences:"),
@@ -16,9 +22,49 @@ _KIND_SECTIONS = (
     (MemoryKind.INSTRUCTION, "Instructions:"),
 )
 
+# Instructions guide behavior, facts anchor it, preferences flavor it.
+_KIND_PRIORITY = {
+    MemoryKind.INSTRUCTION: 2,
+    MemoryKind.FACT: 1,
+    MemoryKind.PREFERENCE: 0,
+}
+
+_SELECTION_STOPWORDS = frozenset(
+    {
+        "a", "an", "and", "the", "to", "of", "for", "with", "in", "on",
+        "at", "is", "are", "be", "it", "me", "my", "i", "you", "we",
+        "help", "please", "when", "that", "this",
+    }
+)
+
+
+def _selection_words(text: str) -> set[str]:
+    words = set()
+    for word in re.findall(r"[a-z0-9]+", text.lower()):
+        if word in _SELECTION_STOPWORDS:
+            continue
+        if len(word) > 3 and word.endswith("s"):
+            word = word[:-1]
+        words.add(word)
+    return words
+
+
+@dataclass
+class ContextBuildResult:
+    """Messages plus the selection decisions behind them."""
+
+    messages: list[dict[str, str]]
+    selected_memories: list[ExperienceEntry] = field(default_factory=list)
+    skipped_memories: list[ExperienceEntry] = field(default_factory=list)
+    candidate_memories: list[ExperienceEntry] = field(default_factory=list)
+    memory_budget: int | None = None
+
 
 class ContextBuilder:
     """Builds provider context messages for one interaction."""
+
+    def __init__(self, memory_budget: int = DEFAULT_MEMORY_BUDGET):
+        self.memory_budget = memory_budget
 
     def build_context(
         self,
@@ -26,7 +72,10 @@ class ContextBuilder:
         session_id: str,
         message: str,
         memories: list[ExperienceEntry] | None = None,
-    ) -> list[dict[str, str]]:
+    ) -> ContextBuildResult:
+        candidates = list(memories or [])
+        selected, skipped = self.select_memories(message, candidates)
+
         context: list[dict[str, str]] = [
             {
                 "role": "system",
@@ -36,15 +85,37 @@ class ContextBuilder:
                 ),
             }
         ]
-        if memories:
+        if selected:
             context.append(
                 {
                     "role": "system",
                     "content": f"{MEMORY_HEADER}\n\n"
-                    + "\n\n".join(self._kind_sections(memories)),
+                    + "\n\n".join(self._kind_sections(selected)),
                 }
             )
-        return context
+        return ContextBuildResult(
+            messages=context,
+            selected_memories=selected,
+            skipped_memories=skipped,
+            candidate_memories=candidates,
+            memory_budget=self.memory_budget,
+        )
+
+    def select_memories(
+        self, message: str, candidates: list[ExperienceEntry]
+    ) -> tuple[list[ExperienceEntry], list[ExperienceEntry]]:
+        """Deterministically rank candidates and split at the budget."""
+        message_words = _selection_words(message)
+        ranked = sorted(
+            candidates,
+            key=lambda m: (
+                -len(_selection_words(m.text) & message_words),
+                -_KIND_PRIORITY.get(m.kind, 0),
+                -m.created_at.timestamp(),
+                m.id,
+            ),
+        )
+        return ranked[: self.memory_budget], ranked[self.memory_budget :]
 
     @staticmethod
     def _kind_sections(memories: list[ExperienceEntry]) -> list[str]:

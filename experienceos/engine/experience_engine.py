@@ -11,7 +11,7 @@ experience story clear.
 
 from __future__ import annotations
 
-from experienceos.context.builder import ContextBuilder
+from experienceos.context.builder import ContextBuilder, ContextBuildResult
 from experienceos.events.bus import EventBus
 from experienceos.events.schema import EventType
 from experienceos.memory.planner import (
@@ -60,18 +60,33 @@ class ExperienceEngine:
             EventType.MEMORY_RETRIEVED,
             {"memory_ids": [m.id for m in memories], "count": len(memories)},
         )
-        context_messages = (
-            self.context_builder.build_context(
-                user_id, session_id, message, memories=memories
-            )
-            or []
+        raw = self.context_builder.build_context(
+            user_id, session_id, message, memories=memories
         )
+        if isinstance(raw, ContextBuildResult):
+            build = raw
+        else:
+            # Custom builders may still return a plain message list; treat
+            # everything they received as selected.
+            build = ContextBuildResult(
+                messages=list(raw or []),
+                selected_memories=list(memories),
+                skipped_memories=[],
+                candidate_memories=list(memories),
+            )
+        context_messages = build.messages
         emit(
             EventType.CONTEXT_BUILT,
             {
                 "context_messages": context_messages,
                 "count": len(context_messages),
-                "memory_count": len(memories),
+                "memory_count": len(build.candidate_memories),
+                "candidate_memory_ids": [m.id for m in build.candidate_memories],
+                "selected_memory_ids": [m.id for m in build.selected_memories],
+                "skipped_memory_ids": [m.id for m in build.skipped_memories],
+                "selected_memory_count": len(build.selected_memories),
+                "skipped_memory_count": len(build.skipped_memories),
+                "memory_budget": build.memory_budget,
             },
         )
 

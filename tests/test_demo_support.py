@@ -99,10 +99,11 @@ def test_supplied_context_lines_show_retrieved_experience():
     )
     assert supplied_context_lines(agent.events) == []
     agent.chat(user_id="u1", session_id="s2", message="Book a trip.")
-    assert supplied_context_lines(agent.events) == [
+    # Selection ranks memories (relevance, kind, recency), so compare as a set.
+    assert set(supplied_context_lines(agent.events)) == {
         "Prefers aisle seats.",
         "Prefers morning flights.",
-    ]
+    }
 
 
 def test_superseded_rows_resolve_replacement():

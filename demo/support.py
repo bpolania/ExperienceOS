@@ -75,7 +75,8 @@ def summarize_event(event: ExperienceEvent) -> str:
     if event.type == EventType.MEMORY_RETRIEVED:
         return f"{p.get('count', 0)} active memories retrieved."
     if event.type == EventType.CONTEXT_BUILT:
-        return f"{p.get('memory_count', 0)} memories included in context."
+        included = p.get("selected_memory_count", p.get("memory_count", 0))
+        return f"{included} memories included in context."
     if event.type == EventType.MEMORY_ACTION_PLANNED:
         return f"{len(p.get('planned_actions', []))} create action(s) planned."
     if event.type == EventType.MEMORY_CREATED:

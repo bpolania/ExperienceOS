@@ -69,7 +69,9 @@ def test_context_builder_includes_memories():
         ExperienceEntry(user_id="u1", text="Prefers aisle seats."),
         ExperienceEntry(user_id="u1", text="Prefers morning flights."),
     ]
-    context = builder.build_context("u1", "s1", "book a trip", memories=memories)
+    context = builder.build_context(
+        "u1", "s1", "book a trip", memories=memories
+    ).messages
     memory_blocks = [
         m for m in context if m["role"] == "system" and MEMORY_HEADER in m["content"]
     ]
