@@ -14,10 +14,13 @@ SDK → ExperienceEngine → MemoryStore + ContextBuilder → ModelProvider → 
 interaction_started
 context_requested
 memory_retrieved       (prior active memories loaded for the user)
-context_built          (context assembled, including retrieved experience)
+context_built          (bounded selection made and context assembled;
+                        payload carries candidate/selected/skipped ids
+                        and per-memory selection_records with reasons)
 memory_action_planned  (deterministic planner scans the user message)
 memory_superseded      (one per replaced memory; only on preference changes)
-memory_created         (one per new memory; only when preferences detected)
+memory_forgotten       (one per memory removed by an explicit forget request)
+memory_created         (one per new memory; preferences, facts, instructions)
 model_called           (provider invoked with context + user message)
 response_returned
 interaction_completed
@@ -31,8 +34,8 @@ demo surfaces to make the platform visible.
 
 - **`ExperienceEntry`** (`memory/schema.py`) — one unit of experience:
   id, user_id, kind (`preference`/`fact`/`instruction`), text, status
-  (`active`/`superseded`/`forgotten` — `forgotten` is reserved),
-  source_session_id, timestamps, metadata.
+  (`active`/`superseded`/`forgotten`), source_session_id, timestamps,
+  metadata.
 - **Memory stores** — one small interface (`add`, `get`,
   `list_memories(user_id, status=...)`, `active_for_user`, `supersede`,
   `clear`), two implementations:
@@ -47,13 +50,15 @@ demo surfaces to make the platform visible.
     services, zero migrations, one gitignorable file — and it makes
     "experience accumulates across sessions" literally true across
     process restarts.
-- **`MemoryPlanner`** (`memory/planner.py`) — rule-based preference
-  detection ("I prefer / like / don't like ...", optional "Remember that"
-  prefix, conjunction splitting, trailing modifiers like "now"/"instead"
-  stripped). Produces human-readable texts like "Prefers aisle seats."
-  Texts already active for the user are skipped. The planner is a seam:
-  an alternative planner with smarter extraction can replace it without
-  touching the engine.
+- **`MemoryPlanner`** (`memory/planner.py`) — rule-based detection of
+  preferences ("I prefer / like / don't like ...", conjunction splitting,
+  trailing modifiers stripped), facts ("My home airport is SFO.",
+  "I work out of / live near / am based in ..."), and instructions
+  ("Remember to ...", "From now on ...", "When <clause>, ...",
+  "Always ..."). Produces human-readable texts; duplicates of the same
+  kind are skipped via normalized-text comparison. The planner is a
+  seam: an alternative planner with smarter extraction can replace it
+  without touching the engine.
 - **Superseding** — when a new preference conflicts with an active one,
   the planner emits a `supersede` action alongside the `create`. Conflict
   detection is deterministic: both texts must map to the same known
@@ -64,11 +69,25 @@ demo surfaces to make the platform visible.
   records `replaces`, and a `memory_superseded` event makes the
   transition visible. Superseded memories stay in the store for the
   dashboard but are excluded from `active_for_user` — and therefore from
-  all future context. Forgetting is not implemented.
-- **Context assembly** — retrieval happens *before* new memories are
-  planned, so a memory created now influences later interactions (the
-  cross-session experience story). Retrieved memories are injected as a
-  system message: "ExperienceOS retrieved these active user experiences: ..."
+  all future context.
+- **Forgetting** — explicit requests ("Forget my ...", "I no longer
+  prefer ...", "I don't care about ... anymore") are matched against
+  active memories by conservative content-word containment. Matches are
+  marked `forgotten` with `forgotten_at`/`forget_reason` metadata and a
+  `memory_forgotten` event; no hard deletes. Forget-request phrases are
+  scrubbed before creation detection so "Forget that I prefer X" never
+  creates X.
+- **Context selection** (`context/builder.py`) — retrieval happens
+  *before* new memories are planned, so a memory created now influences
+  later interactions. Active candidates are ranked deterministically
+  (keyword overlap with the message, kind priority
+  instruction > fact > preference, recency, stable id tie-break) and
+  only the top `memory_budget` (default 4) render into the context
+  system message, grouped by kind under "ExperienceOS retrieved these
+  active user experiences:". Every candidate gets a
+  `ContextSelectionRecord` (rank, score, matched keywords, reason)
+  exposed via the `context_built` payload — the dashboard's selection
+  table reads these records directly.
 
 ## Seams
 

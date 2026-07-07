@@ -1,5 +1,6 @@
-"""Rule-based memory planner: deterministic preference detection and
-conflict-driven superseding.
+"""Rule-based memory planner: deterministic detection of preferences,
+facts, and instructions, with conflict-driven superseding and explicit
+forget requests.
 
 The planner is a seam: an alternative planner with smarter extraction
 can replace it without touching the engine.

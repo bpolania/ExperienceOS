@@ -33,16 +33,28 @@ platform visible.
   NYC.") — ExperienceOS retrieves the active memories and injects them
   into the context sent to the model provider.
 
+ExperienceOS remembers three kinds of experience — **preferences**
+("I prefer aisle seats."), **facts** ("My home airport is SFO."), and
+**instructions** ("Always include airport transfer time.") — and manages
+their full lifecycle: created, retrieved, superseded when they change,
+and forgotten on request (kept as visible history, never used again).
+
+Context is assembled deterministically: active memories are ranked by
+keyword relevance, kind priority, and recency, and only the top few
+(default budget: 4) are injected — with a per-memory explanation of why
+each was selected or skipped.
+
 Every `chat(...)` call publishes its internal steps as events:
 
 ```
 interaction_started → context_requested → memory_retrieved → context_built
-→ memory_action_planned → memory_superseded* → memory_created* → model_called
-→ response_returned → interaction_completed
+→ memory_action_planned → memory_superseded* → memory_forgotten*
+→ memory_created* → model_called → response_returned → interaction_completed
 ```
 
 Inspect them via `agent.events`; read accumulated experience via
-`agent.memories_for_user(user_id)`.
+`agent.memories_for_user(user_id)` (pass `status="superseded"` or
+`"forgotten"` for history).
 
 ## Layout
 
@@ -96,21 +108,28 @@ and you can switch back to Mock.
 ### Demo walkthrough (2 minutes)
 
 1. Run the dashboard (provider stays on Mock).
-2. Click **Run preference update demo** in the sidebar.
-3. Watch the event log: `memory_created` for aisle seats and morning
-   flights in the first session.
-4. On the second turn ("Actually, I prefer window seats now."), watch
-   the `memory_superseded` event fire and "Prefers aisle seats." move to
-   the **Superseded experiences** panel, replaced by "Prefers window
-   seats." in **Active memories**.
-5. On the final turn, the **Context supplied** panel proves the model
-   received the new preference and morning flights — not the old aisle
-   seat preference.
-6. Optionally set `QWEN_API_KEY` and switch the provider to Qwen Cloud
+2. Click **Run experience lifecycle demo** in the sidebar. Eight turns
+   run: preferences, facts, and an instruction are remembered; a trip is
+   planned; a preference changes; a preference is forgotten; a final
+   trip is planned.
+3. **Active memories** shows all three kinds (preference, fact,
+   instruction).
+4. **Context selection** shows the budget math — on the first planning
+   turn, five candidates compete for a budget of four and one memory is
+   visibly *skipped*, with a reason for every decision.
+5. "Actually, I prefer evening flights." fires `memory_superseded` —
+   morning flights moves to **Superseded experiences**.
+6. "Forget my aisle seat preference." fires `memory_forgotten` — aisle
+   seats moves to **Forgotten experiences**, kept as history.
+7. On the final turn, **Context supplied** proves the model received
+   only current experience: evening flights, the facts, and the
+   instruction — no superseded or forgotten memories.
+8. Optionally set `QWEN_API_KEY` and switch the provider to Qwen Cloud
    to run the same flow against a live Qwen model.
 
-The point to observe: ExperienceOS does not merely remember — it adapts
-its accumulated experience when the user changes.
+The point to observe: ExperienceOS does not merely remember — it
+retrieves selectively, adapts when the user changes, and forgets on
+request, all visibly.
 
 ## Persistence: experience survives restarts
 
@@ -155,17 +174,33 @@ sidebar (database at `.experienceos/demo_memory.sqlite3`, gitignored).
 7. The updated active preference survived; the superseded one remains
    visible but is never injected into context.
 
-## Memory update and superseding
+## Memory lifecycle: update, supersede, forget
 
 ExperienceOS keeps old experience visible instead of deleting it. When a
 preference changes ("Actually, I prefer window seats now."), the
 conflicting active memory is marked **superseded** — with lineage
 metadata pointing to its replacement — and the new memory becomes
-active. Superseded memories are never injected into future context, but
-remain visible in the dashboard so the state transition is observable.
-Conflict detection is deterministic and conservative: only known
+active. Conflict detection is deterministic and conservative: only known
 preference domains (seats, flight times, hotels) with matching polarity
 can conflict; unknown domains just create new memories.
+
+Explicit requests ("Forget my morning flight preference.", "I no longer
+prefer aisle seats.", "I don't care about hotel gyms anymore.") mark
+matching memories **forgotten**, with the reason and timestamp recorded.
+Superseded and forgotten memories are never injected into future
+context, but remain visible in the dashboard so every state transition
+is observable — and both states persist in SQLite across restarts.
+
+## Context selection
+
+Active memories are not dumped into the prompt. Each turn, candidates
+are ranked deterministically — keyword overlap with the current message,
+then kind priority (instructions > facts > preferences), then recency —
+and only the top `memory_budget` (default 4) are injected, still grouped
+by kind. The `context_built` event carries `selection_records`
+explaining every decision ("selected: matched trip, work; instruction
+priority; within budget" / "skipped: budget reached after 4 selected
+memories"), which the dashboard renders as a table.
 
 ## Console examples
 

@@ -10,9 +10,10 @@ from datetime import datetime, timezone
 class MemoryStatus:
     """Lifecycle states for a memory.
 
-    ACTIVE memories are injected into context. SUPERSEDED memories are
-    kept for lineage and visibility but never injected. FORGOTTEN is
-    reserved for explicit removal.
+    ACTIVE memories are candidates for context. SUPERSEDED memories were
+    replaced by newer experience; FORGOTTEN memories were explicitly
+    removed by the user. Both are kept as visible history and never
+    injected into context.
     """
 
     ACTIVE = "active"
@@ -23,7 +24,8 @@ class MemoryStatus:
 class MemoryKind:
     """What kind of experience a memory captures.
 
-    PREFERENCE is the only kind the default planner currently produces.
+    The default planner detects all three: preferences ("I prefer ..."),
+    facts ("My home airport is ..."), and instructions ("Always ...").
     """
 
     PREFERENCE = "preference"
