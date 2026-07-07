@@ -254,10 +254,11 @@ matched domains.
 Offline (default, no credentials — all exit 0):
 
 ```bash
-PYTHONPATH=. python examples/basic_qwen_demo.py    # one-turn lifecycle
-PYTHONPATH=. python examples/memory_demo.py        # cross-session recall
-PYTHONPATH=. python examples/update_demo.py        # superseding
-PYTHONPATH=. python examples/persistence_demo.py   # SQLite restarts
+PYTHONPATH=. python examples/full_lifecycle_demo.py  # one-command full lifecycle proof with assertions
+PYTHONPATH=. python examples/basic_qwen_demo.py      # one-turn lifecycle
+PYTHONPATH=. python examples/memory_demo.py          # cross-session recall
+PYTHONPATH=. python examples/update_demo.py          # superseding
+PYTHONPATH=. python examples/persistence_demo.py     # SQLite restarts
 ```
 
 Live Qwen smoke test (optional, credential-gated):
