@@ -10,6 +10,11 @@ venv/
 build/
 dist/
 
+# Local demo databases
+*.sqlite
+*.sqlite3
+.experienceos/
+
 # Tooling / IDE
 .idea/
 .brv/
