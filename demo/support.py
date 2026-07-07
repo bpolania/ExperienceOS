@@ -103,6 +103,7 @@ def superseded_rows(agent: ExperienceOS, user_id: str) -> list[dict]:
         rows.append(
             {
                 "Memory": m.text,
+                "Kind": m.kind,
                 "Status": m.status,
                 "Replaced by": replacement.text if replacement else "—",
                 "Source session": m.source_session_id,
@@ -110,6 +111,39 @@ def superseded_rows(agent: ExperienceOS, user_id: str) -> list[dict]:
             }
         )
     return rows
+
+
+def forgotten_rows(agent: ExperienceOS, user_id: str) -> list[dict]:
+    """Display rows for forgotten memories, kept visible as history."""
+    rows = []
+    for m in agent.memories_for_user(user_id, status="forgotten"):
+        forgotten_at = m.metadata.get("forgotten_at", "")
+        rows.append(
+            {
+                "Memory": m.text,
+                "Kind": m.kind,
+                "Status": m.status,
+                "Reason": m.metadata.get("forget_reason", "—"),
+                "Forgotten at": (
+                    forgotten_at[:19].replace("T", " ") if forgotten_at else "—"
+                ),
+            }
+        )
+    return rows
+
+
+def selection_summary(events: list[ExperienceEvent]) -> dict | None:
+    """Budget and counts from the last turn's context selection."""
+    for event in reversed(events):
+        if event.type == EventType.CONTEXT_BUILT:
+            p = event.payload
+            return {
+                "memory_budget": p.get("memory_budget"),
+                "candidates": p.get("memory_count", 0),
+                "selected": p.get("selected_memory_count", 0),
+                "skipped": p.get("skipped_memory_count", 0),
+            }
+    return None
 
 
 def selection_records(events: list[ExperienceEvent]) -> list[dict]:

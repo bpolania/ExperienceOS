@@ -36,9 +36,12 @@ from demo.support import (
     STORAGE_CHOICES,
     STORAGE_IN_MEMORY,
     create_agent,
+    forgotten_rows,
     make_memory_store,
     make_provider,
     provider_status,
+    selection_records,
+    selection_summary,
     storage_status,
     summarize_event,
     superseded_rows,
@@ -117,13 +120,14 @@ with st.sidebar:
     session_id = st.text_input("Session ID", "session-1")
 
     st.divider()
-    if st.button("▶ Run preference update demo", width="stretch"):
+    if st.button("▶ Run experience lifecycle demo", width="stretch"):
         for demo_session_id, demo_message in SCRIPTED_DEMO:
             send_message(user_id, demo_session_id, demo_message)
     st.caption(
-        "Runs three turns: preferences stated, a preference changed "
-        "(superseding the old one), then a trip request that retrieves "
-        "only the current experience."
+        "One run shows the full lifecycle: preferences, facts, and "
+        "instructions remembered; context retrieved within a budget; a "
+        "preference superseded; a memory forgotten; and a final request "
+        "using only current experience."
     )
     if st.button("Reset demo", width="stretch"):
         reset_demo(provider_choice, storage_choice)
@@ -199,6 +203,42 @@ with col_platform:
         st.caption(
             "Kept for lineage — never injected into model context again."
         )
+
+    forgotten = forgotten_rows(agent, user_id)
+    if forgotten:
+        st.markdown("**Forgotten experiences**")
+        st.dataframe(forgotten, width="stretch", hide_index=True)
+        st.caption(
+            "Kept as inactive history — excluded from retrieval and context."
+        )
+
+    st.markdown("**Context selection (last turn)**")
+    records = selection_records(agent.events)
+    if records:
+        summary = selection_summary(agent.events)
+        st.caption(
+            f"Budget {summary['memory_budget']} — considered "
+            f"{summary['candidates']}, selected {summary['selected']}, "
+            f"skipped {summary['skipped']}."
+        )
+        st.dataframe(
+            [
+                {
+                    "Decision": "Selected" if r["selected"] else "Skipped",
+                    "Rank": r["rank"],
+                    "Kind": r["kind"],
+                    "Memory": r["text"],
+                    "Score": r["score"],
+                    "Matched keywords": ", ".join(r["matched_keywords"]),
+                    "Reason": r["reason"].split(": ", 1)[-1],
+                }
+                for r in records
+            ],
+            width="stretch",
+            hide_index=True,
+        )
+    else:
+        st.caption("No selection decision yet.")
 
     st.markdown("**Context supplied on the last turn**")
     context_lines = supplied_context_lines(agent.events)

@@ -131,6 +131,99 @@ def test_summarize_superseded_event():
     assert summarize_event(superseded[0]) == "Superseded: Prefers aisle seats."
 
 
+def test_forgotten_rows_show_reason_and_time():
+    from demo.support import forgotten_rows
+
+    agent = create_agent(MockProvider())
+    agent.chat(user_id="u1", session_id="s1", message="I prefer aisle seats.")
+    agent.chat(
+        user_id="u1", session_id="s2", message="Forget my aisle seat preference."
+    )
+    rows = forgotten_rows(agent, "u1")
+    assert len(rows) == 1
+    assert rows[0]["Memory"] == "Prefers aisle seats."
+    assert rows[0]["Kind"] == "preference"
+    assert rows[0]["Status"] == "forgotten"
+    assert rows[0]["Reason"] == "User asked to forget this experience."
+    assert rows[0]["Forgotten at"] != "—"
+
+
+def test_summarize_forgotten_event():
+    agent = create_agent(MockProvider())
+    agent.chat(user_id="u1", session_id="s1", message="I prefer aisle seats.")
+    agent.chat(
+        user_id="u1", session_id="s2", message="Forget my aisle seat preference."
+    )
+    forgotten = [
+        e for e in agent.events if e.type == EventType.MEMORY_FORGOTTEN
+    ]
+    assert summarize_event(forgotten[0]) == "Forgotten: Prefers aisle seats."
+
+
+def test_selection_summary_reports_budget_and_counts():
+    from demo.support import selection_summary
+
+    agent = create_agent(MockProvider())
+    agent.chat(user_id="u1", session_id="s1", message="I prefer aisle seats.")
+    agent.chat(user_id="u1", session_id="s2", message="Book a trip.")
+    summary = selection_summary(agent.events)
+    assert summary == {
+        "memory_budget": 4,
+        "candidates": 1,
+        "selected": 1,
+        "skipped": 0,
+    }
+
+
+def test_scripted_demo_covers_full_lifecycle():
+    from demo.demo_config import SCRIPTED_DEMO
+    from demo.support import selection_records
+
+    agent = create_agent(MockProvider())
+    for session_id, message in SCRIPTED_DEMO:
+        agent.chat(user_id="demo-user", session_id=session_id, message=message)
+
+    active = {(m.kind, m.text) for m in agent.memories_for_user("demo-user")}
+    assert active == {
+        ("preference", "Prefers evening flights."),
+        ("fact", "Home airport is SFO."),
+        ("fact", "Company is based in San Jose."),
+        ("instruction", "Include airport transfer time when planning work trips."),
+    }
+    superseded = agent.memories_for_user("demo-user", status="superseded")
+    assert [m.text for m in superseded] == ["Prefers morning flights."]
+    forgotten = agent.memories_for_user("demo-user", status="forgotten")
+    assert [m.text for m in forgotten] == ["Prefers aisle seats."]
+
+    event_types = {e.type for e in agent.events}
+    assert EventType.MEMORY_CREATED in event_types
+    assert EventType.MEMORY_SUPERSEDED in event_types
+    assert EventType.MEMORY_FORGOTTEN in event_types
+    assert EventType.MEMORY_RETRIEVED in event_types
+
+    # The final planning turn selects only current experience.
+    records = selection_records(agent.events)
+    assert records, "final turn should produce selection records"
+    selected_texts = {r["text"] for r in records if r["selected"]}
+    assert "Prefers aisle seats." not in selected_texts
+    assert "Prefers morning flights." not in selected_texts
+    assert "Prefers evening flights." in selected_texts
+
+
+def test_scripted_demo_mid_run_shows_skipping():
+    from demo.demo_config import SCRIPTED_DEMO
+    from demo.support import selection_summary
+
+    agent = create_agent(MockProvider())
+    # Run through the first planning turn (5 memories > budget 4).
+    for session_id, message in SCRIPTED_DEMO[:5]:
+        agent.chat(user_id="demo-user", session_id=session_id, message=message)
+    summary = selection_summary(agent.events)
+    assert summary["candidates"] == 5
+    assert summary["selected"] == 4
+    assert summary["skipped"] == 1
+
+
 def test_summarize_event_reads_well():
     agent = create_agent(MockProvider())
     agent.chat(user_id="u1", session_id="s1", message="I prefer aisle seats.")
