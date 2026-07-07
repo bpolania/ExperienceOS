@@ -50,6 +50,22 @@ def _selection_words(text: str) -> set[str]:
 
 
 @dataclass
+class ContextSelectionRecord:
+    """Why one candidate memory was selected or skipped."""
+
+    memory_id: str
+    text: str
+    kind: str
+    status: str
+    selected: bool
+    rank: int
+    score: int
+    matched_keywords: list[str]
+    kind_priority: int
+    reason: str
+
+
+@dataclass
 class ContextBuildResult:
     """Messages plus the selection decisions behind them."""
 
@@ -58,6 +74,7 @@ class ContextBuildResult:
     skipped_memories: list[ExperienceEntry] = field(default_factory=list)
     candidate_memories: list[ExperienceEntry] = field(default_factory=list)
     memory_budget: int | None = None
+    selection_records: list[ContextSelectionRecord] = field(default_factory=list)
 
 
 class ContextBuilder:
@@ -74,7 +91,13 @@ class ContextBuilder:
         memories: list[ExperienceEntry] | None = None,
     ) -> ContextBuildResult:
         candidates = list(memories or [])
-        selected, skipped = self.select_memories(message, candidates)
+        ranked = self._rank_candidates(message, candidates)
+        selected = [m for m, _, _ in ranked[: self.memory_budget]]
+        skipped = [m for m, _, _ in ranked[self.memory_budget :]]
+        records = [
+            self._selection_record(rank, memory, matched, priority)
+            for rank, (memory, matched, priority) in enumerate(ranked, start=1)
+        ]
 
         context: list[dict[str, str]] = [
             {
@@ -99,23 +122,71 @@ class ContextBuilder:
             skipped_memories=skipped,
             candidate_memories=candidates,
             memory_budget=self.memory_budget,
+            selection_records=records,
         )
 
     def select_memories(
         self, message: str, candidates: list[ExperienceEntry]
     ) -> tuple[list[ExperienceEntry], list[ExperienceEntry]]:
         """Deterministically rank candidates and split at the budget."""
-        message_words = _selection_words(message)
-        ranked = sorted(
-            candidates,
-            key=lambda m: (
-                -len(_selection_words(m.text) & message_words),
-                -_KIND_PRIORITY.get(m.kind, 0),
-                -m.created_at.timestamp(),
-                m.id,
-            ),
-        )
+        ranked = [m for m, _, _ in self._rank_candidates(message, candidates)]
         return ranked[: self.memory_budget], ranked[self.memory_budget :]
+
+    @staticmethod
+    def _rank_candidates(
+        message: str, candidates: list[ExperienceEntry]
+    ) -> list[tuple[ExperienceEntry, list[str], int]]:
+        """Candidates with their matched keywords and kind priority,
+        sorted by relevance, kind priority, recency, then id."""
+        message_words = _selection_words(message)
+        scored = [
+            (
+                memory,
+                sorted(_selection_words(memory.text) & message_words),
+                _KIND_PRIORITY.get(memory.kind, 0),
+            )
+            for memory in candidates
+        ]
+        scored.sort(
+            key=lambda entry: (
+                -len(entry[1]),
+                -entry[2],
+                -entry[0].created_at.timestamp(),
+                entry[0].id,
+            )
+        )
+        return scored
+
+    def _selection_record(
+        self,
+        rank: int,
+        memory: ExperienceEntry,
+        matched: list[str],
+        priority: int,
+    ) -> ContextSelectionRecord:
+        selected = rank <= self.memory_budget
+        if selected:
+            match_part = (
+                f"matched {', '.join(matched)}" if matched else "no keyword match"
+            )
+            reason = f"selected: {match_part}; {memory.kind} priority; within budget"
+        else:
+            reason = (
+                f"skipped: budget reached after "
+                f"{self.memory_budget} selected memories"
+            )
+        return ContextSelectionRecord(
+            memory_id=memory.id,
+            text=memory.text,
+            kind=memory.kind,
+            status=memory.status,
+            selected=selected,
+            rank=rank,
+            score=len(matched),
+            matched_keywords=matched,
+            kind_priority=priority,
+            reason=reason,
+        )
 
     @staticmethod
     def _kind_sections(memories: list[ExperienceEntry]) -> list[str]:

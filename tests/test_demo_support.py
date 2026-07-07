@@ -137,5 +137,5 @@ def test_summarize_event_reads_well():
     summaries = {e.type: summarize_event(e) for e in agent.events}
     assert summaries[EventType.MEMORY_CREATED] == "Prefers aisle seats."
     assert summaries[EventType.MEMORY_RETRIEVED] == "0 active memories retrieved."
-    assert summaries[EventType.CONTEXT_BUILT] == "0 memories included in context."
+    assert summaries[EventType.CONTEXT_BUILT] == "Context built: 0 selected, 0 skipped."
     assert "mock called with" in summaries[EventType.MODEL_CALLED]

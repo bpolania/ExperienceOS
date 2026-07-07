@@ -75,8 +75,9 @@ def summarize_event(event: ExperienceEvent) -> str:
     if event.type == EventType.MEMORY_RETRIEVED:
         return f"{p.get('count', 0)} active memories retrieved."
     if event.type == EventType.CONTEXT_BUILT:
-        included = p.get("selected_memory_count", p.get("memory_count", 0))
-        return f"{included} memories included in context."
+        selected = p.get("selected_memory_count", p.get("memory_count", 0))
+        skipped = p.get("skipped_memory_count", 0)
+        return f"Context built: {selected} selected, {skipped} skipped."
     if event.type == EventType.MEMORY_ACTION_PLANNED:
         return f"{len(p.get('planned_actions', []))} create action(s) planned."
     if event.type == EventType.MEMORY_CREATED:
@@ -109,6 +110,26 @@ def superseded_rows(agent: ExperienceOS, user_id: str) -> list[dict]:
             }
         )
     return rows
+
+
+def selection_records(events: list[ExperienceEvent]) -> list[dict]:
+    """Selection records from the last turn's context_built event."""
+    for event in reversed(events):
+        if event.type == EventType.CONTEXT_BUILT:
+            return event.payload.get("selection_records", [])
+    return []
+
+
+def summarize_selection_record(record: dict) -> str:
+    """One readable line per selection decision.
+
+    e.g. "Selected: Home airport is SFO. — matched airport; fact
+    priority; within budget"
+    """
+    prefix = "Selected" if record.get("selected") else "Skipped"
+    reason = record.get("reason", "")
+    detail = reason.split(": ", 1)[-1] if reason else ""
+    return f"{prefix}: {record.get('text', '')} — {detail}"
 
 
 def supplied_context_lines(events: list[ExperienceEvent]) -> list[str]:

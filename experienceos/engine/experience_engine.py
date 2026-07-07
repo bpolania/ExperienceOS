@@ -11,6 +11,8 @@ experience story clear.
 
 from __future__ import annotations
 
+from dataclasses import asdict
+
 from experienceos.context.builder import ContextBuilder, ContextBuildResult
 from experienceos.events.bus import EventBus
 from experienceos.events.schema import EventType
@@ -87,6 +89,7 @@ class ExperienceEngine:
                 "selected_memory_count": len(build.selected_memories),
                 "skipped_memory_count": len(build.skipped_memories),
                 "memory_budget": build.memory_budget,
+                "selection_records": [asdict(r) for r in build.selection_records],
             },
         )
 
