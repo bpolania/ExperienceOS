@@ -26,7 +26,13 @@ from experienceos.providers.base import ModelProvider
 
 
 class ExperienceOS:
-    """Attaches an experience layer to any model provider."""
+    """Attaches an experience layer to any model provider.
+
+    All collaborators are injectable; defaults are offline and
+    in-memory. ``memory_store`` accepts any store implementing the
+    memory store interface (``InMemoryMemoryStore`` — the default — or
+    ``SQLiteMemoryStore`` for persistence across restarts).
+    """
 
     def __init__(
         self,

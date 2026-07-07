@@ -283,3 +283,10 @@ pip install -e ".[dev]"
 python -m pytest
 python examples/basic_qwen_demo.py   # runs offline via MockProvider
 ```
+
+Run the full offline demo validation path (compile check, test suite,
+and every offline example — no network, no credentials):
+
+```bash
+./scripts/validate_demo.sh
+```
