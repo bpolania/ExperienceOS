@@ -108,3 +108,67 @@ def test_qwen_unexpected_response_shape_raises(clean_env, monkeypatch):
     monkeypatch.setattr(provider, "_post", lambda payload: {"choices": []})
     with pytest.raises(RuntimeError, match="Qwen Cloud request failed"):
         provider.complete([{"role": "user", "content": "ping"}])
+
+
+def test_qwen_parses_content_parts_list(clean_env, monkeypatch):
+    provider = QwenCloudProvider(api_key="k")
+    monkeypatch.setattr(
+        provider,
+        "_post",
+        lambda payload: {
+            "choices": [
+                {
+                    "message": {
+                        "content": [
+                            {"type": "text", "text": "Hello "},
+                            {"type": "text", "text": "there."},
+                        ]
+                    }
+                }
+            ]
+        },
+    )
+    assert provider.complete([{"role": "user", "content": "hi"}]) == "Hello there."
+
+
+def test_qwen_empty_content_raises(clean_env, monkeypatch):
+    provider = QwenCloudProvider(api_key="k")
+    monkeypatch.setattr(
+        provider,
+        "_post",
+        lambda payload: {"choices": [{"message": {"content": ""}}]},
+    )
+    with pytest.raises(RuntimeError, match="empty assistant content"):
+        provider.complete([{"role": "user", "content": "hi"}])
+
+
+def test_qwen_non_secret_defaults(clean_env):
+    provider = QwenCloudProvider()
+    assert provider.model == "qwen-plus"
+    assert provider.base_url == (
+        "https://dashscope-intl.aliyuncs.com/compatible-mode/v1"
+    )
+
+
+def test_mock_flow_unaffected_by_missing_credentials(clean_env):
+    from experienceos import ExperienceOS
+
+    agent = ExperienceOS(model=MockProvider())
+    response = agent.chat(user_id="u1", session_id="s1", message="hello")
+    assert "ExperienceOS" in response
+
+
+def test_live_demo_unconfigured_exits_cleanly(clean_env, capsys):
+    from examples.qwen_live_demo import configuration_lines, main
+
+    assert main() == 1
+    out = capsys.readouterr().out
+    assert "API key: missing" in out
+    assert "QWEN_API_KEY" in out
+    assert "memory_demo.py" in out
+
+    provider = QwenCloudProvider(api_key="secret-key", model="qwen-max")
+    lines = configuration_lines(provider)
+    assert "API key: set" in lines
+    assert "Model: qwen-max" in lines
+    assert all("secret-key" not in line for line in lines)

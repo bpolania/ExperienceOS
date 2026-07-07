@@ -119,6 +119,14 @@ class QwenCloudProvider(ModelProvider):
                 f"Qwen Cloud request failed: unexpected response shape: "
                 f"{str(data)[:300]}"
             ) from exc
+        if isinstance(content, list):
+            # Some OpenAI-compatible responses return content as a list of
+            # typed parts; join the text parts.
+            content = "".join(
+                part.get("text", "")
+                for part in content
+                if isinstance(part, dict)
+            )
         if not content:
             raise RuntimeError("Qwen Cloud request failed: empty assistant content.")
         return content
