@@ -41,20 +41,23 @@ from demo.support import (
     QWEN_SETUP_HINT,
     STORAGE_CHOICES,
     STORAGE_IN_MEMORY,
+    active_memory_rows,
     compressed_summaries,
     compression_totals,
     create_agent,
     forgotten_rows,
     growth_metrics,
     lifecycle_timeline,
-    reset_demo_state,
     make_memory_store,
     make_provider,
     provider_status,
+    reset_demo_state,
     selection_records,
+    selection_rows,
     selection_summary,
     storage_status,
     summarize_event,
+    summary_display,
     superseded_rows,
     supplied_context_lines,
 )
@@ -222,25 +225,14 @@ with col_platform:
         st.caption("No experience accumulated yet.")
 
     st.markdown("**Active memories**")
-    memories = agent.memories_for_user(user_id)
-    if memories:
-        st.dataframe(
-            [
-                {
-                    "Memory": m.text,
-                    "Kind": m.kind,
-                    "Tags": ", ".join(m.metadata.get("tags", [])) or "—",
-                    "Status": m.status,
-                    "Source session": m.source_session_id,
-                    "Created": m.created_at.strftime("%H:%M:%S"),
-                }
-                for m in memories
-            ],
-            width="stretch",
-            hide_index=True,
-        )
+    memory_rows = active_memory_rows(agent, user_id)
+    if memory_rows:
+        st.dataframe(memory_rows, width="stretch", hide_index=True)
     else:
-        st.caption("No active memories yet.")
+        st.caption(
+            "No active memories yet. Run the scripted demo to generate "
+            "lifecycle activity."
+        )
 
     superseded = superseded_rows(agent, user_id)
     if superseded:
@@ -259,36 +251,20 @@ with col_platform:
         )
 
     st.markdown("**Context selection (last turn)**")
-    records = selection_records(agent.events)
+    records = selection_rows(selection_records(agent.events))
     if records:
-        summary = selection_summary(agent.events)
+        summary = selection_summary(agent.events) or {}
         st.caption(
-            f"Budget {summary['memory_budget']} — considered "
-            f"{summary['candidates']}, selected {summary['selected']}, "
-            f"skipped {summary['skipped']}."
+            f"Budget {summary.get('memory_budget', '—')} — considered "
+            f"{summary.get('candidates', 0)}, selected "
+            f"{summary.get('selected', 0)}, skipped {summary.get('skipped', 0)}."
         )
-        st.dataframe(
-            [
-                {
-                    "Decision": "Selected" if r["selected"] else "Skipped",
-                    "Rank": r["rank"],
-                    "Kind": r["kind"],
-                    "Memory": r["text"],
-                    "Score": r["score"],
-                    "Matched keywords": ", ".join(r["matched_keywords"]),
-                    "Domains": ", ".join(r.get("matched_domains", [])) or "—",
-                    "Reason": r["reason"].split(": ", 1)[-1],
-                }
-                for r in records
-            ],
-            width="stretch",
-            hide_index=True,
-        )
+        st.dataframe(records, width="stretch", hide_index=True)
     else:
-        st.caption("No selection decision yet.")
+        st.caption("No context selection has been built yet.")
 
     st.markdown("**Compressed context (last turn)**")
-    summaries = compressed_summaries(agent.events)
+    summaries = [summary_display(s) for s in compressed_summaries(agent.events)]
     if summaries:
         totals = compression_totals(summaries)
         st.caption(
@@ -302,18 +278,20 @@ with col_platform:
             with st.expander(
                 f"Sources and savings ({len(s['source_texts'])} memories)"
             ):
-                st.markdown("\n".join(f"- {t}" for t in s["source_texts"]))
+                st.markdown(
+                    "\n".join(f"- {t}" for t in s["source_texts"]) or "—"
+                )
                 st.caption(
                     f"{s['reason']} Original {s['original_chars']} chars → "
                     f"compressed {s['compressed_chars']} chars "
                     f"(saved {s['saved_chars']})."
                 )
     else:
-        st.caption("No compressed context used for this turn.")
+        st.caption("No compressed summaries yet.")
 
     st.markdown("**Context supplied on the last turn**")
     context_lines = supplied_context_lines(agent.events)
-    summary_texts = [s["text"] for s in summaries]
+    summary_texts = [s["text"] for s in summaries if s["text"]]
     if context_lines or summary_texts:
         body = "ExperienceOS supplied this context:"
         if summary_texts:

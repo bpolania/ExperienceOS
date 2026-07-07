@@ -118,19 +118,87 @@ def summarize_event(event: ExperienceEvent) -> str:
     return ""
 
 
+def safe_memory_metadata(memory) -> dict:
+    """Memory metadata as a dict, tolerating None or wrong types."""
+    metadata = getattr(memory, "metadata", None)
+    return metadata if isinstance(metadata, dict) else {}
+
+
+def safe_memory_tags(memory) -> list[str]:
+    """Memory tags, empty when metadata or tags are absent."""
+    tags = safe_memory_metadata(memory).get("tags")
+    return list(tags) if isinstance(tags, (list, tuple)) else []
+
+
+def safe_memory_domain(memory) -> str | None:
+    """Primary memory domain, or None when absent."""
+    domain = safe_memory_metadata(memory).get("domain")
+    return domain if isinstance(domain, str) and domain else None
+
+
+def active_memory_rows(agent: ExperienceOS, user_id: str) -> list[dict]:
+    """Display rows for active memories, tolerating missing metadata."""
+    return [
+        {
+            "Memory": m.text,
+            "Kind": m.kind,
+            "Tags": ", ".join(safe_memory_tags(m)) or "—",
+            "Status": m.status,
+            "Source session": m.source_session_id or "—",
+            "Created": m.created_at.strftime("%H:%M:%S"),
+        }
+        for m in agent.memories_for_user(user_id)
+    ]
+
+
+def selection_rows(records: list[dict] | None) -> list[dict]:
+    """Display rows for selection records, tolerating missing fields."""
+    rows = []
+    for r in records or []:
+        reason = r.get("reason") or ""
+        rows.append(
+            {
+                "Decision": "Selected" if r.get("selected") else "Skipped",
+                "Rank": r.get("rank", "—"),
+                "Kind": r.get("kind", "—"),
+                "Memory": r.get("text", ""),
+                "Score": r.get("score", 0),
+                "Matched keywords": ", ".join(r.get("matched_keywords") or []),
+                "Domains": ", ".join(r.get("matched_domains") or []) or "—",
+                "Reason": reason.split(": ", 1)[-1] if reason else "—",
+            }
+        )
+    return rows
+
+
+def summary_display(summary: dict | None) -> dict:
+    """A compressed summary shaped safely for display."""
+    summary = summary or {}
+    return {
+        "text": summary.get("text", ""),
+        "source_texts": list(summary.get("source_texts") or []),
+        "reason": summary.get("reason", ""),
+        "original_chars": summary.get("original_chars", 0),
+        "compressed_chars": summary.get("compressed_chars", 0),
+        "saved_chars": summary.get("saved_chars", 0),
+    }
+
+
 def superseded_rows(agent: ExperienceOS, user_id: str) -> list[dict]:
     """Display rows for superseded memories, resolving replacement texts."""
     all_by_id = {m.id: m for m in agent.memories_for_user(user_id, status=None)}
     rows = []
     for m in agent.memories_for_user(user_id, status="superseded"):
-        replacement = all_by_id.get(m.metadata.get("superseded_by", ""))
+        replacement = all_by_id.get(
+            safe_memory_metadata(m).get("superseded_by", "")
+        )
         rows.append(
             {
                 "Memory": m.text,
                 "Kind": m.kind,
                 "Status": m.status,
                 "Replaced by": replacement.text if replacement else "—",
-                "Source session": m.source_session_id,
+                "Source session": m.source_session_id or "—",
                 "Updated": m.updated_at.strftime("%H:%M:%S"),
             }
         )
@@ -141,13 +209,14 @@ def forgotten_rows(agent: ExperienceOS, user_id: str) -> list[dict]:
     """Display rows for forgotten memories, kept visible as history."""
     rows = []
     for m in agent.memories_for_user(user_id, status="forgotten"):
-        forgotten_at = m.metadata.get("forgotten_at", "")
+        metadata = safe_memory_metadata(m)
+        forgotten_at = metadata.get("forgotten_at", "")
         rows.append(
             {
                 "Memory": m.text,
                 "Kind": m.kind,
                 "Status": m.status,
-                "Reason": m.metadata.get("forget_reason", "—"),
+                "Reason": metadata.get("forget_reason", "—"),
                 "Forgotten at": (
                     forgotten_at[:19].replace("T", " ") if forgotten_at else "—"
                 ),
