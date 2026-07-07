@@ -1,0 +1,88 @@
+"""Public SDK entrypoint for ExperienceOS.
+
+Usage:
+
+    agent = ExperienceOS(model=MockProvider())
+    agent = ExperienceOS.wrap(QwenCloud(...))
+
+    response = agent.chat(
+        user_id="demo-user",
+        session_id="session-1",
+        message="I prefer aisle seats and morning flights.",
+    )
+    agent.memories_for_user("demo-user")
+"""
+
+from __future__ import annotations
+
+from experienceos.context.builder import ContextBuilder
+from experienceos.engine.experience_engine import ExperienceEngine
+from experienceos.events.bus import EventBus
+from experienceos.events.schema import ExperienceEvent
+from experienceos.memory.planner import MemoryPlanner
+from experienceos.memory.schema import ExperienceEntry, MemoryStatus
+from experienceos.memory.store import MemoryStore
+from experienceos.providers.base import ModelProvider
+
+
+class ExperienceOS:
+    """Attaches an experience layer to any model provider."""
+
+    def __init__(
+        self,
+        model: ModelProvider,
+        *,
+        event_bus: EventBus | None = None,
+        context_builder: ContextBuilder | None = None,
+        memory_store: MemoryStore | None = None,
+        memory_planner: MemoryPlanner | None = None,
+    ):
+        self.model = model
+        self.event_bus = event_bus or EventBus()
+        self.context_builder = context_builder or ContextBuilder()
+        self.memory_store = memory_store or MemoryStore()
+        self.memory_planner = memory_planner or MemoryPlanner()
+        self.engine = ExperienceEngine(
+            model=self.model,
+            event_bus=self.event_bus,
+            context_builder=self.context_builder,
+            memory_store=self.memory_store,
+            memory_planner=self.memory_planner,
+        )
+
+    @classmethod
+    def wrap(cls, model: ModelProvider, **kwargs) -> "ExperienceOS":
+        """Attach an experience layer to an existing model provider."""
+        return cls(model=model, **kwargs)
+
+    @classmethod
+    def with_sqlite_memory(
+        cls,
+        model: ModelProvider,
+        db_path: str = "experienceos.sqlite3",
+        **kwargs,
+    ) -> "ExperienceOS":
+        """Agent whose accumulated experience persists across restarts."""
+        from experienceos.memory.sqlite_store import SQLiteMemoryStore
+
+        return cls(model=model, memory_store=SQLiteMemoryStore(db_path), **kwargs)
+
+    def chat(self, user_id: str, session_id: str, message: str) -> str:
+        """Send a message through the experience layer."""
+        return self.engine.run_interaction(
+            user_id=user_id, session_id=session_id, message=message
+        )
+
+    def memories_for_user(
+        self, user_id: str, status: str | None = MemoryStatus.ACTIVE
+    ) -> list[ExperienceEntry]:
+        """Accumulated experience for a user, active by default.
+
+        Pass status="superseded" for replaced memories, or None for all.
+        """
+        return self.memory_store.list_memories(user_id, status=status)
+
+    @property
+    def events(self) -> list[ExperienceEvent]:
+        """All events emitted so far (demo convenience)."""
+        return self.event_bus.history()
