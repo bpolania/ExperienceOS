@@ -14,7 +14,13 @@ from __future__ import annotations
 from experienceos.context.builder import ContextBuilder
 from experienceos.events.bus import EventBus
 from experienceos.events.schema import EventType
-from experienceos.memory.planner import CREATE, SUPERSEDE, MemoryAction, MemoryPlanner
+from experienceos.memory.planner import (
+    CREATE,
+    FORGET,
+    SUPERSEDE,
+    MemoryAction,
+    MemoryPlanner,
+)
 from experienceos.memory.schema import ExperienceEntry, MemoryStatus
 from experienceos.memory.store import MemoryStore
 from experienceos.providers.base import ModelProvider
@@ -98,6 +104,14 @@ class ExperienceEngine:
                 "text": action.text,
                 "reason": action.reason,
             }
+        if action.action == FORGET:
+            return {
+                "action": action.action,
+                "memory_id": action.memory_id,
+                "text": action.text,
+                "reason": action.reason,
+                "request": action.request,
+            }
         described = {"action": action.action, "kind": action.kind, "text": action.text}
         if action.replaces:
             described["replaces"] = action.replaces
@@ -125,24 +139,40 @@ class ExperienceEngine:
             new_entries.append(entry)
 
         for action in actions:
-            if action.action != SUPERSEDE:
-                continue
-            replacement = replacement_for.get(action.memory_id)
-            superseded = self.memory_store.supersede(
-                action.memory_id,
-                superseded_by=replacement.id if replacement else None,
-                reason=action.reason,
-            )
-            emit(
-                EventType.MEMORY_SUPERSEDED,
-                {
-                    "memory_id": superseded.id,
-                    "text": superseded.text,
-                    "status": superseded.status,
-                    "superseded_by": replacement.id if replacement else None,
-                    "reason": action.reason,
-                },
-            )
+            if action.action == SUPERSEDE:
+                replacement = replacement_for.get(action.memory_id)
+                superseded = self.memory_store.supersede(
+                    action.memory_id,
+                    superseded_by=replacement.id if replacement else None,
+                    reason=action.reason,
+                )
+                emit(
+                    EventType.MEMORY_SUPERSEDED,
+                    {
+                        "memory_id": superseded.id,
+                        "text": superseded.text,
+                        "status": superseded.status,
+                        "superseded_by": replacement.id if replacement else None,
+                        "reason": action.reason,
+                    },
+                )
+            elif action.action == FORGET:
+                before = self.memory_store.get(action.memory_id)
+                previous_status = before.status if before else None
+                forgotten = self.memory_store.forget(
+                    action.memory_id, reason=action.reason
+                )
+                emit(
+                    EventType.MEMORY_FORGOTTEN,
+                    {
+                        "memory_id": forgotten.id,
+                        "previous_status": previous_status,
+                        "status": forgotten.status,
+                        "text": forgotten.text,
+                        "reason": action.reason,
+                        "request": action.request,
+                    },
+                )
 
         for entry in new_entries:
             self.memory_store.add(entry)

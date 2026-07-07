@@ -47,6 +47,18 @@ class InMemoryMemoryStore:
             memory.metadata["superseded_reason"] = reason
         return memory
 
+    def forget(self, memory_id: str, *, reason: str | None = None) -> ExperienceEntry:
+        """Mark a memory forgotten, preserving it as inactive history."""
+        memory = self.get(memory_id)
+        if memory is None:
+            raise KeyError(f"No memory with id {memory_id!r}")
+        memory.status = MemoryStatus.FORGOTTEN
+        memory.updated_at = _utcnow()
+        memory.metadata["forgotten_at"] = memory.updated_at.isoformat()
+        if reason:
+            memory.metadata["forget_reason"] = reason
+        return memory
+
     def list_memories(
         self, user_id: str, *, status: str | None = None
     ) -> list[ExperienceEntry]:

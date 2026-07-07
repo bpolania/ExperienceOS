@@ -19,6 +19,7 @@ class EventType:
     MEMORY_ACTION_PLANNED = "memory_action_planned"
     MEMORY_CREATED = "memory_created"
     MEMORY_SUPERSEDED = "memory_superseded"
+    MEMORY_FORGOTTEN = "memory_forgotten"
     MEMORY_RETRIEVED = "memory_retrieved"
     INTERACTION_COMPLETED = "interaction_completed"
 

@@ -82,6 +82,8 @@ def summarize_event(event: ExperienceEvent) -> str:
         return p.get("text", "")
     if event.type == EventType.MEMORY_SUPERSEDED:
         return f"Superseded: {p.get('text', '')}"
+    if event.type == EventType.MEMORY_FORGOTTEN:
+        return f"Forgotten: {p.get('text', '')}"
     if event.type == EventType.MODEL_CALLED:
         provider = p.get("provider", "provider")
         return f"{provider} called with {p.get('message_count', 0)} messages."

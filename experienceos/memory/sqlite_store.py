@@ -124,6 +124,32 @@ class SQLiteMemoryStore:
         self._conn.commit()
         return memory
 
+    def forget(self, memory_id: str, *, reason: str | None = None) -> ExperienceEntry:
+        """Mark a memory forgotten, preserving it as inactive history."""
+        memory = self.get(memory_id)
+        if memory is None:
+            raise KeyError(f"No memory with id {memory_id!r}")
+        memory.status = MemoryStatus.FORGOTTEN
+        memory.updated_at = _utcnow()
+        memory.metadata["forgotten_at"] = memory.updated_at.isoformat()
+        if reason:
+            memory.metadata["forget_reason"] = reason
+        self._conn.execute(
+            """
+            UPDATE experience_entries
+            SET status = ?, updated_at = ?, metadata_json = ?
+            WHERE id = ?
+            """,
+            (
+                memory.status,
+                memory.updated_at.isoformat(),
+                json.dumps(memory.metadata),
+                memory.id,
+            ),
+        )
+        self._conn.commit()
+        return memory
+
     def clear(self) -> None:
         self._conn.execute("DELETE FROM experience_entries")
         self._conn.commit()
