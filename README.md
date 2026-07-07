@@ -172,8 +172,11 @@ PYTHONPATH=. python examples/persistence_demo.py
 
 In the dashboard, pick **Memory storage: SQLite persistent** in the
 sidebar (database at `.experienceos/demo_memory.sqlite3`, gitignored).
-**Reset demo** clears only UI state — persisted memories survive; use
-**Clear persistent memories** to wipe the database.
+Persisted memories survive restarts and provider/storage switches.
+**Reset demo** returns the demo to a known clean state — it removes the
+demo user's memories in every lifecycle status (both storage modes) and
+clears the event history, so a rerun starts fresh; **Clear persistent
+memories** wipes the whole database.
 
 ### Persistence walkthrough
 

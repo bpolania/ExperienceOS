@@ -74,6 +74,10 @@ class InMemoryMemoryStore:
     def clear(self) -> None:
         self._entries.clear()
 
+    def clear_user_memories(self, user_id: str) -> None:
+        """Remove every memory for one user, regardless of status."""
+        self._entries = [e for e in self._entries if e.user_id != user_id]
+
 
 # Backwards-compatible name used throughout the SDK.
 MemoryStore = InMemoryMemoryStore

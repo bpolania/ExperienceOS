@@ -28,7 +28,13 @@ except ImportError:
 if not st.runtime.exists():
     sys.exit("Run this dashboard with: PYTHONPATH=. streamlit run demo/app.py")
 
-from demo.demo_config import DEMO_NOTE, DEMO_TITLE, SCRIPTED_DEMO, TAGLINE
+from demo.demo_config import (
+    DEMO_NOTE,
+    DEMO_TITLE,
+    DEMO_USER_ID,
+    SCRIPTED_DEMO,
+    TAGLINE,
+)
 from demo.support import (
     PROVIDER_CHOICES,
     PROVIDER_MOCK,
@@ -41,6 +47,7 @@ from demo.support import (
     forgotten_rows,
     growth_metrics,
     lifecycle_timeline,
+    reset_demo_state,
     make_memory_store,
     make_provider,
     provider_status,
@@ -55,11 +62,12 @@ from demo.support import (
 st.set_page_config(page_title="ExperienceOS", page_icon="🧠", layout="wide")
 
 
-def reset_demo(provider_choice: str, storage_choice: str = STORAGE_IN_MEMORY) -> None:
-    """Reset UI state and recreate the agent.
+def rebuild_agent(provider_choice: str, storage_choice: str = STORAGE_IN_MEMORY) -> None:
+    """Recreate the agent and clear UI state.
 
-    SQLite memories survive this — the new agent reads the same database.
-    Use clear_persistent_memories() to actually wipe them.
+    Persisted SQLite memories survive this — used at startup and when
+    the provider or storage selection changes, so switching never loses
+    accumulated experience.
     """
     st.session_state.agent = create_agent(
         make_provider(provider_choice), make_memory_store(storage_choice)
@@ -68,6 +76,19 @@ def reset_demo(provider_choice: str, storage_choice: str = STORAGE_IN_MEMORY) ->
     st.session_state.agent_storage = storage_choice
     st.session_state.chat_history = []
     st.session_state.last_error = None
+
+
+def full_demo_reset(
+    provider_choice: str, storage_choice: str, demo_user_id: str
+) -> None:
+    """Return the demo to a known clean state for the next run.
+
+    Rebuilds the agent, then removes the demo user's memories in every
+    lifecycle status (both storage modes) and clears event history —
+    no stale state can leak into the next scripted run.
+    """
+    rebuild_agent(provider_choice, storage_choice)
+    reset_demo_state(st.session_state.agent, demo_user_id)
 
 
 def send_message(user_id: str, session_id: str, message: str) -> None:
@@ -88,7 +109,7 @@ def send_message(user_id: str, session_id: str, message: str) -> None:
 # --- Session state -----------------------------------------------------------
 
 if "agent" not in st.session_state:
-    reset_demo(PROVIDER_MOCK)
+    rebuild_agent(PROVIDER_MOCK)
 
 # --- Sidebar: provider, identity, demo controls ------------------------------
 
@@ -100,7 +121,7 @@ with st.sidebar:
         provider_choice != st.session_state.agent_provider
         or storage_choice != st.session_state.agent_storage
     ):
-        reset_demo(provider_choice, storage_choice)
+        rebuild_agent(provider_choice, storage_choice)
 
     agent = st.session_state.agent
     status = provider_status(agent.model)
@@ -118,9 +139,12 @@ with st.sidebar:
     st.markdown(f"**Memory storage:** {storage_label}")
     st.markdown(f"**Database:** `{db_description}`")
     if storage_label == "SQLite":
-        st.caption("Memories survive restarts and the Reset button.")
+        st.caption(
+            "Memories survive restarts and storage switches. Reset demo "
+            "clears this demo user's memories."
+        )
 
-    user_id = st.text_input("User ID", "demo-user")
+    user_id = st.text_input("User ID", DEMO_USER_ID)
     session_id = st.text_input("Session ID", "session-1")
 
     st.divider()
@@ -134,12 +158,12 @@ with st.sidebar:
         "using only current experience."
     )
     if st.button("Reset demo", width="stretch"):
-        reset_demo(provider_choice, storage_choice)
+        full_demo_reset(provider_choice, storage_choice, user_id)
         st.rerun()
     if storage_label == "SQLite":
         if st.button("Clear persistent memories", width="stretch"):
             st.session_state.agent.memory_store.clear()
-            reset_demo(provider_choice, storage_choice)
+            rebuild_agent(provider_choice, storage_choice)
             st.rerun()
 
 # --- Header -------------------------------------------------------------------

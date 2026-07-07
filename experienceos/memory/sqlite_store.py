@@ -154,6 +154,13 @@ class SQLiteMemoryStore:
         self._conn.execute("DELETE FROM experience_entries")
         self._conn.commit()
 
+    def clear_user_memories(self, user_id: str) -> None:
+        """Remove every memory for one user, regardless of status."""
+        self._conn.execute(
+            "DELETE FROM experience_entries WHERE user_id = ?", (user_id,)
+        )
+        self._conn.commit()
+
     def close(self) -> None:
         self._conn.close()
 

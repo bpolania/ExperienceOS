@@ -6,6 +6,7 @@ and event display logic stay testable without the demo extra installed.
 
 from __future__ import annotations
 
+from demo.demo_config import DEMO_USER_ID
 from experienceos import ExperienceOS
 from experienceos.context import ContextBuilder, ExperienceCompressor
 from experienceos.context.builder import MEMORY_HEADER
@@ -206,6 +207,19 @@ def compression_totals(summaries: list[dict]) -> dict:
         "compressed_chars": sum(s.get("compressed_chars", 0) for s in summaries),
         "saved_chars": sum(s.get("saved_chars", 0) for s in summaries),
     }
+
+
+def reset_demo_state(agent: ExperienceOS, user_id: str = DEMO_USER_ID) -> None:
+    """Return the demo to a known clean state for the given user.
+
+    Removes the user's memories in every lifecycle status (works for
+    both the in-memory and SQLite stores) and clears the in-process
+    event history — which also empties every event-derived display:
+    timeline, growth metrics, selection records, compressed summaries,
+    and supplied context.
+    """
+    agent.memory_store.clear_user_memories(user_id)
+    agent.event_bus.clear()
 
 
 def growth_metrics(agent: ExperienceOS, user_id: str) -> dict:

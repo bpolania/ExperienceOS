@@ -7,6 +7,11 @@ TAGLINE = (
 )
 DEMO_NOTE = "Platform demo — the dashboard makes the experience layer observable."
 
+# Predictable demo identity so resets and reruns always target the same
+# state.
+DEMO_USER_ID = "demo-user"
+DEMO_SESSION_ID = "demo-session"
+
 # The repeatable scripted demo: one run shows the full lifecycle —
 # remember (preferences, facts, instructions), retrieve with a bounded
 # selection, update (supersede), forget, and retrieve again.
