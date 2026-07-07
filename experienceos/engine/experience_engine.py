@@ -25,6 +25,7 @@ from experienceos.memory.planner import (
 )
 from experienceos.memory.schema import ExperienceEntry, MemoryStatus
 from experienceos.memory.store import MemoryStore
+from experienceos.memory.tags import assign_tags, domain_for
 from experienceos.providers.base import ModelProvider
 
 
@@ -90,6 +91,7 @@ class ExperienceEngine:
                 "skipped_memory_count": len(build.skipped_memories),
                 "memory_budget": build.memory_budget,
                 "selection_records": [asdict(r) for r in build.selection_records],
+                "compressed_summaries": [s.to_payload() for s in build.summaries],
             },
         )
 
@@ -149,6 +151,10 @@ class ExperienceEngine:
                 status=MemoryStatus.ACTIVE,
                 source_session_id=session_id,
             )
+            tags = assign_tags(entry.text)
+            if tags:
+                entry.metadata["tags"] = tags
+                entry.metadata["domain"] = domain_for(tags)
             if action.replaces:
                 entry.metadata["replaces"] = action.replaces
                 if action.reason:

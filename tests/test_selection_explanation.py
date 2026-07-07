@@ -87,9 +87,9 @@ def test_selected_reason_mentions_matches_and_budget():
         for r in payload["selection_records"]
         if r["text"] == "Include airport transfer time when planning work trips."
     )
-    assert (
-        transfer["reason"]
-        == "selected: matched trip, work; instruction priority; within budget"
+    assert transfer["reason"] == (
+        "selected: matched trip, work; domains travel + work + planning; "
+        "instruction priority; within budget"
     )
     no_match = next(
         r
@@ -104,7 +104,8 @@ def test_skipped_reason_mentions_budget_reached():
     skipped = [r for r in payload["selection_records"] if not r["selected"]]
     assert len(skipped) == 2
     for record in skipped:
-        assert record["reason"] == "skipped: budget reached after 4 selected memories"
+        assert record["reason"].startswith("skipped: ")
+        assert "budget reached after 4 selected memories" in record["reason"]
 
 
 def test_records_are_deterministic_across_runs():
@@ -156,7 +157,8 @@ def test_demo_support_selection_helpers():
     lines = [summarize_selection_record(r) for r in records]
     assert lines[0] == (
         "Selected: Include airport transfer time when planning work trips. "
-        "— matched trip, work; instruction priority; within budget"
+        "— matched trip, work; domains travel + work + planning; "
+        "instruction priority; within budget"
     )
     assert any(
         line.startswith("Skipped: Prefers")

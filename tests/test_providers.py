@@ -158,6 +158,33 @@ def test_mock_flow_unaffected_by_missing_credentials(clean_env):
     assert "ExperienceOS" in response
 
 
+def test_core_modules_have_no_qwen_coupling():
+    """The SDK core never imports or configures the Qwen adapter.
+
+    Usage examples in docstrings are fine; imports, env-var names, and
+    endpoint references are not.
+    """
+    import re
+    from pathlib import Path
+
+    core = Path("experienceos")
+    core_files = [
+        core / "__init__.py",
+        core / "sdk.py",
+        *(core / "engine").glob("*.py"),
+        *(core / "context").glob("*.py"),
+        *(core / "memory").glob("*.py"),
+        *(core / "events").glob("*.py"),
+    ]
+    forbidden = re.compile(
+        r"import\s+\w*qwen|from\s+experienceos\.providers\.qwen"
+        r"|QWEN_API|DASHSCOPE|dashscope|compatible-mode",
+        re.IGNORECASE,
+    )
+    for path in core_files:
+        assert not forbidden.search(path.read_text()), f"Qwen coupling in {path}"
+
+
 def test_live_demo_unconfigured_exits_cleanly(clean_env, capsys):
     from examples.qwen_live_demo import configuration_lines, main
 

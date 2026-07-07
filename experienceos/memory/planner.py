@@ -147,6 +147,12 @@ _INSTRUCTION_PATTERNS = (
     ),
     (
         re.compile(
+            r"\bgoing\s+forward,?\s+(?P<action>[^.!?\n;]+)", re.IGNORECASE
+        ),
+        False,
+    ),
+    (
+        re.compile(
             r"\b(?:please\s+)?(?P<action>[^.!?\n;,]+?)\s+from\s+now\s+on\b",
             re.IGNORECASE,
         ),
@@ -163,7 +169,68 @@ _INSTRUCTION_PATTERNS = (
         re.compile(r"\balways\s+(?P<action>[^.!?\n;]+)", re.IGNORECASE),
         False,
     ),
+    # Bare "Please <verb> ..." with a durable-instruction verb; requests
+    # like "Please help me book ..." stay requests.
+    (
+        re.compile(
+            r"\bplease\s+(?P<action>(?:keep|give|include|use|avoid|answer"
+            r"|respond|reply|show|add)\b[^.!?\n;]*)",
+            re.IGNORECASE,
+        ),
+        False,
+    ),
 )
+
+# Update keys: a new fact/instruction supersedes an older active one of
+# the same kind only when both map to the same key. Content instructions
+# ("Include airport transfer time ...") get no key and accumulate; only
+# detail-level/style instructions within a domain supersede each other.
+_STYLE_WORDS = frozenset(
+    {
+        "concise", "brief", "short", "shorter", "long", "longer",
+        "detailed", "detail", "essential", "verbose", "minimal", "compact",
+    }
+)
+_PLANNING_WORDS = frozenset({"plan", "planning"})
+_TRAVEL_WORDS = frozenset(
+    {"trip", "travel", "flight", "airport", "hotel", "layover", "red-eye"}
+)
+_RESPONSE_WORDS = frozenset(
+    {"answer", "response", "reply", "explanation", "recommendation"}
+)
+
+
+def _key_words(text: str) -> set[str]:
+    words = set()
+    for word in re.findall(r"[a-z0-9-]+", text.lower()):
+        if len(word) > 3 and word.endswith("s"):
+            word = word[:-1]
+        words.add(word)
+    return words
+
+
+def update_key(kind: str, text: str) -> str | None:
+    """Stable update domain for a fact/instruction text, or None."""
+    lowered = text.lower()
+    if kind == MemoryKind.FACT:
+        if "home airport" in lowered:
+            return "fact:home_airport"
+        if lowered.startswith(("works ", "based ")) or "work out of" in lowered:
+            return "fact:work_location"
+        if "company" in lowered:
+            return "fact:company_location"
+        return None
+    if kind == MemoryKind.INSTRUCTION:
+        words = _key_words(text)
+        style = bool(words & _STYLE_WORDS)
+        if words & _PLANNING_WORDS:
+            return "instruction:planning" if style else None
+        if words & _TRAVEL_WORDS:
+            return "instruction:travel" if style else None
+        if words & _RESPONSE_WORDS:
+            return "instruction:response_style"
+        return None
+    return None
 
 # Actions that are really first-person preference statements, not
 # standing instructions ("From now on, I prefer window seats").
@@ -273,6 +340,7 @@ class MemoryPlanner:
             )
 
         seen = {(m.kind, _normalized_text(m.text)) for m in existing}
+        superseded_ids = {a.memory_id for a in actions if a.action == SUPERSEDE}
         for kind, text in [
             *((MemoryKind.FACT, t) for t in self._detect_fact_texts(message)),
             *(
@@ -280,12 +348,56 @@ class MemoryPlanner:
                 for t in self._detect_instruction_texts(message)
             ),
         ]:
-            key = (kind, _normalized_text(text))
-            if key in seen:
+            dedup_key = (kind, _normalized_text(text))
+            if dedup_key in seen:
                 continue
-            seen.add(key)
-            actions.append(MemoryAction(action=CREATE, kind=kind, text=text))
+            seen.add(dedup_key)
+            conflict = self._find_update_conflict(
+                kind, text, existing, superseded_ids
+            )
+            if conflict is not None:
+                domain = update_key(kind, text).split(":", 1)[1].replace("_", " ")
+                superseded_ids.add(conflict.id)
+                actions.append(
+                    MemoryAction(
+                        action=SUPERSEDE,
+                        kind=kind,
+                        memory_id=conflict.id,
+                        text=conflict.text,
+                        reason=f"Conflicts with updated {domain} {kind}.",
+                    )
+                )
+            actions.append(
+                MemoryAction(
+                    action=CREATE,
+                    kind=kind,
+                    text=text,
+                    replaces=conflict.id if conflict else None,
+                    reason=f"User updated this {kind}." if conflict else None,
+                )
+            )
         return actions
+
+    @staticmethod
+    def _find_update_conflict(
+        kind: str,
+        text: str,
+        existing: list[ExperienceEntry],
+        already_superseded: set[str],
+    ) -> ExperienceEntry | None:
+        """First active memory of the same kind sharing the same update key."""
+        key = update_key(kind, text)
+        if key is None:
+            return None
+        for memory in existing:
+            if (
+                memory.kind == kind
+                and memory.id not in already_superseded
+                and memory.text != text
+                and update_key(memory.kind, memory.text) == key
+            ):
+                return memory
+        return None
 
     @staticmethod
     def _plan_forgets(
@@ -335,11 +447,17 @@ class MemoryPlanner:
         return texts
 
     @staticmethod
-    def _detect_fact_texts(message: str) -> list[str]:
+    def _clean_fact_value(value: str) -> str:
+        """Strip leading/trailing update modifiers: "now SJC", "SJC now"."""
+        value = value.strip().rstrip(".!?,")
+        value = re.sub(r"^now\s+", "", value, flags=re.IGNORECASE)
+        return _TRAILING_MODIFIERS.sub("", value)
+
+    def _detect_fact_texts(self, message: str) -> list[str]:
         texts: list[str] = []
         for match in _FACT_SUBJECT_PATTERN.finditer(message):
             subject = match.group("subject").strip()
-            value = match.group("value").strip().rstrip(".!?,")
+            value = self._clean_fact_value(match.group("value"))
             # Conservative: short noun-phrase subjects, no clause values.
             if not value or len(subject.split()) > 4:
                 continue
@@ -349,7 +467,7 @@ class MemoryPlanner:
         for pattern, verb in _FACT_VERB_PATTERNS:
             for match in pattern.finditer(message):
                 prep = re.sub(r"\s+", " ", match.group("prep").lower())
-                value = match.group("value").strip().rstrip(".!?,")
+                value = self._clean_fact_value(match.group("value"))
                 if value:
                     texts.append(f"{verb} {prep} {value}.")
         return texts

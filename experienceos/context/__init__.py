@@ -5,5 +5,12 @@ from experienceos.context.builder import (
     ContextBuildResult,
     ContextSelectionRecord,
 )
+from experienceos.context.compression import ExperienceCompressor, ExperienceSummary
 
-__all__ = ["ContextBuilder", "ContextBuildResult", "ContextSelectionRecord"]
+__all__ = [
+    "ContextBuilder",
+    "ContextBuildResult",
+    "ContextSelectionRecord",
+    "ExperienceCompressor",
+    "ExperienceSummary",
+]
