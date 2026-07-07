@@ -99,6 +99,94 @@ _POSITIVE_TEMPLATES = {
 _NEGATIVE_TEMPLATE = "Dislikes {}."
 _POSITIVE_PREFIXES = ("Prefers ", "Likes ")
 
+# Durable user facts: "My home airport is SFO.", "I work out of Santa
+# Clara.", "I live near San Francisco.", "I'm based in San Jose."
+_FACT_SUBJECT_PATTERN = re.compile(
+    r"\bmy\s+(?P<subject>[a-z][a-z ]{0,40}?)\s+is\s+(?P<value>[^.!?\n;]+)",
+    re.IGNORECASE,
+)
+_FACT_VERB_PATTERNS = (
+    (
+        re.compile(
+            r"\bi\s+work\s+(?P<prep>out\s+of|from|in|at)\s+(?P<value>[^.!?\n;]+)",
+            re.IGNORECASE,
+        ),
+        "Works",
+    ),
+    (
+        re.compile(
+            r"\bi\s+live\s+(?P<prep>near|in|at|around)\s+(?P<value>[^.!?\n;]+)",
+            re.IGNORECASE,
+        ),
+        "Lives",
+    ),
+    (
+        re.compile(
+            r"\bi(?:'m|\s+am)\s+based\s+(?P<prep>in|near|at|out\s+of)"
+            r"\s+(?P<value>[^.!?\n;]+)",
+            re.IGNORECASE,
+        ),
+        "Based",
+    ),
+)
+
+# Standing instructions: "Remember to X.", "From now on, X.",
+# "X from now on.", "When <clause>, X.", "Always X."
+_INSTRUCTION_PATTERNS = (
+    (
+        re.compile(
+            r"\b(?:please\s+)?remember\s+to\s+(?P<action>[^.!?\n;]+)",
+            re.IGNORECASE,
+        ),
+        False,
+    ),
+    (
+        re.compile(r"\bfrom\s+now\s+on,?\s+(?P<action>[^.!?\n;]+)", re.IGNORECASE),
+        False,
+    ),
+    (
+        re.compile(
+            r"\b(?:please\s+)?(?P<action>[^.!?\n;,]+?)\s+from\s+now\s+on\b",
+            re.IGNORECASE,
+        ),
+        False,
+    ),
+    (
+        re.compile(
+            r"\bwhen\s+(?P<clause>[^,.!?\n;]+),\s*(?P<action>[^.!?\n;]+)",
+            re.IGNORECASE,
+        ),
+        True,
+    ),
+    (
+        re.compile(r"\balways\s+(?P<action>[^.!?\n;]+)", re.IGNORECASE),
+        False,
+    ),
+)
+
+# Actions that are really first-person preference statements, not
+# standing instructions ("From now on, I prefer window seats").
+_INSTRUCTION_GUARD = re.compile(
+    r"^(?:i|we)\b|^(?:prefer|like|love|enjoy|dislike|hate|avoid)\b",
+    re.IGNORECASE,
+)
+
+
+def _clean_instruction_action(action: str) -> str:
+    action = action.strip().rstrip(".!?,")
+    action = re.sub(r"^please\s+", "", action, flags=re.IGNORECASE)
+    action = re.sub(r",?\s+from\s+now\s+on$", "", action, flags=re.IGNORECASE)
+    action = re.sub(r"^(\w+)\s+me\b", r"\1", action, flags=re.IGNORECASE)
+    action = re.sub(r"\s+", " ", action).strip()
+    if not action:
+        return ""
+    return action[0].upper() + action[1:]
+
+
+def _normalized_text(text: str) -> str:
+    """Normalized form for lightweight duplicate detection."""
+    return " ".join(re.findall(r"[a-z0-9]+", text.lower()))
+
 # Known preference domains for deterministic conflict detection. Two
 # active preferences in the same domain (with the same polarity) conflict.
 _DOMAIN_TERMS = {
@@ -182,6 +270,20 @@ class MemoryPlanner:
                     reason="User changed preference." if conflict else None,
                 )
             )
+
+        seen = {(m.kind, _normalized_text(m.text)) for m in existing}
+        for kind, text in [
+            *((MemoryKind.FACT, t) for t in self._detect_fact_texts(message)),
+            *(
+                (MemoryKind.INSTRUCTION, t)
+                for t in self._detect_instruction_texts(message)
+            ),
+        ]:
+            key = (kind, _normalized_text(text))
+            if key in seen:
+                continue
+            seen.add(key)
+            actions.append(MemoryAction(action=CREATE, kind=kind, text=text))
         return actions
 
     @staticmethod
@@ -229,6 +331,51 @@ class MemoryPlanner:
             template = _POSITIVE_TEMPLATES.get(verb, _NEGATIVE_TEMPLATE)
             for item in self._split_items(match.group("object")):
                 texts.append(template.format(item))
+        return texts
+
+    @staticmethod
+    def _detect_fact_texts(message: str) -> list[str]:
+        texts: list[str] = []
+        for match in _FACT_SUBJECT_PATTERN.finditer(message):
+            subject = match.group("subject").strip()
+            value = match.group("value").strip().rstrip(".!?,")
+            # Conservative: short noun-phrase subjects, no clause values.
+            if not value or len(subject.split()) > 4:
+                continue
+            if value.lower().startswith("that "):
+                continue
+            texts.append(f"{subject[0].upper()}{subject[1:]} is {value}.")
+        for pattern, verb in _FACT_VERB_PATTERNS:
+            for match in pattern.finditer(message):
+                prep = re.sub(r"\s+", " ", match.group("prep").lower())
+                value = match.group("value").strip().rstrip(".!?,")
+                if value:
+                    texts.append(f"{verb} {prep} {value}.")
+        return texts
+
+    @staticmethod
+    def _detect_instruction_texts(message: str) -> list[str]:
+        texts: list[str] = []
+        spans: list[tuple[int, int]] = []
+
+        def overlaps(span: tuple[int, int]) -> bool:
+            return any(span[0] < end and span[1] > start for start, end in spans)
+
+        for pattern, has_clause in _INSTRUCTION_PATTERNS:
+            for match in pattern.finditer(message):
+                if overlaps(match.span()):
+                    continue
+                action = match.group("action").strip()
+                if _INSTRUCTION_GUARD.match(action):
+                    continue
+                text = _clean_instruction_action(action)
+                if not text:
+                    continue
+                if has_clause:
+                    clause = match.group("clause").strip()
+                    text = f"{text} when {clause}"
+                spans.append(match.span())
+                texts.append(f"{text}.")
         return texts
 
     @staticmethod
