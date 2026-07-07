@@ -168,7 +168,7 @@ def test_selection_summary_reports_budget_and_counts():
     agent.chat(user_id="u1", session_id="s2", message="Book a trip.")
     summary = selection_summary(agent.events)
     assert summary == {
-        "memory_budget": 4,
+        "memory_budget": 6,  # demo path uses a slightly larger budget
         "candidates": 1,
         "selected": 1,
         "skipped": 0,
@@ -186,12 +186,17 @@ def test_scripted_demo_covers_full_lifecycle():
     active = {(m.kind, m.text) for m in agent.memories_for_user("demo-user")}
     assert active == {
         ("preference", "Prefers evening flights."),
-        ("fact", "Home airport is SFO."),
+        ("preference", "Dislikes red-eye flights."),
+        ("preference", "Prefers quiet hotels near the airport."),
+        ("fact", "Home airport is SJC."),
         ("fact", "Company is based in San Jose."),
         ("instruction", "Include airport transfer time when planning work trips."),
     }
     superseded = agent.memories_for_user("demo-user", status="superseded")
-    assert [m.text for m in superseded] == ["Prefers morning flights."]
+    assert {m.text for m in superseded} == {
+        "Prefers morning flights.",
+        "Home airport is SFO.",
+    }
     forgotten = agent.memories_for_user("demo-user", status="forgotten")
     assert [m.text for m in forgotten] == ["Prefers aisle seats."]
 
@@ -215,13 +220,176 @@ def test_scripted_demo_mid_run_shows_skipping():
     from demo.support import selection_summary
 
     agent = create_agent(MockProvider())
-    # Run through the first planning turn (5 memories > budget 4).
-    for session_id, message in SCRIPTED_DEMO[:5]:
+    # Run through the first planning turn (7 memories > demo budget 6).
+    for session_id, message in SCRIPTED_DEMO[:6]:
         agent.chat(user_id="demo-user", session_id=session_id, message=message)
     summary = selection_summary(agent.events)
-    assert summary["candidates"] == 5
-    assert summary["selected"] == 4
+    assert summary["candidates"] == 7
+    assert summary["selected"] == 6
     assert summary["skipped"] == 1
+
+
+def run_scripted_demo():
+    from demo.demo_config import SCRIPTED_DEMO
+
+    agent = create_agent(MockProvider())
+    for session_id, message in SCRIPTED_DEMO:
+        agent.chat(user_id="demo-user", session_id=session_id, message=message)
+    return agent
+
+
+def test_demo_agent_enables_compression_but_sdk_default_does_not():
+    from experienceos import ExperienceOS
+
+    assert create_agent(MockProvider()).context_builder.compressor is not None
+    assert ExperienceOS(model=MockProvider()).context_builder.compressor is None
+
+
+def test_compressed_summaries_helper_exposes_latest_turn():
+    from demo.support import compressed_summaries
+
+    agent = run_scripted_demo()
+    summaries = compressed_summaries(agent.events)
+    assert len(summaries) == 1
+    summary = summaries[0]
+    assert summary["text"].startswith("Travel experience summary:")
+    assert "Home airport is SJC." in summary["source_texts"]
+    assert "Prefers evening flights." in summary["source_texts"]
+    assert len(summary["source_memory_ids"]) == len(summary["source_texts"])
+    assert summary["saved_chars"] > 0
+    assert summary["reason"]
+    # Superseded and forgotten memories never appear as sources.
+    assert "Home airport is SFO." not in summary["source_texts"]
+    assert "Prefers morning flights." not in summary["source_texts"]
+    assert "Prefers aisle seats." not in summary["source_texts"]
+
+
+def test_compression_totals_aggregates():
+    from demo.support import compressed_summaries, compression_totals
+
+    agent = run_scripted_demo()
+    summaries = compressed_summaries(agent.events)
+    totals = compression_totals(summaries)
+    assert totals["count"] == 1
+    assert totals["source_count"] == len(summaries[0]["source_memory_ids"])
+    assert (
+        totals["saved_chars"]
+        == totals["original_chars"] - totals["compressed_chars"]
+    )
+    assert totals["saved_chars"] > 0
+
+
+def test_no_compression_turn_is_clean():
+    from demo.support import compressed_summaries, compression_totals
+
+    agent = create_agent(MockProvider())
+    agent.chat(user_id="u1", session_id="s1", message="I prefer aisle seats.")
+    agent.chat(user_id="u1", session_id="s2", message="Book a trip.")
+    assert compressed_summaries(agent.events) == []
+    totals = compression_totals([])
+    assert totals == {
+        "count": 0,
+        "source_count": 0,
+        "original_chars": 0,
+        "compressed_chars": 0,
+        "saved_chars": 0,
+    }
+    built = [e for e in agent.events if e.type == EventType.CONTEXT_BUILT][-1]
+    assert summarize_event(built) == "Context built: 1 selected, 0 skipped."
+
+
+def test_summarize_event_mentions_compression():
+    agent = run_scripted_demo()
+    built = [e for e in agent.events if e.type == EventType.CONTEXT_BUILT][-1]
+    summary = summarize_event(built)
+    assert summary.startswith("Context built: 6 selected, 0 skipped.")
+    assert "5 memories compressed into 1 summary" in summary
+    assert "saved" in summary
+
+
+def test_growth_metrics_from_scripted_demo():
+    from demo.support import growth_metrics
+
+    agent = run_scripted_demo()
+    metrics = growth_metrics(agent, "demo-user")
+    assert metrics["active_memories"] == 6
+    assert metrics["created_memories"] == 9  # 7 originals + 2 replacements
+    assert metrics["updated_memories"] == 2  # airport fact + flight preference
+    assert metrics["forgotten_memories"] == 1
+    assert metrics["recalls"] >= 5
+    assert metrics["compressed_summaries_used"] >= 1
+    assert metrics["context_saved_chars"] >= 1
+
+
+def test_growth_metrics_exact_small_flow():
+    from demo.support import growth_metrics
+
+    agent = create_agent(MockProvider())
+    agent.chat(user_id="u1", session_id="s1", message="I prefer aisle seats.")
+    agent.chat(user_id="u1", session_id="s2", message="Book a trip.")
+    assert growth_metrics(agent, "u1") == {
+        "active_memories": 1,
+        "created_memories": 1,
+        "recalls": 1,
+        "updated_memories": 0,
+        "forgotten_memories": 0,
+        "compressed_summaries_used": 0,
+        "context_saved_chars": 0,
+    }
+
+
+def test_growth_metrics_empty_agent():
+    from demo.support import growth_metrics, lifecycle_timeline
+
+    agent = create_agent(MockProvider())
+    metrics = growth_metrics(agent, "u1")
+    assert metrics["active_memories"] == 0
+    assert metrics["created_memories"] == 0
+    assert lifecycle_timeline(agent.events) == []
+
+
+def test_lifecycle_timeline_from_scripted_demo():
+    from demo.support import lifecycle_timeline
+
+    agent = run_scripted_demo()
+    rows = lifecycle_timeline(agent.events)
+    events = [(r["Event"], r["Summary"]) for r in rows]
+
+    assert ("Remembered", "Prefers aisle seats.") in events
+    assert ("Remembered", "Home airport is SFO.") in events
+    assert (
+        "Updated",
+        "Home airport is SFO. → Home airport is SJC.",
+    ) in events
+    assert (
+        "Updated",
+        "Prefers morning flights. → Prefers evening flights.",
+    ) in events
+    assert ("Forgot", "Prefers aisle seats.") in events
+    # Replacements do not double-report as "Remembered".
+    assert ("Remembered", "Home airport is SJC.") not in events
+    # Recall and compression rows appear.
+    assert any(r["Event"] == "Recalled" for r in rows)
+    compressed_rows = [r for r in rows if r["Event"] == "Compressed"]
+    assert compressed_rows
+    assert "saved" in compressed_rows[0]["Summary"]
+    # Turns are 1-based and non-decreasing.
+    turns = [r["Turn"] for r in rows]
+    assert turns[0] == 1
+    assert turns == sorted(turns)
+
+
+def test_lifecycle_timeline_recall_row_counts():
+    from demo.support import lifecycle_timeline
+
+    agent = create_agent(MockProvider())
+    agent.chat(user_id="u1", session_id="s1", message="I prefer aisle seats.")
+    agent.chat(user_id="u1", session_id="s2", message="Book a trip.")
+    rows = lifecycle_timeline(agent.events)
+    assert rows == [
+        {"Turn": 1, "Event": "Remembered", "Summary": "Prefers aisle seats."},
+        {"Turn": 2, "Event": "Recalled", "Summary": "1 selected, 0 skipped"},
+    ]
 
 
 def test_summarize_event_reads_well():

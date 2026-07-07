@@ -35,8 +35,12 @@ from demo.support import (
     QWEN_SETUP_HINT,
     STORAGE_CHOICES,
     STORAGE_IN_MEMORY,
+    compressed_summaries,
+    compression_totals,
     create_agent,
     forgotten_rows,
+    growth_metrics,
+    lifecycle_timeline,
     make_memory_store,
     make_provider,
     provider_status,
@@ -176,6 +180,23 @@ with col_chat:
 with col_platform:
     st.subheader("Experience layer")
 
+    st.markdown("**Experience growth**")
+    metrics = growth_metrics(agent, user_id)
+    st.caption(
+        f"Active {metrics['active_memories']} · "
+        f"Created {metrics['created_memories']} · "
+        f"Recalls {metrics['recalls']} · "
+        f"Updated {metrics['updated_memories']} · "
+        f"Forgotten {metrics['forgotten_memories']} · "
+        f"Summaries used {metrics['compressed_summaries_used']} · "
+        f"Context saved {metrics['context_saved_chars']} chars"
+    )
+    timeline = lifecycle_timeline(agent.events)
+    if timeline:
+        st.dataframe(timeline, width="stretch", hide_index=True)
+    else:
+        st.caption("No experience accumulated yet.")
+
     st.markdown("**Active memories**")
     memories = agent.memories_for_user(user_id)
     if memories:
@@ -184,6 +205,7 @@ with col_platform:
                 {
                     "Memory": m.text,
                     "Kind": m.kind,
+                    "Tags": ", ".join(m.metadata.get("tags", [])) or "—",
                     "Status": m.status,
                     "Source session": m.source_session_id,
                     "Created": m.created_at.strftime("%H:%M:%S"),
@@ -230,6 +252,7 @@ with col_platform:
                     "Memory": r["text"],
                     "Score": r["score"],
                     "Matched keywords": ", ".join(r["matched_keywords"]),
+                    "Domains": ", ".join(r.get("matched_domains", [])) or "—",
                     "Reason": r["reason"].split(": ", 1)[-1],
                 }
                 for r in records
@@ -240,13 +263,40 @@ with col_platform:
     else:
         st.caption("No selection decision yet.")
 
+    st.markdown("**Compressed context (last turn)**")
+    summaries = compressed_summaries(agent.events)
+    if summaries:
+        totals = compression_totals(summaries)
+        st.caption(
+            f"{totals['source_count']} related memories compressed into "
+            f"{totals['count']} summary — {totals['original_chars']} chars "
+            f"→ {totals['compressed_chars']} chars "
+            f"(saved {totals['saved_chars']})."
+        )
+        for s in summaries:
+            st.success(s["text"])
+            with st.expander(
+                f"Sources and savings ({len(s['source_texts'])} memories)"
+            ):
+                st.markdown("\n".join(f"- {t}" for t in s["source_texts"]))
+                st.caption(
+                    f"{s['reason']} Original {s['original_chars']} chars → "
+                    f"compressed {s['compressed_chars']} chars "
+                    f"(saved {s['saved_chars']})."
+                )
+    else:
+        st.caption("No compressed context used for this turn.")
+
     st.markdown("**Context supplied on the last turn**")
     context_lines = supplied_context_lines(agent.events)
-    if context_lines:
-        st.success(
-            "ExperienceOS supplied this context:\n\n"
-            + "\n".join(f"- {line}" for line in context_lines)
-        )
+    summary_texts = [s["text"] for s in summaries]
+    if context_lines or summary_texts:
+        body = "ExperienceOS supplied this context:"
+        if summary_texts:
+            body += "\n\n" + "\n\n".join(summary_texts)
+        if context_lines:
+            body += "\n\n" + "\n".join(f"- {line}" for line in context_lines)
+        st.success(body)
     else:
         st.caption("No prior experience was added to this turn.")
 

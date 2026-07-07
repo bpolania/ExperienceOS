@@ -7,6 +7,7 @@ and event display logic stay testable without the demo extra installed.
 from __future__ import annotations
 
 from experienceos import ExperienceOS
+from experienceos.context import ContextBuilder, ExperienceCompressor
 from experienceos.context.builder import MEMORY_HEADER
 from experienceos.events.schema import EventType, ExperienceEvent
 from experienceos.memory import InMemoryMemoryStore, SQLiteMemoryStore
@@ -20,6 +21,9 @@ STORAGE_IN_MEMORY = "In-memory"
 STORAGE_SQLITE = "SQLite persistent"
 STORAGE_CHOICES = [STORAGE_IN_MEMORY, STORAGE_SQLITE]
 DEFAULT_SQLITE_PATH = ".experienceos/demo_memory.sqlite3"
+# Slightly larger than the SDK default so the compression moment groups
+# a meaningful number of travel memories while skipping stays visible.
+DEMO_MEMORY_BUDGET = 6
 
 QWEN_SETUP_HINT = (
     "Set QWEN_API_KEY (or DASHSCOPE_API_KEY), and QWEN_BASE_URL if your "
@@ -57,9 +61,19 @@ def storage_status(store) -> tuple[str, str]:
 
 
 def create_agent(provider: ModelProvider, memory_store=None) -> ExperienceOS:
-    """Agent with fresh event history; memory store optional (in-memory default)."""
+    """Agent with fresh event history; memory store optional (in-memory default).
+
+    The demo path enables experience compression so the dashboard can
+    show related memories collapsing into compact context. SDK defaults
+    remain uncompressed.
+    """
     return ExperienceOS(
-        model=provider, memory_store=memory_store or InMemoryMemoryStore()
+        model=provider,
+        memory_store=memory_store or InMemoryMemoryStore(),
+        context_builder=ContextBuilder(
+            memory_budget=DEMO_MEMORY_BUDGET,
+            compressor=ExperienceCompressor(),
+        ),
     )
 
 
@@ -77,7 +91,16 @@ def summarize_event(event: ExperienceEvent) -> str:
     if event.type == EventType.CONTEXT_BUILT:
         selected = p.get("selected_memory_count", p.get("memory_count", 0))
         skipped = p.get("skipped_memory_count", 0)
-        return f"Context built: {selected} selected, {skipped} skipped."
+        summary = f"Context built: {selected} selected, {skipped} skipped."
+        summaries = p.get("compressed_summaries", [])
+        if summaries:
+            sources = sum(len(s.get("source_memory_ids", [])) for s in summaries)
+            saved = sum(s.get("saved_chars", 0) for s in summaries)
+            summary += (
+                f" {sources} memories compressed into {len(summaries)} "
+                f"summary (saved {saved} chars)."
+            )
+        return summary
     if event.type == EventType.MEMORY_ACTION_PLANNED:
         return f"{len(p.get('planned_actions', []))} create action(s) planned."
     if event.type == EventType.MEMORY_CREATED:
@@ -164,6 +187,113 @@ def summarize_selection_record(record: dict) -> str:
     reason = record.get("reason", "")
     detail = reason.split(": ", 1)[-1] if reason else ""
     return f"{prefix}: {record.get('text', '')} — {detail}"
+
+
+def compressed_summaries(events: list[ExperienceEvent]) -> list[dict]:
+    """Compressed summaries used in the last turn's context build."""
+    for event in reversed(events):
+        if event.type == EventType.CONTEXT_BUILT:
+            return event.payload.get("compressed_summaries", [])
+    return []
+
+
+def compression_totals(summaries: list[dict]) -> dict:
+    """Aggregate counts for the compressed-context display."""
+    return {
+        "count": len(summaries),
+        "source_count": sum(len(s.get("source_memory_ids", [])) for s in summaries),
+        "original_chars": sum(s.get("original_chars", 0) for s in summaries),
+        "compressed_chars": sum(s.get("compressed_chars", 0) for s in summaries),
+        "saved_chars": sum(s.get("saved_chars", 0) for s in summaries),
+    }
+
+
+def growth_metrics(agent: ExperienceOS, user_id: str) -> dict:
+    """Transparent counts showing accumulated experience over time."""
+    events = agent.events
+
+    def count(event_type: str) -> int:
+        return sum(1 for e in events if e.type == event_type)
+
+    compressed = [
+        s
+        for e in events
+        if e.type == EventType.CONTEXT_BUILT
+        for s in e.payload.get("compressed_summaries", [])
+    ]
+    return {
+        "active_memories": len(agent.memories_for_user(user_id)),
+        "created_memories": count(EventType.MEMORY_CREATED),
+        "recalls": sum(
+            1
+            for e in events
+            if e.type == EventType.MEMORY_RETRIEVED and e.payload.get("count", 0) > 0
+        ),
+        "updated_memories": count(EventType.MEMORY_SUPERSEDED),
+        "forgotten_memories": count(EventType.MEMORY_FORGOTTEN),
+        "compressed_summaries_used": len(compressed),
+        "context_saved_chars": sum(s.get("saved_chars", 0) for s in compressed),
+    }
+
+
+def lifecycle_timeline(events: list[ExperienceEvent]) -> list[dict]:
+    """Readable per-turn history of how experience changed."""
+    created_texts = {
+        e.payload.get("memory_id"): e.payload.get("text", "")
+        for e in events
+        if e.type == EventType.MEMORY_CREATED
+    }
+    replacement_ids = {
+        e.payload.get("superseded_by")
+        for e in events
+        if e.type == EventType.MEMORY_SUPERSEDED
+    } - {None}
+
+    rows: list[dict] = []
+    turn = 0
+    for e in events:
+        if e.type == EventType.INTERACTION_STARTED:
+            turn += 1
+        elif e.type == EventType.MEMORY_CREATED:
+            # Replacements are covered by their "Updated" row.
+            if e.payload.get("memory_id") not in replacement_ids:
+                rows.append(
+                    {"Turn": turn, "Event": "Remembered",
+                     "Summary": e.payload.get("text", "")}
+                )
+        elif e.type == EventType.MEMORY_SUPERSEDED:
+            new_text = created_texts.get(
+                e.payload.get("superseded_by"), "a newer memory"
+            )
+            rows.append(
+                {"Turn": turn, "Event": "Updated",
+                 "Summary": f"{e.payload.get('text', '')} → {new_text}"}
+            )
+        elif e.type == EventType.MEMORY_FORGOTTEN:
+            rows.append(
+                {"Turn": turn, "Event": "Forgot",
+                 "Summary": e.payload.get("text", "")}
+            )
+        elif e.type == EventType.CONTEXT_BUILT:
+            selected = e.payload.get("selected_memory_count", 0)
+            if selected:
+                rows.append(
+                    {"Turn": turn, "Event": "Recalled",
+                     "Summary": f"{selected} selected, "
+                                f"{e.payload.get('skipped_memory_count', 0)} skipped"}
+                )
+            summaries = e.payload.get("compressed_summaries", [])
+            if summaries:
+                sources = sum(
+                    len(s.get("source_memory_ids", [])) for s in summaries
+                )
+                saved = sum(s.get("saved_chars", 0) for s in summaries)
+                rows.append(
+                    {"Turn": turn, "Event": "Compressed",
+                     "Summary": f"{sources} memories → {len(summaries)} "
+                                f"summary, saved {saved} chars"}
+                )
+    return rows
 
 
 def supplied_context_lines(events: list[ExperienceEvent]) -> list[str]:
