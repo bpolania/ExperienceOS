@@ -36,13 +36,19 @@ platform visible.
 ExperienceOS remembers three kinds of experience — **preferences**
 ("I prefer aisle seats."), **facts** ("My home airport is SFO."), and
 **instructions** ("Always include airport transfer time.") — and manages
-their full lifecycle: created, retrieved, superseded when they change,
-and forgotten on request (kept as visible history, never used again).
+their full lifecycle: created, retrieved, superseded when they change
+(preferences, facts, and durable instructions alike), and forgotten on
+request (kept as visible history, never used again). Every memory gets
+deterministic domain **tags** (travel, airport, seat, timing, work,
+style, …) so the system can explain why a piece of experience mattered.
 
 Context is assembled deterministically: active memories are ranked by
 keyword relevance, kind priority, and recency, and only the top few
 (default budget: 4) are injected — with a per-memory explanation of why
-each was selected or skipped.
+each was selected or skipped, including matched domains. Related
+selected memories can be **compressed** into one compact experience
+summary, and a per-turn **timeline** shows experience growing across
+the session.
 
 Every `chat(...)` call publishes its internal steps as events:
 
@@ -105,31 +111,37 @@ on the last turn, and the live event log.
 missing it shows a warning with setup instructions instead of crashing,
 and you can switch back to Mock.
 
-### Demo walkthrough (2 minutes)
+### Demo walkthrough (3–5 minutes)
+
+See `docs/demo_script.md` for the full presenter script. In short:
 
 1. Run the dashboard (provider stays on Mock).
-2. Click **Run experience lifecycle demo** in the sidebar. Eight turns
-   run: preferences, facts, and an instruction are remembered; a trip is
-   planned; a preference changes; a preference is forgotten; a final
-   trip is planned.
-3. **Active memories** shows all three kinds (preference, fact,
-   instruction).
-4. **Context selection** shows the budget math — on the first planning
-   turn, five candidates compete for a budget of four and one memory is
-   visibly *skipped*, with a reason for every decision.
-5. "Actually, I prefer evening flights." fires `memory_superseded` —
-   morning flights moves to **Superseded experiences**.
-6. "Forget my aisle seat preference." fires `memory_forgotten` — aisle
+2. Click **Run experience lifecycle demo** in the sidebar. Ten turns
+   run: travel preferences, facts, and an instruction are remembered; a
+   trip is planned; a fact and a preference change; a preference is
+   forgotten; a final trip is planned.
+3. **Experience growth** shows the accumulated counts and a per-turn
+   timeline: Remembered → Recalled → Updated → Forgot → Compressed.
+4. **Active memories** shows all three kinds, each with its domain tags.
+5. **Context selection** shows the budget math — on the first planning
+   turn, seven candidates compete for a budget of six and one memory is
+   visibly *skipped*, with a domain-aware reason for every decision.
+6. "Actually, my home airport is now SJC." supersedes the SFO **fact**;
+   "Actually, I prefer evening flights." supersedes the morning-flight
+   preference — both land in **Superseded experiences** with lineage.
+7. "Forget my aisle seat preference." fires `memory_forgotten` — aisle
    seats moves to **Forgotten experiences**, kept as history.
-7. On the final turn, **Context supplied** proves the model received
-   only current experience: evening flights, the facts, and the
-   instruction — no superseded or forgotten memories.
-8. Optionally set `QWEN_API_KEY` and switch the provider to Qwen Cloud
+8. On the final turn, **Compressed context** shows five related travel
+   memories collapsed into one summary (with sources and saved
+   characters), and **Context supplied** proves the model received only
+   current experience — SJC, not SFO; evening, not morning; nothing
+   forgotten.
+9. Optionally set `QWEN_API_KEY` and switch the provider to Qwen Cloud
    to run the same flow against a live Qwen model.
 
 The point to observe: ExperienceOS does not merely remember — it
-retrieves selectively, adapts when the user changes, and forgets on
-request, all visibly.
+retrieves selectively, adapts when reality changes, forgets on request,
+compresses related experience, and explains every decision.
 
 ## Persistence: experience survives restarts
 
@@ -174,6 +186,27 @@ sidebar (database at `.experienceos/demo_memory.sqlite3`, gitignored).
 7. The updated active preference survived; the superseded one remains
    visible but is never injected into context.
 
+## Experience compression
+
+Related selected memories can be collapsed into one compact summary at
+context-assembly time — for example, five travel memories become:
+
+```
+Travel experience summary:
+The user's home airport is SJC. Include airport transfer time when
+planning work trips, prefer evening flights, prefer quiet hotels near
+the airport, and avoid red-eye flights.
+```
+
+Compression is deterministic and template-based (no model calls, no
+embeddings), applies only when the summary genuinely shrinks the
+rendered context, and is a context behavior — **not** storage mutation:
+source memories stay intact and visible, the summary tracks their ids
+and texts, and forgotten/superseded memories can never be compressed in.
+The dashboard shows each summary with its sources and the saved
+character count. Compression is enabled in the demo path and opt-in for
+the SDK (`ContextBuilder(compressor=ExperienceCompressor())`).
+
 ## Memory lifecycle: update, supersede, forget
 
 ExperienceOS keeps old experience visible instead of deleting it. When a
@@ -183,6 +216,14 @@ metadata pointing to its replacement — and the new memory becomes
 active. Conflict detection is deterministic and conservative: only known
 preference domains (seats, flight times, hotels) with matching polarity
 can conflict; unknown domains just create new memories.
+
+Facts and durable instructions update the same way, via deterministic
+update keys: "Actually, my home airport is now SJC." supersedes the SFO
+fact; "From now on, keep travel plans even shorter." supersedes an older
+detail-level planning instruction; "Going forward, keep answers concise."
+supersedes an older response-style instruction. Content instructions
+("Include airport transfer time…") intentionally accumulate rather than
+replace each other.
 
 Explicit requests ("Forget my morning flight preference.", "I no longer
 prefer aisle seats.", "I don't care about hotel gyms anymore.") mark
@@ -196,33 +237,40 @@ is observable — and both states persist in SQLite across restarts.
 Active memories are not dumped into the prompt. Each turn, candidates
 are ranked deterministically — keyword overlap with the current message,
 then kind priority (instructions > facts > preferences), then recency —
-and only the top `memory_budget` (default 4) are injected, still grouped
-by kind. The `context_built` event carries `selection_records`
-explaining every decision ("selected: matched trip, work; instruction
-priority; within budget" / "skipped: budget reached after 4 selected
-memories"), which the dashboard renders as a table.
+and only the top `memory_budget` (default 4; the demo uses 6) are
+injected, still grouped by kind. The `context_built` event carries
+`selection_records` explaining every decision with domain evidence
+("selected: matched trip, work; domains travel + work + planning;
+instruction priority; within budget" / "skipped: its meal experience was
+less relevant to this request; budget reached after 4 selected
+memories"), which the dashboard renders as a table with tags and
+matched domains.
 
 ## Console examples
 
-Offline (default, no credentials):
+Offline (default, no credentials — all exit 0):
 
 ```bash
-PYTHONPATH=. python examples/memory_demo.py
+PYTHONPATH=. python examples/basic_qwen_demo.py    # one-turn lifecycle
+PYTHONPATH=. python examples/memory_demo.py        # cross-session recall
+PYTHONPATH=. python examples/update_demo.py        # superseding
+PYTHONPATH=. python examples/persistence_demo.py   # SQLite restarts
 ```
 
-Live Qwen smoke test (optional):
+Live Qwen smoke test (optional, credential-gated):
 
 ```bash
-export QWEN_API_KEY="..."
+export QWEN_API_KEY="..."             # or DASHSCOPE_API_KEY
 export QWEN_MODEL="qwen-plus"         # optional
 # export QWEN_BASE_URL="..."          # if your workspace needs a regional endpoint
 
 PYTHONPATH=. python examples/qwen_live_demo.py
 ```
 
-If credentials are missing, it prints setup instructions instead of
-crashing. Live Qwen credentials are never required for tests or the
-default dashboard.
+Without credentials, `qwen_live_demo.py` exits cleanly with setup
+instructions (intentional exit code 1 — not a crash). Live Qwen
+credentials are never required for tests, the offline examples, or the
+default dashboard; MockProvider is the credential-free path.
 
 ## Development
 
