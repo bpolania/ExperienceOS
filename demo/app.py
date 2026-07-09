@@ -35,6 +35,9 @@ from demo.demo_config import (
     SCRIPTED_DEMO,
     TAGLINE,
 )
+from demo.env import load_local_env
+
+load_local_env()  # optional .env with Qwen credentials; env vars win
 from demo.support import (
     PROVIDER_CHOICES,
     PROVIDER_MOCK,

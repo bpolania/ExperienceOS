@@ -5,7 +5,8 @@ makes real network calls. Runs in two stages: one narrow provider call
 to prove the adapter works, then a short experience lifecycle on live
 Qwen.
 
-Setup:
+Setup (either export the variables or copy .env.example to .env —
+the .env file is loaded automatically when python-dotenv is installed):
 
     export QWEN_API_KEY="..."          # or DASHSCOPE_API_KEY
     export QWEN_BASE_URL="..."         # only if your workspace needs a regional endpoint
@@ -18,8 +19,11 @@ Exits 0 on success, 1 when unconfigured.
 
 import sys
 
+from demo.env import load_local_env
 from experienceos import ExperienceOS
 from experienceos.providers import QwenCloudProvider
+
+load_local_env()
 
 SETUP_INSTRUCTIONS = """\
 Set QWEN_API_KEY (or DASHSCOPE_API_KEY), and QWEN_BASE_URL if your

@@ -93,6 +93,12 @@ Explicit constructor arguments always win over environment variables.
 Live Qwen credentials are **never** required for tests — the suite makes
 no network calls.
 
+For a persistent local setup, copy `.env.example` to `.env` and add your
+key — the dashboard and Qwen examples load it automatically when
+python-dotenv is installed (part of the `demo` extra). `.env` is
+gitignored; already-set environment variables always take precedence,
+and the SDK itself never reads files — only entry points load `.env`.
+
 ## Dashboard
 
 Install the demo extra and launch:

@@ -6,8 +6,11 @@ To use Qwen Cloud instead:
     agent = ExperienceOS(model=QwenCloud(model="qwen-plus"))  # reads QWEN_API_KEY
 """
 
+from demo.env import load_local_env
 from experienceos import ExperienceOS
 from experienceos.providers import MockProvider
+
+load_local_env()  # optional .env so the Qwen swap works out of the box
 
 
 def main() -> None:
