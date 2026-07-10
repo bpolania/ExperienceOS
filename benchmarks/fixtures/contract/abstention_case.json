@@ -1,0 +1,50 @@
+{
+  "scenario_id": "fixture-abstention-001",
+  "schema_version": "1",
+  "title": "No durable content, no memory, expected abstention",
+  "category": "abstention",
+  "description": "A chit-chat message must produce no memory action; a question about unknown preferences must not invent experience. Model-scored: abstention phrasing varies, so a judge evaluates it under the committed rubric.",
+  "tags": ["abstention", "non-durable"],
+  "seed": 7,
+  "context_budget": 4,
+  "selection_k": 4,
+  "turns": [
+    {
+      "session_id": "session-1",
+      "role": "user",
+      "message": "What time is it right now?"
+    }
+  ],
+  "current_message": "What seat do I usually prefer on flights?",
+  "current_session_id": "session-2",
+  "expected": {
+    "memory_actions": [
+      {
+        "action": "none",
+        "kind": null,
+        "logical_id": null,
+        "value": null,
+        "target": null
+      }
+    ],
+    "rejection_reasons": [],
+    "fallback_expected": false,
+    "active": [],
+    "superseded": [],
+    "forgotten": [],
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "response": {
+      "must_include_any": [],
+      "must_include_all": [],
+      "must_exclude": ["aisle", "window"],
+      "expect_abstention": true
+    }
+  },
+  "requires_provider": true,
+  "requires_local_model": false,
+  "evaluation_mode": "model_scored",
+  "evaluator_requirements": ["abstention_judge"],
+  "notes": "Contract fixture only; never a benchmark result."
+}

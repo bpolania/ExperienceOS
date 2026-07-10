@@ -365,6 +365,24 @@ assertions, not prose. The local mode uses a fake runner by design
 separately through `local_runner_smoke.py` and a real memory-policy
 interaction (see the local model runner section above).
 
+## Benchmarking (Phase 8, in progress)
+
+A lifecycle benchmark comparing ExperienceOS against stateless,
+full-history, append-only, and naive-retrieval baselines is being
+built. The measurement rules — schemas, metric denominators, leakage
+definitions, context accounting, and fair-comparison constraints —
+are committed **before** any results in
+[docs/benchmark_contract.md](docs/benchmark_contract.md), with
+machine-readable contracts under `benchmarks/contract/`. The default
+benchmark path is fully offline (no credentials, no network, no model
+downloads). No benchmark results exist yet.
+
+Validate the contract level:
+
+```bash
+PYTHONPATH=. python -m pytest tests/test_benchmark_contract.py
+```
+
 ## Development
 
 ```bash

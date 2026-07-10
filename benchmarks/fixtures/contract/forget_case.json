@@ -1,0 +1,72 @@
+{
+  "scenario_id": "fixture-forget-001",
+  "schema_version": "1",
+  "title": "Explicit forget excludes the memory from later context",
+  "category": "forgetting",
+  "description": "An explicit forget request must mark the memory forgotten; a later planning request must select only the remaining active memory and supply context free of the forgotten value.",
+  "tags": ["travel", "forgetting"],
+  "seed": 7,
+  "context_budget": 4,
+  "selection_k": 4,
+  "turns": [
+    {
+      "session_id": "session-1",
+      "role": "user",
+      "message": "I prefer aisle seats for work trips."
+    },
+    {
+      "session_id": "session-1",
+      "role": "user",
+      "message": "I prefer morning flights for work trips."
+    },
+    {
+      "session_id": "session-2",
+      "role": "user",
+      "message": "Forget that I prefer morning flights."
+    }
+  ],
+  "current_message": "Help me plan a work trip to Boston.",
+  "current_session_id": "session-3",
+  "expected": {
+    "memory_actions": [
+      {
+        "action": "none",
+        "kind": null,
+        "logical_id": null,
+        "value": null,
+        "target": null
+      }
+    ],
+    "rejection_reasons": [],
+    "fallback_expected": false,
+    "active": [
+      {"logical_id": "aisle-pref", "match_terms": ["aisle"], "memory_id": null}
+    ],
+    "superseded": [],
+    "forgotten": [
+      {
+        "logical_id": "morning-pref",
+        "match_terms": ["morning"],
+        "memory_id": null
+      }
+    ],
+    "retrieval_candidates": [
+      {"logical_id": "aisle-pref", "match_terms": ["aisle"], "memory_id": null}
+    ],
+    "selected": [
+      {"logical_id": "aisle-pref", "match_terms": ["aisle"], "memory_id": null}
+    ],
+    "skipped": [],
+    "response": {
+      "must_include_any": [],
+      "must_include_all": [],
+      "must_exclude": ["morning"],
+      "expect_abstention": false
+    }
+  },
+  "requires_provider": false,
+  "requires_local_model": false,
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "notes": "Contract fixture only; never a benchmark result."
+}

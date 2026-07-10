@@ -13,10 +13,19 @@ dist/
 # Local credentials (copy .env.example to .env; never commit)
 .env
 
-# Local demo databases
+# Local demo databases (also covers runtime benchmark databases)
 *.sqlite
 *.sqlite3
 .experienceos/
+
+# Model weights: local GGUF files must never be committed
+*.gguf
+
+# Benchmark runtime artifacts. Small committed evidence lives in
+# benchmarks/results/committed/, which is deliberately NOT ignored.
+benchmarks/results/local/
+benchmarks/.cache/
+benchmarks/data/external/
 
 # Tooling / IDE
 .idea/

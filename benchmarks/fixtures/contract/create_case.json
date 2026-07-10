@@ -1,0 +1,45 @@
+{
+  "scenario_id": "fixture-create-001",
+  "schema_version": "1",
+  "title": "Durable preference is remembered",
+  "category": "creation",
+  "description": "A single explicit preference statement must create one active preference memory.",
+  "tags": ["travel", "seat"],
+  "seed": 7,
+  "context_budget": 4,
+  "selection_k": 4,
+  "turns": [],
+  "current_message": "I prefer aisle seats for work trips.",
+  "current_session_id": "session-1",
+  "expected": {
+    "memory_actions": [
+      {
+        "action": "create",
+        "kind": "preference",
+        "logical_id": "aisle-pref",
+        "value": {
+          "must_include_all": ["aisle"],
+          "must_include_any": [],
+          "must_exclude": []
+        },
+        "target": null
+      }
+    ],
+    "rejection_reasons": [],
+    "fallback_expected": false,
+    "active": [
+      {"logical_id": "aisle-pref", "match_terms": ["aisle"], "memory_id": null}
+    ],
+    "superseded": [],
+    "forgotten": [],
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "response": null
+  },
+  "requires_provider": false,
+  "requires_local_model": false,
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "notes": "Contract fixture only; never a benchmark result."
+}

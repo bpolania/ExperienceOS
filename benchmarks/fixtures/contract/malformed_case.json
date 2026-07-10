@@ -1,0 +1,21 @@
+{
+  "scenario_id": "",
+  "schema_version": "1",
+  "title": "Malformed fixture used by validation tests",
+  "category": "not-a-real-category",
+  "description": "Deliberately invalid: empty scenario_id, unknown category, unresolvable memory reference.",
+  "tags": ["fixture"],
+  "seed": 7,
+  "context_budget": 4,
+  "turns": [],
+  "current_message": "This case must fail validation.",
+  "current_session_id": "session-1",
+  "expected": {
+    "memory_actions": [],
+    "active": [
+      {"logical_id": "unresolvable", "match_terms": [], "memory_id": null}
+    ]
+  },
+  "evaluation_mode": "deterministic",
+  "notes": "Contract fixture only; never a benchmark result."
+}

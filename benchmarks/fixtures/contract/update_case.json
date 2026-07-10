@@ -1,0 +1,64 @@
+{
+  "scenario_id": "fixture-update-001",
+  "schema_version": "1",
+  "title": "Changed preference supersedes the old one",
+  "category": "update",
+  "description": "A changed seat preference must retire the old value and activate the new one; the old value must not reach context afterwards.",
+  "tags": ["travel", "seat", "supersession"],
+  "seed": 7,
+  "context_budget": 4,
+  "selection_k": 4,
+  "turns": [
+    {
+      "session_id": "session-1",
+      "role": "user",
+      "message": "I prefer aisle seats for work trips."
+    }
+  ],
+  "current_message": "Actually, I now prefer window seats for work trips instead of aisle seats.",
+  "current_session_id": "session-2",
+  "expected": {
+    "memory_actions": [
+      {
+        "action": "supersede",
+        "kind": "preference",
+        "logical_id": null,
+        "value": null,
+        "target": {
+          "logical_id": "aisle-pref",
+          "match_terms": ["aisle"],
+          "memory_id": null
+        }
+      },
+      {
+        "action": "create",
+        "kind": "preference",
+        "logical_id": "window-pref",
+        "value": {
+          "must_include_all": ["window"],
+          "must_include_any": [],
+          "must_exclude": ["aisle"]
+        },
+        "target": null
+      }
+    ],
+    "rejection_reasons": [],
+    "fallback_expected": false,
+    "active": [
+      {"logical_id": "window-pref", "match_terms": ["window"], "memory_id": null}
+    ],
+    "superseded": [
+      {"logical_id": "aisle-pref", "match_terms": ["aisle"], "memory_id": null}
+    ],
+    "forgotten": [],
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "response": null
+  },
+  "requires_provider": false,
+  "requires_local_model": false,
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "notes": "Contract fixture only; never a benchmark result."
+}
