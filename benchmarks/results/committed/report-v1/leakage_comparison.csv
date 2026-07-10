@@ -1,0 +1,49 @@
+table,system,metric,numerator,denominator,value,undefined_count,display,source_artifact,source_digest
+leakage,stateless,stale_candidate_leakage_rate,0.0,0.0,,0,N/A (metric not applicable to this system),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,full_history,stale_candidate_leakage_rate,0.0,0.0,,0,N/A (metric not applicable to this system),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,append_only,stale_candidate_leakage_rate,12.0,17.0,0.7058823529411765,0,12/17 (70.6%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,naive_top_k,stale_candidate_leakage_rate,12.0,17.0,0.7058823529411765,0,12/17 (70.6%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,experienceos_rules,stale_candidate_leakage_rate,11.0,16.0,0.6875,0,11/16 (68.8%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,experienceos_local,stale_candidate_leakage_rate,10.0,15.0,0.6666666666666666,0,10/15 (66.7%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,stateless,stale_selected_leakage_rate,0.0,0.0,,0,N/A (metric not applicable to this system),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,full_history,stale_selected_leakage_rate,0.0,0.0,,0,N/A (metric not applicable to this system),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,append_only,stale_selected_leakage_rate,12.0,17.0,0.7058823529411765,0,12/17 (70.6%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,naive_top_k,stale_selected_leakage_rate,12.0,17.0,0.7058823529411765,0,12/17 (70.6%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,experienceos_rules,stale_selected_leakage_rate,11.0,16.0,0.6875,0,11/16 (68.8%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,experienceos_local,stale_selected_leakage_rate,10.0,15.0,0.6666666666666666,0,10/15 (66.7%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,stateless,stale_context_leakage_rate,0.0,11.0,0.0,0,0/11 (0.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,full_history,stale_context_leakage_rate,11.0,11.0,1.0,0,11/11 (100.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,append_only,stale_context_leakage_rate,11.0,11.0,1.0,0,11/11 (100.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,naive_top_k,stale_context_leakage_rate,11.0,11.0,1.0,0,11/11 (100.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,experienceos_rules,stale_context_leakage_rate,10.0,11.0,0.9090909090909091,0,10/11 (90.9%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,experienceos_local,stale_context_leakage_rate,9.0,11.0,0.8181818181818182,0,9/11 (81.8%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,stateless,stale_response_contamination_rate,1.0,9.0,0.1111111111111111,0,1/9 (11.1%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,full_history,stale_response_contamination_rate,1.0,9.0,0.1111111111111111,0,1/9 (11.1%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,append_only,stale_response_contamination_rate,1.0,9.0,0.1111111111111111,0,1/9 (11.1%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,naive_top_k,stale_response_contamination_rate,1.0,9.0,0.1111111111111111,0,1/9 (11.1%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,experienceos_rules,stale_response_contamination_rate,1.0,9.0,0.1111111111111111,0,1/9 (11.1%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,experienceos_local,stale_response_contamination_rate,1.0,9.0,0.1111111111111111,0,1/9 (11.1%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,stateless,forgotten_exclusion_rate,2.0,2.0,1.0,0,2/2 (100.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,full_history,forgotten_exclusion_rate,0.0,2.0,0.0,0,0/2 (0.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,append_only,forgotten_exclusion_rate,0.0,2.0,0.0,0,0/2 (0.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,naive_top_k,forgotten_exclusion_rate,0.0,2.0,0.0,0,0/2 (0.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,experienceos_rules,forgotten_exclusion_rate,0.0,2.0,0.0,0,0/2 (0.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,experienceos_local,forgotten_exclusion_rate,0.0,2.0,0.0,0,0/2 (0.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,stateless,forgotten_response_contamination_rate,0.0,1.0,0.0,0,0/1 (0.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,full_history,forgotten_response_contamination_rate,0.0,1.0,0.0,0,0/1 (0.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,append_only,forgotten_response_contamination_rate,0.0,1.0,0.0,0,0/1 (0.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,naive_top_k,forgotten_response_contamination_rate,0.0,1.0,0.0,0,0/1 (0.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,experienceos_rules,forgotten_response_contamination_rate,0.0,1.0,0.0,0,0/1 (0.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,experienceos_local,forgotten_response_contamination_rate,0.0,1.0,0.0,0,0/1 (0.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,stateless,memory_resurrection_rate,0.0,6.0,0.0,0,0/6 (0.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,full_history,memory_resurrection_rate,0.0,6.0,0.0,0,0/6 (0.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,append_only,memory_resurrection_rate,0.0,6.0,0.0,0,0/6 (0.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,naive_top_k,memory_resurrection_rate,0.0,6.0,0.0,0,0/6 (0.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,experienceos_rules,memory_resurrection_rate,0.0,6.0,0.0,0,0/6 (0.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,experienceos_local,memory_resurrection_rate,0.0,6.0,0.0,0,0/6 (0.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,stateless,unrelated_preservation_rate,0.0,3.0,0.0,0,0/3 (0.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,full_history,unrelated_preservation_rate,0.0,3.0,0.0,0,0/3 (0.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,append_only,unrelated_preservation_rate,2.0,3.0,0.6666666666666666,0,2/3 (66.7%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,naive_top_k,unrelated_preservation_rate,2.0,3.0,0.6666666666666666,0,2/3 (66.7%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,experienceos_rules,unrelated_preservation_rate,3.0,3.0,1.0,0,3/3 (100.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+leakage,experienceos_local,unrelated_preservation_rate,3.0,3.0,1.0,0,3/3 (100.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33

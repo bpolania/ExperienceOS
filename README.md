@@ -366,6 +366,33 @@ separately through `local_runner_smoke.py` and a real memory-policy
 interaction (see the local model runner section above).
 
 
+<!-- benchmark-evidence:begin (generated; do not edit) -->
+## Benchmark Evidence
+
+Two separate evidence tracks, both fully offline and generated from committed raw artifacts (deterministic provider, approximated `ceil(chars/4)` token accounting): the **custom lifecycle benchmark** (40 scenarios × 6 systems) measures whether accumulated experience stays current, relevant, and bounded; the **LongMemEval 50-case stratified subset** (official data, structural run, proxy answer metrics, no official judge — not an official LongMemEval score) probes long-history retrieval. ExperienceOS local is the scripted-plus-fallback offline mode, not a real-GGUF result. Full detail, denominators, failures, and limitations: [docs/benchmark_report.md](docs/benchmark_report.md).
+
+**Custom lifecycle (ExperienceOS rules vs strongest contrasts; raw n/d shown):**
+
+| Metric | ExperienceOS rules | Append-only | Full history |
+|---|---|---|---|
+| Old-value deactivation | 3/8 (37.5%) | 0/8 (0.0%) | 8/8 (100.0%) |
+| Expected-memory Recall@K | 15/17 (88.2%) | 10/17 (58.8%) | 0/17 (0.0%) |
+| Duplicate acceptance | N/A (3 undefined, 0 eligible) | 2/2 (100.0%) | N/A (3 undefined, 0 eligible) |
+| Avg context tokens (38 cases) | 60.4 | 32.2 | 91.1 |
+
+Honest hard-case results stay visible: stale rendered-context leakage for ExperienceOS rules is 10/11 (90.9%) (the dataset's aspirational unkeyed-domain update oracles), and forgotten-content exclusion is 0/2 (0.0%) on its two eligible probes.
+
+**LongMemEval 50-case stratified subset (structural offline run):**
+
+| Metric | ExperienceOS rules | Naive top-K | Full history |
+|---|---|---|---|
+| Answer-session selection | 14/50 (28.0%) | 42/50 (84.0%) | N/A (50 undefined, 0 eligible) |
+| Answer-session MRR | 9.28315/50 (18.6%) | 32.8795/50 (65.8%) | N/A (50 undefined, 0 eligible) |
+| Avg supplied context tokens (50 cases) | 206.6 | 2604.2 | 126173.0 |
+
+Naive lexical retrieval outperforms ExperienceOS's sparse rule-based extraction on this conversational subset — a measured limitation, reported as such. Reproduce/verify: `./scripts/run_benchmarks.sh validate benchmarks/results/committed/lifecycle-offline-v1`, `./scripts/run_benchmarks.sh validate-external benchmarks/results/committed/longmemeval-50-subset-v1`, `./scripts/run_benchmarks.sh report`.
+<!-- benchmark-evidence:end -->
+
 ## Benchmarking (Phase 8, in progress)
 
 A lifecycle benchmark comparing ExperienceOS against stateless,

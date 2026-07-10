@@ -1,0 +1,8 @@
+table,system,metric,numerator,denominator,value,undefined_count,display,source_artifact,source_digest
+containment,experienceos_local,local_valid_proposal_rate,7.0,8.0,0.875,34,7/8 (87.5%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+containment,experienceos_local,local_correct_action_type_rate,0.0,1.0,0.0,0,0/1 (0.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+containment,experienceos_local,local_correct_target_rate,0.0,2.0,0.0,0,0/2 (0.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+containment,experienceos_local,duplicate_proposal_rate,2.0,20.0,0.1,0,2/20 (10.0%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+containment,experienceos_local,fallback_rate,97.0,104.0,0.9326923076923077,0,97/104 (93.3%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+containment,experienceos_local,local_applied_action_accuracy,11.0,17.0,0.6470588235294118,0,11/17 (64.7%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
+containment,experienceos_local,local_state_corruption_rate,7.0,38.0,0.18421052631578946,0,7/38 (18.4%),benchmarks/results/committed/lifecycle-offline-v1,8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33
