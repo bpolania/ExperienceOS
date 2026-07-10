@@ -2,7 +2,7 @@
 
 > Generated from committed raw artifacts by
 > `./scripts/run_benchmarks.sh report` at commit
-> `9938c13a83581aac2422e5a124e7cf302f48d090`. Do not edit manually — the
+> `12b86992e9a6032b52002bd84d68a52e30510e08`. Do not edit manually — the
 > validator detects edited numbers. No benchmark system was rerun; no
 > network, provider, or model was used during generation.
 
@@ -364,7 +364,7 @@ score.
 
 ## 16. Provenance
 
-- Report version: report-v1; generating commit `9938c13a83581aac2422e5a124e7cf302f48d090` (clean tree: True).
+- Report version: report-v1; generating commit `12b86992e9a6032b52002bd84d68a52e30510e08` (clean tree: True).
 - Lifecycle artifact: `benchmarks/results/committed/lifecycle-offline-v1`, digest `8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33`, generated at commit `d96c76cf6af68db3e02be23006c53f53188600e0`, dataset manifest `0481f41e03795ce66133e01929dea563f326d7ce790adc4ee0ab4d37f1cfd6eb`.
 - External artifact: `benchmarks/results/committed/longmemeval-50-subset-v1`, digest `2b3e2000647b8d3ca85e0539ce3ac518afb32e4eb343c96a20538607d428ea03`, generated at commit `7a79729452dc8d5a9fbc2fde2c8be1d7e2276331`, subset manifest `a077cca377469ac3450ef5446e7d289bcbd42eb2c95beed677220f69fca73030`.
 - Flags: network=False, provider invoked=False, model invoked=False, systems rerun=False; local mode: scripted-plus-fallback offline; external evaluation: structural + labeled proxies (no official GPT-4o judge).

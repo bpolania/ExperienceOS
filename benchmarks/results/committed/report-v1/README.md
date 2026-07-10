@@ -2,7 +2,7 @@
 
 Generated from the two committed raw artifacts (paths and digests in
 `artifact_manifest.json`) by `./scripts/run_benchmarks.sh report` at
-commit `9938c13a83581aac2422e5a124e7cf302f48d090`. No benchmark systems were rerun. Generated files
+commit `12b86992e9a6032b52002bd84d68a52e30510e08`. No benchmark systems were rerun. Generated files
 must not be edited manually — `validate-report` detects edits. The
 Markdown report lives at `docs/benchmark_report.md`. Custom lifecycle
 and LongMemEval evidence stay separate; the external artifact is the
