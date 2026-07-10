@@ -11,6 +11,9 @@ from benchmarks.adapters.experienceos_local import (
     MODES,
     ExperienceOSLocalAdapter,
 )
+from benchmarks.adapters.experienceos_coverage_v2 import (
+    ExperienceOSCoverageV2Adapter,
+)
 from benchmarks.adapters.experienceos_hybrid_extract_v2 import (
     ExperienceOSHybridExtractV2Adapter,
 )
@@ -32,6 +35,7 @@ ADAPTER_SYSTEM_IDS = (
     SystemId.EXPERIENCEOS_HYBRID_EXTRACT_V2,
     SystemId.EXPERIENCEOS_HYBRID_RETRIEVAL_V2,
     SystemId.EXPERIENCEOS_EXTRACT_RETRIEVAL_V2,
+    SystemId.EXPERIENCEOS_COVERAGE_V2,
 )
 
 
@@ -73,6 +77,8 @@ def create_system(
         return ExperienceOSExtractRetrievalV2Adapter(
             provider=provider, seed=seed
         )
+    if system_id == SystemId.EXPERIENCEOS_COVERAGE_V2:
+        return ExperienceOSCoverageV2Adapter(provider=provider, seed=seed)
     if system_id in BASELINE_CLASSES:
         return BASELINE_CLASSES[system_id](provider=provider, seed=seed)
     raise ValueError(

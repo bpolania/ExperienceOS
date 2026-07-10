@@ -86,7 +86,13 @@ class ExperienceOSHybridRetrievalV2Adapter(ExperienceOSAdapterBase):
 class ExperienceOSExtractRetrievalV2Adapter(
     ExperienceOSHybridRetrievalV2Adapter
 ):
-    """Ablation D: Prompt 3 hybrid extraction + Prompt 4 retrieval."""
+    """Ablation D: Prompt 3 hybrid extraction + Prompt 4 retrieval.
+
+    ``coverage_selection=True`` composes Prompt 5 coverage selection on
+    top — a DEVELOPMENT-ONLY configuration (not a registered system,
+    not ``experienceos_hybrid_full_v2``) declared in provenance and
+    used by dev ablation scripts via direct construction.
+    """
 
     system_id = SystemId.EXPERIENCEOS_EXTRACT_RETRIEVAL_V2
     memory_policy_label = (
@@ -94,9 +100,50 @@ class ExperienceOSExtractRetrievalV2Adapter(
         f"+hybrid_retrieval_v{RETRIEVAL_STRATEGY_VERSION}"
     )
 
+    def __init__(self, provider=None, seed: int = 0,
+                 coverage_selection: bool = False):
+        self._coverage_selection = coverage_selection
+        super().__init__(provider=provider, seed=seed)
+        if coverage_selection:
+            self.system_id = "dev_extract_retrieval_coverage"
+            self.memory_policy_label += "+coverage_selection_v1(dev)"
+            self.config = type(self.config)(
+                **{**self.config.to_payload(), "system_id": self.system_id,
+                   "memory_policy": self.memory_policy_label}
+            )
+
     def _clear(self) -> None:
         super()._clear()
         self._hybrid_planner: HybridMemoryPlanner | None = None
+        self._coverage_strategy = None
+
+    def _make_retrieval_strategy(self, case):
+        if not getattr(self, "_coverage_selection", False):
+            return super()._make_retrieval_strategy(case)
+        from experienceos.context.selection import (
+            SELECTION_STRATEGY_VERSION,
+            CoverageSelectionStrategy,
+        )
+
+        self._coverage_strategy = CoverageSelectionStrategy()
+        self._retrieval_strategy = HybridRetrievalStrategy(
+            selection_strategy=self._coverage_strategy
+        )
+        self.diagnostics.update(
+            {
+                "memory_extraction_strategy": "v1_rules_unchanged",
+                "semantic_identity_strategy": "none",
+                **_RETRIEVAL_PROVENANCE,
+                "selection_strategy": "coverage_selection",
+                "selection_strategy_version": SELECTION_STRATEGY_VERSION,
+                "development_composition": (
+                    "hybrid_extraction+hybrid_retrieval+coverage_selection"
+                ),
+                "selection_k": case.selection_k,
+                "token_budget": case.context_budget,
+            }
+        )
+        return self._retrieval_strategy
 
     def _make_planner(self, case):
         self._hybrid_planner = HybridMemoryPlanner()
@@ -121,5 +168,9 @@ class ExperienceOSExtractRetrievalV2Adapter(
         if self._hybrid_planner is not None:
             self.diagnostics["extraction_v2"] = (
                 self._hybrid_planner.summary()
+            )
+        if self._coverage_strategy is not None:
+            self.diagnostics["coverage_v2"] = (
+                self._coverage_strategy.summary()
             )
         return evidence

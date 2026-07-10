@@ -500,6 +500,45 @@ METRIC_DEFINITIONS: tuple[MetricDefinition, ...] = (
         "retrievals",
         "Conflict pressure is reported, never silently resolved.",
     ),
+    # --- Phase 9 coverage selection (v2-only observational counters
+    # --- from selection diagnostics; Phase 8 metric formulas above
+    # --- are unchanged) ----------------------------------------------
+    _m(
+        "query_facet_coverage_v2", "coverage_v2",
+        "query facets covered by selected memories",
+        "query facets extracted",
+        "How much of what the query asked for reached the context.",
+    ),
+    _m(
+        "redundant_selection_rate_v2", "coverage_v2",
+        "selected memories carrying a redundancy penalty",
+        "selected memories",
+        "Redundant paraphrases admitted despite the penalty.",
+    ),
+    _m(
+        "positive_utility_selection_rate_v2", "coverage_v2",
+        "selected memories with positive coverage utility",
+        "selected memories",
+        "Selection stops instead of padding; must be complete.",
+    ),
+    _m(
+        "coverage_stop_rate_v2", "coverage_v2",
+        "selections stopped before K for lack of positive utility",
+        "selections",
+        "No zero-value padding: unused K is allowed and counted.",
+    ),
+    _m(
+        "distinct_source_session_rate_v2", "coverage_v2",
+        "distinct source sessions among selected memories",
+        "selected memories",
+        "Source diversity as measured outcome, never a quota.",
+    ),
+    _m(
+        "conflict_warning_selection_rate_v2", "coverage_v2",
+        "selections carrying an unresolved-conflict warning",
+        "selections",
+        "Conflicts stay visible through selection, never concealed.",
+    ),
 )
 
 

@@ -1,0 +1,101 @@
+{
+  "_label": "DEVELOPMENT-ONLY fixtures for Phase 9 coverage selection; never benchmark evidence",
+  "single_facet": [
+    {"memories": [["fact", "Works for Globex.", "s1"],
+                   ["fact", "Globex office is in Austin.", "s1"],
+                   ["preference", "Likes tea.", "s2"]],
+     "query": "What is my employer?", "k": 4,
+     "expect": {"first_selected_contains": "Works for Globex",
+                "selected_excludes": ["tea"],
+                "note": "strongest direct match first; no manufactured diversity"}}
+  ],
+  "two_attribute_query": [
+    {"memories": [["fact", "Phone is a Pixel 9.", "s1"],
+                   ["fact", "Works for Globex.", "s2"],
+                   ["fact", "Current phone is Pixel 9.", "s3"]],
+     "query": "What phone do I use and where do I work?", "k": 2,
+     "expect": {"selected_contains_all": ["Pixel 9", "Globex"],
+                "selected_count": 2,
+                "note": "one phone + one employer; paraphrase penalized out at k=2"}}
+  ],
+  "multi_valued_attribute": [
+    {"memories": [["fact", "Speaks Spanish.", "s1"],
+                   ["fact", "Speaks Portuguese.", "s2"],
+                   ["fact", "Spanish is a language the user speaks.", "s3",
+                    {"subject": "user", "attribute": "speaks_language",
+                     "value": "spanish", "cardinality": "multi"}]],
+     "query": "Which languages do I speak?", "k": 2,
+     "expect": {"selected_contains_all": ["Spanish", "Portuguese"],
+                "selected_count": 2,
+                "note": "duplicate Spanish paraphrase (identity as a hybrid extractor would attach) penalized; Portuguese complements"}}
+  ],
+  "scoped_travel": [
+    {"memories": [["preference", "Prefers aisle seats for short work trips.", "s1"],
+                   ["preference", "Prefers window seats for long international trips.", "s2"],
+                   ["preference", "Prefers morning flights.", "s3"],
+                   ["preference", "Prefers quiet hotels.", "s4"]],
+     "query": "Plan my long international trip with flights and a hotel.", "k": 3,
+     "expect": {"first_selected_contains": "window",
+                "selected_contains_all": ["window"],
+                "selected_excludes_first": "aisle",
+                "note": "short-trip aisle preference gets no false diversity bonus"}}
+  ],
+  "instruction_preservation": [
+    {"memories": [["instruction", "Use Celsius for weather reports.", "s1"],
+                   ["fact", "Lives in Seattle.", "s2"],
+                   ["preference", "Likes hiking.", "s3"]],
+     "query": "Give me tomorrow's weather forecast.", "k": 2,
+     "expect": {"selected_contains": "Celsius",
+                "selected_excludes": ["hiking"]}}
+  ],
+  "multi_session_evidence": [
+    {"memories": [["fact", "Works for Globex.", "s1"],
+                   ["fact", "Globex team uses Python.", "s2"]],
+     "query": "Tell me about my employer and my team's tools.", "k": 2,
+     "expect": {"selected_count": 2,
+                "note": "diversity helps only because both add relevant evidence"}}
+  ],
+  "same_session_complementary": [
+    {"memories": [["fact", "Works for Globex.", "s1"],
+                   ["fact", "Globex office is in Austin.", "s1"]],
+     "query": "Where do I work and where is the office?", "k": 2,
+     "expect": {"selected_count": 2,
+                "note": "no hard source-session quota"}}
+  ],
+  "redundant_same_facet": [
+    {"memories": [["preference", "Prefers aisle seats.", "s1"],
+                   ["preference", "Aisle seats are preferred.", "s2"],
+                   ["preference", "Prefers an aisle seat when flying.", "s3"]],
+     "query": "Which seat should I book?", "k": 2,
+     "expect": {"selected_count_max": 2,
+                "redundant_penalized": true,
+                "note": "one strong representative; repetitions penalized"}}
+  ],
+  "unresolved_conflict": [
+    {"memories": [["fact", "Works for Globex.", "s1"],
+                   ["fact", "Works for Initech.", "s2"]],
+     "query": "What is my employer?", "k": 2,
+     "expect": {"conflict_warning": true,
+                "note": "conflict recorded; not treated as useful diversity"}}
+  ],
+  "zero_relevance": [
+    {"memories": [["fact", "Works for Globex.", "s1"],
+                   ["preference", "Likes tea.", "s2"]],
+     "query": "What's the capital of France?", "k": 4,
+     "expect": {"selected_count": 0, "note": "select none; do not pad K"}}
+  ],
+  "budget_pressure": [
+    {"memories": [["fact", "Works for Globex.", "s1"],
+                   ["fact", "Globex office is in Austin near the river campus with visitor parking on level two.", "s2"],
+                   ["fact", "Globex badge is 42.", "s3"]],
+     "query": "Tell me about Globex.", "k": 3, "token_budget": 18,
+     "expect": {"budget_compliant": true, "deterministic": true}}
+  ],
+  "stable_ties": [
+    {"memories": [["fact", "Speaks Spanish.", "s1"],
+                   ["fact", "Speaks French.", "s2"],
+                   ["fact", "Speaks Portuguese.", "s3"]],
+     "query": "Which languages do I speak?", "k": 2,
+     "expect": {"deterministic": true}}
+  ]
+}

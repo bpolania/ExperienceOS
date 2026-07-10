@@ -36,6 +36,7 @@ class SystemId:
     EXPERIENCEOS_HYBRID_EXTRACT_V2 = "experienceos_hybrid_extract_v2"
     EXPERIENCEOS_HYBRID_RETRIEVAL_V2 = "experienceos_hybrid_retrieval_v2"
     EXPERIENCEOS_EXTRACT_RETRIEVAL_V2 = "experienceos_extract_retrieval_v2"
+    EXPERIENCEOS_COVERAGE_V2 = "experienceos_coverage_v2"
 
 
 KNOWN_SYSTEM_IDS = frozenset(

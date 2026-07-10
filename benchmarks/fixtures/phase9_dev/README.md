@@ -19,3 +19,8 @@ Subdirectories:
   filtering, budget pressure, stable ties). Development-only; not part
   of the frozen evaluation; never affects final denominators; must not
   be cited as final benchmark evidence.
+- `coverage_selection/` — Prompt 5 coverage-aware selection classes
+  (multi-attribute queries, multi-valued complements, redundancy,
+  source diversity, conflicts, budget pressure). Development-only; not
+  part of the frozen evaluation; never affects final denominators;
+  must not be cited as final benchmark evidence.

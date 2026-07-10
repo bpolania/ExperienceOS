@@ -18,6 +18,7 @@ from benchmarks.evaluators.lifecycle import (
 )
 from benchmarks.evaluators.local_policy import local_policy_contributions
 from benchmarks.evaluators.extraction import extraction_contributions
+from benchmarks.evaluators.coverage_v2 import coverage_v2_contributions
 from benchmarks.evaluators.retrieval_v2 import retrieval_v2_contributions
 from benchmarks.evaluators.records import CaseEvaluation, CaseOutcome
 from benchmarks.evaluators.resolve import entries_of, resolve_ref
@@ -118,6 +119,9 @@ def evaluate_case(case, result) -> CaseEvaluation:
         evaluation.contributions.extend(
             retrieval_v2_contributions(case, result)
         )
+        evaluation.contributions.extend(
+            coverage_v2_contributions(case, result)
+        )
     except Exception as exc:  # noqa: BLE001 — evaluator failure is evidence
         evaluation.outcome = CaseOutcome.FAILED
         evaluation.failures.append(
@@ -194,6 +198,12 @@ _NEUTRAL_METRICS = frozenset(
         "retrieval_k_compliance_v2",
         "retrieval_budget_compliance_v2",
         "unresolved_conflict_selection_rate_v2",
+        "query_facet_coverage_v2",
+        "redundant_selection_rate_v2",
+        "positive_utility_selection_rate_v2",
+        "coverage_stop_rate_v2",
+        "distinct_source_session_rate_v2",
+        "conflict_warning_selection_rate_v2",
         "memory_token_share",
         "relevant_token_share",
         "compression_ratio",

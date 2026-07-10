@@ -185,6 +185,13 @@ ALIAS_CLASSES = tuple(
     for klass in _RAW_ALIAS_CLASSES
 )
 
+# Canonical name per alias class (its first declared member), so
+# downstream facet extraction can name the concept a query touches.
+ALIAS_CANONICAL = {
+    tokens: _normalize_token(raw[0].casefold())
+    for raw, tokens in zip(_RAW_ALIAS_CLASSES, ALIAS_CLASSES)
+}
+
 
 def expand_query_tokens(tokens: set[str]) -> set[str]:
     """Query tokens plus their alias classes (query side only)."""
@@ -282,6 +289,7 @@ class RetrievalResult:
     strategy: str = "hybrid_retrieval"
     strategy_version: str = RETRIEVAL_STRATEGY_VERSION
     warnings: tuple = ()
+    coverage: dict = field(default_factory=dict)  # Prompt 5 evidence
 
 
 class RetrievalStrategy(Protocol):
@@ -336,11 +344,16 @@ class HybridRetrievalStrategy:
         self,
         weights: dict | None = None,
         candidate_limit: int | None = None,
+        selection_strategy=None,
     ):
         self.weights = dict(weights or SCORING_WEIGHTS)
         # Candidate limit bounds scored candidates when populations are
         # large; it is always >= K at selection time and never padded.
         self.candidate_limit = candidate_limit
+        # Optional Phase 9 Prompt 5 seam: when None (the default and
+        # every Prompt 4 configuration), final selection below is the
+        # unchanged deterministic top-K loop.
+        self.selection_strategy = selection_strategy
         self.counters = {
             "retrievals": 0,
             "active_memories": 0,
@@ -462,26 +475,32 @@ class HybridRetrievalStrategy:
                 result.candidates.append(candidate)
             scored = scored[:limit]
 
-        # 5. Top-K selection with optional token-budget enforcement.
+        # 5. Final selection with optional token-budget enforcement.
         # K never grows; zero-relevance records never pad the context.
         budget = request.token_budget
-        used_tokens = 0
         for index, candidate in enumerate(scored, start=1):
             candidate.rank = index
-            if len(result.selected) >= request.k:
-                candidate.exclusion_reason = "not_top_k"
-                result.skipped_not_top_k += 1
-            elif (
-                budget is not None
-                and used_tokens + candidate.token_estimate > budget
-            ):
-                candidate.exclusion_reason = "token_budget"
-                result.skipped_token_budget += 1
-            else:
-                candidate.selected = True
-                used_tokens += candidate.token_estimate
-                result.selected.append(candidate.memory)
-            result.candidates.append(candidate)
+        if self.selection_strategy is not None:
+            used_tokens = self._coverage_selection(
+                request, query, scored, result
+            )
+        else:
+            used_tokens = 0
+            for candidate in scored:
+                if len(result.selected) >= request.k:
+                    candidate.exclusion_reason = "not_top_k"
+                    result.skipped_not_top_k += 1
+                elif (
+                    budget is not None
+                    and used_tokens + candidate.token_estimate > budget
+                ):
+                    candidate.exclusion_reason = "token_budget"
+                    result.skipped_token_budget += 1
+                else:
+                    candidate.selected = True
+                    used_tokens += candidate.token_estimate
+                    result.selected.append(candidate.memory)
+                result.candidates.append(candidate)
 
         result.context_token_estimate = used_tokens
         result.k_compliant = len(result.selected) <= request.k
@@ -493,6 +512,67 @@ class HybridRetrievalStrategy:
 
         self._count(result)
         return result
+
+    def _coverage_selection(self, request, query, scored, result) -> int:
+        """Delegate final selection to the configured Prompt 5 strategy.
+
+        The strategy receives the full positive-relevance active pool
+        (Prompt 4 ranks preserved) and returns a bounded subset in
+        final context order plus per-candidate skip reasons. Retrieval
+        component scores stay untouched; coverage evidence rides
+        ``result.coverage`` keyed by memory ID.
+        """
+        from experienceos.context.selection import SelectionRequest
+
+        selection = self.selection_strategy.select(
+            SelectionRequest(
+                query=query,
+                candidates=tuple(scored),
+                k=request.k,
+                token_budget=request.token_budget,
+                session_id=request.session_id,
+            )
+        )
+        selected_ids = {c.memory.id for c in selection.selected}
+        used_tokens = selection.selected_token_estimate
+        for candidate in selection.selected:  # final context order
+            candidate.selected = True
+            result.selected.append(candidate.memory)
+        for candidate in scored:
+            if candidate.memory.id not in selected_ids:
+                reason = selection.skipped.get(
+                    candidate.memory.id, "not_selected_by_coverage"
+                )
+                candidate.exclusion_reason = reason
+                if reason == "not_top_k":
+                    result.skipped_not_top_k += 1
+                elif reason == "token_budget":
+                    result.skipped_token_budget += 1
+            result.candidates.append(candidate)
+        result.coverage = {
+            "strategy": selection.strategy,
+            "strategy_version": selection.strategy_version,
+            "weights_version": selection.weights_version,
+            "query_facets": len(selection.query_facets),
+            "covered_facets": len(selection.covered_facets),
+            "stopped_reason": selection.stopped_reason,
+            "conflict_warnings": selection.conflict_groups,
+            "steps": [
+                {
+                    "memory_id": s.memory_id,
+                    "step": s.step,
+                    "retrieval_rank": s.retrieval_rank,
+                    "utility": s.utility,
+                    "new_facets": list(s.new_facets),
+                    "redundancy_penalty": s.redundancy_penalty,
+                    "source_diversity_gain": s.source_diversity_gain,
+                    "conflict_warning": s.conflict_warning,
+                    "reason": s.reason,
+                }
+                for s in selection.steps
+            ],
+        }
+        return used_tokens
 
     # -- scoring ------------------------------------------------------------------
 

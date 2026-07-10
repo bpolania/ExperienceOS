@@ -394,6 +394,7 @@ def _run_experienceos_v2(
     *,
     hybrid_extraction: bool,
     hybrid_retrieval: bool,
+    coverage_selection: bool = False,
 ) -> ExternalCaseRun:
     """Shared Phase 9 v2 execution: identical ingestion (user turns
     only, production ``chat`` path), identical K and memory budget,
@@ -403,6 +404,7 @@ def _run_experienceos_v2(
     from experienceos.context.builder import ContextBuilder
     from experienceos.context.compression import ExperienceCompressor
     from experienceos.context.retrieval import HybridRetrievalStrategy
+    from experienceos.context.selection import CoverageSelectionStrategy
     from experienceos.memory.hybrid_planner import HybridMemoryPlanner
     from experienceos.providers import MockProvider
 
@@ -410,7 +412,12 @@ def _run_experienceos_v2(
     run.sessions = len(case.sessions)
     run.history_turns = sum(len(s.turns) for s in case.sessions)
     planner = HybridMemoryPlanner() if hybrid_extraction else None
-    strategy = HybridRetrievalStrategy() if hybrid_retrieval else None
+    selector = CoverageSelectionStrategy() if coverage_selection else None
+    strategy = (
+        HybridRetrievalStrategy(selection_strategy=selector)
+        if hybrid_retrieval
+        else None
+    )
     kwargs = {"memory_planner": planner} if planner is not None else {}
     agent = ExperienceOS(
         model=MockProvider(),
@@ -479,7 +486,10 @@ def _run_experienceos_v2(
             "hybrid_retrieval" if hybrid_retrieval else
             "phase8_v1_unchanged"
         ),
-        "selection_strategy": "deterministic_top_k",
+        "selection_strategy": (
+            "coverage_selection" if coverage_selection else
+            "deterministic_top_k"
+        ),
         "selection_k": SELECTION_K,
         "memory_budget": MEMORY_BUDGET,
         **(
@@ -491,6 +501,11 @@ def _run_experienceos_v2(
             {f"retrieval_{k}": v for k, v in strategy.summary().items()
              if isinstance(v, (int, float))}
             if strategy is not None else {}
+        ),
+        **(
+            {f"coverage_{k}": v for k, v in selector.summary().items()
+             if isinstance(v, (int, float))}
+            if selector is not None else {}
         ),
     }
     context = [*context_contents, _question_text(case)]
@@ -517,6 +532,27 @@ def run_experienceos_extract_retrieval_v2(case: ExternalCase):
     )
 
 
+def run_experienceos_coverage_v2(case: ExternalCase):
+    return _run_experienceos_v2(
+        case,
+        "experienceos_coverage_v2",
+        hybrid_extraction=False,
+        hybrid_retrieval=True,
+        coverage_selection=True,
+    )
+
+
+def run_dev_extract_retrieval_coverage(case: ExternalCase):
+    """DEVELOPMENT-ONLY composition; never a contract system ID."""
+    return _run_experienceos_v2(
+        case,
+        "dev_extract_retrieval_coverage",
+        hybrid_extraction=True,
+        hybrid_retrieval=True,
+        coverage_selection=True,
+    )
+
+
 _RUNNERS = {
     "full_history": run_full_history,
     "naive_top_k": run_naive_top_k,
@@ -527,6 +563,8 @@ _RUNNERS = {
     "experienceos_hybrid_extract_v2": run_experienceos_hybrid_extract_v2,
     "experienceos_hybrid_retrieval_v2": run_experienceos_hybrid_retrieval_v2,
     "experienceos_extract_retrieval_v2": run_experienceos_extract_retrieval_v2,
+    "experienceos_coverage_v2": run_experienceos_coverage_v2,
+    "dev_extract_retrieval_coverage": run_dev_extract_retrieval_coverage,
 }
 
 
