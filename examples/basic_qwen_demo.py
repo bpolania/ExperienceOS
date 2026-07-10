@@ -10,10 +10,9 @@ from demo.env import load_local_env
 from experienceos import ExperienceOS
 from experienceos.providers import MockProvider
 
-load_local_env()  # optional .env so the Qwen swap works out of the box
-
 
 def main() -> None:
+    load_local_env()  # optional .env so the Qwen swap works out of the box
     agent = ExperienceOS(model=MockProvider())
 
     response = agent.chat(

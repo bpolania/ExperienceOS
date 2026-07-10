@@ -301,9 +301,12 @@ def test_core_modules_have_no_qwen_coupling():
         assert not forbidden.search(path.read_text()), f"Qwen coupling in {path}"
 
 
-def test_live_demo_unconfigured_exits_cleanly(clean_env, capsys):
+def test_live_demo_unconfigured_exits_cleanly(clean_env, capsys, tmp_path, monkeypatch):
     from examples.qwen_live_demo import configuration_lines, main
 
+    # Run from an empty directory so a developer's local .env (real
+    # credentials) can never configure the provider inside the suite.
+    monkeypatch.chdir(tmp_path)
     assert main() == 1
     out = capsys.readouterr().out
     assert "API key: missing" in out

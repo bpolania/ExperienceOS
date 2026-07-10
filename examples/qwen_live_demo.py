@@ -23,8 +23,6 @@ from demo.env import load_local_env
 from experienceos import ExperienceOS
 from experienceos.providers import QwenCloudProvider
 
-load_local_env()
-
 SETUP_INSTRUCTIONS = """\
 Set QWEN_API_KEY (or DASHSCOPE_API_KEY), and QWEN_BASE_URL if your
 Model Studio workspace requires a regional endpoint. For an offline
@@ -43,6 +41,9 @@ def configuration_lines(provider: QwenCloudProvider) -> list[str]:
 
 
 def main() -> int:
+    # Loaded inside main() so importing this module (e.g. from tests)
+    # never pulls local credentials into the process environment.
+    load_local_env()
     provider = QwenCloudProvider()
     print("Qwen Cloud configuration:")
     for line in configuration_lines(provider):
