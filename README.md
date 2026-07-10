@@ -282,6 +282,26 @@ instructions (intentional exit code 1 — not a crash). Live Qwen
 credentials are never required for tests, the offline examples, or the
 default dashboard; MockProvider is the credential-free path.
 
+## Local model runner (optional)
+
+ExperienceOS includes an optional CPU-only local inference seam
+(`LocalModelRunner`), with llama.cpp as the first concrete runtime. It
+is absent from the default install, loads lazily, never downloads
+model weights, and requires no GPU. The intended candidate model class
+is a small Qwen2.5 Instruct GGUF (0.5B or 1.5B); point it at any local
+GGUF file explicitly:
+
+```bash
+pip install -e ".[local]"
+export EXPERIENCEOS_LOCAL_MODEL_PATH=/path/to/model.gguf
+
+PYTHONPATH=. python examples/local_runner_smoke.py
+```
+
+Without the dependency or model path, the smoke check skips cleanly
+(exit 0). The runner is an inference adapter only — it is not yet
+connected to memory decisions, which remain fully rule-based.
+
 ## Development
 
 ```bash

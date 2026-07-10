@@ -244,9 +244,13 @@ def test_rule_based_policy_parity_with_planner(message, existing):
 
 
 def test_policy_modules_import_no_local_runtime():
+    """Optional runtime references live only in local_runner.py
+    (whose own lazy-import rules are guarded in test_local_runner)."""
     from pathlib import Path
 
     for path in Path("experienceos/policy").glob("*.py"):
+        if path.name == "local_runner.py":
+            continue
         text = path.read_text()
         for forbidden in ("llama_cpp", "transformers", "torch", "onnxruntime"):
             assert forbidden not in text, f"{forbidden} in {path}"
