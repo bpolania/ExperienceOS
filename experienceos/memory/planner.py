@@ -296,6 +296,7 @@ class MemoryAction:
     replaces: str | None = None  # for creates that replace an old memory
     reason: str | None = None
     request: str | None = None  # the user phrase that triggered a forget
+    metadata: dict | None = None  # extra entry metadata (e.g. semantic identity)
 
 
 class MemoryPlanner:

@@ -104,10 +104,11 @@ def test_factory_resolves_all_six_systems():
         SystemId.EXPERIENCEOS_LOCAL,
     ):
         assert create_system(system_id).system_id == system_id
-    assert set(ADAPTER_SYSTEM_IDS) == {
+    assert {
         SystemId.EXPERIENCEOS_RULES,
         SystemId.EXPERIENCEOS_LOCAL,
-    }
+    } <= set(ADAPTER_SYSTEM_IDS)  # v1 adapters always present; Phase 9
+    # adds v2 adapter IDs additively (e.g. experienceos_slots_v2).
 
 
 def test_factory_rejects_invalid_configuration():

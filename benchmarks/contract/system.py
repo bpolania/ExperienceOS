@@ -31,6 +31,8 @@ class SystemId:
     NAIVE_TOP_K = "naive_top_k"
     EXPERIENCEOS_RULES = "experienceos_rules"
     EXPERIENCEOS_LOCAL = "experienceos_local"
+    # Phase 9 v2 systems (ablations; v1 IDs above stay frozen).
+    EXPERIENCEOS_SLOTS_V2 = "experienceos_slots_v2"
 
 
 KNOWN_SYSTEM_IDS = frozenset(

@@ -40,6 +40,11 @@ class RuleBasedMemoryPolicy:
         ``request`` through the whitelisted metadata key, so converting
         back yields a field-for-field identical MemoryAction.
         """
+        metadata = {}
+        if action.request:
+            metadata["request"] = action.request
+        if action.metadata:
+            metadata["entry_metadata"] = action.metadata
         return MemoryDecisionProposal(
             action=action.action,
             kind=action.kind,
@@ -49,5 +54,5 @@ class RuleBasedMemoryPolicy:
             confidence=1.0,
             explanation=action.reason or "",
             decision_source=DecisionSource.RULE_BASED,
-            metadata={"request": action.request} if action.request else {},
+            metadata=metadata,
         )

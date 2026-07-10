@@ -229,6 +229,8 @@ class ExperienceEngine:
             if tags:
                 entry.metadata["tags"] = tags
                 entry.metadata["domain"] = domain_for(tags)
+            if action.metadata:
+                entry.metadata.update(action.metadata)
             if action.replaces:
                 entry.metadata["replaces"] = action.replaces
                 if action.reason:

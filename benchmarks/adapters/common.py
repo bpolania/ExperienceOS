@@ -96,6 +96,11 @@ class ExperienceOSAdapterBase:
         rule-based)."""
         return None
 
+    def _make_planner(self, case: BenchmarkCase):
+        """Return a memory planner to inject (None = SDK default).
+        Mutually exclusive with _make_policy by SDK contract."""
+        return None
+
     # -- BenchmarkSystem -------------------------------------------------------
 
     def initialize(self, case: BenchmarkCase) -> None:
@@ -109,7 +114,12 @@ class ExperienceOSAdapterBase:
             memory_budget=budget, compressor=ExperienceCompressor()
         )
         policy = self._make_policy(case)
-        kwargs = {"memory_policy": policy} if policy is not None else {}
+        planner = self._make_planner(case)
+        kwargs = {}
+        if policy is not None:
+            kwargs["memory_policy"] = policy
+        elif planner is not None:
+            kwargs["memory_planner"] = planner
         self.agent = ExperienceOS(
             model=self.provider, context_builder=builder, **kwargs
         )

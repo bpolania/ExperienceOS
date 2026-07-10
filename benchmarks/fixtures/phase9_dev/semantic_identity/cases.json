@@ -1,0 +1,38 @@
+{
+  "_label": "DEVELOPMENT-ONLY fixtures for Phase 9 semantic identity; never benchmark evidence",
+  "direct_update": [
+    {"messages": ["My phone is a Pixel 6.", "I upgraded — my phone is a Pixel 9 now."],
+     "expect": {"active_contains": ["Pixel 9"], "superseded_contains": ["Pixel 6"]}},
+    {"messages": ["I live in San Jose.", "I live in Seattle now."],
+     "expect": {"active_contains": ["Seattle"], "superseded_contains": ["San Jose"]}}
+  ],
+  "paraphrased_update": [
+    {"messages": ["I use a Pixel 6.", "I upgraded and my phone is now a Pixel 9."],
+     "note": "first statement is a Prompt 3 extraction gap for the rule planner; tested at identity level with directly constructed entries"}
+  ],
+  "scoped_coexistence": [
+    {"messages": ["I prefer aisle seats for short work trips.", "For long international trips, I prefer window seats."],
+     "expect": {"active_count_contains": ["aisle", "window"], "superseded": []}}
+  ],
+  "different_attributes": [
+    {"messages": ["I prefer aisle seats for work trips.", "I prefer morning flights."],
+     "expect": {"active_count": 2, "superseded": []}}
+  ],
+  "multi_valued": [
+    {"entries": [["fact", "Speaks English."], ["fact", "Speaks Spanish."]],
+     "expect": {"coexist": true}}
+  ],
+  "duplicate_paraphrase": [
+    {"messages": ["My phone is a Pixel 9.", "My current phone is Pixel 9."],
+     "expect": {"active_count": 1, "superseded": []}}
+  ],
+  "ambiguous": [
+    {"messages": ["I prefer aisle seats for work trips.", "I prefer window seats for long international trips."],
+     "expect": {"no_destructive_supersession": true, "note": "distinct explicit scopes coexist"}}
+  ],
+  "historical_wording": [
+    {"entries": [["fact", "Phone is a Pixel 9."]],
+     "historical_entry": ["fact", "Used a Pixel 6 back in 2024."],
+     "expect": {"historical_never_supersedes_or_conflicts": true}}
+  ]
+}

@@ -262,4 +262,5 @@ class ExperienceManager:
             replaces=proposal.replaces,
             reason=proposal.explanation or None,
             request=proposal.metadata.get("request"),
+            metadata=proposal.metadata.get("entry_metadata"),
         )
