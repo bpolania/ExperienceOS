@@ -1,0 +1,246 @@
+{
+  "artifact_schema_version": "1",
+  "composite_score": null,
+  "display_label": "LongMemEval 50-case stratified subset",
+  "metrics": {
+    "experienceos_rules": {
+      "abstention_match_proxy": {
+        "denominator": 0.0,
+        "denominator_definition": "evaluated abstention cases",
+        "numerator": 0.0,
+        "numerator_definition": "abstention cases with an abstaining response",
+        "proxy": true,
+        "sample_count": 0,
+        "undefined_count": 10,
+        "value": null
+      },
+      "answer_context_presence_rate": {
+        "denominator": 42.0,
+        "denominator_definition": "cases with answer sessions",
+        "numerator": 0.0,
+        "numerator_definition": "cases where answer-bearing content entered supplied context",
+        "proxy": false,
+        "sample_count": 42,
+        "undefined_count": 0,
+        "value": 0.0
+      },
+      "answer_entity_match_proxy": {
+        "denominator": 40.0,
+        "denominator_definition": "evaluated non-abstention cases",
+        "numerator": 8.0,
+        "numerator_definition": "responses containing the normalized official answer",
+        "proxy": true,
+        "sample_count": 40,
+        "undefined_count": 0,
+        "value": 0.2
+      },
+      "answer_session_candidate_rate": {
+        "denominator": 50.0,
+        "denominator_definition": "cases with answer sessions and structured retrieval",
+        "numerator": 28.0,
+        "numerator_definition": "cases where an answer-bearing unit appeared among candidates",
+        "proxy": false,
+        "sample_count": 50,
+        "undefined_count": 0,
+        "value": 0.56
+      },
+      "answer_session_mrr": {
+        "denominator": 50.0,
+        "denominator_definition": "cases with answer sessions and structured retrieval",
+        "numerator": 9.283151570651567,
+        "numerator_definition": "sum of 1/rank of the best-ranked answer-bearing unit",
+        "proxy": false,
+        "sample_count": 50,
+        "undefined_count": 0,
+        "value": 0.18566303141303134
+      },
+      "answer_session_selection_rate": {
+        "denominator": 50.0,
+        "denominator_definition": "cases with answer sessions and structured retrieval",
+        "numerator": 14.0,
+        "numerator_definition": "cases where an answer-bearing unit was selected into context",
+        "proxy": false,
+        "sample_count": 50,
+        "undefined_count": 0,
+        "value": 0.28
+      },
+      "external_token_reduction_vs_full_history": {
+        "denominator": 6308650.0,
+        "denominator_definition": "full-history context tokens",
+        "numerator": 6298322.0,
+        "numerator_definition": "full-history context tokens minus system context tokens",
+        "proxy": false,
+        "sample_count": 50,
+        "undefined_count": 0,
+        "value": 0.9983628827086619
+      },
+      "normalized_exact_match_proxy": {
+        "denominator": 40.0,
+        "denominator_definition": "evaluated non-abstention cases",
+        "numerator": 0.0,
+        "numerator_definition": "responses exactly matching the normalized official answer",
+        "proxy": true,
+        "sample_count": 40,
+        "undefined_count": 0,
+        "value": 0.0
+      }
+    },
+    "full_history": {
+      "abstention_match_proxy": {
+        "denominator": 0.0,
+        "denominator_definition": "evaluated abstention cases",
+        "numerator": 0.0,
+        "numerator_definition": "abstention cases with an abstaining response",
+        "proxy": true,
+        "sample_count": 0,
+        "undefined_count": 10,
+        "value": null
+      },
+      "answer_context_presence_rate": {
+        "denominator": 42.0,
+        "denominator_definition": "cases with answer sessions",
+        "numerator": 42.0,
+        "numerator_definition": "cases where answer-bearing content entered supplied context",
+        "proxy": false,
+        "sample_count": 42,
+        "undefined_count": 0,
+        "value": 1.0
+      },
+      "answer_entity_match_proxy": {
+        "denominator": 40.0,
+        "denominator_definition": "evaluated non-abstention cases",
+        "numerator": 7.0,
+        "numerator_definition": "responses containing the normalized official answer",
+        "proxy": true,
+        "sample_count": 40,
+        "undefined_count": 0,
+        "value": 0.175
+      },
+      "answer_session_candidate_rate": {
+        "denominator": 0.0,
+        "denominator_definition": "cases with answer sessions and structured retrieval",
+        "numerator": 0.0,
+        "numerator_definition": "cases where an answer-bearing unit appeared among candidates",
+        "proxy": false,
+        "sample_count": 0,
+        "undefined_count": 50,
+        "value": null
+      },
+      "answer_session_mrr": {
+        "denominator": 0.0,
+        "denominator_definition": "cases with answer sessions and structured retrieval",
+        "numerator": 0.0,
+        "numerator_definition": "sum of 1/rank of the best-ranked answer-bearing unit",
+        "proxy": false,
+        "sample_count": 0,
+        "undefined_count": 50,
+        "value": null
+      },
+      "answer_session_selection_rate": {
+        "denominator": 0.0,
+        "denominator_definition": "cases with answer sessions and structured retrieval",
+        "numerator": 0.0,
+        "numerator_definition": "cases where an answer-bearing unit was selected into context",
+        "proxy": false,
+        "sample_count": 0,
+        "undefined_count": 50,
+        "value": null
+      },
+      "normalized_exact_match_proxy": {
+        "denominator": 40.0,
+        "denominator_definition": "evaluated non-abstention cases",
+        "numerator": 0.0,
+        "numerator_definition": "responses exactly matching the normalized official answer",
+        "proxy": true,
+        "sample_count": 40,
+        "undefined_count": 0,
+        "value": 0.0
+      }
+    },
+    "naive_top_k": {
+      "abstention_match_proxy": {
+        "denominator": 0.0,
+        "denominator_definition": "evaluated abstention cases",
+        "numerator": 0.0,
+        "numerator_definition": "abstention cases with an abstaining response",
+        "proxy": true,
+        "sample_count": 0,
+        "undefined_count": 10,
+        "value": null
+      },
+      "answer_context_presence_rate": {
+        "denominator": 42.0,
+        "denominator_definition": "cases with answer sessions",
+        "numerator": 24.0,
+        "numerator_definition": "cases where answer-bearing content entered supplied context",
+        "proxy": false,
+        "sample_count": 42,
+        "undefined_count": 0,
+        "value": 0.5714285714285714
+      },
+      "answer_entity_match_proxy": {
+        "denominator": 40.0,
+        "denominator_definition": "evaluated non-abstention cases",
+        "numerator": 5.0,
+        "numerator_definition": "responses containing the normalized official answer",
+        "proxy": true,
+        "sample_count": 40,
+        "undefined_count": 0,
+        "value": 0.125
+      },
+      "answer_session_candidate_rate": {
+        "denominator": 50.0,
+        "denominator_definition": "cases with answer sessions and structured retrieval",
+        "numerator": 50.0,
+        "numerator_definition": "cases where an answer-bearing unit appeared among candidates",
+        "proxy": false,
+        "sample_count": 50,
+        "undefined_count": 0,
+        "value": 1.0
+      },
+      "answer_session_mrr": {
+        "denominator": 50.0,
+        "denominator_definition": "cases with answer sessions and structured retrieval",
+        "numerator": 32.87946170484466,
+        "numerator_definition": "sum of 1/rank of the best-ranked answer-bearing unit",
+        "proxy": false,
+        "sample_count": 50,
+        "undefined_count": 0,
+        "value": 0.6575892340968932
+      },
+      "answer_session_selection_rate": {
+        "denominator": 50.0,
+        "denominator_definition": "cases with answer sessions and structured retrieval",
+        "numerator": 42.0,
+        "numerator_definition": "cases where an answer-bearing unit was selected into context",
+        "proxy": false,
+        "sample_count": 50,
+        "undefined_count": 0,
+        "value": 0.84
+      },
+      "external_token_reduction_vs_full_history": {
+        "denominator": 6308650.0,
+        "denominator_definition": "full-history context tokens",
+        "numerator": 6178440.0,
+        "numerator_definition": "full-history context tokens minus system context tokens",
+        "proxy": false,
+        "sample_count": 50,
+        "undefined_count": 0,
+        "value": 0.9793600849627099
+      },
+      "normalized_exact_match_proxy": {
+        "denominator": 40.0,
+        "denominator_definition": "evaluated non-abstention cases",
+        "numerator": 0.0,
+        "numerator_definition": "responses exactly matching the normalized official answer",
+        "proxy": true,
+        "sample_count": 40,
+        "undefined_count": 0,
+        "value": 0.0
+      }
+    }
+  },
+  "mode": "structural-offline",
+  "official_evaluation": false,
+  "synthetic_data": false
+}
