@@ -30,6 +30,7 @@ run "$PYTHON" examples/memory_demo.py
 run "$PYTHON" examples/update_demo.py
 run "$PYTHON" examples/persistence_demo.py
 run "$PYTHON" examples/full_lifecycle_demo.py
+run "$PYTHON" examples/memory_value_comparison.py
 run "$PYTHON" examples/local_runner_smoke.py
 
 echo

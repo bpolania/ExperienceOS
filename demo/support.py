@@ -10,6 +10,7 @@ from demo.demo_config import DEMO_USER_ID
 from experienceos import ExperienceOS
 from experienceos.context import ContextBuilder, ExperienceCompressor
 from experienceos.context.builder import MEMORY_HEADER
+from experienceos.policy import LlamaCppLocalModelRunner, LocalModelMemoryPolicy
 from experienceos.events.schema import EventType, ExperienceEvent
 from experienceos.memory import InMemoryMemoryStore, SQLiteMemoryStore
 from experienceos.providers import MockProvider, ModelProvider, QwenCloudProvider
@@ -61,13 +62,18 @@ def storage_status(store) -> tuple[str, str]:
     return "In-memory", "none"
 
 
-def create_agent(provider: ModelProvider, memory_store=None) -> ExperienceOS:
+def create_agent(
+    provider: ModelProvider, memory_store=None, memory_policy=None
+) -> ExperienceOS:
     """Agent with fresh event history; memory store optional (in-memory default).
 
     The demo path enables experience compression so the dashboard can
     show related memories collapsing into compact context. SDK defaults
-    remain uncompressed.
+    remain uncompressed. ``memory_policy=None`` keeps the deterministic
+    rule-based default; a local policy automatically gets the rule-based
+    fallback from the SDK.
     """
+    kwargs = {"memory_policy": memory_policy} if memory_policy is not None else {}
     return ExperienceOS(
         model=provider,
         memory_store=memory_store or InMemoryMemoryStore(),
@@ -75,6 +81,7 @@ def create_agent(provider: ModelProvider, memory_store=None) -> ExperienceOS:
             memory_budget=DEMO_MEMORY_BUDGET,
             compressor=ExperienceCompressor(),
         ),
+        **kwargs,
     )
 
 
@@ -275,6 +282,136 @@ def compression_totals(summaries: list[dict]) -> dict:
         "original_chars": sum(s.get("original_chars", 0) for s in summaries),
         "compressed_chars": sum(s.get("compressed_chars", 0) for s in summaries),
         "saved_chars": sum(s.get("saved_chars", 0) for s in summaries),
+    }
+
+
+POLICY_RULE_BASED = "Rule-based (deterministic)"
+POLICY_LOCAL_MODEL = "Local model (optional)"
+POLICY_CHOICES = [POLICY_RULE_BASED, POLICY_LOCAL_MODEL]
+
+
+def make_memory_policy(choice: str = POLICY_RULE_BASED):
+    """Build the selected memory policy; None means the SDK default.
+
+    The local choice never loads a model — availability stays a shallow
+    check, and an unavailable runtime simply means every decision falls
+    back to the deterministic rules.
+    """
+    if choice == POLICY_LOCAL_MODEL:
+        return LocalModelMemoryPolicy(LlamaCppLocalModelRunner())
+    return None
+
+
+def policy_provenance(events: list[ExperienceEvent]) -> dict | None:
+    """Bounded provenance from the last planning event; None before any.
+
+    Tolerates older or partial payloads: every field falls back to the
+    rule-based defaults so pre-provenance events still render safely.
+    """
+    for event in reversed(events):
+        if event.type != EventType.MEMORY_ACTION_PLANNED:
+            continue
+        payload = event.payload or {}
+        policy = payload.get("policy") or {}
+        mode = policy.get("mode", "rule_based")
+        return {
+            "mode": mode,
+            "decision_source": policy.get("decision_source", mode),
+            "fallback_used": bool(policy.get("fallback_used", False)),
+            "fallback_reason": policy.get("fallback_reason"),
+            "planned": list(payload.get("planned_actions") or []),
+            "rejected": list(payload.get("rejected_actions") or []),
+        }
+    return None
+
+
+def memory_intelligence_summary(provenance: dict | None) -> str:
+    """One judge-readable line describing the last memory decision."""
+    if provenance is None:
+        return "No memory decisions yet."
+    rejected = len(provenance["rejected"])
+    rejected_note = (
+        f" {rejected} proposal(s) rejected by lifecycle validation "
+        f"(target not active) — no fallback."
+        if rejected
+        else ""
+    )
+    if provenance["fallback_used"]:
+        return (
+            f"Local decision rejected — rule-based fallback used "
+            f"({provenance['fallback_reason']}).{rejected_note}"
+        )
+    if provenance["mode"] == "local_model":
+        if provenance["planned"]:
+            return f"Local model decisions accepted.{rejected_note}"
+        if rejected:
+            return rejected_note.strip()
+        return "No memory action proposed (local model)."
+    if provenance["planned"]:
+        return f"Rule-based decision.{rejected_note}"
+    return "No memory action proposed (rule-based)."
+
+
+def decision_rows(provenance: dict | None) -> list[dict]:
+    """Display rows for planned and rejected decisions, .get-safe."""
+    if provenance is None:
+        return []
+    rows = []
+    for action in provenance["planned"]:
+        rows.append(
+            {
+                "Decision": "Accepted",
+                "Action": action.get("action", "—"),
+                "Memory": action.get("text", ""),
+                "Source": action.get("decision_source", "rule_based"),
+                "Confidence": action.get("confidence", "—"),
+                "Explanation": action.get("explanation")
+                or action.get("reason")
+                or "—",
+            }
+        )
+    for action in provenance["rejected"]:
+        rows.append(
+            {
+                "Decision": "Rejected",
+                "Action": action.get("action", "—"),
+                "Memory": action.get("text", ""),
+                "Source": action.get("decision_source", "—"),
+                "Confidence": action.get("confidence", "—"),
+                "Explanation": action.get("rejected_reason", "target_not_active"),
+            }
+        )
+    return rows
+
+
+def local_runtime_status(agent: ExperienceOS) -> dict:
+    """Bounded projection of local runtime availability for display.
+
+    Shallow only: rendering the dashboard never loads a model. The
+    labels distinguish shallow readiness from an actual loaded model.
+    """
+    manager = agent.experience_manager
+    policy = getattr(manager, "policy", None)
+    runner = getattr(policy, "runner", None)
+    if manager.policy_mode != "local_model" or runner is None:
+        return {
+            "configured": False,
+            "label": "Not configured",
+            "reason": None,
+            "detail": "Default rule-based mode — no local runtime involved.",
+        }
+    availability = runner.availability()
+    if availability.available:
+        label = "Available (shallow check — model loads on first decision)"
+    elif availability.reason == "model_load_failed":
+        label = "Load failed"
+    else:
+        label = "Unavailable"
+    return {
+        "configured": True,
+        "label": label,
+        "reason": availability.reason,
+        "detail": availability.detail,
     }
 
 

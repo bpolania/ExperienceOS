@@ -42,17 +42,25 @@ from demo.support import (
     PROVIDER_CHOICES,
     PROVIDER_MOCK,
     QWEN_SETUP_HINT,
+    POLICY_CHOICES,
+    POLICY_LOCAL_MODEL,
+    POLICY_RULE_BASED,
     STORAGE_CHOICES,
     STORAGE_IN_MEMORY,
     active_memory_rows,
     compressed_summaries,
     compression_totals,
     create_agent,
+    decision_rows,
     forgotten_rows,
     growth_metrics,
     lifecycle_timeline,
+    local_runtime_status,
+    make_memory_policy,
     make_memory_store,
     make_provider,
+    memory_intelligence_summary,
+    policy_provenance,
     provider_status,
     reset_demo_state,
     selection_records,
@@ -68,24 +76,34 @@ from demo.support import (
 st.set_page_config(page_title="ExperienceOS", page_icon="🧠", layout="wide")
 
 
-def rebuild_agent(provider_choice: str, storage_choice: str = STORAGE_IN_MEMORY) -> None:
+def rebuild_agent(
+    provider_choice: str,
+    storage_choice: str = STORAGE_IN_MEMORY,
+    policy_choice: str = POLICY_RULE_BASED,
+) -> None:
     """Recreate the agent and clear UI state.
 
     Persisted SQLite memories survive this — used at startup and when
-    the provider or storage selection changes, so switching never loses
-    accumulated experience.
+    the provider, storage, or policy selection changes, so switching
+    never loses accumulated experience.
     """
     st.session_state.agent = create_agent(
-        make_provider(provider_choice), make_memory_store(storage_choice)
+        make_provider(provider_choice),
+        make_memory_store(storage_choice),
+        make_memory_policy(policy_choice),
     )
     st.session_state.agent_provider = provider_choice
     st.session_state.agent_storage = storage_choice
+    st.session_state.agent_policy = policy_choice
     st.session_state.chat_history = []
     st.session_state.last_error = None
 
 
 def full_demo_reset(
-    provider_choice: str, storage_choice: str, demo_user_id: str
+    provider_choice: str,
+    storage_choice: str,
+    demo_user_id: str,
+    policy_choice: str = POLICY_RULE_BASED,
 ) -> None:
     """Return the demo to a known clean state for the next run.
 
@@ -93,7 +111,7 @@ def full_demo_reset(
     lifecycle status (both storage modes) and clears event history —
     no stale state can leak into the next scripted run.
     """
-    rebuild_agent(provider_choice, storage_choice)
+    rebuild_agent(provider_choice, storage_choice, policy_choice)
     reset_demo_state(st.session_state.agent, demo_user_id)
 
 
@@ -123,13 +141,25 @@ with st.sidebar:
     st.header("Setup")
     provider_choice = st.selectbox("Provider", PROVIDER_CHOICES, index=0)
     storage_choice = st.selectbox("Memory storage", STORAGE_CHOICES, index=0)
+    policy_choice = st.selectbox("Memory policy", POLICY_CHOICES, index=0)
     if (
         provider_choice != st.session_state.agent_provider
         or storage_choice != st.session_state.agent_storage
+        or policy_choice != st.session_state.get("agent_policy", POLICY_RULE_BASED)
     ):
-        rebuild_agent(provider_choice, storage_choice)
+        rebuild_agent(provider_choice, storage_choice, policy_choice)
 
     agent = st.session_state.agent
+    if policy_choice == POLICY_LOCAL_MODEL:
+        runtime = local_runtime_status(agent)
+        if runtime["reason"]:
+            st.warning(
+                f"Local runtime: {runtime['label']} ({runtime['reason']}).\n\n"
+                f"{runtime['detail']}\n\nMemory decisions will fall back "
+                "to the deterministic rules."
+            )
+        else:
+            st.markdown(f"**Local runtime:** {runtime['label']}")
     status = provider_status(agent.model)
     st.markdown(f"**Provider:** `{agent.model.name}`")
     if status == "Missing credentials":
@@ -164,12 +194,12 @@ with st.sidebar:
         "using only current experience."
     )
     if st.button("Reset demo", width="stretch"):
-        full_demo_reset(provider_choice, storage_choice, user_id)
+        full_demo_reset(provider_choice, storage_choice, user_id, policy_choice)
         st.rerun()
     if storage_label == "SQLite":
         if st.button("Clear persistent memories", width="stretch"):
             st.session_state.agent.memory_store.clear()
-            rebuild_agent(provider_choice, storage_choice)
+            rebuild_agent(provider_choice, storage_choice, policy_choice)
             st.rerun()
 
 # --- Header -------------------------------------------------------------------
@@ -209,6 +239,20 @@ with col_chat:
 
 with col_platform:
     st.subheader("Experience layer")
+
+    st.markdown("**Memory intelligence (last turn)**")
+    manager = agent.experience_manager
+    fallback_name = (
+        "rule_based" if manager.fallback_policy is not None else "none"
+    )
+    st.caption(
+        f"Policy: {manager.policy_mode} · Fallback policy: {fallback_name}"
+    )
+    provenance = policy_provenance(agent.events)
+    st.caption(memory_intelligence_summary(provenance))
+    intelligence_rows = decision_rows(provenance)
+    if intelligence_rows:
+        st.dataframe(intelligence_rows, width="stretch", hide_index=True)
 
     st.markdown("**Experience growth**")
     metrics = growth_metrics(agent, user_id)

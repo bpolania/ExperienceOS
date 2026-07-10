@@ -140,6 +140,16 @@ demo surfaces to make the platform visible.
   rule-based planner, and the in-memory and SQLite stores.
 - **Context builder** (`experienceos/context/`) — selects accumulated
   experience and assembles it into the prompt sent to the provider.
+- **Memory policy layer** (`experienceos/policy/`) — the optional Local
+  Experience Manager. A `MemoryPolicy` proposes lifecycle changes from
+  bounded context only; `RuleBasedMemoryPolicy` wraps the deterministic
+  planner (the default and the fallback), and `LocalModelMemoryPolicy`
+  drives an optional CPU `LocalModelRunner` (llama.cpp, lazy, no
+  downloads) through a strict JSON schema. `ExperienceManager` validates
+  every proposal, resolves contradictions, enforces the confidence
+  threshold, and performs whole-batch typed fallback to the rules;
+  the engine still validates targets against the active snapshot and
+  remains the only mutation authority. Policies never touch storage.
 - **Dashboard** (`demo/`) — a Streamlit visibility layer over the SDK's
   event history and memory store. The dashboard is not the product: it
   exists to make the ExperienceOS platform observable — memories

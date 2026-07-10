@@ -31,6 +31,7 @@ class FakeLocalModelRunner:
         prompt_tokens: int | None = 10,
         completion_tokens: int | None = 5,
         elapsed_ms: float | None = 1.0,
+        script: list | None = None,
     ):
         self.data = data if data is not None else {"status": "ready"}
         self.error = error
@@ -40,6 +41,10 @@ class FakeLocalModelRunner:
         self.prompt_tokens = prompt_tokens
         self.completion_tokens = completion_tokens
         self.elapsed_ms = elapsed_ms
+        # Optional per-call sequence: each item is either a data dict
+        # (returned) or an Exception (raised). Falls back to data/error
+        # defaults once exhausted.
+        self.script = list(script) if script else []
         self.calls: list[dict] = []
 
     def availability(self) -> LocalModelAvailability:
@@ -55,10 +60,16 @@ class FakeLocalModelRunner:
                 "schema": schema,
             }
         )
-        if self.error is not None:
+        data = self.data
+        if self.script:
+            item = self.script.pop(0)
+            if isinstance(item, Exception):
+                raise item
+            data = item
+        elif self.error is not None:
             raise self.error
         return LocalModelResult(
-            data=dict(self.data),
+            data=dict(data),
             model_path="fake.gguf",
             model_name="fake.gguf",
             prompt_tokens=self.prompt_tokens,

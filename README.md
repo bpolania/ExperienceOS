@@ -332,6 +332,30 @@ a typed reason (`dependency_missing`, `model_unavailable`,
 means "nothing worth remembering" and does not fall back. Without the
 optional dependency, the agent simply behaves rule-based.
 
+**Decision provenance in the dashboard:** pick **Memory policy: Local
+model (optional)** in the sidebar. The **Memory intelligence** panel
+shows the configured policy and fallback, the local runtime status
+(shallow availability only — rendering never loads a model), and for
+each turn whether decisions were accepted from the local model, made
+by rules, produced by an attributed fallback, or rejected by lifecycle
+validation — with per-decision source, confidence, and explanation.
+
+**Memory value comparison** — one offline command proves what
+accumulated experience changes by running the same six-turn travel
+scenario three ways (no memory, rule-based, local policy with a fake
+runner exercising accepted local decisions and one typed fallback):
+
+```bash
+PYTHONPATH=. python examples/memory_value_comparison.py
+```
+
+The no-memory agent ends with zero injected experience; both
+experienced agents recall the home airport, use the *updated* flight
+preference, and exclude the forgotten one — verified by deterministic
+assertions, not prose. The local mode uses a fake runner by design;
+real local-model execution remains the separate optional
+`local_runner_smoke.py` verification.
+
 ## Development
 
 ```bash
