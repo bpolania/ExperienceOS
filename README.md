@@ -375,15 +375,19 @@ are committed **before** any results in
 [docs/benchmark_contract.md](docs/benchmark_contract.md), with
 machine-readable contracts under `benchmarks/contract/`. The
 40-scenario lifecycle dataset and its fixed oracle are documented in
-[docs/lifecycle_benchmark_dataset.md](docs/lifecycle_benchmark_dataset.md).
+[docs/lifecycle_benchmark_dataset.md](docs/lifecycle_benchmark_dataset.md),
+and the four comparison baselines (stateless, full-history,
+append-only, naive top-K) in
+[docs/benchmark_baselines.md](docs/benchmark_baselines.md).
 The default benchmark path is fully offline (no credentials, no
 network, no model downloads). No benchmark results exist yet.
 
-Validate the contract and dataset:
+Validate the contract, dataset, and baselines:
 
 ```bash
-PYTHONPATH=. python -m pytest tests/test_benchmark_contract.py tests/test_benchmark_dataset.py
+PYTHONPATH=. python -m pytest tests/test_benchmark_contract.py tests/test_benchmark_dataset.py tests/test_benchmark_baselines.py
 PYTHONPATH=. python -m benchmarks.scenarios.validate
+PYTHONPATH=. python -m benchmarks.baselines.smoke
 ```
 
 ## Development
