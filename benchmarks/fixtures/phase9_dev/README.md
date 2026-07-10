@@ -24,3 +24,9 @@ Subdirectories:
   source diversity, conflicts, budget pressure). Development-only; not
   part of the frozen evaluation; never affects final denominators;
   must not be cited as final benchmark evidence.
+- `temporal_provenance/` — Prompt 6 temporal/provenance classes
+  (corrections with validity, historical coexistence, relative and
+  approximate time, future holds, tool/confirmation eligibility,
+  timeline queries). Development-only; not part of the frozen
+  evaluation; never affects final denominators; must not be cited as
+  final benchmark evidence.

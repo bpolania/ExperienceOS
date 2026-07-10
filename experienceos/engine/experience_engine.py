@@ -67,6 +67,17 @@ class ExperienceEngine:
 
         emit(EventType.CONTEXT_REQUESTED)
         memories = self.memory_store.active_for_user(user_id)
+        # Temporal-aware builders may request superseded records too
+        # (for explicit historical/as-of retrieval). Their retrieval
+        # strategy still lifecycle-filters; forgotten records are
+        # NEVER passed. Default False keeps every v1 path identical.
+        if getattr(self.context_builder, "wants_inactive_candidates", False):
+            memories = [
+                *memories,
+                *self.memory_store.list_memories(
+                    user_id, status=MemoryStatus.SUPERSEDED
+                ),
+            ]
         emit(
             EventType.MEMORY_RETRIEVED,
             {"memory_ids": [m.id for m in memories], "count": len(memories)},
@@ -191,6 +202,13 @@ class ExperienceEngine:
             EventType.MODEL_CALLED,
             {"provider": self.model.name, "message_count": len(messages)},
         )
+
+        # Temporal planners may keep bounded assistant context for
+        # explicit later confirmation; planners without the hook (all
+        # v1 and earlier v2 paths) are unaffected.
+        note = getattr(self.memory_planner, "note_assistant_message", None)
+        if callable(note):
+            note(user_id, session_id, response)
 
         emit(EventType.RESPONSE_RETURNED, {"response": response})
         emit(EventType.INTERACTION_COMPLETED)

@@ -395,6 +395,7 @@ def _run_experienceos_v2(
     hybrid_extraction: bool,
     hybrid_retrieval: bool,
     coverage_selection: bool = False,
+    temporal: bool = False,
 ) -> ExternalCaseRun:
     """Shared Phase 9 v2 execution: identical ingestion (user turns
     only, production ``chat`` path), identical K and memory budget,
@@ -411,10 +412,29 @@ def _run_experienceos_v2(
     run = ExternalCaseRun(case.question_id, case.category, system_id)
     run.sessions = len(case.sessions)
     run.history_turns = sum(len(s.turns) for s in case.sessions)
-    planner = HybridMemoryPlanner() if hybrid_extraction else None
+    policy = None
+    if temporal:
+        from benchmarks.adapters.experienceos_temporal_v2 import (
+            _DevFullTemporalPlanner,
+        )
+        from experienceos.memory.temporal import TemporalRetrievalPolicy
+        from experienceos.memory.temporal_planner import (
+            TemporalMemoryPlanner,
+        )
+
+        planner = (
+            _DevFullTemporalPlanner()
+            if hybrid_extraction
+            else TemporalMemoryPlanner(assistant_ingestion=True)
+        )
+        policy = TemporalRetrievalPolicy()
+    else:
+        planner = HybridMemoryPlanner() if hybrid_extraction else None
     selector = CoverageSelectionStrategy() if coverage_selection else None
     strategy = (
-        HybridRetrievalStrategy(selection_strategy=selector)
+        HybridRetrievalStrategy(
+            selection_strategy=selector, temporal_policy=policy
+        )
         if hybrid_retrieval
         else None
     )
@@ -431,6 +451,12 @@ def _run_experienceos_v2(
     user_id = f"lme-{case.question_id}"
     memory_sessions: dict[str, str] = {}
     for session in case.sessions:
+        if temporal and hasattr(planner, "set_reference_time"):
+            # Deterministic session date (official data) — never a
+            # wall clock — so relative expressions resolve honestly.
+            planner.set_reference_time(
+                (session.date or "")[:10] or None
+            )
         for turn in session.turns:
             if turn.role != "user":
                 continue  # production ingestion path: user turns only
@@ -446,6 +472,8 @@ def _run_experienceos_v2(
                         session.session_id
                     )
 
+    if temporal and policy is not None:
+        policy.reference_time = (case.question_date or "")[:10] or None
     before = len(agent.events)
     response = agent.chat(
         user_id=user_id,
@@ -507,6 +535,14 @@ def _run_experienceos_v2(
              if isinstance(v, (int, float))}
             if selector is not None else {}
         ),
+        **(
+            {f"temporal_{k}": v
+             for source in (planner, policy)
+             if temporal and source is not None
+             and hasattr(source, "summary")
+             for k, v in source.summary().items()
+             if isinstance(v, (int, float))}
+        ),
     }
     context = [*context_contents, _question_text(case)]
     finished = _finish(run, case, context, candidates)
@@ -553,6 +589,29 @@ def run_dev_extract_retrieval_coverage(case: ExternalCase):
     )
 
 
+def run_experienceos_temporal_v2(case: ExternalCase):
+    return _run_experienceos_v2(
+        case,
+        "experienceos_temporal_v2",
+        hybrid_extraction=False,
+        hybrid_retrieval=True,
+        coverage_selection=True,
+        temporal=True,
+    )
+
+
+def run_dev_full_temporal(case: ExternalCase):
+    """DEVELOPMENT-ONLY pre-full-v2 composition; never a contract ID."""
+    return _run_experienceos_v2(
+        case,
+        "dev_full_temporal",
+        hybrid_extraction=True,
+        hybrid_retrieval=True,
+        coverage_selection=True,
+        temporal=True,
+    )
+
+
 _RUNNERS = {
     "full_history": run_full_history,
     "naive_top_k": run_naive_top_k,
@@ -565,6 +624,8 @@ _RUNNERS = {
     "experienceos_extract_retrieval_v2": run_experienceos_extract_retrieval_v2,
     "experienceos_coverage_v2": run_experienceos_coverage_v2,
     "dev_extract_retrieval_coverage": run_dev_extract_retrieval_coverage,
+    "experienceos_temporal_v2": run_experienceos_temporal_v2,
+    "dev_full_temporal": run_dev_full_temporal,
 }
 
 

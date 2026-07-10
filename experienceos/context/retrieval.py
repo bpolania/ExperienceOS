@@ -345,6 +345,7 @@ class HybridRetrievalStrategy:
         weights: dict | None = None,
         candidate_limit: int | None = None,
         selection_strategy=None,
+        temporal_policy=None,
     ):
         self.weights = dict(weights or SCORING_WEIGHTS)
         # Candidate limit bounds scored candidates when populations are
@@ -354,6 +355,10 @@ class HybridRetrievalStrategy:
         # every Prompt 4 configuration), final selection below is the
         # unchanged deterministic top-K loop.
         self.selection_strategy = selection_strategy
+        # Optional Phase 9 Prompt 6 seam: when None (the default and
+        # every earlier configuration), admission, scoring, and
+        # rendering below are byte-identical to Prompt 4/5.
+        self.temporal_policy = temporal_policy
         self.counters = {
             "retrievals": 0,
             "active_memories": 0,
@@ -368,6 +373,12 @@ class HybridRetrievalStrategy:
             "unresolved_conflict_retrievals": 0,
             "latency_ms_total": 0.0,
         }
+
+    @property
+    def includes_historical(self) -> bool:
+        """Whether the memory pool should include superseded records
+        (explicit historical/as-of retrieval; forgotten never)."""
+        return self.temporal_policy is not None
 
     # -- diagnostics -----------------------------------------------------------
 
@@ -412,19 +423,36 @@ class HybridRetrievalStrategy:
             )
 
         query = normalize_query(request.query)
+        intent = None
+        if self.temporal_policy is not None:
+            intent = self.temporal_policy.interpret(
+                request.query, historical_flag=request.historical_mode
+            )
+            self._last_by_id = {e.id: e for e in request.memories}
 
         # 1. Lifecycle filtering BEFORE ranking: inactive records are
         # excluded, audited, and can never reach context or compression.
+        # A temporal policy may ADMIT superseded records for explicit
+        # historical/as-of/timeline intents (forgotten records never),
+        # and may HOLD active records that are not yet valid or are
+        # historical-only for current queries.
         active: list[ExperienceEntry] = []
         for entry in request.memories:
-            if entry.status == MemoryStatus.ACTIVE:
+            if intent is not None:
+                reason = self.temporal_policy.admit(entry, intent)
+                if reason is None:
+                    active.append(entry)
+                    continue
+            elif entry.status == MemoryStatus.ACTIVE:
                 active.append(entry)
                 continue
+            else:
+                reason = f"inactive_{entry.status}"
             result.candidates.append(
                 RetrievalCandidate(
                     memory=entry,
                     status=entry.status,
-                    exclusion_reason=f"inactive_{entry.status}",
+                    exclusion_reason=reason,
                 )
             )
             result.inactive_filtered += 1
@@ -442,7 +470,8 @@ class HybridRetrievalStrategy:
             df = doc_frequency.get(token, 0)
             return math.log(1.0 + (doc_count - df + 0.5) / (df + 0.5))
 
-        # 3. Score every active memory (bounded population).
+        # 3. Score every admitted memory (bounded population).
+        by_id = {e.id: e for e in request.memories}
         scored: list[RetrievalCandidate] = []
         for entry in active:
             candidate = self._score(entry, query, doc_tokens[entry.id], idf)
@@ -451,6 +480,17 @@ class HybridRetrievalStrategy:
                 result.zero_relevance_excluded += 1
                 result.candidates.append(candidate)
                 continue
+            if intent is not None:
+                # Temporal fit and provenance trust REFINE candidates
+                # that are already relevant; they never create
+                # relevance (zero-relevance exclusion happened above).
+                components, bonus = self.temporal_policy.score(
+                    entry, intent, by_id
+                )
+                candidate.component_scores.update(components)
+                candidate.final_score = round(
+                    candidate.final_score + bonus, 6
+                )
             scored.append(candidate)
         result.lexical_candidates = len(scored)
 
@@ -524,6 +564,11 @@ class HybridRetrievalStrategy:
         """
         from experienceos.context.selection import SelectionRequest
 
+        intent = (
+            self.temporal_policy.last_intent
+            if self.temporal_policy is not None
+            else None
+        )
         selection = self.selection_strategy.select(
             SelectionRequest(
                 query=query,
@@ -531,6 +576,7 @@ class HybridRetrievalStrategy:
                 k=request.k,
                 token_budget=request.token_budget,
                 session_id=request.session_id,
+                temporal_mode=intent.mode if intent else "current",
             )
         )
         selected_ids = {c.memory.id for c in selection.selected}
@@ -573,6 +619,16 @@ class HybridRetrievalStrategy:
             ],
         }
         return used_tokens
+
+    def annotate_memory(self, memory) -> str:
+        """Concise temporal/provenance label for rendered context.
+        Empty (and never invoked by the builder) without a temporal
+        policy, so earlier systems render byte-identical context."""
+        if self.temporal_policy is None:
+            return ""
+        return self.temporal_policy.annotate(
+            memory, getattr(self, "_last_by_id", {})
+        )
 
     # -- scoring ------------------------------------------------------------------
 

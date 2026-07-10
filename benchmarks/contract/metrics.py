@@ -539,6 +539,51 @@ METRIC_DEFINITIONS: tuple[MetricDefinition, ...] = (
         "selections",
         "Conflicts stay visible through selection, never concealed.",
     ),
+    # --- Phase 9 temporal/provenance (v2-only observational counters
+    # --- from temporal diagnostics; Phase 8 metric formulas above are
+    # --- unchanged) --------------------------------------------------
+    _m(
+        "temporal_metadata_coverage_v2", "temporal_v2",
+        "user-asserted creates carrying temporal metadata",
+        "user-asserted creates",
+        "How much accepted experience carries explicit time.",
+    ),
+    _m(
+        "temporal_expression_resolution_v2", "temporal_v2",
+        "temporal expressions resolved against a reference date",
+        "temporal expressions detected",
+        "Unresolved expressions stay unresolved — never fabricated.",
+    ),
+    _m(
+        "historical_query_mode_rate_v2", "temporal_v2",
+        "retrievals interpreted as historical, as-of, or timeline",
+        "retrievals",
+        "Explicit temporal query modes; ambiguity defaults to current.",
+    ),
+    _m(
+        "future_hold_rate_v2", "temporal_v2",
+        "active future memories held as not yet valid",
+        "retrievals",
+        "A future fact is not current before its valid-from time.",
+    ),
+    _m(
+        "assistant_candidate_rejection_v2", "temporal_v2",
+        "assistant/tool candidates rejected by eligibility policy",
+        "planning turns",
+        "Unconfirmed assistant content never becomes user truth.",
+    ),
+    _m(
+        "trusted_ingestion_acceptance_v2", "temporal_v2",
+        "tool-verified, jointly-confirmed, or derived memories accepted",
+        "planning turns",
+        "Explicit-eligibility ingestion, separately labeled.",
+    ),
+    _m(
+        "superseded_historical_admission_v2", "temporal_v2",
+        "superseded records admitted under explicit historical modes",
+        "retrievals",
+        "Historical evidence preserved on request; never as current.",
+    ),
 )
 
 

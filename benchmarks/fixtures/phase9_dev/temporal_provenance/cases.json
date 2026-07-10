@@ -1,0 +1,87 @@
+{
+  "_label": "DEVELOPMENT-ONLY fixtures for Phase 9 temporal/provenance; never benchmark evidence",
+  "current_state_correction": [
+    {"turns": [["2025-01-05", "My phone is a Pixel 6."],
+                ["2026-07-10", "Actually, my phone is a Pixel 9 now."]],
+     "checks": {"current_query": "Which phone do I have?",
+                "current_selects": "Pixel 9", "current_excludes": "Pixel 6",
+                "as_of_query": "What phone did I use in 2025?",
+                "as_of_includes": "Pixel 6"}}
+  ],
+  "historical_without_replacement": [
+    {"turns": [["2026-07-10", "My home city is Seattle."],
+                ["2026-07-10", "My home city was Boston back in 2019."]],
+     "checks": {"current_query": "What is my home city?",
+                "current_selects": "Seattle",
+                "historical_coexists": "Boston"}}
+  ],
+  "explicit_event_date": [
+    {"turns": [["2026-07-10", "My start date is June 3, 2025."]],
+     "checks": {"event_time": "2025-06-03", "precision": "day",
+                "observed_distinct_from_event": true}}
+  ],
+  "relative_date": [
+    {"turns": [["2026-07-10", "My move date is last month."]],
+     "checks": {"event_time": "2026-06", "precision": "month",
+                "no_invented_day": true}}
+  ],
+  "approximate_time": [
+    {"text": "A few years ago I worked at Acme.",
+     "checks": {"scope": "historical", "precision": "approximate",
+                "confidence_below": 1.0, "no_exact_date": true}}
+  ],
+  "future_instruction": [
+    {"turns": [["2026-07-10", "Starting next month, my report channel is #finance."]],
+     "checks": {"scope": "future", "valid_from": "2026-08",
+                "held_before": "2026-07-15", "active_after": "2026-08-05"}}
+  ],
+  "recurring_schedule": [
+    {"text": "Every Monday at 10 we have a review.",
+     "checks": {"scope": "recurring"}}
+  ],
+  "tool_verified": [
+    {"tool": "reservations",
+     "payload": {"fact": "Reservation confirmed for 2026-07-18.",
+                  "confirmed": "reservation confirmed 2026-07-18",
+                  "result_ref": "resv-42"},
+     "checks": {"source_type": "tool_verified", "trust": 5}}
+  ],
+  "jointly_confirmed": [
+    {"assistant": "We'll use the 9:00 AM flight to Denver.",
+     "user": "Yes, book that.",
+     "checks": {"source_type": "jointly_confirmed",
+                "confirmed_by": "user", "derivation_refs": 2}}
+  ],
+  "unconfirmed_assistant": [
+    {"assistant": "You probably prefer window seats.",
+     "user": "Interesting.",
+     "checks": {"no_memory": true}}
+  ],
+  "deterministic_derivation": [
+    {"turns": [["2026-07-01", "My trip begins on July 10, 2026 and lasts five days."]],
+     "checks": {"derived_end": "2026-07-15", "source_type": "system_observed",
+                "not_user_asserted": true}}
+  ],
+  "ambiguous_confirmation": [
+    {"assistant": "We'll go with either the 9:00 AM flight or the noon option.",
+     "user": "That works.",
+     "checks": {"no_memory": true}}
+  ],
+  "forgotten_historical": [
+    {"turns": [["2026-07-10", "I prefer morning flights."],
+                ["2026-07-10", "Forget that I prefer morning flights."]],
+     "checks": {"current_excludes": "morning",
+                "historical_query": "What did I prefer before?",
+                "historical_excludes": "morning"}}
+  ],
+  "timeline_query": [
+    {"turns": [["2024-03-01", "My employer is Initech."],
+                ["2026-07-10", "My employer is Globex now."]],
+     "checks": {"timeline_query": "Show my employer history.",
+                "timeline_includes": ["Initech", "Globex"],
+                "chronological": true}}
+  ],
+  "legacy_memory": [
+    {"note": "entries without temporal metadata stay readable; current behavior preserved; no fabricated dates"}
+  ]
+}

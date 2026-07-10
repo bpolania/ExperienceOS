@@ -221,6 +221,7 @@ class SelectionRequest:
     k: int
     token_budget: int | None = None
     session_id: str = ""
+    temporal_mode: str = "current"  # current|historical|as_of|timeline
     strategy_version: str = SELECTION_STRATEGY_VERSION
 
 
@@ -333,6 +334,12 @@ class CoverageSelectionStrategy:
 
     def select(self, request: SelectionRequest) -> SelectionResult:
         weights = self.weights
+        # Chronology modes: same-slot different-value records are
+        # TIMELINE VARIANTS (requested history), not redundancy or
+        # concealable conflicts. Current mode keeps Prompt 5 behavior.
+        self._timeline_mode = request.temporal_mode in (
+            "timeline", "historical", "as_of"
+        )
         query_facets = extract_query_facets(request.query)
         result = SelectionResult(
             k=request.k, query_facets=query_facets.facets
@@ -450,17 +457,35 @@ class CoverageSelectionStrategy:
         # with a selected same-slot value is CONTAINED, not merely
         # skipped — the warning must survive even when the penalty kept
         # it out of context. Never concealed, never resolved silently.
+        # Chronology modes exempt timeline variants (requested history).
         contained = 0
-        for candidate in request.candidates:
-            if candidate in result.selected:
-                continue
-            if "conflicting_slot" in redundancy_signals(
-                candidate, result.selected
-            ):
-                result.skipped[candidate.memory.id] = "conflict_contained"
-                contained += 1
+        if not self._timeline_mode:
+            for candidate in request.candidates:
+                if candidate in result.selected:
+                    continue
+                if "conflicting_slot" in redundancy_signals(
+                    candidate, result.selected
+                ):
+                    result.skipped[candidate.memory.id] = (
+                        "conflict_contained"
+                    )
+                    contained += 1
         if contained:
             self.counters["selected_with_conflict_warning"] += 1
+
+        if self._timeline_mode and len(result.selected) > 1:
+            # Timeline context order is chronological: derived validity
+            # start, then creation order — deterministic.
+            def chronology(candidate):
+                temporal = candidate.memory.metadata.get("temporal") or {}
+                start = (
+                    temporal.get("valid_from")
+                    or temporal.get("event_time")
+                    or ""
+                )
+                return (start, candidate.memory.created_at.isoformat())
+
+            result.selected.sort(key=chronology)
 
         result.covered_facets = tuple(sorted(covered))
         result.selected_token_estimate = used_tokens
@@ -536,6 +561,12 @@ class CoverageSelectionStrategy:
         )
 
         signals = redundancy_signals(candidate, selected)
+        if getattr(self, "_timeline_mode", False):
+            # Distinct same-slot values across time are the requested
+            # chronology; only exact duplicates stay redundant.
+            signals = tuple(
+                s for s in signals if s != "conflicting_slot"
+            )
         conflict = "conflicting_slot" in signals
         redundancy = weights["redundancy_penalty"] * min(
             2, sum(1 for s in signals if s != "conflicting_slot")

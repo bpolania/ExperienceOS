@@ -25,6 +25,9 @@ from benchmarks.adapters.experienceos_rules import ExperienceOSRulesAdapter
 from benchmarks.adapters.experienceos_slots_v2 import (
     ExperienceOSSlotsV2Adapter,
 )
+from benchmarks.adapters.experienceos_temporal_v2 import (
+    ExperienceOSTemporalV2Adapter,
+)
 from benchmarks.baselines.factory import BASELINE_CLASSES
 from benchmarks.contract import KNOWN_SYSTEM_IDS, SystemId
 
@@ -36,6 +39,7 @@ ADAPTER_SYSTEM_IDS = (
     SystemId.EXPERIENCEOS_HYBRID_RETRIEVAL_V2,
     SystemId.EXPERIENCEOS_EXTRACT_RETRIEVAL_V2,
     SystemId.EXPERIENCEOS_COVERAGE_V2,
+    SystemId.EXPERIENCEOS_TEMPORAL_V2,
 )
 
 
@@ -79,6 +83,8 @@ def create_system(
         )
     if system_id == SystemId.EXPERIENCEOS_COVERAGE_V2:
         return ExperienceOSCoverageV2Adapter(provider=provider, seed=seed)
+    if system_id == SystemId.EXPERIENCEOS_TEMPORAL_V2:
+        return ExperienceOSTemporalV2Adapter(provider=provider, seed=seed)
     if system_id in BASELINE_CLASSES:
         return BASELINE_CLASSES[system_id](provider=provider, seed=seed)
     raise ValueError(

@@ -100,6 +100,15 @@ class ContextBuilder:
         # configuration), selection below is byte-identical to Phase 8.
         self.retrieval_strategy = retrieval_strategy
 
+    @property
+    def wants_inactive_candidates(self) -> bool:
+        """Whether the engine should pass superseded records too (an
+        explicit temporal-retrieval capability; False on every v1 and
+        earlier v2 configuration)."""
+        return bool(
+            getattr(self.retrieval_strategy, "includes_historical", False)
+        )
+
     def build_context(
         self,
         user_id: str,
@@ -150,7 +159,12 @@ class ContextBuilder:
             }
         ]
         if selected:
-            blocks = [s.text for s in summaries] + self._kind_sections(rendered)
+            annotator = getattr(
+                self.retrieval_strategy, "annotate_memory", None
+            )
+            blocks = [s.text for s in summaries] + self._kind_sections(
+                rendered, annotator
+            )
             context.append(
                 {"role": "system", "content": f"{MEMORY_HEADER}\n\n" + "\n\n".join(blocks)}
             )
@@ -326,14 +340,23 @@ class ContextBuilder:
         )
 
     @staticmethod
-    def _kind_sections(memories: list[ExperienceEntry]) -> list[str]:
-        """Memories grouped under kind labels, known kinds first."""
+    def _kind_sections(
+        memories: list[ExperienceEntry], annotator=None
+    ) -> list[str]:
+        """Memories grouped under kind labels, known kinds first.
+        ``annotator`` (temporal configurations only) appends concise
+        bounded labels; None renders exactly the Phase 8 format."""
         known_kinds = {kind for kind, _ in _KIND_SECTIONS}
         groups = [
             *_KIND_SECTIONS,
             *(((m.kind, f"{m.kind.capitalize()}:") for m in memories
                if m.kind not in known_kinds)),
         ]
+
+        def line(memory) -> str:
+            suffix = annotator(memory) if annotator is not None else ""
+            return f"- {memory.text}{suffix}"
+
         sections, rendered = [], set()
         for kind, label in groups:
             if kind in rendered:
@@ -342,6 +365,6 @@ class ContextBuilder:
             group = [m for m in memories if m.kind == kind]
             if group:
                 sections.append(
-                    label + "\n" + "\n".join(f"- {m.text}" for m in group)
+                    label + "\n" + "\n".join(line(m) for m in group)
                 )
         return sections
