@@ -406,6 +406,60 @@ METRIC_DEFINITIONS: tuple[MetricDefinition, ...] = (
         "Accuracy on paraphrased statements (known 0.5B weakness; "
         "measured honestly, not hidden).",
     ),
+    # --- Phase 9 hybrid extraction (v2-only observational counters
+    # --- from extraction diagnostics; Phase 8 metric formulas above
+    # --- are unchanged) ----------------------------------------------
+    _m(
+        "durability_gate_pass_rate_v2", "extraction_v2",
+        "gated unmatched sentences passing the durability gate",
+        "gated unmatched sentences",
+        "How often unmatched conversational content looked durable.",
+    ),
+    _m(
+        "auxiliary_extractor_invocation_rate_v2", "extraction_v2",
+        "auxiliary extractor invocations",
+        "user turns processed",
+        "Auxiliary extraction stays off turns deterministic rules "
+        "already handle; low invocation on handled turns is the goal.",
+    ),
+    _m(
+        "candidate_acceptance_rate_v2", "extraction_v2",
+        "candidates accepted after validation and deduplication",
+        "candidates proposed",
+        "Share of proposed candidates that became create actions.",
+    ),
+    _m(
+        "candidate_grounding_rejection_rate_v2", "extraction_v2",
+        "candidates rejected by grounding validation",
+        "candidates proposed",
+        "Ungrounded proposals stopped before lifecycle planning.",
+    ),
+    _m(
+        "candidate_schema_rejection_rate_v2", "extraction_v2",
+        "candidates rejected by schema validation",
+        "candidates proposed",
+        "Structurally invalid proposals stopped before lifecycle "
+        "planning.",
+    ),
+    _m(
+        "duplicate_candidate_rate_v2", "extraction_v2",
+        "candidates dropped as duplicates of active or batch memories",
+        "candidates proposed",
+        "Duplicate containment at the extraction layer.",
+    ),
+    _m(
+        "extraction_failure_safe_rate_v2", "extraction_v2",
+        "extractor invocations that failed safely with no candidates",
+        "auxiliary extractor invocations",
+        "Failures must produce no auxiliary memory, never fabricated "
+        "fallback content.",
+    ),
+    _m(
+        "accepted_candidates_per_invocation_v2", "extraction_v2",
+        "candidates accepted after validation and deduplication",
+        "auxiliary extractor invocations",
+        "Yield of the auxiliary extraction stage.",
+    ),
 )
 
 

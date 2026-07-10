@@ -22,6 +22,15 @@ class EventType:
     MEMORY_FORGOTTEN = "memory_forgotten"
     MEMORY_RETRIEVED = "memory_retrieved"
     INTERACTION_COMPLETED = "interaction_completed"
+    # Hybrid extraction audit events (emitted only when a hybrid
+    # planner is configured; additive for existing consumers).
+    MEMORY_EXTRACTION_GATE_PASSED = "memory_extraction_gate_passed"
+    MEMORY_EXTRACTION_GATE_REJECTED = "memory_extraction_gate_rejected"
+    MEMORY_EXTRACTION_INVOKED = "memory_extraction_invoked"
+    MEMORY_CANDIDATE_PROPOSED = "memory_candidate_proposed"
+    MEMORY_CANDIDATE_REJECTED = "memory_candidate_rejected"
+    MEMORY_CANDIDATE_ACCEPTED = "memory_candidate_accepted"
+    MEMORY_EXTRACTION_FAILED_SAFE = "memory_extraction_failed_safe"
 
 
 @dataclass(frozen=True)

@@ -111,6 +111,13 @@ class ExperienceEngine:
                 active_memories=memories,
             )
         )
+        # Hybrid planners buffer bounded extraction audit records;
+        # publish them on the same bus. Planners without the hook
+        # (the v1 default) are unaffected.
+        drain = getattr(self.memory_planner, "drain_extraction_events", None)
+        if callable(drain):
+            for extraction_event, payload in drain():
+                emit(extraction_event, payload)
         # Lifecycle validation: a policy can never re-target inactive
         # memory. Supersede/forget targets must belong to this
         # interaction's active snapshot; invalid targets are skipped

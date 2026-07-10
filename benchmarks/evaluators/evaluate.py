@@ -17,6 +17,7 @@ from benchmarks.evaluators.lifecycle import (
     update_contributions,
 )
 from benchmarks.evaluators.local_policy import local_policy_contributions
+from benchmarks.evaluators.extraction import extraction_contributions
 from benchmarks.evaluators.records import CaseEvaluation, CaseOutcome
 from benchmarks.evaluators.resolve import entries_of, resolve_ref
 from benchmarks.evaluators.response import response_contributions
@@ -109,6 +110,9 @@ def evaluate_case(case, result) -> CaseEvaluation:
             evaluation.contributions.extend(
                 local_policy_contributions(case, result)
             )
+        # v2-only: yields nothing unless the result carries hybrid
+        # extraction diagnostics, so v1 evaluation stays byte-identical.
+        evaluation.contributions.extend(extraction_contributions(case, result))
     except Exception as exc:  # noqa: BLE001 — evaluator failure is evidence
         evaluation.outcome = CaseOutcome.FAILED
         evaluation.failures.append(
@@ -171,6 +175,14 @@ _CONTAMINATION_METRICS = frozenset(
 
 _NEUTRAL_METRICS = frozenset(
     (
+        "durability_gate_pass_rate_v2",
+        "auxiliary_extractor_invocation_rate_v2",
+        "candidate_acceptance_rate_v2",
+        "candidate_grounding_rejection_rate_v2",
+        "candidate_schema_rejection_rate_v2",
+        "duplicate_candidate_rate_v2",
+        "extraction_failure_safe_rate_v2",
+        "accepted_candidates_per_invocation_v2",
         "memory_token_share",
         "relevant_token_share",
         "compression_ratio",

@@ -11,6 +11,9 @@ from benchmarks.adapters.experienceos_local import (
     MODES,
     ExperienceOSLocalAdapter,
 )
+from benchmarks.adapters.experienceos_hybrid_extract_v2 import (
+    ExperienceOSHybridExtractV2Adapter,
+)
 from benchmarks.adapters.experienceos_rules import ExperienceOSRulesAdapter
 from benchmarks.adapters.experienceos_slots_v2 import (
     ExperienceOSSlotsV2Adapter,
@@ -22,6 +25,7 @@ ADAPTER_SYSTEM_IDS = (
     SystemId.EXPERIENCEOS_RULES,
     SystemId.EXPERIENCEOS_LOCAL,
     SystemId.EXPERIENCEOS_SLOTS_V2,
+    SystemId.EXPERIENCEOS_HYBRID_EXTRACT_V2,
 )
 
 
@@ -51,6 +55,10 @@ def create_system(
         return ExperienceOSRulesAdapter(provider=provider, seed=seed)
     if system_id == SystemId.EXPERIENCEOS_SLOTS_V2:
         return ExperienceOSSlotsV2Adapter(provider=provider, seed=seed)
+    if system_id == SystemId.EXPERIENCEOS_HYBRID_EXTRACT_V2:
+        return ExperienceOSHybridExtractV2Adapter(
+            provider=provider, seed=seed
+        )
     if system_id in BASELINE_CLASSES:
         return BASELINE_CLASSES[system_id](provider=provider, seed=seed)
     raise ValueError(
