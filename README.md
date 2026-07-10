@@ -301,6 +301,14 @@ PYTHONPATH=. python examples/local_runner_smoke.py
 Without the dependency or model path, the smoke check skips cleanly
 (exit 0).
 
+A configured local GGUF model was successfully verified through the
+local runner and one ExperienceOS memory-policy interaction
+(Qwen2.5-0.5B-Instruct Q4_K_M, CPU-only, structured JSON in under a
+second; the local model proposed a memory decision that the engine
+validated and applied). This verifies the integration path for that
+model, not broad model compatibility — and proposal confidence is
+model metadata, not proof a decision is semantically correct.
+
 `LocalModelMemoryPolicy` connects the runner to memory decisions:
 
 ```python
@@ -352,9 +360,10 @@ PYTHONPATH=. python examples/memory_value_comparison.py
 The no-memory agent ends with zero injected experience; both
 experienced agents recall the home airport, use the *updated* flight
 preference, and exclude the forgotten one — verified by deterministic
-assertions, not prose. The local mode uses a fake runner by design;
-real local-model execution remains the separate optional
-`local_runner_smoke.py` verification.
+assertions, not prose. The local mode uses a fake runner by design
+(deterministic and offline); real local-model execution is verified
+separately through `local_runner_smoke.py` and a real memory-policy
+interaction (see the local model runner section above).
 
 ## Development
 
