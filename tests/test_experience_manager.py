@@ -315,6 +315,67 @@ def test_unknown_target_rejected_and_valid_actions_still_apply():
     ]
 
 
+def test_create_duplicating_active_memory_is_rejected():
+    agent = ExperienceOS(
+        model=MockProvider(),
+        memory_policy=FixedPolicy(
+            [
+                MemoryDecisionProposal(
+                    action="create",
+                    kind="fact",
+                    text="Aisle seats are preferred for short work trips.",
+                )
+            ]
+        ),
+    )
+    agent.chat(user_id="u1", session_id="s1", message="first turn")
+    agent.chat(user_id="u1", session_id="s1", message="second turn")
+    # The first create applies; the identical re-create is rejected.
+    assert [m.text for m in agent.memories_for_user("u1")] == [
+        "Aisle seats are preferred for short work trips."
+    ]
+    payload = last_planned(agent)
+    assert len(payload["rejected_actions"]) == 1
+    assert payload["rejected_actions"][0]["rejected_reason"] == "duplicate_of_active"
+    assert payload["policy"]["fallback_used"] is False
+
+
+def test_duplicate_create_allowed_when_matching_memory_is_retired_in_batch():
+    creator = FixedPolicy(
+        [MemoryDecisionProposal(action="create", text="Prefers aisle seats.")]
+    )
+    agent = ExperienceOS(model=MockProvider(), memory_policy=creator)
+    agent.chat(user_id="u1", session_id="s1", message="seed")
+    old_id = agent.memories_for_user("u1")[0].id
+
+    replacer = FixedPolicy(
+        [
+            MemoryDecisionProposal(
+                action="supersede",
+                target_memory_id=old_id,
+                text="Prefers aisle seats.",
+            ),
+            MemoryDecisionProposal(
+                action="create",
+                text="Prefers aisle seats.",
+                replaces=old_id,
+            ),
+        ]
+    )
+    agent2 = ExperienceOS(
+        model=MockProvider(),
+        memory_store=agent.memory_store,
+        memory_policy=replacer,
+    )
+    agent2.chat(user_id="u1", session_id="s2", message="replace it")
+    # The supersede pair is a replacement, not a duplicate: the old
+    # memory retires and the paired create still applies.
+    active = agent2.memories_for_user("u1")
+    assert [m.text for m in active] == ["Prefers aisle seats."]
+    assert active[0].id != old_id
+    assert last_planned(agent2)["rejected_actions"] == []
+
+
 def test_valid_active_supersede_and_forget_still_work():
     agent = ExperienceOS(model=MockProvider())
     agent.chat(user_id="u1", session_id="s1", message="I prefer morning flights.")

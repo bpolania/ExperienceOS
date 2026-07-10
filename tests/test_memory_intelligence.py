@@ -147,6 +147,28 @@ def test_rejected_target_visible_without_fallback():
     assert rejected[0]["Explanation"] == "target_not_active"
 
 
+def test_duplicate_create_rejection_visible_with_reason():
+    runner = FakeLocalModelRunner(
+        data=decisions(
+            create_decision(text="Aisle seats are preferred for short work trips.")
+        )
+    )
+    agent = ExperienceOS(
+        model=MockProvider(), memory_policy=LocalModelMemoryPolicy(runner)
+    )
+    agent.chat(user_id="u1", session_id="s1", message="first")
+    agent.chat(user_id="u1", session_id="s1", message="second")
+    provenance = policy_provenance(agent.events)
+    assert provenance["fallback_used"] is False
+    summary = memory_intelligence_summary(provenance)
+    assert "duplicate of active" in summary
+    assert "no fallback" in summary
+    rejected = [
+        r for r in decision_rows(provenance) if r["Decision"] == "Rejected"
+    ]
+    assert rejected[0]["Explanation"] == "duplicate_of_active"
+
+
 def test_provenance_tolerates_missing_optional_fields():
     # An older-style payload without the policy block or provenance keys.
     event = ExperienceEvent(

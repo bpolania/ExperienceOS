@@ -211,6 +211,25 @@ def test_final_context_uses_replacement_not_superseded():
     assert "Prefers aisle seats." not in context_text
 
 
+def test_now_prefer_phrasing_supersedes_old_one():
+    agent = make_agent()
+    agent.chat(
+        user_id="u1", session_id="s1", message="I prefer aisle seats for work trips."
+    )
+    agent.chat(
+        user_id="u1",
+        session_id="s2",
+        message="Actually, I now prefer window seats for work trips "
+        "instead of aisle seats.",
+    )
+    superseded = agent.memories_for_user("u1", status=MemoryStatus.SUPERSEDED)
+    assert [m.text for m in superseded] == ["Prefers aisle seats for work trips."]
+    active = agent.memories_for_user("u1")
+    # The "instead of ..." update clause is a modifier, not memory content:
+    # the retired alternative must not linger in active context text.
+    assert [m.text for m in active] == ["Prefers window seats for work trips."]
+
+
 def test_non_conflicting_preferences_are_not_superseded():
     agent = make_agent()
     agent.chat(user_id="u1", session_id="s1", message="I prefer aisle seats.")

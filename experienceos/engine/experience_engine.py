@@ -22,6 +22,7 @@ from experienceos.memory.planner import (
     SUPERSEDE,
     MemoryAction,
     MemoryPlanner,
+    _normalized_text,
 )
 from experienceos.policy.base import PolicyContext
 from experienceos.policy.manager import ExperienceManager
@@ -113,18 +114,37 @@ class ExperienceEngine:
         # Lifecycle validation: a policy can never re-target inactive
         # memory. Supersede/forget targets must belong to this
         # interaction's active snapshot; invalid targets are skipped
-        # and reported, never mutated.
+        # and reported, never mutated. Creates that duplicate an active
+        # memory are likewise skipped — unless every matching memory is
+        # being retired in this same batch (a replacement, not a copy).
         active_ids = {m.id for m in memories}
+        retired_ids = {
+            a.memory_id
+            for a in result.actions
+            if a.action in (SUPERSEDE, FORGET) and a.memory_id in active_ids
+        }
         valid_actions: list[MemoryAction] = []
-        rejected_actions: list[MemoryAction] = []
+        rejected_actions: list[tuple[MemoryAction, str]] = []
         for action in result.actions:
             if (
                 action.action in (SUPERSEDE, FORGET)
                 and action.memory_id not in active_ids
             ):
-                rejected_actions.append(action)
-            else:
-                valid_actions.append(action)
+                rejected_actions.append((action, "target_not_active"))
+                continue
+            if action.action == CREATE:
+                matching_ids = [
+                    m.id
+                    for m in memories
+                    if m.kind == action.kind
+                    and _normalized_text(m.text) == _normalized_text(action.text)
+                ]
+                if matching_ids and not all(
+                    mid in retired_ids for mid in matching_ids
+                ):
+                    rejected_actions.append((action, "duplicate_of_active"))
+                    continue
+            valid_actions.append(action)
 
         planned = []
         for action, decision in zip(result.actions, result.decisions):
@@ -150,9 +170,9 @@ class ExperienceEngine:
                 "rejected_actions": [
                     {
                         **self._describe_action(action),
-                        "rejected_reason": "target_not_active",
+                        "rejected_reason": reason,
                     }
-                    for action in rejected_actions
+                    for action, reason in rejected_actions
                 ],
             },
         )

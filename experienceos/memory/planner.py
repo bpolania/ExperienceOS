@@ -22,13 +22,16 @@ FORGET = "forget"
 # match too — leading words are ignored and trailing modifiers stripped.
 _PREFERENCE_PATTERN = re.compile(
     r"(?:\bremember\s+(?:that\s+)?)?"
-    r"\bi\s+(?P<verb>prefer|like|love|enjoy|don'?t\s+like|dislike|hate|avoid)\s+"
+    r"\bi\s+(?:now\s+)?"
+    r"(?P<verb>prefer|like|love|enjoy|don'?t\s+like|dislike|hate|avoid)\s+"
     r"(?P<object>[^.!?\n;]+)",
     re.IGNORECASE,
 )
 
 _TRAILING_MODIFIERS = re.compile(
-    r"\s+(now|instead|these days|going forward|from now on)$", re.IGNORECASE
+    r"\s+(now|instead(?:\s+of\s+[^.!?\n;]+)?|these days|going forward"
+    r"|from now on)$",
+    re.IGNORECASE,
 )
 
 # Explicit forget requests. Each pattern captures a topic phrase that is

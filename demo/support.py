@@ -330,9 +330,19 @@ def memory_intelligence_summary(provenance: dict | None) -> str:
     if provenance is None:
         return "No memory decisions yet."
     rejected = len(provenance["rejected"])
+    reasons = ", ".join(
+        sorted(
+            {
+                str(r.get("rejected_reason", "target_not_active")).replace(
+                    "_", " "
+                )
+                for r in provenance["rejected"]
+            }
+        )
+    )
     rejected_note = (
         f" {rejected} proposal(s) rejected by lifecycle validation "
-        f"(target not active) — no fallback."
+        f"({reasons}) — no fallback."
         if rejected
         else ""
     )
