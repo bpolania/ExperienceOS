@@ -81,7 +81,9 @@ def render_csvs(data: dict) -> dict:
                 if key not in fieldnames:
                     fieldnames.append(key)
         buffer = io.StringIO()
-        writer = csv.DictWriter(buffer, fieldnames=fieldnames, restval="")
+        writer = csv.DictWriter(
+            buffer, fieldnames=fieldnames, restval="", lineterminator="\n"
+        )
         writer.writeheader()
         writer.writerows(rows)
         files[name] = buffer.getvalue()
