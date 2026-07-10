@@ -6,8 +6,9 @@ Four comparison systems implemented behind the common
 the committed [lifecycle dataset](lifecycle_benchmark_dataset.md).
 Each is a reasonable, documented implementation of its named
 strategy — not a strawman — and none borrows ExperienceOS lifecycle
-logic. **No comparative accuracy or leakage result has been generated
-yet**; everything here describes behavior, not measurement.
+logic. This page describes behavior, not measurement; the canonical
+comparative results live under `benchmarks/results/committed/` and
+the generated report at [benchmark_report.md](benchmark_report.md).
 
 ## Why these four
 

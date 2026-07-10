@@ -6,8 +6,9 @@
 The committed dataset that Phase 8's comparative benchmark executes.
 Every scenario is a declarative JSON file conforming to the Prompt 1
 case contract ([benchmark_contract.md](benchmark_contract.md));
-every oracle is fixed here, **before any comparative result exists**.
-No benchmark results exist yet, and nothing in this dataset is a
+every oracle was fixed here **before any comparative result
+existed** (the canonical results now live under
+`benchmarks/results/committed/`). Nothing in this dataset is itself a
 result.
 
 ## Purpose

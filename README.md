@@ -393,7 +393,7 @@ Honest hard-case results stay visible: stale rendered-context leakage for Experi
 Naive lexical retrieval outperforms ExperienceOS's sparse rule-based extraction on this conversational subset — a measured limitation, reported as such. Reproduce/verify: `./scripts/run_benchmarks.sh validate benchmarks/results/committed/lifecycle-offline-v1`, `./scripts/run_benchmarks.sh validate-external benchmarks/results/committed/longmemeval-50-subset-v1`, `./scripts/run_benchmarks.sh report`.
 <!-- benchmark-evidence:end -->
 
-## Benchmarking (Phase 8, in progress)
+## Benchmarking
 
 A lifecycle benchmark comparing ExperienceOS against stateless,
 full-history, append-only, and naive-retrieval baselines is being
@@ -418,9 +418,11 @@ official full-benchmark score) — is documented in
 [docs/longmemeval_subset.md](docs/longmemeval_subset.md) and kept
 fully separate from the custom lifecycle results.
 The default benchmark path is fully offline (no credentials, no
-network, no model downloads). Raw comparative artifacts exist under
-`benchmarks/results/committed/`; the final comparative report has
-not been written yet, and no result numbers are quoted here.
+network, no model downloads). Raw comparative artifacts live under
+`benchmarks/results/committed/`, and the generated comparative report
+is [docs/benchmark_report.md](docs/benchmark_report.md) — headline
+values (with raw denominators) appear in the Benchmark Evidence
+section above.
 
 Run and validate the offline benchmark:
 

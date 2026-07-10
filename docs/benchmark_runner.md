@@ -4,8 +4,9 @@ Deterministic six-system orchestration over the committed
 [lifecycle dataset](lifecycle_benchmark_dataset.md), scoring against
 the fixed [contract](benchmark_contract.md) metrics
 ([metric behavior](benchmark_metrics.md)) and writing validated raw
-artifacts. **Raw comparative results now exist; the final judge-facing
-interpretation has not been written yet.**
+artifacts. Raw comparative results are committed under
+`benchmarks/results/committed/`, and the generated judge-facing
+report is [benchmark_report.md](benchmark_report.md).
 
 ## Commands
 

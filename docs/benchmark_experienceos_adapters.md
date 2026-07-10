@@ -5,7 +5,9 @@ same `BenchmarkSystem` interface as the four
 [baselines](benchmark_baselines.md), producing the same evidence
 shape from the [benchmark contract](benchmark_contract.md) over the
 committed [lifecycle dataset](lifecycle_benchmark_dataset.md).
-**No comparative aggregate benchmark result exists yet.**
+Canonical comparative results now exist under
+`benchmarks/results/committed/`; see
+[benchmark_report.md](benchmark_report.md).
 
 ## Evidence flow
 
