@@ -123,6 +123,10 @@ def test_planned_actions_include_forget():
             "text": "Prefers morning flights.",
             "reason": "User asked to forget this experience.",
             "request": "Forget my morning flight preference",
+            # Additive policy provenance fields:
+            "confidence": 1.0,
+            "explanation": "User asked to forget this experience.",
+            "decision_source": "rule_based",
         }
     ]
 

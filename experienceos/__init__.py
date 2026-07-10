@@ -4,7 +4,25 @@ AI today has intelligence but no life experience. ExperienceOS gives any
 LLM-powered agent the ability to accumulate experience across sessions.
 """
 
+from experienceos.policy import (
+    DecisionSource,
+    ExperienceManager,
+    MemoryDecisionProposal,
+    MemoryPolicy,
+    PolicyAction,
+    PolicyContext,
+    RuleBasedMemoryPolicy,
+)
 from experienceos.sdk import ExperienceOS
 
-__all__ = ["ExperienceOS"]
+__all__ = [
+    "DecisionSource",
+    "ExperienceManager",
+    "ExperienceOS",
+    "MemoryDecisionProposal",
+    "MemoryPolicy",
+    "PolicyAction",
+    "PolicyContext",
+    "RuleBasedMemoryPolicy",
+]
 __version__ = "0.1.0"

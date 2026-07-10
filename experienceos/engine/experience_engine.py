@@ -23,6 +23,9 @@ from experienceos.memory.planner import (
     MemoryAction,
     MemoryPlanner,
 )
+from experienceos.policy.base import PolicyContext
+from experienceos.policy.manager import ExperienceManager
+from experienceos.policy.rule_based import RuleBasedMemoryPolicy
 from experienceos.memory.schema import ExperienceEntry, MemoryStatus
 from experienceos.memory.store import MemoryStore
 from experienceos.memory.tags import assign_tags, domain_for
@@ -39,12 +42,16 @@ class ExperienceEngine:
         context_builder: ContextBuilder,
         memory_store: MemoryStore,
         memory_planner: MemoryPlanner | None = None,
+        experience_manager: ExperienceManager | None = None,
     ):
         self.model = model
         self.event_bus = event_bus
         self.context_builder = context_builder
         self.memory_store = memory_store
         self.memory_planner = memory_planner or MemoryPlanner()
+        self.experience_manager = experience_manager or ExperienceManager(
+            RuleBasedMemoryPolicy(self.memory_planner)
+        )
 
     def run_interaction(
         self,
@@ -95,14 +102,59 @@ class ExperienceEngine:
             },
         )
 
-        actions = self.memory_planner.plan_memory_actions(
-            user_id, session_id, message, existing=memories
+        result = self.experience_manager.plan(
+            PolicyContext(
+                user_id=user_id,
+                session_id=session_id,
+                message=message,
+                active_memories=memories,
+            )
         )
+        # Lifecycle validation: a policy can never re-target inactive
+        # memory. Supersede/forget targets must belong to this
+        # interaction's active snapshot; invalid targets are skipped
+        # and reported, never mutated.
+        active_ids = {m.id for m in memories}
+        valid_actions: list[MemoryAction] = []
+        rejected_actions: list[MemoryAction] = []
+        for action in result.actions:
+            if (
+                action.action in (SUPERSEDE, FORGET)
+                and action.memory_id not in active_ids
+            ):
+                rejected_actions.append(action)
+            else:
+                valid_actions.append(action)
+
+        planned = [
+            {
+                **self._describe_action(action),
+                "confidence": decision.confidence,
+                "explanation": decision.explanation,
+                "decision_source": decision.decision_source,
+            }
+            for action, decision in zip(result.actions, result.decisions)
+        ]
         emit(
             EventType.MEMORY_ACTION_PLANNED,
-            {"planned_actions": [self._describe_action(a) for a in actions]},
+            {
+                "planned_actions": planned,
+                "policy": {
+                    "mode": result.policy_mode,
+                    "decision_source": result.policy_mode,
+                    "fallback_used": False,
+                    "fallback_reason": None,
+                },
+                "rejected_actions": [
+                    {
+                        **self._describe_action(action),
+                        "rejected_reason": "target_not_active",
+                    }
+                    for action in rejected_actions
+                ],
+            },
         )
-        self._apply_memory_actions(actions, user_id, session_id, emit)
+        self._apply_memory_actions(valid_actions, user_id, session_id, emit)
 
         messages = [*context_messages, {"role": "user", "content": message}]
         response = self.model.complete(messages)

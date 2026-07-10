@@ -22,6 +22,9 @@ from experienceos.events.schema import ExperienceEvent
 from experienceos.memory.planner import MemoryPlanner
 from experienceos.memory.schema import ExperienceEntry, MemoryStatus
 from experienceos.memory.store import MemoryStore
+from experienceos.policy.base import MemoryPolicy
+from experienceos.policy.manager import ExperienceManager
+from experienceos.policy.rule_based import RuleBasedMemoryPolicy
 from experienceos.providers.base import ModelProvider
 
 
@@ -32,6 +35,13 @@ class ExperienceOS:
     in-memory. ``memory_store`` accepts any store implementing the
     memory store interface (``InMemoryMemoryStore`` — the default — or
     ``SQLiteMemoryStore`` for persistence across restarts).
+
+    Memory planning is configurable through exactly one of:
+    ``experience_manager`` (a preconfigured ExperienceManager),
+    ``memory_policy`` (wrapped in a default manager), or
+    ``memory_planner`` (wrapped in the rule-based policy). The default
+    is the deterministic rule-based policy; combining these arguments
+    raises ValueError.
     """
 
     def __init__(
@@ -42,18 +52,44 @@ class ExperienceOS:
         context_builder: ContextBuilder | None = None,
         memory_store: MemoryStore | None = None,
         memory_planner: MemoryPlanner | None = None,
+        memory_policy: MemoryPolicy | None = None,
+        experience_manager: ExperienceManager | None = None,
     ):
+        provided = [
+            name
+            for name, value in (
+                ("experience_manager", experience_manager),
+                ("memory_policy", memory_policy),
+                ("memory_planner", memory_planner),
+            )
+            if value is not None
+        ]
+        if len(provided) > 1:
+            raise ValueError(
+                "Provide only one of experience_manager, memory_policy, or "
+                f"memory_planner (got: {', '.join(provided)})."
+            )
+
         self.model = model
         self.event_bus = event_bus or EventBus()
         self.context_builder = context_builder or ContextBuilder()
         self.memory_store = memory_store or MemoryStore()
         self.memory_planner = memory_planner or MemoryPlanner()
+        if experience_manager is not None:
+            self.experience_manager = experience_manager
+        elif memory_policy is not None:
+            self.experience_manager = ExperienceManager(memory_policy)
+        else:
+            self.experience_manager = ExperienceManager(
+                RuleBasedMemoryPolicy(self.memory_planner)
+            )
         self.engine = ExperienceEngine(
             model=self.model,
             event_bus=self.event_bus,
             context_builder=self.context_builder,
             memory_store=self.memory_store,
             memory_planner=self.memory_planner,
+            experience_manager=self.experience_manager,
         )
 
     @classmethod
