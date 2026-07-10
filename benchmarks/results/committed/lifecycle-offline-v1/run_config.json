@@ -1,0 +1,31 @@
+{
+  "context_budget_source": "per-scenario",
+  "dataset_version": "experienceos-lifecycle-v1",
+  "evaluator_mode": "deterministic",
+  "fail_fast": false,
+  "local_policy_mode": "scripted",
+  "max_output_tokens": null,
+  "memory_policy_mode": "per-system",
+  "notes": [],
+  "output_dir": "benchmarks/results/committed/lifecycle-offline-v1",
+  "overwrite": false,
+  "profile": "full-offline",
+  "response_provider_mode": "deterministic-offline",
+  "retry_policy": "none",
+  "run_id": "lifecycle-offline-v1",
+  "scenario_ids": [],
+  "seed_policy": "per-scenario committed seeds",
+  "selection_k_source": "per-scenario",
+  "storage_mode": "in_memory",
+  "suite_version": "experienceos-lifecycle-v1",
+  "systems": [
+    "stateless",
+    "full_history",
+    "append_only",
+    "naive_top_k",
+    "experienceos_rules",
+    "experienceos_local"
+  ],
+  "temperature": null,
+  "token_accounting_method": "approximation"
+}

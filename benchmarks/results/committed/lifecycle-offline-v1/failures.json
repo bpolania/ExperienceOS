@@ -1,0 +1,973 @@
+{
+  "ambiguous_references": [
+    {
+      "logical_id": "food.dislike.cilantro",
+      "memory_ids": [
+        "append_only-mem-001",
+        "append_only-mem-002"
+      ],
+      "scenario_id": "creation_005_exact_duplicate_restatement",
+      "scope": "active",
+      "system_id": "append_only",
+      "type": "ambiguous_reference"
+    },
+    {
+      "logical_id": "food.team_lunch_style",
+      "memory_ids": [
+        "append_only-mem-001",
+        "append_only-mem-002"
+      ],
+      "scenario_id": "creation_006_paraphrased_duplicate",
+      "scope": "active",
+      "system_id": "append_only",
+      "type": "ambiguous_reference"
+    },
+    {
+      "logical_id": "food.team_lunch_style.restated",
+      "memory_ids": [
+        "append_only-mem-001",
+        "append_only-mem-002"
+      ],
+      "scenario_id": "forgetting_006_restatement_not_resurrection",
+      "scope": "active",
+      "system_id": "append_only",
+      "type": "ambiguous_reference"
+    },
+    {
+      "logical_id": "food.dislike.cilantro",
+      "memory_ids": [
+        "naive_top_k-mem-001",
+        "naive_top_k-mem-002"
+      ],
+      "scenario_id": "creation_005_exact_duplicate_restatement",
+      "scope": "active",
+      "system_id": "naive_top_k",
+      "type": "ambiguous_reference"
+    },
+    {
+      "logical_id": "food.team_lunch_style",
+      "memory_ids": [
+        "naive_top_k-mem-001",
+        "naive_top_k-mem-002"
+      ],
+      "scenario_id": "creation_006_paraphrased_duplicate",
+      "scope": "active",
+      "system_id": "naive_top_k",
+      "type": "ambiguous_reference"
+    },
+    {
+      "logical_id": "food.team_lunch_style.restated",
+      "memory_ids": [
+        "naive_top_k-mem-001",
+        "naive_top_k-mem-002"
+      ],
+      "scenario_id": "forgetting_006_restatement_not_resurrection",
+      "scope": "active",
+      "system_id": "naive_top_k",
+      "type": "ambiguous_reference"
+    }
+  ],
+  "deferred_evaluations": [
+    {
+      "reason": "abstention verification requires provider-backed evaluation; deferred in deterministic offline mode",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "system_id": "stateless"
+    },
+    {
+      "reason": "model_scored response evaluation requires a judge; deferred in deterministic offline mode",
+      "scenario_id": "retrieval_007_correct_abstention",
+      "system_id": "stateless"
+    },
+    {
+      "reason": "abstention verification requires provider-backed evaluation; deferred in deterministic offline mode",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "system_id": "full_history"
+    },
+    {
+      "reason": "model_scored response evaluation requires a judge; deferred in deterministic offline mode",
+      "scenario_id": "retrieval_007_correct_abstention",
+      "system_id": "full_history"
+    },
+    {
+      "reason": "abstention verification requires provider-backed evaluation; deferred in deterministic offline mode",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "system_id": "append_only"
+    },
+    {
+      "reason": "model_scored response evaluation requires a judge; deferred in deterministic offline mode",
+      "scenario_id": "retrieval_007_correct_abstention",
+      "system_id": "append_only"
+    },
+    {
+      "reason": "abstention verification requires provider-backed evaluation; deferred in deterministic offline mode",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "system_id": "naive_top_k"
+    },
+    {
+      "reason": "model_scored response evaluation requires a judge; deferred in deterministic offline mode",
+      "scenario_id": "retrieval_007_correct_abstention",
+      "system_id": "naive_top_k"
+    },
+    {
+      "reason": "abstention verification requires provider-backed evaluation; deferred in deterministic offline mode",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "reason": "model_scored response evaluation requires a judge; deferred in deterministic offline mode",
+      "scenario_id": "retrieval_007_correct_abstention",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "reason": "abstention verification requires provider-backed evaluation; deferred in deterministic offline mode",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "system_id": "experienceos_local"
+    },
+    {
+      "reason": "model_scored response evaluation requires a judge; deferred in deterministic offline mode",
+      "scenario_id": "retrieval_007_correct_abstention",
+      "system_id": "experienceos_local"
+    }
+  ],
+  "evaluator_failures": [],
+  "skipped_cases": [
+    {
+      "reason": "requires_local_model: scripted local-proposal semantics are not applicable to this baseline",
+      "scenario_id": "containment_005_one_sentence_supersession_local",
+      "system_id": "stateless"
+    },
+    {
+      "reason": "requires_local_model: scripted local-proposal semantics are not applicable to this baseline",
+      "scenario_id": "containment_006_vague_forget_safe",
+      "system_id": "stateless"
+    },
+    {
+      "reason": "requires_local_model: scripted local-proposal semantics are not applicable to this baseline",
+      "scenario_id": "containment_005_one_sentence_supersession_local",
+      "system_id": "full_history"
+    },
+    {
+      "reason": "requires_local_model: scripted local-proposal semantics are not applicable to this baseline",
+      "scenario_id": "containment_006_vague_forget_safe",
+      "system_id": "full_history"
+    },
+    {
+      "reason": "requires_local_model: scripted local-proposal semantics are not applicable to this baseline",
+      "scenario_id": "containment_005_one_sentence_supersession_local",
+      "system_id": "append_only"
+    },
+    {
+      "reason": "requires_local_model: scripted local-proposal semantics are not applicable to this baseline",
+      "scenario_id": "containment_006_vague_forget_safe",
+      "system_id": "append_only"
+    },
+    {
+      "reason": "requires_local_model: scripted local-proposal semantics are not applicable to this baseline",
+      "scenario_id": "containment_005_one_sentence_supersession_local",
+      "system_id": "naive_top_k"
+    },
+    {
+      "reason": "requires_local_model: scripted local-proposal semantics are not applicable to this baseline",
+      "scenario_id": "containment_006_vague_forget_safe",
+      "system_id": "naive_top_k"
+    },
+    {
+      "reason": "requires_local_model: no real local model configured for this run",
+      "scenario_id": "containment_005_one_sentence_supersession_local",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "reason": "requires_local_model: no real local model configured for this run",
+      "scenario_id": "containment_006_vague_forget_safe",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "reason": "requires_local_model: no real local model configured for this run",
+      "scenario_id": "containment_005_one_sentence_supersession_local",
+      "system_id": "experienceos_local"
+    },
+    {
+      "reason": "requires_local_model: no real local model configured for this run",
+      "scenario_id": "containment_006_vague_forget_safe",
+      "system_id": "experienceos_local"
+    }
+  ],
+  "system_execution_failures": [],
+  "unresolved_references": [
+    {
+      "reference": "active:travel.seat.short_work_trip",
+      "scenario_id": "creation_001_explicit_scoped_preference",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "active:work.base_office",
+      "scenario_id": "creation_002_durable_user_fact",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "active:work.daily_status_channel",
+      "scenario_id": "creation_003_durable_instruction",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "active:food.dislike.cilantro",
+      "scenario_id": "creation_005_exact_duplicate_restatement",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "active:food.team_lunch_style",
+      "scenario_id": "creation_006_paraphrased_duplicate",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "active:food.morning_drink.updated",
+      "scenario_id": "updates_001_preference_replacement_cross_session",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "superseded:food.morning_drink",
+      "scenario_id": "updates_001_preference_replacement_cross_session",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "active:work.base_office.updated",
+      "scenario_id": "updates_002_fact_correction",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "superseded:work.base_office",
+      "scenario_id": "updates_002_fact_correction",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "active:work.daily_status_channel.updated",
+      "scenario_id": "updates_003_instruction_replacement",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "superseded:work.daily_status_channel",
+      "scenario_id": "updates_003_instruction_replacement",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "active:study.time_of_day.updated",
+      "scenario_id": "updates_004_now_prefer_wording",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "superseded:study.time_of_day",
+      "scenario_id": "updates_004_now_prefer_wording",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "active:travel.seat.work_trip.updated",
+      "scenario_id": "updates_005_instead_of_wording",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "superseded:travel.seat.work_trip",
+      "scenario_id": "updates_005_instead_of_wording",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "active:travel.seat.short_domestic",
+      "scenario_id": "updates_006_scoped_preferences_coexist",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "active:travel.seat.long_international",
+      "scenario_id": "updates_006_scoped_preferences_coexist",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "active:family.soccer_practice_day.updated",
+      "scenario_id": "updates_007_correction_with_distractors",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "active:food.pizza_friday",
+      "scenario_id": "updates_007_correction_with_distractors",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "superseded:family.soccer_practice_day",
+      "scenario_id": "updates_007_correction_with_distractors",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "active:work.daily_status_channel.v3",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "superseded:work.daily_status_channel.v1",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "superseded:work.daily_status_channel.v2",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "forgotten:food.dislike.cilantro",
+      "scenario_id": "forgetting_001_exact_forget",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "forgotten:study.time_of_day",
+      "scenario_id": "forgetting_002_paraphrased_forget",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "active:travel.seat.short_work_trip",
+      "scenario_id": "forgetting_003_forget_one_of_several",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "active:travel.home_airport",
+      "scenario_id": "forgetting_003_forget_one_of_several",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "forgotten:travel.flight_time",
+      "scenario_id": "forgetting_003_forget_one_of_several",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "superseded:food.morning_drink",
+      "scenario_id": "forgetting_004_forget_after_supersession",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "forgotten:food.morning_drink.updated",
+      "scenario_id": "forgetting_004_forget_after_supersession",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "forgotten:work.daily_status_channel",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "active:food.team_lunch_style.restated",
+      "scenario_id": "forgetting_006_restatement_not_resurrection",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "forgotten:food.team_lunch_style",
+      "scenario_id": "forgetting_006_restatement_not_resurrection",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "active:devices.phone_model.updated",
+      "scenario_id": "retrieval_008_stale_would_mislead",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "superseded:devices.phone_model",
+      "scenario_id": "retrieval_008_stale_would_mislead",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "active:dev.editor_theme.updated",
+      "scenario_id": "context_005_active_and_inactive_versions",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "superseded:dev.editor_theme",
+      "scenario_id": "context_005_active_and_inactive_versions",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "active:travel.seat.short_work_trip",
+      "scenario_id": "containment_001_duplicate_create_contained",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "active:food.morning_drink.updated",
+      "scenario_id": "containment_002_supersede_inactive_target",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "superseded:food.morning_drink",
+      "scenario_id": "containment_002_supersede_inactive_target",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "active:dev.preferred_test_command",
+      "scenario_id": "containment_003_forget_nonexistent_target",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "active:writing.email_greeting",
+      "scenario_id": "containment_004_malformed_proposal_fallback",
+      "system_id": "stateless"
+    },
+    {
+      "reference": "active:travel.seat.short_work_trip",
+      "scenario_id": "creation_001_explicit_scoped_preference",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "active:work.base_office",
+      "scenario_id": "creation_002_durable_user_fact",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "active:work.daily_status_channel",
+      "scenario_id": "creation_003_durable_instruction",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "active:food.dislike.cilantro",
+      "scenario_id": "creation_005_exact_duplicate_restatement",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "active:food.team_lunch_style",
+      "scenario_id": "creation_006_paraphrased_duplicate",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "active:food.morning_drink.updated",
+      "scenario_id": "updates_001_preference_replacement_cross_session",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "superseded:food.morning_drink",
+      "scenario_id": "updates_001_preference_replacement_cross_session",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "active:work.base_office.updated",
+      "scenario_id": "updates_002_fact_correction",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "superseded:work.base_office",
+      "scenario_id": "updates_002_fact_correction",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "active:work.daily_status_channel.updated",
+      "scenario_id": "updates_003_instruction_replacement",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "superseded:work.daily_status_channel",
+      "scenario_id": "updates_003_instruction_replacement",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "active:study.time_of_day.updated",
+      "scenario_id": "updates_004_now_prefer_wording",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "superseded:study.time_of_day",
+      "scenario_id": "updates_004_now_prefer_wording",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "active:travel.seat.work_trip.updated",
+      "scenario_id": "updates_005_instead_of_wording",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "superseded:travel.seat.work_trip",
+      "scenario_id": "updates_005_instead_of_wording",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "active:travel.seat.short_domestic",
+      "scenario_id": "updates_006_scoped_preferences_coexist",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "active:travel.seat.long_international",
+      "scenario_id": "updates_006_scoped_preferences_coexist",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "active:family.soccer_practice_day.updated",
+      "scenario_id": "updates_007_correction_with_distractors",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "active:food.pizza_friday",
+      "scenario_id": "updates_007_correction_with_distractors",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "superseded:family.soccer_practice_day",
+      "scenario_id": "updates_007_correction_with_distractors",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "active:work.daily_status_channel.v3",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "superseded:work.daily_status_channel.v1",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "superseded:work.daily_status_channel.v2",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "forgotten:food.dislike.cilantro",
+      "scenario_id": "forgetting_001_exact_forget",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "forgotten:study.time_of_day",
+      "scenario_id": "forgetting_002_paraphrased_forget",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "active:travel.seat.short_work_trip",
+      "scenario_id": "forgetting_003_forget_one_of_several",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "active:travel.home_airport",
+      "scenario_id": "forgetting_003_forget_one_of_several",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "forgotten:travel.flight_time",
+      "scenario_id": "forgetting_003_forget_one_of_several",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "superseded:food.morning_drink",
+      "scenario_id": "forgetting_004_forget_after_supersession",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "forgotten:food.morning_drink.updated",
+      "scenario_id": "forgetting_004_forget_after_supersession",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "forgotten:work.daily_status_channel",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "active:food.team_lunch_style.restated",
+      "scenario_id": "forgetting_006_restatement_not_resurrection",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "forgotten:food.team_lunch_style",
+      "scenario_id": "forgetting_006_restatement_not_resurrection",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "active:devices.phone_model.updated",
+      "scenario_id": "retrieval_008_stale_would_mislead",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "superseded:devices.phone_model",
+      "scenario_id": "retrieval_008_stale_would_mislead",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "active:dev.editor_theme.updated",
+      "scenario_id": "context_005_active_and_inactive_versions",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "superseded:dev.editor_theme",
+      "scenario_id": "context_005_active_and_inactive_versions",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "active:travel.seat.short_work_trip",
+      "scenario_id": "containment_001_duplicate_create_contained",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "active:food.morning_drink.updated",
+      "scenario_id": "containment_002_supersede_inactive_target",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "superseded:food.morning_drink",
+      "scenario_id": "containment_002_supersede_inactive_target",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "active:dev.preferred_test_command",
+      "scenario_id": "containment_003_forget_nonexistent_target",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "active:writing.email_greeting",
+      "scenario_id": "containment_004_malformed_proposal_fallback",
+      "system_id": "full_history"
+    },
+    {
+      "reference": "superseded:food.morning_drink",
+      "scenario_id": "updates_001_preference_replacement_cross_session",
+      "system_id": "append_only"
+    },
+    {
+      "reference": "superseded:work.base_office",
+      "scenario_id": "updates_002_fact_correction",
+      "system_id": "append_only"
+    },
+    {
+      "reference": "superseded:work.daily_status_channel",
+      "scenario_id": "updates_003_instruction_replacement",
+      "system_id": "append_only"
+    },
+    {
+      "reference": "superseded:study.time_of_day",
+      "scenario_id": "updates_004_now_prefer_wording",
+      "system_id": "append_only"
+    },
+    {
+      "reference": "superseded:travel.seat.work_trip",
+      "scenario_id": "updates_005_instead_of_wording",
+      "system_id": "append_only"
+    },
+    {
+      "reference": "superseded:family.soccer_practice_day",
+      "scenario_id": "updates_007_correction_with_distractors",
+      "system_id": "append_only"
+    },
+    {
+      "reference": "active:work.daily_status_channel.v3",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "append_only"
+    },
+    {
+      "reference": "superseded:work.daily_status_channel.v1",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "append_only"
+    },
+    {
+      "reference": "superseded:work.daily_status_channel.v2",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "append_only"
+    },
+    {
+      "reference": "forgotten:food.dislike.cilantro",
+      "scenario_id": "forgetting_001_exact_forget",
+      "system_id": "append_only"
+    },
+    {
+      "reference": "forgotten:study.time_of_day",
+      "scenario_id": "forgetting_002_paraphrased_forget",
+      "system_id": "append_only"
+    },
+    {
+      "reference": "forgotten:travel.flight_time",
+      "scenario_id": "forgetting_003_forget_one_of_several",
+      "system_id": "append_only"
+    },
+    {
+      "reference": "superseded:food.morning_drink",
+      "scenario_id": "forgetting_004_forget_after_supersession",
+      "system_id": "append_only"
+    },
+    {
+      "reference": "forgotten:food.morning_drink.updated",
+      "scenario_id": "forgetting_004_forget_after_supersession",
+      "system_id": "append_only"
+    },
+    {
+      "reference": "forgotten:work.daily_status_channel",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "system_id": "append_only"
+    },
+    {
+      "reference": "forgotten:food.team_lunch_style",
+      "scenario_id": "forgetting_006_restatement_not_resurrection",
+      "system_id": "append_only"
+    },
+    {
+      "reference": "superseded:devices.phone_model",
+      "scenario_id": "retrieval_008_stale_would_mislead",
+      "system_id": "append_only"
+    },
+    {
+      "reference": "superseded:dev.editor_theme",
+      "scenario_id": "context_005_active_and_inactive_versions",
+      "system_id": "append_only"
+    },
+    {
+      "reference": "superseded:food.morning_drink",
+      "scenario_id": "containment_002_supersede_inactive_target",
+      "system_id": "append_only"
+    },
+    {
+      "reference": "superseded:food.morning_drink",
+      "scenario_id": "updates_001_preference_replacement_cross_session",
+      "system_id": "naive_top_k"
+    },
+    {
+      "reference": "superseded:work.base_office",
+      "scenario_id": "updates_002_fact_correction",
+      "system_id": "naive_top_k"
+    },
+    {
+      "reference": "superseded:work.daily_status_channel",
+      "scenario_id": "updates_003_instruction_replacement",
+      "system_id": "naive_top_k"
+    },
+    {
+      "reference": "superseded:study.time_of_day",
+      "scenario_id": "updates_004_now_prefer_wording",
+      "system_id": "naive_top_k"
+    },
+    {
+      "reference": "superseded:travel.seat.work_trip",
+      "scenario_id": "updates_005_instead_of_wording",
+      "system_id": "naive_top_k"
+    },
+    {
+      "reference": "superseded:family.soccer_practice_day",
+      "scenario_id": "updates_007_correction_with_distractors",
+      "system_id": "naive_top_k"
+    },
+    {
+      "reference": "active:work.daily_status_channel.v3",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "naive_top_k"
+    },
+    {
+      "reference": "superseded:work.daily_status_channel.v1",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "naive_top_k"
+    },
+    {
+      "reference": "superseded:work.daily_status_channel.v2",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "naive_top_k"
+    },
+    {
+      "reference": "forgotten:food.dislike.cilantro",
+      "scenario_id": "forgetting_001_exact_forget",
+      "system_id": "naive_top_k"
+    },
+    {
+      "reference": "forgotten:study.time_of_day",
+      "scenario_id": "forgetting_002_paraphrased_forget",
+      "system_id": "naive_top_k"
+    },
+    {
+      "reference": "forgotten:travel.flight_time",
+      "scenario_id": "forgetting_003_forget_one_of_several",
+      "system_id": "naive_top_k"
+    },
+    {
+      "reference": "superseded:food.morning_drink",
+      "scenario_id": "forgetting_004_forget_after_supersession",
+      "system_id": "naive_top_k"
+    },
+    {
+      "reference": "forgotten:food.morning_drink.updated",
+      "scenario_id": "forgetting_004_forget_after_supersession",
+      "system_id": "naive_top_k"
+    },
+    {
+      "reference": "forgotten:work.daily_status_channel",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "system_id": "naive_top_k"
+    },
+    {
+      "reference": "forgotten:food.team_lunch_style",
+      "scenario_id": "forgetting_006_restatement_not_resurrection",
+      "system_id": "naive_top_k"
+    },
+    {
+      "reference": "superseded:devices.phone_model",
+      "scenario_id": "retrieval_008_stale_would_mislead",
+      "system_id": "naive_top_k"
+    },
+    {
+      "reference": "superseded:dev.editor_theme",
+      "scenario_id": "context_005_active_and_inactive_versions",
+      "system_id": "naive_top_k"
+    },
+    {
+      "reference": "superseded:food.morning_drink",
+      "scenario_id": "containment_002_supersede_inactive_target",
+      "system_id": "naive_top_k"
+    },
+    {
+      "reference": "superseded:food.morning_drink",
+      "scenario_id": "updates_001_preference_replacement_cross_session",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "reference": "superseded:work.daily_status_channel",
+      "scenario_id": "updates_003_instruction_replacement",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "reference": "superseded:study.time_of_day",
+      "scenario_id": "updates_004_now_prefer_wording",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "reference": "active:travel.seat.short_domestic",
+      "scenario_id": "updates_006_scoped_preferences_coexist",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "reference": "active:family.soccer_practice_day.updated",
+      "scenario_id": "updates_007_correction_with_distractors",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "reference": "superseded:family.soccer_practice_day",
+      "scenario_id": "updates_007_correction_with_distractors",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "reference": "active:work.daily_status_channel.v3",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "reference": "superseded:work.daily_status_channel.v1",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "reference": "superseded:work.daily_status_channel.v2",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "reference": "forgotten:study.time_of_day",
+      "scenario_id": "forgetting_002_paraphrased_forget",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "reference": "superseded:food.morning_drink",
+      "scenario_id": "forgetting_004_forget_after_supersession",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "reference": "forgotten:food.morning_drink.updated",
+      "scenario_id": "forgetting_004_forget_after_supersession",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "reference": "forgotten:work.daily_status_channel",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "reference": "forgotten:food.team_lunch_style",
+      "scenario_id": "forgetting_006_restatement_not_resurrection",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "reference": "superseded:devices.phone_model",
+      "scenario_id": "retrieval_008_stale_would_mislead",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "reference": "superseded:dev.editor_theme",
+      "scenario_id": "context_005_active_and_inactive_versions",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "reference": "superseded:food.morning_drink",
+      "scenario_id": "containment_002_supersede_inactive_target",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "reference": "superseded:food.morning_drink",
+      "scenario_id": "updates_001_preference_replacement_cross_session",
+      "system_id": "experienceos_local"
+    },
+    {
+      "reference": "superseded:work.daily_status_channel",
+      "scenario_id": "updates_003_instruction_replacement",
+      "system_id": "experienceos_local"
+    },
+    {
+      "reference": "superseded:study.time_of_day",
+      "scenario_id": "updates_004_now_prefer_wording",
+      "system_id": "experienceos_local"
+    },
+    {
+      "reference": "active:travel.seat.short_domestic",
+      "scenario_id": "updates_006_scoped_preferences_coexist",
+      "system_id": "experienceos_local"
+    },
+    {
+      "reference": "active:family.soccer_practice_day.updated",
+      "scenario_id": "updates_007_correction_with_distractors",
+      "system_id": "experienceos_local"
+    },
+    {
+      "reference": "superseded:family.soccer_practice_day",
+      "scenario_id": "updates_007_correction_with_distractors",
+      "system_id": "experienceos_local"
+    },
+    {
+      "reference": "active:work.daily_status_channel.v3",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "experienceos_local"
+    },
+    {
+      "reference": "superseded:work.daily_status_channel.v1",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "experienceos_local"
+    },
+    {
+      "reference": "superseded:work.daily_status_channel.v2",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "experienceos_local"
+    },
+    {
+      "reference": "forgotten:study.time_of_day",
+      "scenario_id": "forgetting_002_paraphrased_forget",
+      "system_id": "experienceos_local"
+    },
+    {
+      "reference": "superseded:food.morning_drink",
+      "scenario_id": "forgetting_004_forget_after_supersession",
+      "system_id": "experienceos_local"
+    },
+    {
+      "reference": "forgotten:food.morning_drink.updated",
+      "scenario_id": "forgetting_004_forget_after_supersession",
+      "system_id": "experienceos_local"
+    },
+    {
+      "reference": "forgotten:work.daily_status_channel",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "system_id": "experienceos_local"
+    },
+    {
+      "reference": "forgotten:food.team_lunch_style",
+      "scenario_id": "forgetting_006_restatement_not_resurrection",
+      "system_id": "experienceos_local"
+    },
+    {
+      "reference": "superseded:devices.phone_model",
+      "scenario_id": "retrieval_008_stale_would_mislead",
+      "system_id": "experienceos_local"
+    },
+    {
+      "reference": "superseded:dev.editor_theme",
+      "scenario_id": "context_005_active_and_inactive_versions",
+      "system_id": "experienceos_local"
+    }
+  ]
+}

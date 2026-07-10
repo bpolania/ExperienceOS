@@ -1,0 +1,1685 @@
+{
+  "artifact_schema_version": "1",
+  "runs": [
+    {
+      "index": 0,
+      "outcome": "failed",
+      "scenario_id": "creation_001_explicit_scoped_preference",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 1,
+      "outcome": "failed",
+      "scenario_id": "creation_002_durable_user_fact",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 2,
+      "outcome": "failed",
+      "scenario_id": "creation_003_durable_instruction",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 3,
+      "outcome": "passed",
+      "scenario_id": "creation_004_non_durable_statement",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 4,
+      "outcome": "passed",
+      "scenario_id": "creation_005_exact_duplicate_restatement",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 5,
+      "outcome": "passed",
+      "scenario_id": "creation_006_paraphrased_duplicate",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 6,
+      "outcome": "failed",
+      "scenario_id": "updates_001_preference_replacement_cross_session",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 7,
+      "outcome": "failed",
+      "scenario_id": "updates_002_fact_correction",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 8,
+      "outcome": "failed",
+      "scenario_id": "updates_003_instruction_replacement",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 9,
+      "outcome": "failed",
+      "scenario_id": "updates_004_now_prefer_wording",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 10,
+      "outcome": "failed",
+      "scenario_id": "updates_005_instead_of_wording",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 11,
+      "outcome": "failed",
+      "scenario_id": "updates_006_scoped_preferences_coexist",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 12,
+      "outcome": "failed",
+      "scenario_id": "updates_007_correction_with_distractors",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 13,
+      "outcome": "failed",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 14,
+      "outcome": "failed",
+      "scenario_id": "forgetting_001_exact_forget",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 15,
+      "outcome": "failed",
+      "scenario_id": "forgetting_002_paraphrased_forget",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 16,
+      "outcome": "failed",
+      "scenario_id": "forgetting_003_forget_one_of_several",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 17,
+      "outcome": "failed",
+      "scenario_id": "forgetting_004_forget_after_supersession",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 18,
+      "outcome": "partial",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 19,
+      "outcome": "failed",
+      "scenario_id": "forgetting_006_restatement_not_resurrection",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 20,
+      "outcome": "failed",
+      "scenario_id": "retrieval_001_one_relevant_among_many",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 21,
+      "outcome": "failed",
+      "scenario_id": "retrieval_002_multiple_relevant",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 22,
+      "outcome": "failed",
+      "scenario_id": "retrieval_003_lexical_mismatch",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 23,
+      "outcome": "passed",
+      "scenario_id": "retrieval_004_wrong_domain_similar_wording",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 24,
+      "outcome": "failed",
+      "scenario_id": "retrieval_005_old_relevant_vs_recent_irrelevant",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 25,
+      "outcome": "failed",
+      "scenario_id": "retrieval_006_no_memory_needed",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 26,
+      "outcome": "partial",
+      "scenario_id": "retrieval_007_correct_abstention",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 27,
+      "outcome": "failed",
+      "scenario_id": "retrieval_008_stale_would_mislead",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 28,
+      "outcome": "failed",
+      "scenario_id": "context_001_budget_exceeded",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 29,
+      "outcome": "failed",
+      "scenario_id": "context_002_cross_domain_relevance",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 30,
+      "outcome": "failed",
+      "scenario_id": "context_003_redundant_compression",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 31,
+      "outcome": "failed",
+      "scenario_id": "context_004_instruction_priority",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 32,
+      "outcome": "failed",
+      "scenario_id": "context_005_active_and_inactive_versions",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 33,
+      "outcome": "failed",
+      "scenario_id": "context_006_minimal_context_sufficient",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 34,
+      "outcome": "failed",
+      "scenario_id": "containment_001_duplicate_create_contained",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 35,
+      "outcome": "passed",
+      "scenario_id": "containment_002_supersede_inactive_target",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 36,
+      "outcome": "passed",
+      "scenario_id": "containment_003_forget_nonexistent_target",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 37,
+      "outcome": "failed",
+      "scenario_id": "containment_004_malformed_proposal_fallback",
+      "status": "passed",
+      "system_id": "stateless"
+    },
+    {
+      "index": 38,
+      "outcome": "skipped",
+      "scenario_id": "containment_005_one_sentence_supersession_local",
+      "status": "skipped",
+      "system_id": "stateless"
+    },
+    {
+      "index": 39,
+      "outcome": "skipped",
+      "scenario_id": "containment_006_vague_forget_safe",
+      "status": "skipped",
+      "system_id": "stateless"
+    },
+    {
+      "index": 40,
+      "outcome": "failed",
+      "scenario_id": "creation_001_explicit_scoped_preference",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 41,
+      "outcome": "failed",
+      "scenario_id": "creation_002_durable_user_fact",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 42,
+      "outcome": "failed",
+      "scenario_id": "creation_003_durable_instruction",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 43,
+      "outcome": "passed",
+      "scenario_id": "creation_004_non_durable_statement",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 44,
+      "outcome": "passed",
+      "scenario_id": "creation_005_exact_duplicate_restatement",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 45,
+      "outcome": "passed",
+      "scenario_id": "creation_006_paraphrased_duplicate",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 46,
+      "outcome": "failed",
+      "scenario_id": "updates_001_preference_replacement_cross_session",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 47,
+      "outcome": "failed",
+      "scenario_id": "updates_002_fact_correction",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 48,
+      "outcome": "failed",
+      "scenario_id": "updates_003_instruction_replacement",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 49,
+      "outcome": "failed",
+      "scenario_id": "updates_004_now_prefer_wording",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 50,
+      "outcome": "failed",
+      "scenario_id": "updates_005_instead_of_wording",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 51,
+      "outcome": "failed",
+      "scenario_id": "updates_006_scoped_preferences_coexist",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 52,
+      "outcome": "failed",
+      "scenario_id": "updates_007_correction_with_distractors",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 53,
+      "outcome": "failed",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 54,
+      "outcome": "failed",
+      "scenario_id": "forgetting_001_exact_forget",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 55,
+      "outcome": "failed",
+      "scenario_id": "forgetting_002_paraphrased_forget",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 56,
+      "outcome": "failed",
+      "scenario_id": "forgetting_003_forget_one_of_several",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 57,
+      "outcome": "failed",
+      "scenario_id": "forgetting_004_forget_after_supersession",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 58,
+      "outcome": "partial",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 59,
+      "outcome": "failed",
+      "scenario_id": "forgetting_006_restatement_not_resurrection",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 60,
+      "outcome": "failed",
+      "scenario_id": "retrieval_001_one_relevant_among_many",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 61,
+      "outcome": "failed",
+      "scenario_id": "retrieval_002_multiple_relevant",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 62,
+      "outcome": "failed",
+      "scenario_id": "retrieval_003_lexical_mismatch",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 63,
+      "outcome": "passed",
+      "scenario_id": "retrieval_004_wrong_domain_similar_wording",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 64,
+      "outcome": "failed",
+      "scenario_id": "retrieval_005_old_relevant_vs_recent_irrelevant",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 65,
+      "outcome": "failed",
+      "scenario_id": "retrieval_006_no_memory_needed",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 66,
+      "outcome": "partial",
+      "scenario_id": "retrieval_007_correct_abstention",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 67,
+      "outcome": "failed",
+      "scenario_id": "retrieval_008_stale_would_mislead",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 68,
+      "outcome": "failed",
+      "scenario_id": "context_001_budget_exceeded",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 69,
+      "outcome": "failed",
+      "scenario_id": "context_002_cross_domain_relevance",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 70,
+      "outcome": "failed",
+      "scenario_id": "context_003_redundant_compression",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 71,
+      "outcome": "failed",
+      "scenario_id": "context_004_instruction_priority",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 72,
+      "outcome": "failed",
+      "scenario_id": "context_005_active_and_inactive_versions",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 73,
+      "outcome": "failed",
+      "scenario_id": "context_006_minimal_context_sufficient",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 74,
+      "outcome": "failed",
+      "scenario_id": "containment_001_duplicate_create_contained",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 75,
+      "outcome": "failed",
+      "scenario_id": "containment_002_supersede_inactive_target",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 76,
+      "outcome": "passed",
+      "scenario_id": "containment_003_forget_nonexistent_target",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 77,
+      "outcome": "failed",
+      "scenario_id": "containment_004_malformed_proposal_fallback",
+      "status": "passed",
+      "system_id": "full_history"
+    },
+    {
+      "index": 78,
+      "outcome": "skipped",
+      "scenario_id": "containment_005_one_sentence_supersession_local",
+      "status": "skipped",
+      "system_id": "full_history"
+    },
+    {
+      "index": 79,
+      "outcome": "skipped",
+      "scenario_id": "containment_006_vague_forget_safe",
+      "status": "skipped",
+      "system_id": "full_history"
+    },
+    {
+      "index": 80,
+      "outcome": "passed",
+      "scenario_id": "creation_001_explicit_scoped_preference",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 81,
+      "outcome": "passed",
+      "scenario_id": "creation_002_durable_user_fact",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 82,
+      "outcome": "passed",
+      "scenario_id": "creation_003_durable_instruction",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 83,
+      "outcome": "passed",
+      "scenario_id": "creation_004_non_durable_statement",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 84,
+      "outcome": "failed",
+      "scenario_id": "creation_005_exact_duplicate_restatement",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 85,
+      "outcome": "failed",
+      "scenario_id": "creation_006_paraphrased_duplicate",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 86,
+      "outcome": "failed",
+      "scenario_id": "updates_001_preference_replacement_cross_session",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 87,
+      "outcome": "failed",
+      "scenario_id": "updates_002_fact_correction",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 88,
+      "outcome": "failed",
+      "scenario_id": "updates_003_instruction_replacement",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 89,
+      "outcome": "failed",
+      "scenario_id": "updates_004_now_prefer_wording",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 90,
+      "outcome": "failed",
+      "scenario_id": "updates_005_instead_of_wording",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 91,
+      "outcome": "passed",
+      "scenario_id": "updates_006_scoped_preferences_coexist",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 92,
+      "outcome": "failed",
+      "scenario_id": "updates_007_correction_with_distractors",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 93,
+      "outcome": "failed",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 94,
+      "outcome": "failed",
+      "scenario_id": "forgetting_001_exact_forget",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 95,
+      "outcome": "failed",
+      "scenario_id": "forgetting_002_paraphrased_forget",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 96,
+      "outcome": "failed",
+      "scenario_id": "forgetting_003_forget_one_of_several",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 97,
+      "outcome": "failed",
+      "scenario_id": "forgetting_004_forget_after_supersession",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 98,
+      "outcome": "partial",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 99,
+      "outcome": "failed",
+      "scenario_id": "forgetting_006_restatement_not_resurrection",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 100,
+      "outcome": "failed",
+      "scenario_id": "retrieval_001_one_relevant_among_many",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 101,
+      "outcome": "failed",
+      "scenario_id": "retrieval_002_multiple_relevant",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 102,
+      "outcome": "failed",
+      "scenario_id": "retrieval_003_lexical_mismatch",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 103,
+      "outcome": "passed",
+      "scenario_id": "retrieval_004_wrong_domain_similar_wording",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 104,
+      "outcome": "failed",
+      "scenario_id": "retrieval_005_old_relevant_vs_recent_irrelevant",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 105,
+      "outcome": "failed",
+      "scenario_id": "retrieval_006_no_memory_needed",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 106,
+      "outcome": "partial",
+      "scenario_id": "retrieval_007_correct_abstention",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 107,
+      "outcome": "failed",
+      "scenario_id": "retrieval_008_stale_would_mislead",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 108,
+      "outcome": "failed",
+      "scenario_id": "context_001_budget_exceeded",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 109,
+      "outcome": "failed",
+      "scenario_id": "context_002_cross_domain_relevance",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 110,
+      "outcome": "passed",
+      "scenario_id": "context_003_redundant_compression",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 111,
+      "outcome": "failed",
+      "scenario_id": "context_004_instruction_priority",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 112,
+      "outcome": "failed",
+      "scenario_id": "context_005_active_and_inactive_versions",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 113,
+      "outcome": "passed",
+      "scenario_id": "context_006_minimal_context_sufficient",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 114,
+      "outcome": "passed",
+      "scenario_id": "containment_001_duplicate_create_contained",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 115,
+      "outcome": "failed",
+      "scenario_id": "containment_002_supersede_inactive_target",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 116,
+      "outcome": "passed",
+      "scenario_id": "containment_003_forget_nonexistent_target",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 117,
+      "outcome": "passed",
+      "scenario_id": "containment_004_malformed_proposal_fallback",
+      "status": "passed",
+      "system_id": "append_only"
+    },
+    {
+      "index": 118,
+      "outcome": "skipped",
+      "scenario_id": "containment_005_one_sentence_supersession_local",
+      "status": "skipped",
+      "system_id": "append_only"
+    },
+    {
+      "index": 119,
+      "outcome": "skipped",
+      "scenario_id": "containment_006_vague_forget_safe",
+      "status": "skipped",
+      "system_id": "append_only"
+    },
+    {
+      "index": 120,
+      "outcome": "passed",
+      "scenario_id": "creation_001_explicit_scoped_preference",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 121,
+      "outcome": "passed",
+      "scenario_id": "creation_002_durable_user_fact",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 122,
+      "outcome": "passed",
+      "scenario_id": "creation_003_durable_instruction",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 123,
+      "outcome": "passed",
+      "scenario_id": "creation_004_non_durable_statement",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 124,
+      "outcome": "failed",
+      "scenario_id": "creation_005_exact_duplicate_restatement",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 125,
+      "outcome": "failed",
+      "scenario_id": "creation_006_paraphrased_duplicate",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 126,
+      "outcome": "failed",
+      "scenario_id": "updates_001_preference_replacement_cross_session",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 127,
+      "outcome": "failed",
+      "scenario_id": "updates_002_fact_correction",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 128,
+      "outcome": "failed",
+      "scenario_id": "updates_003_instruction_replacement",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 129,
+      "outcome": "failed",
+      "scenario_id": "updates_004_now_prefer_wording",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 130,
+      "outcome": "failed",
+      "scenario_id": "updates_005_instead_of_wording",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 131,
+      "outcome": "passed",
+      "scenario_id": "updates_006_scoped_preferences_coexist",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 132,
+      "outcome": "failed",
+      "scenario_id": "updates_007_correction_with_distractors",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 133,
+      "outcome": "failed",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 134,
+      "outcome": "failed",
+      "scenario_id": "forgetting_001_exact_forget",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 135,
+      "outcome": "failed",
+      "scenario_id": "forgetting_002_paraphrased_forget",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 136,
+      "outcome": "failed",
+      "scenario_id": "forgetting_003_forget_one_of_several",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 137,
+      "outcome": "failed",
+      "scenario_id": "forgetting_004_forget_after_supersession",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 138,
+      "outcome": "partial",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 139,
+      "outcome": "failed",
+      "scenario_id": "forgetting_006_restatement_not_resurrection",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 140,
+      "outcome": "failed",
+      "scenario_id": "retrieval_001_one_relevant_among_many",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 141,
+      "outcome": "failed",
+      "scenario_id": "retrieval_002_multiple_relevant",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 142,
+      "outcome": "failed",
+      "scenario_id": "retrieval_003_lexical_mismatch",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 143,
+      "outcome": "passed",
+      "scenario_id": "retrieval_004_wrong_domain_similar_wording",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 144,
+      "outcome": "failed",
+      "scenario_id": "retrieval_005_old_relevant_vs_recent_irrelevant",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 145,
+      "outcome": "failed",
+      "scenario_id": "retrieval_006_no_memory_needed",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 146,
+      "outcome": "partial",
+      "scenario_id": "retrieval_007_correct_abstention",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 147,
+      "outcome": "failed",
+      "scenario_id": "retrieval_008_stale_would_mislead",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 148,
+      "outcome": "failed",
+      "scenario_id": "context_001_budget_exceeded",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 149,
+      "outcome": "failed",
+      "scenario_id": "context_002_cross_domain_relevance",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 150,
+      "outcome": "passed",
+      "scenario_id": "context_003_redundant_compression",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 151,
+      "outcome": "passed",
+      "scenario_id": "context_004_instruction_priority",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 152,
+      "outcome": "failed",
+      "scenario_id": "context_005_active_and_inactive_versions",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 153,
+      "outcome": "passed",
+      "scenario_id": "context_006_minimal_context_sufficient",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 154,
+      "outcome": "passed",
+      "scenario_id": "containment_001_duplicate_create_contained",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 155,
+      "outcome": "failed",
+      "scenario_id": "containment_002_supersede_inactive_target",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 156,
+      "outcome": "passed",
+      "scenario_id": "containment_003_forget_nonexistent_target",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 157,
+      "outcome": "passed",
+      "scenario_id": "containment_004_malformed_proposal_fallback",
+      "status": "passed",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 158,
+      "outcome": "skipped",
+      "scenario_id": "containment_005_one_sentence_supersession_local",
+      "status": "skipped",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 159,
+      "outcome": "skipped",
+      "scenario_id": "containment_006_vague_forget_safe",
+      "status": "skipped",
+      "system_id": "naive_top_k"
+    },
+    {
+      "index": 160,
+      "outcome": "passed",
+      "scenario_id": "creation_001_explicit_scoped_preference",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 161,
+      "outcome": "passed",
+      "scenario_id": "creation_002_durable_user_fact",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 162,
+      "outcome": "passed",
+      "scenario_id": "creation_003_durable_instruction",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 163,
+      "outcome": "passed",
+      "scenario_id": "creation_004_non_durable_statement",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 164,
+      "outcome": "passed",
+      "scenario_id": "creation_005_exact_duplicate_restatement",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 165,
+      "outcome": "passed",
+      "scenario_id": "creation_006_paraphrased_duplicate",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 166,
+      "outcome": "failed",
+      "scenario_id": "updates_001_preference_replacement_cross_session",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 167,
+      "outcome": "failed",
+      "scenario_id": "updates_002_fact_correction",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 168,
+      "outcome": "failed",
+      "scenario_id": "updates_003_instruction_replacement",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 169,
+      "outcome": "failed",
+      "scenario_id": "updates_004_now_prefer_wording",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 170,
+      "outcome": "failed",
+      "scenario_id": "updates_005_instead_of_wording",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 171,
+      "outcome": "passed",
+      "scenario_id": "updates_006_scoped_preferences_coexist",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 172,
+      "outcome": "failed",
+      "scenario_id": "updates_007_correction_with_distractors",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 173,
+      "outcome": "failed",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 174,
+      "outcome": "passed",
+      "scenario_id": "forgetting_001_exact_forget",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 175,
+      "outcome": "failed",
+      "scenario_id": "forgetting_002_paraphrased_forget",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 176,
+      "outcome": "passed",
+      "scenario_id": "forgetting_003_forget_one_of_several",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 177,
+      "outcome": "failed",
+      "scenario_id": "forgetting_004_forget_after_supersession",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 178,
+      "outcome": "partial",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 179,
+      "outcome": "failed",
+      "scenario_id": "forgetting_006_restatement_not_resurrection",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 180,
+      "outcome": "failed",
+      "scenario_id": "retrieval_001_one_relevant_among_many",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 181,
+      "outcome": "passed",
+      "scenario_id": "retrieval_002_multiple_relevant",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 182,
+      "outcome": "failed",
+      "scenario_id": "retrieval_003_lexical_mismatch",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 183,
+      "outcome": "passed",
+      "scenario_id": "retrieval_004_wrong_domain_similar_wording",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 184,
+      "outcome": "failed",
+      "scenario_id": "retrieval_005_old_relevant_vs_recent_irrelevant",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 185,
+      "outcome": "failed",
+      "scenario_id": "retrieval_006_no_memory_needed",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 186,
+      "outcome": "partial",
+      "scenario_id": "retrieval_007_correct_abstention",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 187,
+      "outcome": "failed",
+      "scenario_id": "retrieval_008_stale_would_mislead",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 188,
+      "outcome": "failed",
+      "scenario_id": "context_001_budget_exceeded",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 189,
+      "outcome": "failed",
+      "scenario_id": "context_002_cross_domain_relevance",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 190,
+      "outcome": "passed",
+      "scenario_id": "context_003_redundant_compression",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 191,
+      "outcome": "passed",
+      "scenario_id": "context_004_instruction_priority",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 192,
+      "outcome": "failed",
+      "scenario_id": "context_005_active_and_inactive_versions",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 193,
+      "outcome": "passed",
+      "scenario_id": "context_006_minimal_context_sufficient",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 194,
+      "outcome": "passed",
+      "scenario_id": "containment_001_duplicate_create_contained",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 195,
+      "outcome": "failed",
+      "scenario_id": "containment_002_supersede_inactive_target",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 196,
+      "outcome": "passed",
+      "scenario_id": "containment_003_forget_nonexistent_target",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 197,
+      "outcome": "passed",
+      "scenario_id": "containment_004_malformed_proposal_fallback",
+      "status": "passed",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 198,
+      "outcome": "skipped",
+      "scenario_id": "containment_005_one_sentence_supersession_local",
+      "status": "skipped",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 199,
+      "outcome": "skipped",
+      "scenario_id": "containment_006_vague_forget_safe",
+      "status": "skipped",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "index": 200,
+      "outcome": "passed",
+      "scenario_id": "creation_001_explicit_scoped_preference",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 201,
+      "outcome": "passed",
+      "scenario_id": "creation_002_durable_user_fact",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 202,
+      "outcome": "passed",
+      "scenario_id": "creation_003_durable_instruction",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 203,
+      "outcome": "passed",
+      "scenario_id": "creation_004_non_durable_statement",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 204,
+      "outcome": "passed",
+      "scenario_id": "creation_005_exact_duplicate_restatement",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 205,
+      "outcome": "passed",
+      "scenario_id": "creation_006_paraphrased_duplicate",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 206,
+      "outcome": "failed",
+      "scenario_id": "updates_001_preference_replacement_cross_session",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 207,
+      "outcome": "failed",
+      "scenario_id": "updates_002_fact_correction",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 208,
+      "outcome": "failed",
+      "scenario_id": "updates_003_instruction_replacement",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 209,
+      "outcome": "failed",
+      "scenario_id": "updates_004_now_prefer_wording",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 210,
+      "outcome": "failed",
+      "scenario_id": "updates_005_instead_of_wording",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 211,
+      "outcome": "failed",
+      "scenario_id": "updates_006_scoped_preferences_coexist",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 212,
+      "outcome": "failed",
+      "scenario_id": "updates_007_correction_with_distractors",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 213,
+      "outcome": "failed",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 214,
+      "outcome": "passed",
+      "scenario_id": "forgetting_001_exact_forget",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 215,
+      "outcome": "failed",
+      "scenario_id": "forgetting_002_paraphrased_forget",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 216,
+      "outcome": "passed",
+      "scenario_id": "forgetting_003_forget_one_of_several",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 217,
+      "outcome": "failed",
+      "scenario_id": "forgetting_004_forget_after_supersession",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 218,
+      "outcome": "partial",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 219,
+      "outcome": "failed",
+      "scenario_id": "forgetting_006_restatement_not_resurrection",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 220,
+      "outcome": "failed",
+      "scenario_id": "retrieval_001_one_relevant_among_many",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 221,
+      "outcome": "passed",
+      "scenario_id": "retrieval_002_multiple_relevant",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 222,
+      "outcome": "failed",
+      "scenario_id": "retrieval_003_lexical_mismatch",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 223,
+      "outcome": "passed",
+      "scenario_id": "retrieval_004_wrong_domain_similar_wording",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 224,
+      "outcome": "failed",
+      "scenario_id": "retrieval_005_old_relevant_vs_recent_irrelevant",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 225,
+      "outcome": "failed",
+      "scenario_id": "retrieval_006_no_memory_needed",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 226,
+      "outcome": "partial",
+      "scenario_id": "retrieval_007_correct_abstention",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 227,
+      "outcome": "failed",
+      "scenario_id": "retrieval_008_stale_would_mislead",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 228,
+      "outcome": "failed",
+      "scenario_id": "context_001_budget_exceeded",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 229,
+      "outcome": "failed",
+      "scenario_id": "context_002_cross_domain_relevance",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 230,
+      "outcome": "passed",
+      "scenario_id": "context_003_redundant_compression",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 231,
+      "outcome": "passed",
+      "scenario_id": "context_004_instruction_priority",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 232,
+      "outcome": "failed",
+      "scenario_id": "context_005_active_and_inactive_versions",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 233,
+      "outcome": "passed",
+      "scenario_id": "context_006_minimal_context_sufficient",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 234,
+      "outcome": "passed",
+      "scenario_id": "containment_001_duplicate_create_contained",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 235,
+      "outcome": "failed",
+      "scenario_id": "containment_002_supersede_inactive_target",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 236,
+      "outcome": "failed",
+      "scenario_id": "containment_003_forget_nonexistent_target",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 237,
+      "outcome": "failed",
+      "scenario_id": "containment_004_malformed_proposal_fallback",
+      "status": "passed",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 238,
+      "outcome": "skipped",
+      "scenario_id": "containment_005_one_sentence_supersession_local",
+      "status": "skipped",
+      "system_id": "experienceos_local"
+    },
+    {
+      "index": 239,
+      "outcome": "skipped",
+      "scenario_id": "containment_006_vague_forget_safe",
+      "status": "skipped",
+      "system_id": "experienceos_local"
+    }
+  ]
+}
