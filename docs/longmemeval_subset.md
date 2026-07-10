@@ -128,3 +128,7 @@ a `proxy: true` flag end-to-end and validators reject label drift.
   (unkeyed domains). These are measured, not patched.
 - Structural proxies against the echo provider are floor evidence
   only; a live run is required for answer quality.
+
+The judge-facing comparison of this track (correctly labeled, proxy
+metrics flagged, never combined with the lifecycle score) is
+generated into [benchmark_report.md](benchmark_report.md).

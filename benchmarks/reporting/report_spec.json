@@ -1,0 +1,219 @@
+{
+  "report_version": "report-v1",
+  "sources": {
+    "lifecycle": {
+      "path": "benchmarks/results/committed/lifecycle-offline-v1",
+      "required_digest": "8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33",
+      "required_manifest_hash": "0481f41e03795ce66133e01929dea563f326d7ce790adc4ee0ab4d37f1cfd6eb"
+    },
+    "external": {
+      "path": "benchmarks/results/committed/longmemeval-50-subset-v1",
+      "required_digest": "2b3e2000647b8d3ca85e0539ce3ac518afb32e4eb343c96a20538607d428ea03",
+      "required_subset_hash": "a077cca377469ac3450ef5446e7d289bcbd42eb2c95beed677220f69fca73030",
+      "required_label": "LongMemEval 50-case stratified subset"
+    }
+  },
+  "systems": {
+    "lifecycle": [
+      "stateless",
+      "full_history",
+      "append_only",
+      "naive_top_k",
+      "experienceos_rules",
+      "experienceos_local"
+    ],
+    "external": ["full_history", "naive_top_k", "experienceos_rules"],
+    "display": {
+      "stateless": "Stateless",
+      "full_history": "Full history",
+      "append_only": "Append-only",
+      "naive_top_k": "Naive top-K",
+      "experienceos_rules": "ExperienceOS rules",
+      "experienceos_local": "ExperienceOS local (scripted + fallback)"
+    }
+  },
+  "lifecycle_tables": {
+    "correctness": [
+      "memory_creation_precision",
+      "memory_creation_recall",
+      "correct_memory_kind_rate",
+      "update_detection_accuracy",
+      "supersession_accuracy",
+      "old_value_deactivation_rate",
+      "conflicting_active_memory_rate",
+      "forget_detection_accuracy",
+      "correct_forget_target_rate",
+      "duplicate_acceptance_rate"
+    ],
+    "retrieval_downstream": [
+      "recall_at_k",
+      "precision_at_k",
+      "hit_at_k",
+      "mean_reciprocal_rank",
+      "irrelevant_rejection_rate",
+      "inactive_contamination_rate",
+      "preference_compliance_rate",
+      "instruction_compliance_rate",
+      "current_fact_accuracy"
+    ],
+    "leakage": [
+      "stale_candidate_leakage_rate",
+      "stale_selected_leakage_rate",
+      "stale_context_leakage_rate",
+      "stale_response_contamination_rate",
+      "forgotten_exclusion_rate",
+      "forgotten_response_contamination_rate",
+      "memory_resurrection_rate",
+      "unrelated_preservation_rate"
+    ],
+    "context_operational": [
+      "token_reduction_vs_full_history",
+      "context_budget_utilization",
+      "compression_ratio",
+      "answers_per_1k_memory_tokens",
+      "fallback_rate",
+      "rejection_containment_rate"
+    ],
+    "containment": [
+      "local_valid_proposal_rate",
+      "local_correct_action_type_rate",
+      "local_correct_target_rate",
+      "duplicate_proposal_rate",
+      "fallback_rate",
+      "local_applied_action_accuracy",
+      "local_state_corruption_rate"
+    ]
+  },
+  "lifecycle_group_tables": {
+    "creation": [
+      "memory_creation_precision",
+      "memory_creation_recall",
+      "correct_memory_kind_rate",
+      "non_durable_rejection_rate",
+      "duplicate_acceptance_rate"
+    ],
+    "updates": [
+      "update_detection_accuracy",
+      "correct_update_target_rate",
+      "supersession_accuracy",
+      "old_value_deactivation_rate",
+      "conflicting_active_memory_rate",
+      "stale_context_leakage_rate"
+    ],
+    "forgetting": [
+      "forget_detection_accuracy",
+      "correct_forget_target_rate",
+      "forgotten_exclusion_rate",
+      "memory_resurrection_rate",
+      "unrelated_preservation_rate"
+    ],
+    "retrieval": [
+      "precision_at_k",
+      "recall_at_k",
+      "hit_at_k",
+      "mean_reciprocal_rank",
+      "irrelevant_rejection_rate",
+      "inactive_contamination_rate"
+    ],
+    "context": [
+      "context_budget_utilization",
+      "compression_ratio",
+      "selection_budget_adherence"
+    ],
+    "containment": [
+      "duplicate_proposal_rate",
+      "fallback_rate",
+      "rejection_containment_rate",
+      "local_state_corruption_rate"
+    ]
+  },
+  "external_tables": {
+    "headline": [
+      "answer_session_candidate_rate",
+      "answer_session_selection_rate",
+      "answer_session_mrr",
+      "answer_context_presence_rate",
+      "external_token_reduction_vs_full_history",
+      "normalized_exact_match_proxy",
+      "answer_entity_match_proxy",
+      "abstention_match_proxy"
+    ],
+    "categories": [
+      "information-extraction",
+      "multi-session-reasoning",
+      "temporal-reasoning",
+      "knowledge-updates",
+      "abstention"
+    ],
+    "category_metrics": [
+      "answer_session_candidate_rate",
+      "answer_session_selection_rate",
+      "answer_session_mrr",
+      "answer_context_presence_rate"
+    ]
+  },
+  "readme_metrics": {
+    "lifecycle": [
+      "old_value_deactivation_rate",
+      "forgotten_exclusion_rate",
+      "stale_context_leakage_rate",
+      "recall_at_k",
+      "duplicate_acceptance_rate",
+      "local_state_corruption_rate"
+    ],
+    "external": [
+      "answer_session_selection_rate",
+      "answer_session_mrr",
+      "external_token_reduction_vs_full_history"
+    ]
+  },
+  "formatting": {
+    "rate": "{numerator:g}/{denominator:g} ({percent})",
+    "undefined": "N/A ({reason})",
+    "percent_decimals": 1,
+    "low_sample_note": "latency percentiles below 20 samples carry a low-sample warning"
+  },
+  "failure_rules": {
+    "lifecycle": [
+      "first failed case per system in execution order (max 1 each)",
+      "first case where full_history passed and experienceos_rules failed",
+      "first case where naive_top_k passed and experienceos_rules failed",
+      "first experienceos_local case with a rejected action (containment)",
+      "first case with a deferred evaluation"
+    ],
+    "external": [
+      "first case per retrieval system where the answer-bearing session was not selected",
+      "first case where full_history had answer content in context and experienceos_rules did not",
+      "first abstention case (deferred evaluation)"
+    ],
+    "max_examples": 14
+  },
+  "charts": [],
+  "chart_note": "Charts omitted: the repository carries no plotting dependency and the tables carry denominators directly; adding a visualization dependency solely for charts is explicitly avoided.",
+  "outputs": {
+    "report_markdown": "docs/benchmark_report.md",
+    "artifact_dir": "benchmarks/results/committed/report-v1",
+    "csv_files": [
+      "lifecycle_headline.csv",
+      "lifecycle_by_category.csv",
+      "leakage_comparison.csv",
+      "context_efficiency.csv",
+      "local_policy_containment.csv",
+      "longmemeval_subset_headline.csv",
+      "longmemeval_by_category.csv",
+      "failure_analysis.csv"
+    ]
+  },
+  "display_label_mappings": {
+    "forgotten_exclusion_rate": "Forgotten-content exclusion (post-forget answers; the restatement scenario re-mentions the term legitimately and is counted against exclusion by construction)",
+    "stale_context_leakage_rate": "Stale content in rendered context (cases with an expected-superseded value)",
+    "local_state_corruption_rate": "Final-state divergence from oracle (includes never-created aspirational memories, not only destroyed ones)",
+    "answer_context_presence_rate": "Verbatim evidence-turn content present in supplied context (exact substring; normalized ExperienceOS memory text cannot match verbatim by construction)"
+  },
+  "notes": [
+    "This specification selects metrics and rules only; it contains no result values.",
+    "Custom lifecycle and LongMemEval evidence are never combined into one score.",
+    "External answer metrics are deterministic proxies produced with the offline echo provider; they are not official GPT-4o judge results.",
+    "experienceos_local is the scripted-plus-fallback offline mode, never a real-GGUF score."
+  ]
+}

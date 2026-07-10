@@ -365,6 +365,7 @@ assertions, not prose. The local mode uses a fake runner by design
 separately through `local_runner_smoke.py` and a real memory-policy
 interaction (see the local model runner section above).
 
+
 ## Benchmarking (Phase 8, in progress)
 
 A lifecycle benchmark comparing ExperienceOS against stateless,

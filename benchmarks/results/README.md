@@ -18,5 +18,11 @@ Two kinds of artifacts, with different rules:
 - `local/` — gitignored scratch output for local runs (raw JSONL,
   reruns, experiments). Nothing here is evidence.
 
+`committed/report-v1/` holds the generated report evidence
+(report_data.json, CSV tables, hashes) produced by
+`./scripts/run_benchmarks.sh report` from the two canonical
+artifacts; generated files must never be edited manually
+(`validate-report` detects edits).
+
 Fixtures under `benchmarks/fixtures/` validate schemas and are never
 benchmark results.

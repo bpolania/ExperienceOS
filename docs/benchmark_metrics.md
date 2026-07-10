@@ -96,3 +96,16 @@ documents evaluator mechanics.
   proposals count as containment, not corruption. Scripted,
   unavailable, and real modes are never mixed into one number — the
   offline canonical artifact is scripted-plus-fallback mode.
+
+## Report metric selection
+
+The judge-facing report shows a curated subset of the registry, fixed
+in `benchmarks/reporting/report_spec.json` (committed with the
+generator, before findings were interpreted; it contains no result
+values). Display-label caveats for four metrics whose constructions
+need explanation (`stale_context_leakage_rate`,
+`forgotten_exclusion_rate`, `local_state_corruption_rate`,
+`answer_context_presence_rate`) are pinned in the spec and rendered
+verbatim. The machine-readable appendix (`report_data.json`) carries
+every displayed cell with raw numerators/denominators and source
+digests.

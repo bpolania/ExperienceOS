@@ -44,6 +44,13 @@ result, never a runner failure. The quick profile also runs inside
   `longmemeval-prepare`, `longmemeval-structural`,
   `validate-external`) drive the separate external track — see
   [longmemeval_subset.md](longmemeval_subset.md).
+- **`report` / `validate-report`** generate and verify the judge-facing
+  report (`docs/benchmark_report.md` + the report-v1 artifact) from
+  the two committed canonical artifacts, without rerunning any system.
+  The generator refuses mismatched source digests; the validator
+  detects manually edited numbers, README drift, mislabeled modes, and
+  forbidden claim wording. Stabilization and closure remain the final
+  phase step.
 
 ## Execution semantics
 

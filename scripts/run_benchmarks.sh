@@ -47,12 +47,19 @@ case "$command" in
         "$PYTHON" -m benchmarks.external.longmemeval.cli live \
             --data-path "${2:-unset}" --output "${3:-unset}"
         ;;
+    report)
+        "$PYTHON" -m benchmarks.reporting.cli generate --overwrite
+        ;;
+    validate-report)
+        "$PYTHON" -m benchmarks.reporting.cli validate \
+            "${2:-benchmarks/results/committed/report-v1}"
+        ;;
     validate-external)
         "$PYTHON" -m benchmarks.external.longmemeval.cli validate \
             "${2:?result dir required}"
         ;;
     *)
-        echo "unknown command: $command (expected quick, full-offline, validate, longmemeval-fixture, longmemeval-prepare, longmemeval-structural, longmemeval-live, validate-external)"
+        echo "unknown command: $command (expected quick, full-offline, validate, report, validate-report, longmemeval-fixture, longmemeval-prepare, longmemeval-structural, longmemeval-live, validate-external)"
         exit 2
         ;;
 esac
