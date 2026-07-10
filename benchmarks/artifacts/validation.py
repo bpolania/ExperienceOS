@@ -46,11 +46,11 @@ def _fail(message: str):
     raise ArtifactValidationError(message)
 
 
-def validate_artifact_dir(path: Path) -> dict:
+def validate_artifact_dir(path: Path, allow_staging: bool = False) -> dict:
     path = Path(path)
     if not path.is_dir():
         _fail(f"not a directory: {path}")
-    if path.name.endswith(".incomplete") and "committed" in str(path):
+    if path.name.endswith(".incomplete") and not allow_staging:
         _fail("incomplete artifact cannot be canonical")
 
     for name in REQUIRED_FILES:

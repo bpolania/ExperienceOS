@@ -188,7 +188,7 @@ def write_artifacts(output: RunOutput, readme_extra: str = "") -> Path:
 
     from benchmarks.artifacts.validation import validate_artifact_dir
 
-    validate_artifact_dir(staging)
+    validate_artifact_dir(staging, allow_staging=True)
 
     staging.replace(final_dir)
     return final_dir
