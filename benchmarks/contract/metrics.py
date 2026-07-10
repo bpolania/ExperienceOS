@@ -460,6 +460,46 @@ METRIC_DEFINITIONS: tuple[MetricDefinition, ...] = (
         "auxiliary extractor invocations",
         "Yield of the auxiliary extraction stage.",
     ),
+    # --- Phase 9 hybrid retrieval (v2-only observational counters
+    # --- from retrieval diagnostics; Phase 8 metric formulas above
+    # --- are unchanged) ----------------------------------------------
+    _m(
+        "retrieval_candidate_rate_v2", "retrieval_v2",
+        "active memories with nonzero retrieval signal",
+        "active memories considered",
+        "Breadth of lexical+structured candidate generation.",
+    ),
+    _m(
+        "zero_relevance_exclusion_v2", "retrieval_v2",
+        "active memories excluded as zero relevance",
+        "active memories considered",
+        "Zero-signal memories are never selected to fill K.",
+    ),
+    _m(
+        "inactive_candidate_filter_rate_v2", "retrieval_v2",
+        "inactive records filtered before ranking",
+        "records passed to retrieval",
+        "Lifecycle filtering happens before final ranking.",
+    ),
+    _m(
+        "retrieval_k_compliance_v2", "retrieval_v2",
+        "retrievals whose selected count respects K",
+        "retrievals",
+        "No hidden K increase.",
+    ),
+    _m(
+        "retrieval_budget_compliance_v2", "retrieval_v2",
+        "retrievals within the configured token budget",
+        "retrievals",
+        "No token-budget overflow.",
+    ),
+    _m(
+        "unresolved_conflict_selection_rate_v2", "retrieval_v2",
+        "retrievals whose selection contains an unresolved active "
+        "conflict",
+        "retrievals",
+        "Conflict pressure is reported, never silently resolved.",
+    ),
 )
 
 

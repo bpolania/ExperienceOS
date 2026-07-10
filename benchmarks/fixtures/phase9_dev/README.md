@@ -14,3 +14,8 @@ Subdirectories:
   and grounding adversaries. Development-only; not part of the frozen
   evaluation; never affects final denominators; must not be cited as
   final benchmark evidence.
+- `hybrid_retrieval/` — Prompt 4 retrieval behavior classes (lexical
+  mismatch, entity preservation, scoped preference, lifecycle
+  filtering, budget pressure, stable ties). Development-only; not part
+  of the frozen evaluation; never affects final denominators; must not
+  be cited as final benchmark evidence.

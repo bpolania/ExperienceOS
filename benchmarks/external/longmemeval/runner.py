@@ -388,14 +388,145 @@ def run_experienceos_hybrid_extract_v2(
     return finished
 
 
+def _run_experienceos_v2(
+    case: ExternalCase,
+    system_id: str,
+    *,
+    hybrid_extraction: bool,
+    hybrid_retrieval: bool,
+) -> ExternalCaseRun:
+    """Shared Phase 9 v2 execution: identical ingestion (user turns
+    only, production ``chat`` path), identical K and memory budget,
+    identical provider; only the planner and/or retrieval strategy
+    differ, and both are recorded in ``run.extraction``."""
+    from experienceos import ExperienceOS
+    from experienceos.context.builder import ContextBuilder
+    from experienceos.context.compression import ExperienceCompressor
+    from experienceos.context.retrieval import HybridRetrievalStrategy
+    from experienceos.memory.hybrid_planner import HybridMemoryPlanner
+    from experienceos.providers import MockProvider
+
+    run = ExternalCaseRun(case.question_id, case.category, system_id)
+    run.sessions = len(case.sessions)
+    run.history_turns = sum(len(s.turns) for s in case.sessions)
+    planner = HybridMemoryPlanner() if hybrid_extraction else None
+    strategy = HybridRetrievalStrategy() if hybrid_retrieval else None
+    kwargs = {"memory_planner": planner} if planner is not None else {}
+    agent = ExperienceOS(
+        model=MockProvider(),
+        context_builder=ContextBuilder(
+            memory_budget=MEMORY_BUDGET,
+            compressor=ExperienceCompressor(),
+            retrieval_strategy=strategy,
+        ),
+        **kwargs,
+    )
+    user_id = f"lme-{case.question_id}"
+    memory_sessions: dict[str, str] = {}
+    for session in case.sessions:
+        for turn in session.turns:
+            if turn.role != "user":
+                continue  # production ingestion path: user turns only
+            before = len(agent.events)
+            agent.chat(
+                user_id=user_id,
+                session_id=session.session_id,
+                message=turn.content,
+            )
+            for event in agent.events[before:]:
+                if str(event.type) == "memory_created":
+                    memory_sessions[event.payload["memory_id"]] = (
+                        session.session_id
+                    )
+
+    before = len(agent.events)
+    response = agent.chat(
+        user_id=user_id,
+        session_id="final-question",
+        message=_question_text(case),
+    )
+    final_events = agent.events[before:]
+    candidates = []
+    context_contents: list[str] = []
+    for event in final_events:
+        if str(event.type) == "context_built":
+            payload = event.payload
+            context_contents = [
+                m.get("content", "")
+                for m in payload.get("context_messages", [])
+            ]
+            for record in payload.get("selection_records", []):
+                session_id = memory_sessions.get(
+                    record.get("memory_id"), "unknown"
+                )
+                candidates.append(
+                    (
+                        int(record.get("rank", 0)),
+                        session_id,
+                        bool(record.get("selected", False)),
+                    )
+                )
+                if record.get("selected"):
+                    run.selected_texts.append(record.get("text", ""))
+    run.truncation = "memory_selection"
+    run.extraction = {
+        "memory_count": len(memory_sessions),
+        "memory_extraction_strategy": (
+            "rules_first_hybrid" if hybrid_extraction else
+            "v1_rules_unchanged"
+        ),
+        "retrieval_strategy": (
+            "hybrid_retrieval" if hybrid_retrieval else
+            "phase8_v1_unchanged"
+        ),
+        "selection_strategy": "deterministic_top_k",
+        "selection_k": SELECTION_K,
+        "memory_budget": MEMORY_BUDGET,
+        **(
+            {f"planner_{k}": v for k, v in planner.summary().items()
+             if isinstance(v, (int, float))}
+            if planner is not None else {}
+        ),
+        **(
+            {f"retrieval_{k}": v for k, v in strategy.summary().items()
+             if isinstance(v, (int, float))}
+            if strategy is not None else {}
+        ),
+    }
+    context = [*context_contents, _question_text(case)]
+    finished = _finish(run, case, context, candidates)
+    finished.response = response  # actual production response path
+    return finished
+
+
+def run_experienceos_hybrid_retrieval_v2(case: ExternalCase):
+    return _run_experienceos_v2(
+        case,
+        "experienceos_hybrid_retrieval_v2",
+        hybrid_extraction=False,
+        hybrid_retrieval=True,
+    )
+
+
+def run_experienceos_extract_retrieval_v2(case: ExternalCase):
+    return _run_experienceos_v2(
+        case,
+        "experienceos_extract_retrieval_v2",
+        hybrid_extraction=True,
+        hybrid_retrieval=True,
+    )
+
+
 _RUNNERS = {
     "full_history": run_full_history,
     "naive_top_k": run_naive_top_k,
     "experienceos_rules": run_experienceos_rules,
-    # Phase 9 extraction-only ablation; not in EXTERNAL_SYSTEMS, so the
-    # committed v1 pipeline and its validators are untouched. Dev runs
-    # pass systems=(...) explicitly.
+    # Phase 9 ablations; not in EXTERNAL_SYSTEMS, so the committed v1
+    # pipeline and its validators are untouched. Dev runs pass
+    # systems=(...) explicitly.
     "experienceos_hybrid_extract_v2": run_experienceos_hybrid_extract_v2,
+    "experienceos_hybrid_retrieval_v2": run_experienceos_hybrid_retrieval_v2,
+    "experienceos_extract_retrieval_v2": run_experienceos_extract_retrieval_v2,
 }
 
 

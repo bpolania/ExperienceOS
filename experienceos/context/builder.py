@@ -67,6 +67,9 @@ class ContextSelectionRecord:
     reason: str
     tags: list[str] = field(default_factory=list)
     matched_domains: list[str] = field(default_factory=list)
+    # Hybrid-retrieval extensions (empty on the default v1 path).
+    component_scores: dict = field(default_factory=dict)
+    exclusion_reason: str | None = None
 
 
 @dataclass
@@ -89,9 +92,13 @@ class ContextBuilder:
         self,
         memory_budget: int = DEFAULT_MEMORY_BUDGET,
         compressor: ExperienceCompressor | None = None,
+        retrieval_strategy=None,
     ):
         self.memory_budget = memory_budget
         self.compressor = compressor
+        # Optional Phase 9 seam: when None (the default and every v1
+        # configuration), selection below is byte-identical to Phase 8.
+        self.retrieval_strategy = retrieval_strategy
 
     def build_context(
         self,
@@ -101,14 +108,23 @@ class ContextBuilder:
         memories: list[ExperienceEntry] | None = None,
     ) -> ContextBuildResult:
         candidates = list(memories or [])
-        ranked = self._rank_candidates(message, candidates)
-        selected = [m for m, _, _ in ranked[: self.memory_budget]]
-        skipped = [m for m, _, _ in ranked[self.memory_budget :]]
-        request_tags = set(assign_tags(message))
-        records = [
-            self._selection_record(rank, memory, matched, priority, request_tags)
-            for rank, (memory, matched, priority) in enumerate(ranked, start=1)
-        ]
+        if self.retrieval_strategy is not None:
+            selected, skipped, records = self._strategy_selection(
+                session_id, message, candidates
+            )
+        else:
+            ranked = self._rank_candidates(message, candidates)
+            selected = [m for m, _, _ in ranked[: self.memory_budget]]
+            skipped = [m for m, _, _ in ranked[self.memory_budget :]]
+            request_tags = set(assign_tags(message))
+            records = [
+                self._selection_record(
+                    rank, memory, matched, priority, request_tags
+                )
+                for rank, (memory, matched, priority) in enumerate(
+                    ranked, start=1
+                )
+            ]
 
         summaries: list[ExperienceSummary] = []
         compressed_ids: set[str] = set()
@@ -152,8 +168,91 @@ class ContextBuilder:
         self, message: str, candidates: list[ExperienceEntry]
     ) -> tuple[list[ExperienceEntry], list[ExperienceEntry]]:
         """Deterministically rank candidates and split at the budget."""
+        if self.retrieval_strategy is not None:
+            selected, skipped, _ = self._strategy_selection(
+                "", message, candidates
+            )
+            return selected, skipped
         ranked = [m for m, _, _ in self._rank_candidates(message, candidates)]
         return ranked[: self.memory_budget], ranked[self.memory_budget :]
+
+    def _strategy_selection(
+        self,
+        session_id: str,
+        message: str,
+        candidates: list[ExperienceEntry],
+    ) -> tuple[list, list, list]:
+        """Delegate ranking to the configured retrieval strategy.
+
+        The strategy filters lifecycle-invalid records before ranking
+        and never pads the selection with zero-relevance memories; this
+        method translates its audited candidates into the existing
+        selection-record shape so events, benchmarks, and the dashboard
+        keep working unchanged. Context assembly (compression, kind
+        sections, budget semantics) stays in build_context — there is
+        exactly one context path.
+        """
+        from experienceos.context.retrieval import RetrievalRequest
+
+        result = self.retrieval_strategy.retrieve(
+            RetrievalRequest(
+                query=message,
+                memories=tuple(candidates),
+                k=self.memory_budget,
+                session_id=session_id,
+            )
+        )
+        selected = list(result.selected)
+        skipped = [
+            c.memory
+            for c in result.candidates
+            if not c.selected and c.status == "active"
+        ]
+        # Ranked candidates first (rank order); unranked (inactive,
+        # zero-relevance) keep their deterministic append order —
+        # never runtime IDs, which vary across runs.
+        ranked = sorted(
+            result.candidates, key=lambda c: (c.rank == 0, c.rank)
+        )
+        records = []
+        display_rank = 0
+        for candidate in ranked:
+            display_rank += 1
+            if candidate.selected:
+                reason = (
+                    "selected: "
+                    + (
+                        f"matched {', '.join(candidate.matched_tokens)}"
+                        if candidate.matched_tokens
+                        else "structured match"
+                    )
+                    + f"; score {candidate.final_score}; within budget"
+                )
+            else:
+                reason = (
+                    f"skipped: {candidate.exclusion_reason or 'not_top_k'}"
+                )
+            memory = candidate.memory
+            tags = memory.metadata.get("tags") or assign_tags(memory.text)
+            records.append(
+                ContextSelectionRecord(
+                    memory_id=memory.id,
+                    text=memory.text,
+                    kind=memory.kind,
+                    status=memory.status,
+                    selected=candidate.selected,
+                    rank=display_rank,
+                    score=candidate.final_score,
+                    matched_keywords=list(candidate.matched_tokens),
+                    kind_priority=candidate.kind_priority,
+                    reason=reason,
+                    tags=list(tags),
+                    matched_domains=list(candidate.matched_domains),
+                    component_scores=dict(candidate.component_scores),
+                    exclusion_reason=candidate.exclusion_reason,
+                )
+            )
+        return selected, skipped, records
 
     @staticmethod
     def _rank_candidates(

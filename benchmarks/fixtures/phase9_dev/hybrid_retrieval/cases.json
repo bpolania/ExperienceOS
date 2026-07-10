@@ -1,0 +1,78 @@
+{
+  "_label": "DEVELOPMENT-ONLY fixtures for Phase 9 hybrid retrieval; never benchmark evidence",
+  "lexical_mismatch": [
+    {"memories": [["fact", "Works for Globex."]],
+     "queries": ["Which company employs me?", "Where do I work?", "What is my employer?"],
+     "expect": {"selected_contains": "Globex"}}
+  ],
+  "entity_preservation": [
+    {"memories": [["fact", "Uses a Pixel 9."]],
+     "queries": ["Which phone do I have?", "What device am I using?", "Do you remember my current mobile?"],
+     "expect": {"selected_contains": "Pixel 9"}},
+    {"memories": [["fact", "Phone is a Pixel 6."], ["fact", "Uses a Pixel 9."]],
+     "queries": ["Is my phone a Pixel 9?"],
+     "expect": {"first_selected_contains": "Pixel 9",
+                "note": "pixel 9 entity must outrank pixel 6 despite shared tokens"}}
+  ],
+  "scoped_preference": [
+    {"memories": [["preference", "Prefers aisle seats for short work trips."],
+                   ["preference", "Prefers window seats for long international trips."]],
+     "queries": ["Book my long overseas international flight."],
+     "expect": {"first_selected_contains": "window"}},
+    {"memories": [["preference", "Prefers aisle seats for short work trips."],
+                   ["preference", "Prefers window seats for long international trips."]],
+     "queries": ["What seat should you choose for a quick short work trip?"],
+     "expect": {"first_selected_contains": "aisle"}}
+  ],
+  "multi_valued": [
+    {"memories": [["fact", "Speaks Spanish."], ["fact", "Speaks Portuguese."]],
+     "queries": ["Which languages do I speak?"],
+     "expect": {"selected_count_min": 2,
+                "selected_contains_all": ["Spanish", "Portuguese"]}}
+  ],
+  "instruction_priority": [
+    {"memories": [["instruction", "Use Celsius for weather reports."],
+                   ["preference", "Likes hiking."]],
+     "queries": ["Give me tomorrow's forecast."],
+     "expect": {"first_selected_contains": "Celsius"}}
+  ],
+  "lifecycle_filtering": [
+    {"note": "active current + superseded old + forgotten: current query selects only active",
+     "active": [["fact", "Phone is a Pixel 9."]],
+     "superseded": [["fact", "Phone is a Pixel 6."]],
+     "forgotten": [["preference", "Prefers morning flights."]],
+     "queries": ["Which phone do I have?"],
+     "expect": {"selected_contains": "Pixel 9",
+                "selected_excludes": ["Pixel 6", "morning"]}}
+  ],
+  "wrong_domain_collision": [
+    {"memories": [["preference", "Prefers window seats for long trips."],
+                   ["instruction", "Keep long answers under five bullets."]],
+     "queries": ["Pick a seat for my long flight."],
+     "expect": {"first_selected_contains": "window",
+                "note": "seat/flight domain must outrank generic 'long' overlap"}}
+  ],
+  "zero_relevance": [
+    {"memories": [["fact", "Works for Globex."], ["preference", "Likes tea."]],
+     "queries": ["What's the capital of France?"],
+     "expect": {"selected_count": 0,
+                "note": "unrelated memories never fill K"}}
+  ],
+  "budget_pressure": [
+    {"note": "more relevant candidates than K; deterministic bounded selection",
+     "memories": [["fact", "Works for Globex."],
+                   ["fact", "Globex office is in Austin."],
+                   ["fact", "Globex team uses Python."],
+                   ["fact", "Globex badge number is 42."],
+                   ["fact", "Globex parking is on level 2."]],
+     "k": 3,
+     "queries": ["Tell me about Globex."],
+     "expect": {"selected_count": 3, "deterministic": true}}
+  ],
+  "stable_ties": [
+    {"memories": [["fact", "Speaks Spanish."], ["fact", "Speaks Portuguese."], ["fact", "Speaks French."]],
+     "queries": ["Which languages do I speak?"],
+     "expect": {"deterministic": true,
+                "note": "equal component totals rank identically across repeated runs"}}
+  ]
+}

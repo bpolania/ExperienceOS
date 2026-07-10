@@ -101,6 +101,11 @@ class ExperienceOSAdapterBase:
         Mutually exclusive with _make_policy by SDK contract."""
         return None
 
+    def _make_retrieval_strategy(self, case: BenchmarkCase):
+        """Return a retrieval strategy for the ContextBuilder (None =
+        the unchanged Phase 8 deterministic ranking)."""
+        return None
+
     # -- BenchmarkSystem -------------------------------------------------------
 
     def initialize(self, case: BenchmarkCase) -> None:
@@ -111,7 +116,9 @@ class ExperienceOSAdapterBase:
             budget = min(budget, case.selection_k)
         self.context_budget = case.context_budget
         builder = ContextBuilder(
-            memory_budget=budget, compressor=ExperienceCompressor()
+            memory_budget=budget,
+            compressor=ExperienceCompressor(),
+            retrieval_strategy=self._make_retrieval_strategy(case),
         )
         policy = self._make_policy(case)
         planner = self._make_planner(case)
