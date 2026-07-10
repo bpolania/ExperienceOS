@@ -159,7 +159,13 @@ def validate_external_artifact(
 
     from benchmarks.external.longmemeval.runner import _normalized_digest
 
-    digest = _normalized_digest(cases, aggregate)
+    retrieval_records = [
+        json.loads(line)
+        for line in _jsonl_lines(path / "retrieval_evidence.jsonl")
+    ]
+    if len(retrieval_records) != len(cases):
+        _fail("retrieval evidence does not match case count")
+    digest = _normalized_digest(cases, aggregate, retrieval_records)
     if digest != artifact_manifest["normalized_result_digest"]:
         _fail("normalized external digest mismatch")
     return {

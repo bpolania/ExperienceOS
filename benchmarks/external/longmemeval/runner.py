@@ -95,6 +95,11 @@ class ExternalCaseRun:
     elapsed_ms: float = 0.0
 
     def record(self) -> dict:
+        """Bounded case record: context evidence as per-message digests
+        (chars + sha256 + short preview) so committed artifacts never
+        embed full official histories (dataset_content_committed stays
+        false); full candidate/selection detail lives once, in
+        retrieval_evidence.jsonl."""
         return {
             "question_id": self.question_id,
             "category": self.category,
@@ -103,15 +108,34 @@ class ExternalCaseRun:
             "failure_reason": self.failure_reason,
             "sessions": self.sessions,
             "history_turns": self.history_turns,
-            "candidates": self.candidates,
-            "selected_texts": self.selected_texts,
-            "context_messages": self.context_messages,
+            "candidate_count": len(self.candidates),
+            "selected_count": sum(
+                1 for c in self.candidates if c["selected"]
+            ),
+            "context_message_digests": [
+                {
+                    "chars": len(m),
+                    "sha256": hashlib.sha256(
+                        m.encode("utf-8")
+                    ).hexdigest(),
+                    "preview": m[:120],
+                }
+                for m in self.context_messages
+            ],
             "context_tokens": self.context_tokens,
             "history_or_memory_tokens": self.history_or_memory_tokens,
             "truncation": self.truncation,
             "response": self.response,
             "contributions": [c.to_payload() for c in self.contributions],
             "elapsed_ms": self.elapsed_ms,
+        }
+
+    def retrieval_record(self) -> dict:
+        return {
+            "question_id": self.question_id,
+            "system_id": self.system_id,
+            "candidates": self.candidates,
+            "selected_texts": self.selected_texts,
         }
 
 
@@ -312,11 +336,17 @@ def execute_external(cases, systems=EXTERNAL_SYSTEMS):
     return runs, failures
 
 
-def _normalized_digest(records: list, aggregate: dict) -> str:
+def _normalized_digest(
+    records: list, aggregate: dict, retrieval_records: list
+) -> str:
     from benchmarks.artifacts.writer import normalize_for_digest
 
     normalized = normalize_for_digest(
-        {"cases": records, "aggregate": aggregate}
+        {
+            "cases": records,
+            "aggregate": aggregate,
+            "retrieval": retrieval_records,
+        }
     )
     return hashlib.sha256(
         canonical_json(normalized).encode("utf-8")
@@ -401,18 +431,8 @@ def write_external_artifacts(
         ],
     )
     _write_jsonl(staging / "cases.jsonl", records)
-    _write_jsonl(
-        staging / "retrieval_evidence.jsonl",
-        [
-            {
-                "question_id": r["question_id"],
-                "system_id": r["system_id"],
-                "candidates": r["candidates"],
-                "selected_texts": r["selected_texts"],
-            }
-            for r in records
-        ],
-    )
+    retrieval_records = [run.retrieval_record() for run in runs]
+    _write_jsonl(staging / "retrieval_evidence.jsonl", retrieval_records)
     _write_jsonl(
         staging / "answer_evidence.jsonl",
         [
@@ -440,7 +460,7 @@ def write_external_artifacts(
     _write(staging / "aggregate.json", aggregate)
     _write(staging / "failures.json", failures)
 
-    digest = _normalized_digest(records, aggregate)
+    digest = _normalized_digest(records, aggregate, retrieval_records)
     artifact_manifest = {
         "artifact_schema_version": EXTERNAL_ARTIFACT_SCHEMA_VERSION,
         "display_label": REQUIRED_DISPLAY_LABEL,
