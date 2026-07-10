@@ -75,11 +75,12 @@ def _strip_latency(node):
         for key in ("latencies", "latency_samples"):
             if key in node:
                 node[key] = []
-        for key in ("mean_ms", "min_ms", "max_ms", "p50_ms", "p95_ms"):
+        for key in (
+            "mean_ms", "min_ms", "max_ms", "p50_ms", "p95_ms",
+            "milliseconds", "elapsed_ms",
+        ):
             if key in node:
                 node[key] = None
-        if "milliseconds" in node:
-            node["milliseconds"] = None
         for value in node.values():
             _strip_latency(value)
     elif isinstance(node, list):
@@ -169,10 +170,10 @@ def write_artifacts(output: RunOutput, readme_extra: str = "") -> Path:
                 "records": (
                     sum(
                         1
-                        for _ in (staging / name)
+                        for line in (staging / name)
                         .read_text()
-                        .strip()
-                        .splitlines()
+                        .split("\n")
+                        if line.strip()
                     )
                     if name.endswith(".jsonl")
                     else 1

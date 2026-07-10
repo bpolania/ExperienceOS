@@ -26,8 +26,33 @@ case "$command" in
     validate)
         "$PYTHON" -m benchmarks.runner.cli validate "${2:?result dir required}"
         ;;
+    longmemeval-fixture)
+        out="${2:-benchmarks/results/local/longmemeval-fixture}"
+        "$PYTHON" -m benchmarks.external.longmemeval.cli fixture \
+            --output "$out" --overwrite
+        "$PYTHON" -m benchmarks.external.longmemeval.cli validate "$out"
+        ;;
+    longmemeval-prepare)
+        "$PYTHON" -m benchmarks.external.longmemeval.cli prepare \
+            --data-path "${2:?official data path required}"
+        ;;
+    longmemeval-structural)
+        data="${2:?official data path required}"
+        out="${3:-benchmarks/results/local/longmemeval-structural}"
+        "$PYTHON" -m benchmarks.external.longmemeval.cli structural \
+            --data-path "$data" --output "$out" --overwrite
+        "$PYTHON" -m benchmarks.external.longmemeval.cli validate "$out"
+        ;;
+    longmemeval-live)
+        "$PYTHON" -m benchmarks.external.longmemeval.cli live \
+            --data-path "${2:-unset}" --output "${3:-unset}"
+        ;;
+    validate-external)
+        "$PYTHON" -m benchmarks.external.longmemeval.cli validate \
+            "${2:?result dir required}"
+        ;;
     *)
-        echo "unknown command: $command (expected quick, full-offline, validate)"
+        echo "unknown command: $command (expected quick, full-offline, validate, longmemeval-fixture, longmemeval-prepare, longmemeval-structural, longmemeval-live, validate-external)"
         exit 2
         ;;
 esac

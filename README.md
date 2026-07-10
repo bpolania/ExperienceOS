@@ -384,6 +384,11 @@ two ExperienceOS adapters (rule-based and local-model policies) in
 The deterministic runner, metric evaluators, and raw artifacts are
 documented in [docs/benchmark_runner.md](docs/benchmark_runner.md)
 and [docs/benchmark_metrics.md](docs/benchmark_metrics.md).
+An external
+track — the **LongMemEval 50-case stratified subset** (not an
+official full-benchmark score) — is documented in
+[docs/longmemeval_subset.md](docs/longmemeval_subset.md) and kept
+fully separate from the custom lifecycle results.
 The default benchmark path is fully offline (no credentials, no
 network, no model downloads). Raw comparative artifacts exist under
 `benchmarks/results/committed/`; the final comparative report has

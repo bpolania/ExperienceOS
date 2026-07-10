@@ -1,0 +1,102 @@
+[
+  {
+    "question_id": "synthetic_ie_001",
+    "question_type": "single-session-user",
+    "question": "What brand of standing desk did I buy?",
+    "answer": "Uplift",
+    "question_date": "2023/06/01 (Thu) 10:00",
+    "haystack_session_ids": ["syn_ie_s1", "syn_ie_s2"],
+    "haystack_dates": ["2023/05/10 (Wed) 09:00", "2023/05/20 (Sat) 14:00"],
+    "haystack_sessions": [
+      [
+        {"role": "user", "content": "I finally bought an Uplift standing desk for my home office.", "has_answer": true},
+        {"role": "assistant", "content": "Nice choice! Standing desks can help with posture."}
+      ],
+      [
+        {"role": "user", "content": "My cat knocked a plant off the windowsill today."},
+        {"role": "assistant", "content": "Hopefully the plant survived the fall!"}
+      ]
+    ],
+    "answer_session_ids": ["syn_ie_s1"]
+  },
+  {
+    "question_id": "synthetic_ms_001",
+    "question_type": "multi-session",
+    "question": "How many total kilometers did I run across my two park runs?",
+    "answer": "12",
+    "question_date": "2023/07/01 (Sat) 08:00",
+    "haystack_session_ids": ["syn_ms_s1", "syn_ms_s2", "syn_ms_s3"],
+    "haystack_dates": ["2023/06/03 (Sat) 09:00", "2023/06/10 (Sat) 09:00", "2023/06/17 (Sat) 12:00"],
+    "haystack_sessions": [
+      [
+        {"role": "user", "content": "I ran 5 kilometers in the park this morning.", "has_answer": true},
+        {"role": "assistant", "content": "Great pace for a morning run!"}
+      ],
+      [
+        {"role": "user", "content": "Ran another 7 kilometers in the park today.", "has_answer": true},
+        {"role": "assistant", "content": "You're building distance steadily."}
+      ],
+      [
+        {"role": "user", "content": "I tried a new sandwich shop for lunch."},
+        {"role": "assistant", "content": "Trying new places keeps lunch interesting."}
+      ]
+    ],
+    "answer_session_ids": ["syn_ms_s1", "syn_ms_s2"]
+  },
+  {
+    "question_id": "synthetic_tr_001",
+    "question_type": "temporal-reasoning",
+    "question": "Which city did I visit first this spring, Lisbon or Porto?",
+    "answer": "Lisbon",
+    "question_date": "2023/06/15 (Thu) 18:00",
+    "haystack_session_ids": ["syn_tr_s1", "syn_tr_s2"],
+    "haystack_dates": ["2023/04/02 (Sun) 20:00", "2023/05/06 (Sat) 20:00"],
+    "haystack_sessions": [
+      [
+        {"role": "user", "content": "Just landed in Lisbon for a four-day trip.", "has_answer": true},
+        {"role": "assistant", "content": "Enjoy Lisbon! The tram rides are lovely."}
+      ],
+      [
+        {"role": "user", "content": "Arrived in Porto today, the river views are stunning.", "has_answer": true},
+        {"role": "assistant", "content": "Porto's riverside is a highlight."}
+      ]
+    ],
+    "answer_session_ids": ["syn_tr_s1", "syn_tr_s2"]
+  },
+  {
+    "question_id": "synthetic_ku_001",
+    "question_type": "knowledge-update",
+    "question": "What is my current apartment number?",
+    "answer": "12B",
+    "question_date": "2023/08/01 (Tue) 09:00",
+    "haystack_session_ids": ["syn_ku_s1", "syn_ku_s2"],
+    "haystack_dates": ["2023/03/15 (Wed) 19:00", "2023/07/10 (Mon) 19:00"],
+    "haystack_sessions": [
+      [
+        {"role": "user", "content": "I live in apartment 4A on the ground floor.", "has_answer": true},
+        {"role": "assistant", "content": "Ground floor makes moving furniture easier."}
+      ],
+      [
+        {"role": "user", "content": "We moved last week — my new apartment is 12B.", "has_answer": true},
+        {"role": "assistant", "content": "Congratulations on the new place!"}
+      ]
+    ],
+    "answer_session_ids": ["syn_ku_s2"]
+  },
+  {
+    "question_id": "synthetic_abs_001_abs",
+    "question_type": "single-session-user",
+    "question": "What is my dentist's name?",
+    "answer": "The user never mentioned their dentist's name.",
+    "question_date": "2023/09/01 (Fri) 11:00",
+    "haystack_session_ids": ["syn_abs_s1"],
+    "haystack_dates": ["2023/08/12 (Sat) 10:00"],
+    "haystack_sessions": [
+      [
+        {"role": "user", "content": "I booked a dentist appointment for next Tuesday."},
+        {"role": "assistant", "content": "Good luck with the appointment!"}
+      ]
+    ],
+    "answer_session_ids": []
+  }
+]

@@ -40,6 +40,10 @@ result, never a runner failure. The quick profile also runs inside
 - **qwen / real-local** — configuration-only in this phase: resolving
   them for execution raises with an explanation; they are never part
   of default validation.
+- **LongMemEval subset commands** (`longmemeval-fixture`,
+  `longmemeval-prepare`, `longmemeval-structural`,
+  `validate-external`) drive the separate external track — see
+  [longmemeval_subset.md](longmemeval_subset.md).
 
 ## Execution semantics
 

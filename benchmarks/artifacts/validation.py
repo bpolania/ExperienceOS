@@ -42,6 +42,14 @@ class ArtifactValidationError(ValueError):
     pass
 
 
+def _jsonl_lines(path: Path) -> list[str]:
+    """JSONL is newline-delimited ONLY (splitlines() also splits on
+    U+2028/U+2029, which can appear inside JSON string content)."""
+    return [
+        line for line in path.read_text().split("\n") if line.strip()
+    ]
+
+
 def _fail(message: str):
     raise ArtifactValidationError(message)
 
@@ -65,14 +73,11 @@ def validate_artifact_dir(path: Path, allow_staging: bool = False) -> dict:
 
     cases = [
         json.loads(line)
-        for line in (path / "cases.jsonl").read_text().strip().splitlines()
+        for line in _jsonl_lines(path / "cases.jsonl")
     ]
     contributions = [
         json.loads(line)
-        for line in (path / "metric_contributions.jsonl")
-        .read_text()
-        .strip()
-        .splitlines()
+        for line in _jsonl_lines(path / "metric_contributions.jsonl")
     ]
     if manifest["files"]["cases.jsonl"]["records"] != len(cases):
         _fail("cases.jsonl record count mismatch")
