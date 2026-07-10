@@ -381,8 +381,21 @@ append-only, naive top-K) in
 [docs/benchmark_baselines.md](docs/benchmark_baselines.md), and the
 two ExperienceOS adapters (rule-based and local-model policies) in
 [docs/benchmark_experienceos_adapters.md](docs/benchmark_experienceos_adapters.md).
+The deterministic runner, metric evaluators, and raw artifacts are
+documented in [docs/benchmark_runner.md](docs/benchmark_runner.md)
+and [docs/benchmark_metrics.md](docs/benchmark_metrics.md).
 The default benchmark path is fully offline (no credentials, no
-network, no model downloads). No benchmark results exist yet.
+network, no model downloads). Raw comparative artifacts exist under
+`benchmarks/results/committed/`; the final comparative report has
+not been written yet, and no result numbers are quoted here.
+
+Run and validate the offline benchmark:
+
+```bash
+./scripts/run_benchmarks.sh quick
+./scripts/run_benchmarks.sh full-offline
+./scripts/run_benchmarks.sh validate benchmarks/results/committed/lifecycle-offline-v1
+```
 
 Validate the contract, dataset, baselines, and adapters:
 

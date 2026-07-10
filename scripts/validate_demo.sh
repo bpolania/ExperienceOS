@@ -33,5 +33,13 @@ run "$PYTHON" examples/full_lifecycle_demo.py
 run "$PYTHON" examples/memory_value_comparison.py
 run "$PYTHON" examples/local_runner_smoke.py
 
+# Quick offline benchmark smoke: execution and artifact integrity only
+# (no performance expectations, no network, no credentials, no model).
+BENCH_TMP="$(mktemp -d)"
+run "$PYTHON" -m benchmarks.runner.cli run --profile quick \
+    --output "$BENCH_TMP/quick"
+run "$PYTHON" -m benchmarks.runner.cli validate "$BENCH_TMP/quick"
+rm -rf "$BENCH_TMP"
+
 echo
 echo "Offline demo validation passed."
