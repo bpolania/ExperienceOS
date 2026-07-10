@@ -1,0 +1,79 @@
+{
+  "category": "forgetting",
+  "context_budget": 4,
+  "current_message": "I prefer vegetarian restaurants for team lunches.",
+  "current_session_id": "session-3",
+  "description": "After a forget, the user explicitly restates the same preference: a NEW auditable memory must be created; the forgotten record must remain forgotten.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [
+      {
+        "logical_id": "food.team_lunch_style.restated",
+        "match_terms": [
+          "vegetarian"
+        ],
+        "memory_id": null
+      }
+    ],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": true,
+    "forgotten": [
+      {
+        "logical_id": "food.team_lunch_style",
+        "match_terms": [
+          "vegetarian"
+        ],
+        "memory_id": null
+      }
+    ],
+    "memory_actions": [
+      {
+        "action": "create",
+        "kind": "preference",
+        "logical_id": "food.team_lunch_style.restated",
+        "target": null,
+        "value": {
+          "must_exclude": [],
+          "must_include_all": [
+            "vegetarian"
+          ],
+          "must_include_any": []
+        }
+      }
+    ],
+    "rejection_reasons": [],
+    "response": null,
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": []
+  },
+  "notes": "Resurrection semantics per the contract: the forgotten record staying forgotten while a new record is created is CORRECT; silently reactivating the old record is resurrection and wrong.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "forgetting_006_restatement_not_resurrection",
+  "schema_version": "1",
+  "seed": 220,
+  "selection_k": 4,
+  "tags": [
+    "domain:food",
+    "forget",
+    "resurrection",
+    "restatement"
+  ],
+  "title": "Explicit restatement creates a new memory, not a resurrection",
+  "turns": [
+    {
+      "message": "I prefer vegetarian restaurants for team lunches.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "Forget my team lunch preference.",
+      "role": "user",
+      "session_id": "session-2"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "category": "distractor",
+  "context_budget": 4,
+  "current_message": "What curtains would work well for my living room windows?",
+  "current_session_id": "session-2",
+  "description": "A home-furnishing question about windows must not pull in the window-seat flight preference.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": false,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "none",
+        "kind": null,
+        "logical_id": null,
+        "target": null,
+        "value": null
+      }
+    ],
+    "rejection_reasons": [],
+    "response": null,
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [
+      {
+        "logical_id": "travel.seat.long_international",
+        "match_terms": [
+          "window"
+        ],
+        "memory_id": null
+      }
+    ],
+    "superseded": []
+  },
+  "notes": "Lexical trap: 'window' matches, domain does not. Naive retrieval selects it; correct behavior skips it.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "retrieval_004_wrong_domain_similar_wording",
+  "schema_version": "1",
+  "seed": 224,
+  "selection_k": 4,
+  "tags": [
+    "domain:home",
+    "distractor",
+    "wrong-domain"
+  ],
+  "title": "Similar wording from the wrong domain is skipped",
+  "turns": [
+    {
+      "message": "For long international flights, I prefer window seats.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}

@@ -1,0 +1,753 @@
+{
+  "dataset_version": "experienceos-lifecycle-v1",
+  "group_allocation": {
+    "containment": 6,
+    "context": 6,
+    "creation": 6,
+    "forgetting": 6,
+    "retrieval": 8,
+    "updates": 8
+  },
+  "manifest_hash": "0481f41e03795ce66133e01929dea563f326d7ce790adc4ee0ab4d37f1cfd6eb",
+  "scenario_count": 40,
+  "scenarios": [
+    {
+      "category": "creation",
+      "content_hash": "6a6f79ed5327b8aa569d26ba1460542e56aa10a3bf10ded79cd64637f0f08d5c",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "creation",
+      "path": "benchmarks/scenarios/lifecycle/creation/creation_001_explicit_scoped_preference.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "creation_001_explicit_scoped_preference",
+      "seed": 201,
+      "selection_k": 4,
+      "tags": [
+        "domain:travel",
+        "create",
+        "preference",
+        "phase7"
+      ]
+    },
+    {
+      "category": "creation",
+      "content_hash": "3879aefd43dc6b9eab6f16059cda915912d58f786144b179d28cb07c806b48bd",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "creation",
+      "path": "benchmarks/scenarios/lifecycle/creation/creation_002_durable_user_fact.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "creation_002_durable_user_fact",
+      "seed": 202,
+      "selection_k": 4,
+      "tags": [
+        "domain:work",
+        "create",
+        "fact"
+      ]
+    },
+    {
+      "category": "creation",
+      "content_hash": "ffb9494df869aa87cc84efea617dcbfce6b90a6337abe043c9ce315a7e3b3a73",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "creation",
+      "path": "benchmarks/scenarios/lifecycle/creation/creation_003_durable_instruction.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "creation_003_durable_instruction",
+      "seed": 203,
+      "selection_k": 4,
+      "tags": [
+        "domain:work-communication",
+        "create",
+        "instruction"
+      ]
+    },
+    {
+      "category": "creation",
+      "content_hash": "7c8161986b5717e4a7c1111e0191fbf9f254a5f2496f8009c9247c3b7be86c95",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "creation",
+      "path": "benchmarks/scenarios/lifecycle/creation/creation_004_non_durable_statement.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "creation_004_non_durable_statement",
+      "seed": 204,
+      "selection_k": 4,
+      "tags": [
+        "domain:small-talk",
+        "non-durable"
+      ]
+    },
+    {
+      "category": "creation",
+      "content_hash": "b833357bf2819b3cd28400c2d2955178f81c4b9d8c541c769be4802c9aa1b55f",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "creation",
+      "path": "benchmarks/scenarios/lifecycle/creation/creation_005_exact_duplicate_restatement.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "creation_005_exact_duplicate_restatement",
+      "seed": 205,
+      "selection_k": 4,
+      "tags": [
+        "domain:food",
+        "duplicate",
+        "create"
+      ]
+    },
+    {
+      "category": "creation",
+      "content_hash": "86af65c1ee16d754acff1670f5f8da6d39b6e3cf32222c306a8ada898d47d1fa",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "creation",
+      "path": "benchmarks/scenarios/lifecycle/creation/creation_006_paraphrased_duplicate.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "creation_006_paraphrased_duplicate",
+      "seed": 206,
+      "selection_k": 4,
+      "tags": [
+        "domain:food",
+        "duplicate",
+        "paraphrase",
+        "create"
+      ]
+    },
+    {
+      "category": "update",
+      "content_hash": "5a3436cafa853b0c75efc995bfbf52485c1f6256727c52f6c7f7c0f89b5809cf",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "updates",
+      "path": "benchmarks/scenarios/lifecycle/updates/updates_001_preference_replacement_cross_session.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "updates_001_preference_replacement_cross_session",
+      "seed": 207,
+      "selection_k": 4,
+      "tags": [
+        "domain:food",
+        "supersession",
+        "conflict",
+        "cross-session"
+      ]
+    },
+    {
+      "category": "update",
+      "content_hash": "dc993a9a16bb981a55a024acdfb759c321b60c5ec71a8d96c60949a01f2ff26d",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "updates",
+      "path": "benchmarks/scenarios/lifecycle/updates/updates_002_fact_correction.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "updates_002_fact_correction",
+      "seed": 208,
+      "selection_k": 4,
+      "tags": [
+        "domain:work",
+        "supersession",
+        "fact-correction"
+      ]
+    },
+    {
+      "category": "update",
+      "content_hash": "6744777e2cc3d5b69cd42ed3639da615182f1a4c864cf11253a6202a00ccbae0",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "updates",
+      "path": "benchmarks/scenarios/lifecycle/updates/updates_003_instruction_replacement.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "updates_003_instruction_replacement",
+      "seed": 209,
+      "selection_k": 4,
+      "tags": [
+        "domain:work-communication",
+        "supersession",
+        "instruction"
+      ]
+    },
+    {
+      "category": "update",
+      "content_hash": "23fe5e48384c2ef40ce2602c5ce399fda4765e9941c14806e707d5548a36f25a",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "updates",
+      "path": "benchmarks/scenarios/lifecycle/updates/updates_004_now_prefer_wording.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "updates_004_now_prefer_wording",
+      "seed": 210,
+      "selection_k": 4,
+      "tags": [
+        "domain:study",
+        "supersession",
+        "now-prefer",
+        "phase7"
+      ]
+    },
+    {
+      "category": "update",
+      "content_hash": "22ec3f21d7fb1693f5792569301558fee34a62e259f72b8761fa4e54e1052e6c",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "updates",
+      "path": "benchmarks/scenarios/lifecycle/updates/updates_005_instead_of_wording.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "updates_005_instead_of_wording",
+      "seed": 211,
+      "selection_k": 4,
+      "tags": [
+        "domain:travel",
+        "supersession",
+        "instead-of",
+        "phase7"
+      ]
+    },
+    {
+      "category": "update",
+      "content_hash": "67f1fb36dfdeb8f82b121c32100e02da1276c382713f74a5aacd5316e837aeff",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "updates",
+      "path": "benchmarks/scenarios/lifecycle/updates/updates_006_scoped_preferences_coexist.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "updates_006_scoped_preferences_coexist",
+      "seed": 212,
+      "selection_k": 4,
+      "tags": [
+        "domain:travel",
+        "scope",
+        "no-supersession"
+      ]
+    },
+    {
+      "category": "update",
+      "content_hash": "7fdd51317fe8a11fd5d3654860c74b47f37d294c928bf1f47473b329b2619545",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "updates",
+      "path": "benchmarks/scenarios/lifecycle/updates/updates_007_correction_with_distractors.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "updates_007_correction_with_distractors",
+      "seed": 213,
+      "selection_k": 4,
+      "tags": [
+        "domain:family-scheduling",
+        "supersession",
+        "distractor"
+      ]
+    },
+    {
+      "category": "update",
+      "content_hash": "53d12b80c8293cb60e2a1fdaeb0cb0ee19a5c73ecc26a7bba3600e591fd71714",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "updates",
+      "path": "benchmarks/scenarios/lifecycle/updates/updates_008_repeated_correction_chain.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "seed": 214,
+      "selection_k": 4,
+      "tags": [
+        "domain:work-communication",
+        "supersession",
+        "chain"
+      ]
+    },
+    {
+      "category": "forgetting",
+      "content_hash": "02985c5b901c2ef5e9a60fbd631800ea106a6ae11647cfc7849789cbdf78eb23",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "forgetting",
+      "path": "benchmarks/scenarios/lifecycle/forgetting/forgetting_001_exact_forget.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "forgetting_001_exact_forget",
+      "seed": 215,
+      "selection_k": 4,
+      "tags": [
+        "domain:food",
+        "forget",
+        "phase7"
+      ]
+    },
+    {
+      "category": "forgetting",
+      "content_hash": "ab361daa1ad255e060cacd66effb8c7831aedd67fc91d4919a300ca7857ef132",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "forgetting",
+      "path": "benchmarks/scenarios/lifecycle/forgetting/forgetting_002_paraphrased_forget.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "forgetting_002_paraphrased_forget",
+      "seed": 216,
+      "selection_k": 4,
+      "tags": [
+        "domain:study",
+        "forget",
+        "paraphrase"
+      ]
+    },
+    {
+      "category": "forgetting",
+      "content_hash": "9f9b92afb7aed796cd73aac5815b3cd2cf6fefb0ff25d28ce19fd76d17d3a43c",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "forgetting",
+      "path": "benchmarks/scenarios/lifecycle/forgetting/forgetting_003_forget_one_of_several.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "forgetting_003_forget_one_of_several",
+      "seed": 217,
+      "selection_k": 4,
+      "tags": [
+        "domain:travel",
+        "forget",
+        "preservation"
+      ]
+    },
+    {
+      "category": "forgetting",
+      "content_hash": "3b069890f545fe6a58f0165e282819fe31c1133c6dcc82ca09cecf9fd00105ca",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "forgetting",
+      "path": "benchmarks/scenarios/lifecycle/forgetting/forgetting_004_forget_after_supersession.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "forgetting_004_forget_after_supersession",
+      "seed": 218,
+      "selection_k": 4,
+      "tags": [
+        "domain:food",
+        "forget",
+        "after-supersession"
+      ]
+    },
+    {
+      "category": "forgetting",
+      "content_hash": "fd4f10042dd0168a64c4d774e0e6c29fcfe37edb0e6911e31e12ac60ceec9e80",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "forgetting",
+      "path": "benchmarks/scenarios/lifecycle/forgetting/forgetting_005_forgotten_leakage_check.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "seed": 219,
+      "selection_k": 4,
+      "tags": [
+        "domain:work-communication",
+        "forget",
+        "forgotten-leakage"
+      ]
+    },
+    {
+      "category": "forgetting",
+      "content_hash": "5cdc8a8a46f5acbaf771510446c058f88d0fc759593b07e5de450e55d755bd3f",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "forgetting",
+      "path": "benchmarks/scenarios/lifecycle/forgetting/forgetting_006_restatement_not_resurrection.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "forgetting_006_restatement_not_resurrection",
+      "seed": 220,
+      "selection_k": 4,
+      "tags": [
+        "domain:food",
+        "forget",
+        "resurrection",
+        "restatement"
+      ]
+    },
+    {
+      "category": "retrieval",
+      "content_hash": "97ecc2e47fdf42fa02f0df9c9ef7a2f166cdf7b8c971e015bc00fc97bc9778ed",
+      "context_budget": 1,
+      "evaluation_mode": "deterministic",
+      "group": "retrieval",
+      "path": "benchmarks/scenarios/lifecycle/retrieval/retrieval_001_one_relevant_among_many.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "retrieval_001_one_relevant_among_many",
+      "seed": 221,
+      "selection_k": 1,
+      "tags": [
+        "domain:software-development",
+        "selection",
+        "relevance"
+      ]
+    },
+    {
+      "category": "retrieval",
+      "content_hash": "b40fade5755a2c412f77e2c6ab2cbcdcac0cfb38b7143b084316c09bcc25e152",
+      "context_budget": 3,
+      "evaluation_mode": "deterministic",
+      "group": "retrieval",
+      "path": "benchmarks/scenarios/lifecycle/retrieval/retrieval_002_multiple_relevant.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "retrieval_002_multiple_relevant",
+      "seed": 222,
+      "selection_k": 3,
+      "tags": [
+        "domain:travel",
+        "selection",
+        "multi-relevant"
+      ]
+    },
+    {
+      "category": "retrieval",
+      "content_hash": "00f96b40e3b2d243d26aa56863f074a1141916ba5704517df6d7ba49e3da7152",
+      "context_budget": 1,
+      "evaluation_mode": "deterministic",
+      "group": "retrieval",
+      "path": "benchmarks/scenarios/lifecycle/retrieval/retrieval_003_lexical_mismatch.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "retrieval_003_lexical_mismatch",
+      "seed": 223,
+      "selection_k": 1,
+      "tags": [
+        "domain:food",
+        "selection",
+        "lexical-mismatch",
+        "safety"
+      ]
+    },
+    {
+      "category": "distractor",
+      "content_hash": "a95fa824d290942e27de642a853138de290944c84a2719dfcc12ceea56bd4f53",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "retrieval",
+      "path": "benchmarks/scenarios/lifecycle/retrieval/retrieval_004_wrong_domain_similar_wording.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "retrieval_004_wrong_domain_similar_wording",
+      "seed": 224,
+      "selection_k": 4,
+      "tags": [
+        "domain:home",
+        "distractor",
+        "wrong-domain"
+      ]
+    },
+    {
+      "category": "retrieval",
+      "content_hash": "58fc04128eea792a4fb192423456b54d9d4e1ae8cd63075bafe3f2576ae2612d",
+      "context_budget": 1,
+      "evaluation_mode": "deterministic",
+      "group": "retrieval",
+      "path": "benchmarks/scenarios/lifecycle/retrieval/retrieval_005_old_relevant_vs_recent_irrelevant.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "retrieval_005_old_relevant_vs_recent_irrelevant",
+      "seed": 225,
+      "selection_k": 1,
+      "tags": [
+        "domain:study",
+        "selection",
+        "recency-vs-relevance"
+      ]
+    },
+    {
+      "category": "retrieval",
+      "content_hash": "a54571628e9f3d2b57ef86e28ef9ba136b9ec58813b4640a2ffe0a7fef03703b",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "retrieval",
+      "path": "benchmarks/scenarios/lifecycle/retrieval/retrieval_006_no_memory_needed.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "retrieval_006_no_memory_needed",
+      "seed": 226,
+      "selection_k": 4,
+      "tags": [
+        "domain:general",
+        "no-memory-needed",
+        "efficiency"
+      ]
+    },
+    {
+      "category": "abstention",
+      "content_hash": "ab409df8e23d0602156533d319d6194fe697cd2d7b8bba4184866d2fdf6806b3",
+      "context_budget": 4,
+      "evaluation_mode": "model_scored",
+      "group": "retrieval",
+      "path": "benchmarks/scenarios/lifecycle/retrieval/retrieval_007_correct_abstention.json",
+      "requires_local_model": false,
+      "requires_provider": true,
+      "scenario_id": "retrieval_007_correct_abstention",
+      "seed": 227,
+      "selection_k": 4,
+      "tags": [
+        "domain:shopping",
+        "abstention"
+      ]
+    },
+    {
+      "category": "retrieval",
+      "content_hash": "aeb1f8c9cbb0ba23389e5b9b4122df734d833acaefdf133a1d4a1704d737ac6e",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "retrieval",
+      "path": "benchmarks/scenarios/lifecycle/retrieval/retrieval_008_stale_would_mislead.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "retrieval_008_stale_would_mislead",
+      "seed": 228,
+      "selection_k": 4,
+      "tags": [
+        "domain:devices",
+        "stale-leakage",
+        "selection"
+      ]
+    },
+    {
+      "category": "context_budget",
+      "content_hash": "697e0e09993ed57d1dc58439842028e4d02585eedde618f959c8f103fd92cffb",
+      "context_budget": 2,
+      "evaluation_mode": "deterministic",
+      "group": "context",
+      "path": "benchmarks/scenarios/lifecycle/context/context_001_budget_exceeded.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "context_001_budget_exceeded",
+      "seed": 229,
+      "selection_k": 2,
+      "tags": [
+        "domain:software-development",
+        "budget",
+        "selection"
+      ]
+    },
+    {
+      "category": "selection",
+      "content_hash": "e844a38f4dd93bfd1087a5dfa10512fbc3c8c7c216bbc76a82142192f5953d9a",
+      "context_budget": 2,
+      "evaluation_mode": "deterministic",
+      "group": "context",
+      "path": "benchmarks/scenarios/lifecycle/context/context_002_cross_domain_relevance.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "context_002_cross_domain_relevance",
+      "seed": 230,
+      "selection_k": 2,
+      "tags": [
+        "domain:work",
+        "selection",
+        "cross-domain"
+      ]
+    },
+    {
+      "category": "compression",
+      "content_hash": "f0fa3103007d238ce2f054a087025d4182890b41f744698293f545a3625d61e3",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "context",
+      "path": "benchmarks/scenarios/lifecycle/context/context_003_redundant_compression.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "context_003_redundant_compression",
+      "seed": 231,
+      "selection_k": 4,
+      "tags": [
+        "domain:travel",
+        "compression",
+        "redundancy"
+      ]
+    },
+    {
+      "category": "context_budget",
+      "content_hash": "af97f29329f4a5035651efd1a2c788d1ceb2c5ec79901fe7c4b1f51e68669469",
+      "context_budget": 1,
+      "evaluation_mode": "deterministic",
+      "group": "context",
+      "path": "benchmarks/scenarios/lifecycle/context/context_004_instruction_priority.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "context_004_instruction_priority",
+      "seed": 232,
+      "selection_k": 1,
+      "tags": [
+        "domain:writing",
+        "budget",
+        "instruction-priority"
+      ]
+    },
+    {
+      "category": "selection",
+      "content_hash": "aea96c3d1d651923ec28711d3d3e006896cfdaf750b37462bbc842919d907117",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "context",
+      "path": "benchmarks/scenarios/lifecycle/context/context_005_active_and_inactive_versions.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "context_005_active_and_inactive_versions",
+      "seed": 233,
+      "selection_k": 4,
+      "tags": [
+        "domain:software-development",
+        "stale-leakage",
+        "candidate-exclusion"
+      ]
+    },
+    {
+      "category": "context_budget",
+      "content_hash": "6536af51d4305b1c55ffa77be72673e2968c080db0566b877c72cc5cd9e5a3b2",
+      "context_budget": 2,
+      "evaluation_mode": "deterministic",
+      "group": "context",
+      "path": "benchmarks/scenarios/lifecycle/context/context_006_minimal_context_sufficient.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "context_006_minimal_context_sufficient",
+      "seed": 234,
+      "selection_k": 2,
+      "tags": [
+        "domain:food",
+        "budget",
+        "efficiency",
+        "token-reduction"
+      ]
+    },
+    {
+      "category": "rejection",
+      "content_hash": "4443adb5fbf075fc9a04db1d82f80d4da2712dd19fbc83b8bec680530c4cae91",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "containment",
+      "path": "benchmarks/scenarios/lifecycle/containment/containment_001_duplicate_create_contained.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "containment_001_duplicate_create_contained",
+      "seed": 235,
+      "selection_k": 4,
+      "tags": [
+        "domain:travel",
+        "containment",
+        "duplicate",
+        "phase7",
+        "scripted-proposal"
+      ]
+    },
+    {
+      "category": "rejection",
+      "content_hash": "c4ca2ef9584698dd293437ddf59084f9393b2a6486250aaebc3d2c429be3de65",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "containment",
+      "path": "benchmarks/scenarios/lifecycle/containment/containment_002_supersede_inactive_target.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "containment_002_supersede_inactive_target",
+      "seed": 236,
+      "selection_k": 4,
+      "tags": [
+        "domain:food",
+        "containment",
+        "inactive-target",
+        "scripted-proposal"
+      ]
+    },
+    {
+      "category": "rejection",
+      "content_hash": "2150c6be000623ec333eb9390b8a228e5db414e8f340e03c2cf472e44a1f98dc",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "containment",
+      "path": "benchmarks/scenarios/lifecycle/containment/containment_003_forget_nonexistent_target.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "containment_003_forget_nonexistent_target",
+      "seed": 237,
+      "selection_k": 4,
+      "tags": [
+        "domain:software-development",
+        "containment",
+        "nonexistent-target",
+        "scripted-proposal"
+      ]
+    },
+    {
+      "category": "fallback",
+      "content_hash": "7249267e0b244e14af245b9621731b6ed23914af65fdf63329cfb529fc1a2ced",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "containment",
+      "path": "benchmarks/scenarios/lifecycle/containment/containment_004_malformed_proposal_fallback.json",
+      "requires_local_model": false,
+      "requires_provider": false,
+      "scenario_id": "containment_004_malformed_proposal_fallback",
+      "seed": 238,
+      "selection_k": 4,
+      "tags": [
+        "domain:writing",
+        "containment",
+        "fallback",
+        "malformed-proposal",
+        "scripted-proposal"
+      ]
+    },
+    {
+      "category": "rejection",
+      "content_hash": "7522daa4c3d04386f725c0b91cd8049b3bd887c96c82041e1906de2bd0ad934b",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "containment",
+      "path": "benchmarks/scenarios/lifecycle/containment/containment_005_one_sentence_supersession_local.json",
+      "requires_local_model": true,
+      "requires_provider": false,
+      "scenario_id": "containment_005_one_sentence_supersession_local",
+      "seed": 239,
+      "selection_k": 4,
+      "tags": [
+        "domain:travel",
+        "containment",
+        "one-sentence-supersession",
+        "phase7",
+        "local-model-behavior"
+      ]
+    },
+    {
+      "category": "rejection",
+      "content_hash": "9ddad5a3bbfe076f2f6f03980e3c6f12fbd87ace0e40afe85dfea8bb3c596a8d",
+      "context_budget": 4,
+      "evaluation_mode": "deterministic",
+      "group": "containment",
+      "path": "benchmarks/scenarios/lifecycle/containment/containment_006_vague_forget_safe.json",
+      "requires_local_model": true,
+      "requires_provider": false,
+      "scenario_id": "containment_006_vague_forget_safe",
+      "seed": 240,
+      "selection_k": 4,
+      "tags": [
+        "domain:fitness",
+        "containment",
+        "vague-reference",
+        "phase7",
+        "local-model-behavior"
+      ]
+    }
+  ],
+  "schema_version": "1",
+  "suite_name": "experienceos-lifecycle"
+}

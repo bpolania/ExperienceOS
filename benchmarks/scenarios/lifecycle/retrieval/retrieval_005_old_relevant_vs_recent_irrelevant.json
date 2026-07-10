@@ -1,0 +1,80 @@
+{
+  "category": "retrieval",
+  "context_budget": 1,
+  "current_message": "Help me plan my Spanish vocabulary review for tomorrow.",
+  "current_session_id": "session-5",
+  "description": "An older, relevant study preference must be selected over a newer but irrelevant fact.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": false,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "none",
+        "kind": null,
+        "logical_id": null,
+        "target": null,
+        "value": null
+      }
+    ],
+    "rejection_reasons": [],
+    "response": {
+      "expect_abstention": false,
+      "must_exclude": [],
+      "must_include_all": [],
+      "must_include_any": [
+        "flashcard",
+        "flashcards"
+      ]
+    },
+    "retrieval_candidates": [],
+    "selected": [
+      {
+        "logical_id": "study.vocab_method",
+        "match_terms": [
+          "flashcards"
+        ],
+        "memory_id": null
+      }
+    ],
+    "skipped": [
+      {
+        "logical_id": "fitness.gym_membership",
+        "match_terms": [
+          "FitLife"
+        ],
+        "memory_id": null
+      }
+    ],
+    "superseded": []
+  },
+  "notes": "Recency must not trump relevance: with one slot, systems that rank by recency alone select the gym fact.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "retrieval_005_old_relevant_vs_recent_irrelevant",
+  "schema_version": "1",
+  "seed": 225,
+  "selection_k": 1,
+  "tags": [
+    "domain:study",
+    "selection",
+    "recency-vs-relevance"
+  ],
+  "title": "Old relevant memory beats recent irrelevant memory",
+  "turns": [
+    {
+      "message": "I prefer flashcards for memorizing vocabulary.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "My gym membership is at FitLife downtown.",
+      "role": "user",
+      "session_id": "session-4"
+    }
+  ]
+}

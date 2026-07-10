@@ -1,0 +1,59 @@
+{
+  "category": "creation",
+  "context_budget": 4,
+  "current_message": "From now on, send my daily status summary to the #eng-daily channel.",
+  "current_session_id": "session-1",
+  "description": "A standing instruction must create one active instruction memory.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [
+      {
+        "logical_id": "work.daily_status_channel",
+        "match_terms": [
+          "eng-daily"
+        ],
+        "memory_id": null
+      }
+    ],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": true,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "create",
+        "kind": "instruction",
+        "logical_id": "work.daily_status_channel",
+        "target": null,
+        "value": {
+          "must_exclude": [],
+          "must_include_all": [
+            "eng-daily"
+          ],
+          "must_include_any": []
+        }
+      }
+    ],
+    "rejection_reasons": [],
+    "response": null,
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": []
+  },
+  "notes": "Durable: 'from now on' marks a standing instruction that governs future behavior.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "creation_003_durable_instruction",
+  "schema_version": "1",
+  "seed": 203,
+  "selection_k": 4,
+  "tags": [
+    "domain:work-communication",
+    "create",
+    "instruction"
+  ],
+  "title": "Standing communication instruction is remembered",
+  "turns": []
+}

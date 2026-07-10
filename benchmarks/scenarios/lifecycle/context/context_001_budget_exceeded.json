@@ -1,0 +1,99 @@
+{
+  "category": "context_budget",
+  "context_budget": 2,
+  "current_message": "I'm about to commit code for the new service — remind me of anything relevant.",
+  "current_session_id": "session-2",
+  "description": "Six active memories, budget three: the relevant instruction must make the cut; clear noise must not.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": false,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "none",
+        "kind": null,
+        "logical_id": null,
+        "target": null,
+        "value": null
+      }
+    ],
+    "rejection_reasons": [],
+    "response": null,
+    "retrieval_candidates": [],
+    "selected": [
+      {
+        "logical_id": "dev.preferred_test_command",
+        "match_terms": [
+          "pytest"
+        ],
+        "memory_id": null
+      }
+    ],
+    "skipped": [
+      {
+        "logical_id": "food.dislike.cilantro",
+        "match_terms": [
+          "cilantro"
+        ],
+        "memory_id": null
+      },
+      {
+        "logical_id": "family.soccer_practice_day.updated",
+        "match_terms": [
+          "Thursday"
+        ],
+        "memory_id": null
+      }
+    ],
+    "superseded": []
+  },
+  "notes": "Budget adherence is a hard promise: at most two selected. The dev instruction is required; cilantro and soccer are required skips; the remaining slots are the system's judgment.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "context_001_budget_exceeded",
+  "schema_version": "1",
+  "seed": 229,
+  "selection_k": 2,
+  "tags": [
+    "domain:software-development",
+    "budget",
+    "selection"
+  ],
+  "title": "More candidates than budget forces real selection",
+  "turns": [
+    {
+      "message": "Always run the test suite with pytest -q before committing.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "I don't like cilantro.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "My daughter's soccer practice is on Thursdays.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "I prefer aisle seats for short work trips.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "I prefer dark mode in my code editor.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "I prefer morning flights.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}

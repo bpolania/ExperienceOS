@@ -1,0 +1,44 @@
+{
+  "category": "creation",
+  "context_budget": 4,
+  "current_message": "I'm pretty tired today, and it's raining here again.",
+  "current_session_id": "session-1",
+  "description": "A transient mood-and-weather remark must produce no memory at all.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": true,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "none",
+        "kind": null,
+        "logical_id": null,
+        "target": null,
+        "value": null
+      }
+    ],
+    "rejection_reasons": [],
+    "response": null,
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": []
+  },
+  "notes": "Non-durable: current fatigue and weather are one-time observations with no future value. Append-only systems will store this; the oracle says nothing may persist.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "creation_004_non_durable_statement",
+  "schema_version": "1",
+  "seed": 204,
+  "selection_k": 4,
+  "tags": [
+    "domain:small-talk",
+    "non-durable"
+  ],
+  "title": "Transient small talk must not persist",
+  "turns": []
+}

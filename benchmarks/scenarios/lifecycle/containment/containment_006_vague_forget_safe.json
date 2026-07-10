@@ -1,0 +1,70 @@
+{
+  "category": "rejection",
+  "context_budget": 4,
+  "current_message": "The gym thing doesn't matter anymore.",
+  "current_session_id": "session-2",
+  "description": "Phase 7 showed vague references ('the gym thing') can mis-target on the 0.5B model. Safe behavior is a correct forget of the gym memory, a rejection, or no action — never touching unrelated memories.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [
+      {
+        "logical_id": "food.dislike.cilantro",
+        "match_terms": [
+          "cilantro"
+        ],
+        "memory_id": null
+      },
+      {
+        "logical_id": "travel.seat.short_work_trip",
+        "match_terms": [
+          "aisle"
+        ],
+        "memory_id": null
+      }
+    ],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": false,
+    "forgotten": [],
+    "memory_actions": [],
+    "rejection_reasons": [],
+    "response": null,
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": []
+  },
+  "notes": "Acceptable outcomes: forget the gym memory (correct resolution), reject an invalid target, or take no action. Forbidden: forgetting or altering cilantro or the aisle preference. Demo guidance says avoid vague references; the benchmark measures what happens anyway. Skipped in default offline validation (requires_local_model).",
+  "requires_local_model": true,
+  "requires_provider": false,
+  "scenario_id": "containment_006_vague_forget_safe",
+  "schema_version": "1",
+  "seed": 240,
+  "selection_k": 4,
+  "tags": [
+    "domain:fitness",
+    "containment",
+    "vague-reference",
+    "phase7",
+    "local-model-behavior"
+  ],
+  "title": "Vague forget reference must not corrupt unrelated memories",
+  "turns": [
+    {
+      "message": "I go to the gym on Mondays and Wednesdays.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "I don't like cilantro.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "I prefer aisle seats for short work trips.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}

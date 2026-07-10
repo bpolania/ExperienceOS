@@ -1,0 +1,96 @@
+{
+  "category": "retrieval",
+  "context_budget": 3,
+  "current_message": "Book my work trip flight to Chicago.",
+  "current_session_id": "session-2",
+  "description": "A flight-booking request must select all three travel memories and skip the food distractor.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": false,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "none",
+        "kind": null,
+        "logical_id": null,
+        "target": null,
+        "value": null
+      }
+    ],
+    "rejection_reasons": [],
+    "response": null,
+    "retrieval_candidates": [],
+    "selected": [
+      {
+        "logical_id": "travel.seat.short_work_trip",
+        "match_terms": [
+          "aisle"
+        ],
+        "memory_id": null
+      },
+      {
+        "logical_id": "travel.flight_time",
+        "match_terms": [
+          "morning"
+        ],
+        "memory_id": null
+      },
+      {
+        "logical_id": "travel.home_airport",
+        "match_terms": [
+          "SJC"
+        ],
+        "memory_id": null
+      }
+    ],
+    "skipped": [
+      {
+        "logical_id": "food.dislike.cilantro",
+        "match_terms": [
+          "cilantro"
+        ],
+        "memory_id": null
+      }
+    ],
+    "superseded": []
+  },
+  "notes": "Budget three with four candidates: the food distractor must lose. Selection order among the three relevant memories is not asserted — any order is legitimate; only membership matters.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "retrieval_002_multiple_relevant",
+  "schema_version": "1",
+  "seed": 222,
+  "selection_k": 3,
+  "tags": [
+    "domain:travel",
+    "selection",
+    "multi-relevant"
+  ],
+  "title": "Multiple relevant travel memories are all selected",
+  "turns": [
+    {
+      "message": "I prefer aisle seats for short work trips.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "I prefer morning flights.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "My home airport is SJC.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "I don't like cilantro.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}

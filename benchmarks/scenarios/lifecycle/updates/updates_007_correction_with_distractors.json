@@ -1,0 +1,107 @@
+{
+  "category": "update",
+  "context_budget": 4,
+  "current_message": "Quick note while I figure out tonight's dinner — my daughter's soccer practice is on Thursdays now.",
+  "current_session_id": "session-2",
+  "description": "A correction wrapped in transient chatter must update the target and persist nothing from the chatter.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [
+      {
+        "logical_id": "family.soccer_practice_day.updated",
+        "match_terms": [
+          "Thursday"
+        ],
+        "memory_id": null
+      },
+      {
+        "logical_id": "food.pizza_friday",
+        "match_terms": [
+          "pizza"
+        ],
+        "memory_id": null
+      }
+    ],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": true,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "supersede",
+        "kind": "fact",
+        "logical_id": null,
+        "target": {
+          "logical_id": "family.soccer_practice_day",
+          "match_terms": [
+            "Tuesday"
+          ],
+          "memory_id": null
+        },
+        "value": null
+      },
+      {
+        "action": "create",
+        "kind": "fact",
+        "logical_id": "family.soccer_practice_day.updated",
+        "target": null,
+        "value": {
+          "must_exclude": [
+            "Tuesday"
+          ],
+          "must_include_all": [
+            "Thursday"
+          ],
+          "must_include_any": []
+        }
+      }
+    ],
+    "rejection_reasons": [],
+    "response": {
+      "expect_abstention": false,
+      "must_exclude": [
+        "Tuesday"
+      ],
+      "must_include_all": [],
+      "must_include_any": []
+    },
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": [
+      {
+        "logical_id": "family.soccer_practice_day",
+        "match_terms": [
+          "Tuesday"
+        ],
+        "memory_id": null
+      }
+    ]
+  },
+  "notes": "'Tonight's dinner' is transient and must not persist; the pizza preference is unrelated and must survive untouched. Synthetic family facts.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "updates_007_correction_with_distractors",
+  "schema_version": "1",
+  "seed": 213,
+  "selection_k": 4,
+  "tags": [
+    "domain:family-scheduling",
+    "supersession",
+    "distractor"
+  ],
+  "title": "Correction embedded in distractor chatter",
+  "turns": [
+    {
+      "message": "My daughter's soccer practice is on Tuesdays.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "I like ordering pizza on Fridays.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}

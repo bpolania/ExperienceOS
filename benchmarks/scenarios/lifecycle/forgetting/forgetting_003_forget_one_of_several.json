@@ -1,0 +1,90 @@
+{
+  "category": "forgetting",
+  "context_budget": 4,
+  "current_message": "Forget that I prefer morning flights.",
+  "current_session_id": "session-2",
+  "description": "Forgetting one of three related travel memories must not touch the other two.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [
+      {
+        "logical_id": "travel.seat.short_work_trip",
+        "match_terms": [
+          "aisle"
+        ],
+        "memory_id": null
+      },
+      {
+        "logical_id": "travel.home_airport",
+        "match_terms": [
+          "SJC"
+        ],
+        "memory_id": null
+      }
+    ],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": true,
+    "forgotten": [
+      {
+        "logical_id": "travel.flight_time",
+        "match_terms": [
+          "morning"
+        ],
+        "memory_id": null
+      }
+    ],
+    "memory_actions": [
+      {
+        "action": "forget",
+        "kind": null,
+        "logical_id": null,
+        "target": {
+          "logical_id": "travel.flight_time",
+          "match_terms": [
+            "morning"
+          ],
+          "memory_id": null
+        },
+        "value": null
+      }
+    ],
+    "rejection_reasons": [],
+    "response": null,
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": []
+  },
+  "notes": "Unrelated-memory preservation: the aisle preference and home airport must remain active.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "forgetting_003_forget_one_of_several",
+  "schema_version": "1",
+  "seed": 217,
+  "selection_k": 4,
+  "tags": [
+    "domain:travel",
+    "forget",
+    "preservation"
+  ],
+  "title": "Forgetting one memory preserves its neighbors",
+  "turns": [
+    {
+      "message": "I prefer aisle seats for short work trips.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "I prefer morning flights.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "My home airport is SJC.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "category": "retrieval",
+  "context_budget": 4,
+  "current_message": "What's 15% of 240?",
+  "current_session_id": "session-2",
+  "description": "A pure arithmetic question is answerable with zero memories; stored experience must not distort the answer.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": false,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "none",
+        "kind": null,
+        "logical_id": null,
+        "target": null,
+        "value": null
+      }
+    ],
+    "rejection_reasons": [],
+    "response": {
+      "expect_abstention": false,
+      "must_exclude": [],
+      "must_include_all": [],
+      "must_include_any": [
+        "36"
+      ]
+    },
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": []
+  },
+  "notes": "Efficiency probe: full-history systems spend context on irrelevant memories here. Selection content is not asserted; the correct answer is.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "retrieval_006_no_memory_needed",
+  "schema_version": "1",
+  "seed": 226,
+  "selection_k": 4,
+  "tags": [
+    "domain:general",
+    "no-memory-needed",
+    "efficiency"
+  ],
+  "title": "Self-contained request needs no memory",
+  "turns": [
+    {
+      "message": "I don't like cilantro.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "I prefer aisle seats for short work trips.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}

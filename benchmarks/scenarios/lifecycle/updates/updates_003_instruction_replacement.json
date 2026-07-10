@@ -1,0 +1,95 @@
+{
+  "category": "update",
+  "context_budget": 4,
+  "current_message": "From now on, send my daily status summary to the #eng-standup channel instead.",
+  "current_session_id": "session-2",
+  "description": "A replacement standing instruction must supersede its predecessor, not accumulate beside it.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [
+      {
+        "logical_id": "work.daily_status_channel.updated",
+        "match_terms": [
+          "eng-standup"
+        ],
+        "memory_id": null
+      }
+    ],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": true,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "supersede",
+        "kind": "instruction",
+        "logical_id": null,
+        "target": {
+          "logical_id": "work.daily_status_channel",
+          "match_terms": [
+            "eng-daily"
+          ],
+          "memory_id": null
+        },
+        "value": null
+      },
+      {
+        "action": "create",
+        "kind": "instruction",
+        "logical_id": "work.daily_status_channel.updated",
+        "target": null,
+        "value": {
+          "must_exclude": [
+            "eng-daily"
+          ],
+          "must_include_all": [
+            "eng-standup"
+          ],
+          "must_include_any": []
+        }
+      }
+    ],
+    "rejection_reasons": [],
+    "response": {
+      "expect_abstention": false,
+      "must_exclude": [
+        "eng-daily"
+      ],
+      "must_include_all": [],
+      "must_include_any": []
+    },
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": [
+      {
+        "logical_id": "work.daily_status_channel",
+        "match_terms": [
+          "eng-daily"
+        ],
+        "memory_id": null
+      }
+    ]
+  },
+  "notes": "Two active contradictory routing instructions are worse than none; append-only systems keep both.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "updates_003_instruction_replacement",
+  "schema_version": "1",
+  "seed": 209,
+  "selection_k": 4,
+  "tags": [
+    "domain:work-communication",
+    "supersession",
+    "instruction"
+  ],
+  "title": "Replaced channel instruction retires the old instruction",
+  "turns": [
+    {
+      "message": "From now on, send my daily status summary to the #eng-daily channel.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}

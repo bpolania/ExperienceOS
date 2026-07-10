@@ -1,0 +1,91 @@
+{
+  "category": "retrieval",
+  "context_budget": 1,
+  "current_message": "I'm about to commit my changes to the new service — anything I should run first?",
+  "current_session_id": "session-2",
+  "description": "A pre-commit question must select the test-command instruction and skip food and family memories.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": false,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "none",
+        "kind": null,
+        "logical_id": null,
+        "target": null,
+        "value": null
+      }
+    ],
+    "rejection_reasons": [],
+    "response": {
+      "expect_abstention": false,
+      "must_exclude": [],
+      "must_include_all": [],
+      "must_include_any": [
+        "pytest"
+      ]
+    },
+    "retrieval_candidates": [],
+    "selected": [
+      {
+        "logical_id": "dev.preferred_test_command",
+        "match_terms": [
+          "pytest"
+        ],
+        "memory_id": null
+      }
+    ],
+    "skipped": [
+      {
+        "logical_id": "food.dislike.cilantro",
+        "match_terms": [
+          "cilantro"
+        ],
+        "memory_id": null
+      },
+      {
+        "logical_id": "family.soccer_practice_day.updated",
+        "match_terms": [
+          "Thursday"
+        ],
+        "memory_id": null
+      }
+    ],
+    "superseded": []
+  },
+  "notes": "Budget one forces a real ranking decision. Signal vs noise: exactly one memory is relevant. Response inclusion constraints apply in provider-backed runs.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "retrieval_001_one_relevant_among_many",
+  "schema_version": "1",
+  "seed": 221,
+  "selection_k": 1,
+  "tags": [
+    "domain:software-development",
+    "selection",
+    "relevance"
+  ],
+  "title": "One relevant instruction among unrelated memories",
+  "turns": [
+    {
+      "message": "Always run the test suite with pytest -q before committing.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "I don't like cilantro.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "My daughter's soccer practice is on Thursdays.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}

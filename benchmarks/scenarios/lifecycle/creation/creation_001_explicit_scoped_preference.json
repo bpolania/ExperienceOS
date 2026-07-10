@@ -1,0 +1,60 @@
+{
+  "category": "creation",
+  "context_budget": 4,
+  "current_message": "I prefer aisle seats for short work trips.",
+  "current_session_id": "session-1",
+  "description": "One explicit, scoped preference statement must create exactly one active preference memory.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [
+      {
+        "logical_id": "travel.seat.short_work_trip",
+        "match_terms": [
+          "aisle"
+        ],
+        "memory_id": null
+      }
+    ],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": true,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "create",
+        "kind": "preference",
+        "logical_id": "travel.seat.short_work_trip",
+        "target": null,
+        "value": {
+          "must_exclude": [],
+          "must_include_all": [
+            "aisle"
+          ],
+          "must_include_any": []
+        }
+      }
+    ],
+    "rejection_reasons": [],
+    "response": null,
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": []
+  },
+  "notes": "Durable: a stable, scoped preference. Phase 7 verified this statement end to end; the scope (short work trips) is part of the memory's meaning.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "creation_001_explicit_scoped_preference",
+  "schema_version": "1",
+  "seed": 201,
+  "selection_k": 4,
+  "tags": [
+    "domain:travel",
+    "create",
+    "preference",
+    "phase7"
+  ],
+  "title": "Explicit scoped travel preference is remembered",
+  "turns": []
+}

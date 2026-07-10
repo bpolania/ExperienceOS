@@ -1,0 +1,96 @@
+{
+  "category": "update",
+  "context_budget": 4,
+  "current_message": "Actually, I prefer coffee in the morning.",
+  "current_session_id": "session-2",
+  "description": "A later session changes a preference; the old value must retire and only the new one may stay active.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [
+      {
+        "logical_id": "food.morning_drink.updated",
+        "match_terms": [
+          "coffee"
+        ],
+        "memory_id": null
+      }
+    ],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": true,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "supersede",
+        "kind": "preference",
+        "logical_id": null,
+        "target": {
+          "logical_id": "food.morning_drink",
+          "match_terms": [
+            "tea"
+          ],
+          "memory_id": null
+        },
+        "value": null
+      },
+      {
+        "action": "create",
+        "kind": "preference",
+        "logical_id": "food.morning_drink.updated",
+        "target": null,
+        "value": {
+          "must_exclude": [
+            "tea"
+          ],
+          "must_include_all": [
+            "coffee"
+          ],
+          "must_include_any": []
+        }
+      }
+    ],
+    "rejection_reasons": [],
+    "response": {
+      "expect_abstention": false,
+      "must_exclude": [
+        "tea"
+      ],
+      "must_include_all": [],
+      "must_include_any": []
+    },
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": [
+      {
+        "logical_id": "food.morning_drink",
+        "match_terms": [
+          "tea"
+        ],
+        "memory_id": null
+      }
+    ]
+  },
+  "notes": "Conflicting values across sessions: newest wins; two active conflicting drink preferences are forbidden (final_state_exact).",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "updates_001_preference_replacement_cross_session",
+  "schema_version": "1",
+  "seed": 207,
+  "selection_k": 4,
+  "tags": [
+    "domain:food",
+    "supersession",
+    "conflict",
+    "cross-session"
+  ],
+  "title": "Changed drink preference replaces the old one across sessions",
+  "turns": [
+    {
+      "message": "I prefer tea in the morning.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}

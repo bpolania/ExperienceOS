@@ -1,0 +1,73 @@
+{
+  "category": "rejection",
+  "context_budget": 4,
+  "current_message": "Plan a short work trip to New York.",
+  "current_session_id": "session-1",
+  "description": "A planning request triggers a scripted duplicate create proposal (as the real 0.5B model did in Phase 7); the engine must reject it and keep exactly one active memory.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [
+    "scripted_local_proposals"
+  ],
+  "expected": {
+    "active": [
+      {
+        "logical_id": "travel.seat.short_work_trip",
+        "match_terms": [
+          "aisle"
+        ],
+        "memory_id": null
+      }
+    ],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": true,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "none",
+        "kind": null,
+        "logical_id": null,
+        "target": null,
+        "value": null
+      }
+    ],
+    "rejection_reasons": [
+      "duplicate_of_active"
+    ],
+    "response": null,
+    "retrieval_candidates": [],
+    "selected": [
+      {
+        "logical_id": "travel.seat.short_work_trip",
+        "match_terms": [
+          "aisle"
+        ],
+        "memory_id": null
+      }
+    ],
+    "skipped": [],
+    "superseded": []
+  },
+  "notes": "Deterministic offline twin of the observed Phase 7 behavior: the local model re-proposed the active aisle memory on every planning turn. Proposal quality fails; containment succeeds; final state stays clean.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "containment_001_duplicate_create_contained",
+  "schema_version": "1",
+  "seed": 235,
+  "selection_k": 4,
+  "tags": [
+    "domain:travel",
+    "containment",
+    "duplicate",
+    "phase7",
+    "scripted-proposal"
+  ],
+  "title": "Over-eager duplicate create on a planning request is contained",
+  "turns": [
+    {
+      "message": "I prefer aisle seats for short work trips.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}

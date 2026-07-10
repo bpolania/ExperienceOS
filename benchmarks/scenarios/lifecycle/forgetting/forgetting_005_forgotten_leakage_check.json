@@ -1,0 +1,71 @@
+{
+  "category": "forgetting",
+  "context_budget": 4,
+  "current_message": "Where should I send my daily status update?",
+  "current_session_id": "session-3",
+  "description": "After forgetting the status-channel instruction, asking where to send the status must not surface the forgotten channel.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": true,
+    "forgotten": [
+      {
+        "logical_id": "work.daily_status_channel",
+        "match_terms": [
+          "eng-daily"
+        ],
+        "memory_id": null
+      }
+    ],
+    "memory_actions": [
+      {
+        "action": "none",
+        "kind": null,
+        "logical_id": null,
+        "target": null,
+        "value": null
+      }
+    ],
+    "rejection_reasons": [],
+    "response": {
+      "expect_abstention": true,
+      "must_exclude": [
+        "eng-daily"
+      ],
+      "must_include_all": [],
+      "must_include_any": []
+    },
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": []
+  },
+  "notes": "Leakage probe at context and response level: any system that still answers '#eng-daily' is contaminated. The honest answer is that the assistant no longer knows.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "forgetting_005_forgotten_leakage_check",
+  "schema_version": "1",
+  "seed": 219,
+  "selection_k": 4,
+  "tags": [
+    "domain:work-communication",
+    "forget",
+    "forgotten-leakage"
+  ],
+  "title": "Forgotten instruction must not shape the later answer",
+  "turns": [
+    {
+      "message": "From now on, send my daily status summary to the #eng-daily channel.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "Forget the instruction about my daily status channel.",
+      "role": "user",
+      "session_id": "session-2"
+    }
+  ]
+}

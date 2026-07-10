@@ -1,0 +1,65 @@
+{
+  "category": "forgetting",
+  "context_budget": 4,
+  "current_message": "I don't care about my study schedule preference anymore.",
+  "current_session_id": "session-2",
+  "description": "A paraphrased forget ('I don't care about ... anymore') must retire the study-time preference.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": true,
+    "forgotten": [
+      {
+        "logical_id": "study.time_of_day",
+        "match_terms": [
+          "evening"
+        ],
+        "memory_id": null
+      }
+    ],
+    "memory_actions": [
+      {
+        "action": "forget",
+        "kind": null,
+        "logical_id": null,
+        "target": {
+          "logical_id": "study.time_of_day",
+          "match_terms": [
+            "evening"
+          ],
+          "memory_id": null
+        },
+        "value": null
+      }
+    ],
+    "rejection_reasons": [],
+    "response": null,
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": []
+  },
+  "notes": "Paraphrase pressure on forget detection without an explicit 'forget' verb.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "forgetting_002_paraphrased_forget",
+  "schema_version": "1",
+  "seed": 216,
+  "selection_k": 4,
+  "tags": [
+    "domain:study",
+    "forget",
+    "paraphrase"
+  ],
+  "title": "Paraphrased forget request retires the memory",
+  "turns": [
+    {
+      "message": "I prefer studying in the evening.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}

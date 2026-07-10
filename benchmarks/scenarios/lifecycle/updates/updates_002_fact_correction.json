@@ -1,0 +1,95 @@
+{
+  "category": "update",
+  "context_budget": 4,
+  "current_message": "Correction — I am based in the Austin office now.",
+  "current_session_id": "session-2",
+  "description": "A corrected durable fact must replace the previous value.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [
+      {
+        "logical_id": "work.base_office.updated",
+        "match_terms": [
+          "Austin"
+        ],
+        "memory_id": null
+      }
+    ],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": true,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "supersede",
+        "kind": "fact",
+        "logical_id": null,
+        "target": {
+          "logical_id": "work.base_office",
+          "match_terms": [
+            "Denver"
+          ],
+          "memory_id": null
+        },
+        "value": null
+      },
+      {
+        "action": "create",
+        "kind": "fact",
+        "logical_id": "work.base_office.updated",
+        "target": null,
+        "value": {
+          "must_exclude": [
+            "Denver"
+          ],
+          "must_include_all": [
+            "Austin"
+          ],
+          "must_include_any": []
+        }
+      }
+    ],
+    "rejection_reasons": [],
+    "response": {
+      "expect_abstention": false,
+      "must_exclude": [
+        "Denver"
+      ],
+      "must_include_all": [],
+      "must_include_any": []
+    },
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": [
+      {
+        "logical_id": "work.base_office",
+        "match_terms": [
+          "Denver"
+        ],
+        "memory_id": null
+      }
+    ]
+  },
+  "notes": "Fact correction through the same lifecycle mechanics as preferences; Denver must never re-enter answers.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "updates_002_fact_correction",
+  "schema_version": "1",
+  "seed": 208,
+  "selection_k": 4,
+  "tags": [
+    "domain:work",
+    "supersession",
+    "fact-correction"
+  ],
+  "title": "Corrected work location supersedes the old fact",
+  "turns": [
+    {
+      "message": "I am based in the Denver office.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}

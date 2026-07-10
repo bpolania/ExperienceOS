@@ -134,6 +134,26 @@ def test_invalid_evaluation_mode_rejected():
         case_from_dict(data)
 
 
+def test_final_state_exact_and_compression_default_false():
+    # Prompt 1 fixtures predate the fields: they load unchanged with
+    # the unasserted defaults (backward compatibility).
+    case = case_from_dict(load_fixture("create_case.json"))
+    assert case.expected.final_state_exact is False
+    assert case.expected.compression_expected is False
+    payload = case.to_payload()
+    assert payload["expected"]["final_state_exact"] is False
+    assert payload["expected"]["compression_expected"] is False
+
+
+def test_final_state_exact_and_compression_parse_when_set():
+    data = load_fixture("create_case.json")
+    data["expected"]["final_state_exact"] = True
+    data["expected"]["compression_expected"] = True
+    case = case_from_dict(data)
+    assert case.expected.final_state_exact is True
+    assert case.expected.compression_expected is True
+
+
 # --- Result contract ---------------------------------------------------------
 
 

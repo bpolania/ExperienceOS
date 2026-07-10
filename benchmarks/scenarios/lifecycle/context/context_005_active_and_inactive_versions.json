@@ -1,0 +1,97 @@
+{
+  "category": "selection",
+  "context_budget": 4,
+  "current_message": "Set up the editor on my new laptop the way I like it.",
+  "current_session_id": "session-3",
+  "description": "After dark->light supersession, retrieval candidates and selection must contain only the active version.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [
+      {
+        "logical_id": "dev.editor_theme.updated",
+        "match_terms": [
+          "light"
+        ],
+        "memory_id": null
+      }
+    ],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": true,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "none",
+        "kind": null,
+        "logical_id": null,
+        "target": null,
+        "value": null
+      }
+    ],
+    "rejection_reasons": [],
+    "response": {
+      "expect_abstention": false,
+      "must_exclude": [
+        "dark"
+      ],
+      "must_include_all": [],
+      "must_include_any": [
+        "light"
+      ]
+    },
+    "retrieval_candidates": [
+      {
+        "logical_id": "dev.editor_theme.updated",
+        "match_terms": [
+          "light"
+        ],
+        "memory_id": null
+      }
+    ],
+    "selected": [
+      {
+        "logical_id": "dev.editor_theme.updated",
+        "match_terms": [
+          "light"
+        ],
+        "memory_id": null
+      }
+    ],
+    "skipped": [],
+    "superseded": [
+      {
+        "logical_id": "dev.editor_theme",
+        "match_terms": [
+          "dark"
+        ],
+        "memory_id": null
+      }
+    ]
+  },
+  "notes": "Leakage measured at the candidate level: the superseded dark-mode record must not even be a retrieval candidate, let alone selected or supplied.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "context_005_active_and_inactive_versions",
+  "schema_version": "1",
+  "seed": 233,
+  "selection_k": 4,
+  "tags": [
+    "domain:software-development",
+    "stale-leakage",
+    "candidate-exclusion"
+  ],
+  "title": "Only the active version of an updated preference reaches context",
+  "turns": [
+    {
+      "message": "I prefer dark mode in my code editor.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "Switch that — I prefer light mode in my editor now.",
+      "role": "user",
+      "session_id": "session-2"
+    }
+  ]
+}

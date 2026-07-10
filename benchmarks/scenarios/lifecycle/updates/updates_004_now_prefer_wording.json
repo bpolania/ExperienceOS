@@ -1,0 +1,96 @@
+{
+  "category": "update",
+  "context_budget": 4,
+  "current_message": "I now prefer studying in the evening.",
+  "current_session_id": "session-2",
+  "description": "The natural 'I now prefer' phrasing must supersede the old preference.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [
+      {
+        "logical_id": "study.time_of_day.updated",
+        "match_terms": [
+          "evening"
+        ],
+        "memory_id": null
+      }
+    ],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": true,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "supersede",
+        "kind": "preference",
+        "logical_id": null,
+        "target": {
+          "logical_id": "study.time_of_day",
+          "match_terms": [
+            "morning"
+          ],
+          "memory_id": null
+        },
+        "value": null
+      },
+      {
+        "action": "create",
+        "kind": "preference",
+        "logical_id": "study.time_of_day.updated",
+        "target": null,
+        "value": {
+          "must_exclude": [
+            "morning"
+          ],
+          "must_include_all": [
+            "evening"
+          ],
+          "must_include_any": []
+        }
+      }
+    ],
+    "rejection_reasons": [],
+    "response": {
+      "expect_abstention": false,
+      "must_exclude": [
+        "morning"
+      ],
+      "must_include_all": [],
+      "must_include_any": []
+    },
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": [
+      {
+        "logical_id": "study.time_of_day",
+        "match_terms": [
+          "morning"
+        ],
+        "memory_id": null
+      }
+    ]
+  },
+  "notes": "Phase 7 found and fixed a planner gap on exactly this adverbed wording; the oracle keeps it pinned.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "updates_004_now_prefer_wording",
+  "schema_version": "1",
+  "seed": 210,
+  "selection_k": 4,
+  "tags": [
+    "domain:study",
+    "supersession",
+    "now-prefer",
+    "phase7"
+  ],
+  "title": "'I now prefer' wording performs the update",
+  "turns": [
+    {
+      "message": "I prefer studying in the morning.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}

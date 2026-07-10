@@ -1,0 +1,96 @@
+{
+  "category": "update",
+  "context_budget": 4,
+  "current_message": "Actually, I now prefer window seats for work trips instead of aisle seats.",
+  "current_session_id": "session-2",
+  "description": "'X instead of Y' must supersede Y with X, without carrying the retired alternative into the new memory value.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [
+      {
+        "logical_id": "travel.seat.work_trip.updated",
+        "match_terms": [
+          "window"
+        ],
+        "memory_id": null
+      }
+    ],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": true,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "supersede",
+        "kind": "preference",
+        "logical_id": null,
+        "target": {
+          "logical_id": "travel.seat.work_trip",
+          "match_terms": [
+            "aisle"
+          ],
+          "memory_id": null
+        },
+        "value": null
+      },
+      {
+        "action": "create",
+        "kind": "preference",
+        "logical_id": "travel.seat.work_trip.updated",
+        "target": null,
+        "value": {
+          "must_exclude": [
+            "aisle"
+          ],
+          "must_include_all": [
+            "window"
+          ],
+          "must_include_any": []
+        }
+      }
+    ],
+    "rejection_reasons": [],
+    "response": {
+      "expect_abstention": false,
+      "must_exclude": [
+        "aisle"
+      ],
+      "must_include_all": [],
+      "must_include_any": []
+    },
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": [
+      {
+        "logical_id": "travel.seat.work_trip",
+        "match_terms": [
+          "aisle"
+        ],
+        "memory_id": null
+      }
+    ]
+  },
+  "notes": "Phase 7 fixed both the adverb gap and the trailing 'instead of' clause leaking retired content into active memory text.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "updates_005_instead_of_wording",
+  "schema_version": "1",
+  "seed": 211,
+  "selection_k": 4,
+  "tags": [
+    "domain:travel",
+    "supersession",
+    "instead-of",
+    "phase7"
+  ],
+  "title": "'Instead of' wording updates and keeps memory text clean",
+  "turns": [
+    {
+      "message": "I prefer aisle seats for work trips.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}

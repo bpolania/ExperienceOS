@@ -1,0 +1,89 @@
+{
+  "category": "retrieval",
+  "context_budget": 4,
+  "current_message": "Which fast charger should I buy for my phone?",
+  "current_session_id": "session-3",
+  "description": "A charger recommendation must rely on the current phone, never the superseded model.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [
+      {
+        "logical_id": "devices.phone_model.updated",
+        "match_terms": [
+          "Pixel 9"
+        ],
+        "memory_id": null
+      }
+    ],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": true,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "none",
+        "kind": null,
+        "logical_id": null,
+        "target": null,
+        "value": null
+      }
+    ],
+    "rejection_reasons": [],
+    "response": {
+      "expect_abstention": false,
+      "must_exclude": [
+        "Pixel 6"
+      ],
+      "must_include_all": [],
+      "must_include_any": [
+        "Pixel 9"
+      ]
+    },
+    "retrieval_candidates": [],
+    "selected": [
+      {
+        "logical_id": "devices.phone_model.updated",
+        "match_terms": [
+          "Pixel 9"
+        ],
+        "memory_id": null
+      }
+    ],
+    "skipped": [],
+    "superseded": [
+      {
+        "logical_id": "devices.phone_model",
+        "match_terms": [
+          "Pixel 6"
+        ],
+        "memory_id": null
+      }
+    ]
+  },
+  "notes": "Append-only and naive-retrieval systems can supply the Pixel 6 record; any answer recommending a Pixel 6 charger is stale contamination.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "retrieval_008_stale_would_mislead",
+  "schema_version": "1",
+  "seed": 228,
+  "selection_k": 4,
+  "tags": [
+    "domain:devices",
+    "stale-leakage",
+    "selection"
+  ],
+  "title": "Stale superseded fact would produce a wrong answer",
+  "turns": [
+    {
+      "message": "My phone is a Pixel 6.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "I upgraded — my phone is a Pixel 9 now.",
+      "role": "user",
+      "session_id": "session-2"
+    }
+  ]
+}

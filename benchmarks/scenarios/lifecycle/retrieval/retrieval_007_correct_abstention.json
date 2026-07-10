@@ -1,0 +1,57 @@
+{
+  "category": "abstention",
+  "context_budget": 4,
+  "current_message": "What shirt size do I usually wear?",
+  "current_session_id": "session-2",
+  "description": "The user never stated a shirt size; the assistant must abstain rather than invent one.",
+  "evaluation_mode": "model_scored",
+  "evaluator_requirements": [
+    "abstention_judge"
+  ],
+  "expected": {
+    "active": [],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": false,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "none",
+        "kind": null,
+        "logical_id": null,
+        "target": null,
+        "value": null
+      }
+    ],
+    "rejection_reasons": [],
+    "response": {
+      "expect_abstention": true,
+      "must_exclude": [],
+      "must_include_all": [],
+      "must_include_any": []
+    },
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": []
+  },
+  "notes": "Abstention phrasing varies, so this is model-scored and provider-backed. The distractor memory must not be bent into a fabricated answer.",
+  "requires_local_model": false,
+  "requires_provider": true,
+  "scenario_id": "retrieval_007_correct_abstention",
+  "schema_version": "1",
+  "seed": 227,
+  "selection_k": 4,
+  "tags": [
+    "domain:shopping",
+    "abstention"
+  ],
+  "title": "Unknown preference requires abstention",
+  "turns": [
+    {
+      "message": "I prefer free shipping over fast shipping when I order online.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "category": "update",
+  "context_budget": 4,
+  "current_message": "One more change — my daily status summary goes to #team-updates now.",
+  "current_session_id": "session-3",
+  "description": "Two consecutive corrections of one field must leave exactly the last value active with an auditable chain.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [
+      {
+        "logical_id": "work.daily_status_channel.v3",
+        "match_terms": [
+          "team-updates"
+        ],
+        "memory_id": null
+      }
+    ],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": true,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "supersede",
+        "kind": "instruction",
+        "logical_id": null,
+        "target": {
+          "logical_id": "work.daily_status_channel.v2",
+          "match_terms": [
+            "eng-standup"
+          ],
+          "memory_id": null
+        },
+        "value": null
+      },
+      {
+        "action": "create",
+        "kind": "instruction",
+        "logical_id": "work.daily_status_channel.v3",
+        "target": null,
+        "value": {
+          "must_exclude": [
+            "eng-daily",
+            "eng-standup"
+          ],
+          "must_include_all": [
+            "team-updates"
+          ],
+          "must_include_any": []
+        }
+      }
+    ],
+    "rejection_reasons": [],
+    "response": {
+      "expect_abstention": false,
+      "must_exclude": [
+        "eng-daily",
+        "eng-standup"
+      ],
+      "must_include_all": [],
+      "must_include_any": []
+    },
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": [
+      {
+        "logical_id": "work.daily_status_channel.v1",
+        "match_terms": [
+          "eng-daily"
+        ],
+        "memory_id": null
+      },
+      {
+        "logical_id": "work.daily_status_channel.v2",
+        "match_terms": [
+          "eng-standup"
+        ],
+        "memory_id": null
+      }
+    ]
+  },
+  "notes": "Supersession chain: v1 -> v2 -> v3. Only v3 active; both predecessors retired but auditable.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "updates_008_repeated_correction_chain",
+  "schema_version": "1",
+  "seed": 214,
+  "selection_k": 4,
+  "tags": [
+    "domain:work-communication",
+    "supersession",
+    "chain"
+  ],
+  "title": "Repeated correction of the same logical field",
+  "turns": [
+    {
+      "message": "From now on, send my daily status summary to the #eng-daily channel.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "From now on, send my daily status summary to the #eng-standup channel.",
+      "role": "user",
+      "session_id": "session-2"
+    }
+  ]
+}

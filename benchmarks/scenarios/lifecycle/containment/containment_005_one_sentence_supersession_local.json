@@ -1,0 +1,58 @@
+{
+  "category": "rejection",
+  "context_budget": 4,
+  "current_message": "I now prefer window seats for short work trips instead of aisle seats.",
+  "current_session_id": "session-2",
+  "description": "Phase 7 showed the 0.5B model cannot perform 'X instead of Y' supersession in one sentence — it re-emits the old memory. The platform must contain whatever it proposes; unrelated memory must survive.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [
+      {
+        "logical_id": "food.dislike.cilantro",
+        "match_terms": [
+          "cilantro"
+        ],
+        "memory_id": null
+      }
+    ],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": false,
+    "forgotten": [],
+    "memory_actions": [],
+    "rejection_reasons": [],
+    "response": null,
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": []
+  },
+  "notes": "Acceptable outcomes: a correct supersession (window active, aisle superseded) OR safe containment (duplicate rejected, aisle unchanged). Both are recorded by proposal-quality metrics; the only hard assertion is that the unrelated cilantro memory survives and no state corruption occurs. Skipped in default offline validation (requires_local_model).",
+  "requires_local_model": true,
+  "requires_provider": false,
+  "scenario_id": "containment_005_one_sentence_supersession_local",
+  "schema_version": "1",
+  "seed": 239,
+  "selection_k": 4,
+  "tags": [
+    "domain:travel",
+    "containment",
+    "one-sentence-supersession",
+    "phase7",
+    "local-model-behavior"
+  ],
+  "title": "Real local model attempts a one-sentence supersession",
+  "turns": [
+    {
+      "message": "I prefer aisle seats for short work trips.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "I don't like cilantro.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}

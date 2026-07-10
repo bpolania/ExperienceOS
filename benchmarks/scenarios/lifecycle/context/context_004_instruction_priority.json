@@ -1,0 +1,84 @@
+{
+  "category": "context_budget",
+  "context_budget": 1,
+  "current_message": "Summarize today's project meeting for me.",
+  "current_session_id": "session-2",
+  "description": "With budget two, the formatting instruction must win a slot over unrelated preferences.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": false,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "none",
+        "kind": null,
+        "logical_id": null,
+        "target": null,
+        "value": null
+      }
+    ],
+    "rejection_reasons": [],
+    "response": null,
+    "retrieval_candidates": [],
+    "selected": [
+      {
+        "logical_id": "writing.summary_format",
+        "match_terms": [
+          "bullet"
+        ],
+        "memory_id": null
+      }
+    ],
+    "skipped": [
+      {
+        "logical_id": "food.dislike.cilantro",
+        "match_terms": [
+          "cilantro"
+        ],
+        "memory_id": null
+      },
+      {
+        "logical_id": "travel.seat.short_work_trip",
+        "match_terms": [
+          "aisle"
+        ],
+        "memory_id": null
+      }
+    ],
+    "superseded": []
+  },
+  "notes": "Instructions govern behavior and outrank preferences in selection priority; a single-slot budget makes that visible and deterministic.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "context_004_instruction_priority",
+  "schema_version": "1",
+  "seed": 232,
+  "selection_k": 1,
+  "tags": [
+    "domain:writing",
+    "budget",
+    "instruction-priority"
+  ],
+  "title": "Standing instruction outranks preferences under a tight budget",
+  "turns": [
+    {
+      "message": "Always format my meeting summaries as bullet points.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "I don't like cilantro.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "I prefer aisle seats for short work trips.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "category": "fallback",
+  "context_budget": 4,
+  "current_message": "Always start my emails with a short friendly greeting.",
+  "current_session_id": "session-1",
+  "description": "A scripted malformed proposal batch must trigger whole-batch typed fallback; the rule policy then creates the instruction correctly.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [
+    "scripted_local_proposals"
+  ],
+  "expected": {
+    "active": [
+      {
+        "logical_id": "writing.email_greeting",
+        "match_terms": [
+          "greeting"
+        ],
+        "memory_id": null
+      }
+    ],
+    "compression_expected": false,
+    "fallback_expected": true,
+    "final_state_exact": true,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "create",
+        "kind": "instruction",
+        "logical_id": "writing.email_greeting",
+        "target": null,
+        "value": {
+          "must_exclude": [],
+          "must_include_all": [
+            "greeting"
+          ],
+          "must_include_any": []
+        }
+      }
+    ],
+    "rejection_reasons": [],
+    "response": null,
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": []
+  },
+  "notes": "Malformed output is a policy failure, not a state failure: typed fallback attribution plus a correct final state through the rule policy. The malformed proposal must remain visible in evidence.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "containment_004_malformed_proposal_fallback",
+  "schema_version": "1",
+  "seed": 238,
+  "selection_k": 4,
+  "tags": [
+    "domain:writing",
+    "containment",
+    "fallback",
+    "malformed-proposal",
+    "scripted-proposal"
+  ],
+  "title": "Malformed policy output falls back to rules and still succeeds",
+  "turns": []
+}

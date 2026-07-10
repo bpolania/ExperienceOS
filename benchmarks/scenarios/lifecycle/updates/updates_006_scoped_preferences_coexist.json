@@ -1,0 +1,72 @@
+{
+  "category": "update",
+  "context_budget": 4,
+  "current_message": "For long international flights, I prefer window seats.",
+  "current_session_id": "session-2",
+  "description": "A preference for a different scope is NOT a correction: both scoped memories must remain active with no supersession.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [
+      {
+        "logical_id": "travel.seat.short_domestic",
+        "match_terms": [
+          "aisle"
+        ],
+        "memory_id": null
+      },
+      {
+        "logical_id": "travel.seat.long_international",
+        "match_terms": [
+          "window"
+        ],
+        "memory_id": null
+      }
+    ],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": true,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "create",
+        "kind": "preference",
+        "logical_id": "travel.seat.long_international",
+        "target": null,
+        "value": {
+          "must_exclude": [],
+          "must_include_all": [
+            "window"
+          ],
+          "must_include_any": []
+        }
+      }
+    ],
+    "rejection_reasons": [],
+    "response": null,
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": []
+  },
+  "notes": "Scope ambiguity case: forcing a supersession here is wrong. Different scopes are different logical slots (short_domestic vs long_international).",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "updates_006_scoped_preferences_coexist",
+  "schema_version": "1",
+  "seed": 212,
+  "selection_k": 4,
+  "tags": [
+    "domain:travel",
+    "scope",
+    "no-supersession"
+  ],
+  "title": "Differently scoped preferences must both stay active",
+  "turns": [
+    {
+      "message": "I prefer aisle seats for short domestic flights.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}

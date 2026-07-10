@@ -1,0 +1,83 @@
+{
+  "category": "compression",
+  "context_budget": 4,
+  "current_message": "Plan a work trip to Denver.",
+  "current_session_id": "session-2",
+  "description": "Three related flight preferences selected together should compress; the summary must genuinely shrink context.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [],
+    "compression_expected": true,
+    "fallback_expected": false,
+    "final_state_exact": false,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "none",
+        "kind": null,
+        "logical_id": null,
+        "target": null,
+        "value": null
+      }
+    ],
+    "rejection_reasons": [],
+    "response": null,
+    "retrieval_candidates": [],
+    "selected": [
+      {
+        "logical_id": "travel.seat.short_work_trip",
+        "match_terms": [
+          "aisle"
+        ],
+        "memory_id": null
+      },
+      {
+        "logical_id": "travel.flight_time",
+        "match_terms": [
+          "morning"
+        ],
+        "memory_id": null
+      },
+      {
+        "logical_id": "travel.nonstop",
+        "match_terms": [
+          "nonstop"
+        ],
+        "memory_id": null
+      }
+    ],
+    "skipped": [],
+    "superseded": []
+  },
+  "notes": "Compression trade-off: the grouped summary saves tokens but risks blurring per-memory detail (e.g., the short-work-trip scope). The oracle requires compression to occur; downstream response quality reveals whether detail loss hurt.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "context_003_redundant_compression",
+  "schema_version": "1",
+  "seed": 231,
+  "selection_k": 4,
+  "tags": [
+    "domain:travel",
+    "compression",
+    "redundancy"
+  ],
+  "title": "Related travel memories compress into one summary",
+  "turns": [
+    {
+      "message": "I prefer aisle seats for short work trips.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "I prefer morning flights.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "I prefer nonstop flights when possible.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}

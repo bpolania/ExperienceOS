@@ -1,0 +1,59 @@
+{
+  "category": "creation",
+  "context_budget": 4,
+  "current_message": "I don't like cilantro.",
+  "current_session_id": "session-2",
+  "description": "Restating an existing memory verbatim must leave exactly one active memory.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [
+      {
+        "logical_id": "food.dislike.cilantro",
+        "match_terms": [
+          "cilantro"
+        ],
+        "memory_id": null
+      }
+    ],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": true,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "none",
+        "kind": null,
+        "logical_id": null,
+        "target": null,
+        "value": null
+      }
+    ],
+    "rejection_reasons": [],
+    "response": null,
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": []
+  },
+  "notes": "A duplicate proposal, if made, must be contained (counted by duplicate metrics); the final state must hold exactly one cilantro memory either way.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "creation_005_exact_duplicate_restatement",
+  "schema_version": "1",
+  "seed": 205,
+  "selection_k": 4,
+  "tags": [
+    "domain:food",
+    "duplicate",
+    "create"
+  ],
+  "title": "Exact duplicate restatement does not duplicate memory",
+  "turns": [
+    {
+      "message": "I don't like cilantro.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}

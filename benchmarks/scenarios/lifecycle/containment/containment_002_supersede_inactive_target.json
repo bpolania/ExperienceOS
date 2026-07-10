@@ -1,0 +1,77 @@
+{
+  "category": "rejection",
+  "context_budget": 4,
+  "current_message": "Let's review my drink preferences.",
+  "current_session_id": "session-3",
+  "description": "A scripted proposal targets the retired tea memory; the engine must reject it and leave the lifecycle untouched.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [
+    "scripted_local_proposals"
+  ],
+  "expected": {
+    "active": [
+      {
+        "logical_id": "food.morning_drink.updated",
+        "match_terms": [
+          "coffee"
+        ],
+        "memory_id": null
+      }
+    ],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": true,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "none",
+        "kind": null,
+        "logical_id": null,
+        "target": null,
+        "value": null
+      }
+    ],
+    "rejection_reasons": [
+      "target_not_active"
+    ],
+    "response": null,
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": [
+      {
+        "logical_id": "food.morning_drink",
+        "match_terms": [
+          "tea"
+        ],
+        "memory_id": null
+      }
+    ]
+  },
+  "notes": "No resurrection through supersession: retired records are not valid targets. Rejection is the correct, visible outcome.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "containment_002_supersede_inactive_target",
+  "schema_version": "1",
+  "seed": 236,
+  "selection_k": 4,
+  "tags": [
+    "domain:food",
+    "containment",
+    "inactive-target",
+    "scripted-proposal"
+  ],
+  "title": "Supersede targeting an already-superseded memory is rejected",
+  "turns": [
+    {
+      "message": "I prefer tea in the morning.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "Actually, I prefer coffee in the morning.",
+      "role": "user",
+      "session_id": "session-2"
+    }
+  ]
+}

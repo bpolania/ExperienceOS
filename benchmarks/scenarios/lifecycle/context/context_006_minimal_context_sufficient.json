@@ -1,0 +1,87 @@
+{
+  "category": "context_budget",
+  "context_budget": 2,
+  "current_message": "Suggest a cake recipe for my son's birthday party.",
+  "current_session_id": "session-3",
+  "description": "A long chatter history must not bloat context: one allergy instruction suffices for a safe answer.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": false,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "none",
+        "kind": null,
+        "logical_id": null,
+        "target": null,
+        "value": null
+      }
+    ],
+    "rejection_reasons": [],
+    "response": {
+      "expect_abstention": false,
+      "must_exclude": [
+        "peanut"
+      ],
+      "must_include_all": [],
+      "must_include_any": []
+    },
+    "retrieval_candidates": [],
+    "selected": [
+      {
+        "logical_id": "food.dislike.peanut",
+        "match_terms": [
+          "peanut"
+        ],
+        "memory_id": null
+      }
+    ],
+    "skipped": [],
+    "superseded": []
+  },
+  "notes": "Context-efficiency intent: full-history prompting drags four useless turns into every answer; two selected slots suffice here. Later token accounting can quantify the gap.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "context_006_minimal_context_sufficient",
+  "schema_version": "1",
+  "seed": 234,
+  "selection_k": 2,
+  "tags": [
+    "domain:food",
+    "budget",
+    "efficiency",
+    "token-reduction"
+  ],
+  "title": "Tiny selected context answers correctly despite long history",
+  "turns": [
+    {
+      "message": "I don't like peanuts — never include them in my food.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "It was so hot outside today.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "I watched a great movie last night.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "That meeting ran way too long.",
+      "role": "user",
+      "session_id": "session-2"
+    },
+    {
+      "message": "I'm thinking about repainting the hallway sometime.",
+      "role": "user",
+      "session_id": "session-2"
+    }
+  ]
+}

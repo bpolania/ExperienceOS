@@ -1,0 +1,65 @@
+{
+  "category": "forgetting",
+  "context_budget": 4,
+  "current_message": "Forget that I don't like cilantro.",
+  "current_session_id": "session-2",
+  "description": "An explicit forget request must mark the memory forgotten, leaving nothing active.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": true,
+    "forgotten": [
+      {
+        "logical_id": "food.dislike.cilantro",
+        "match_terms": [
+          "cilantro"
+        ],
+        "memory_id": null
+      }
+    ],
+    "memory_actions": [
+      {
+        "action": "forget",
+        "kind": null,
+        "logical_id": null,
+        "target": {
+          "logical_id": "food.dislike.cilantro",
+          "match_terms": [
+            "cilantro"
+          ],
+          "memory_id": null
+        },
+        "value": null
+      }
+    ],
+    "rejection_reasons": [],
+    "response": null,
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": []
+  },
+  "notes": "The canonical explicit forget; verified live in Phase 7 with both policies.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "forgetting_001_exact_forget",
+  "schema_version": "1",
+  "seed": 215,
+  "selection_k": 4,
+  "tags": [
+    "domain:food",
+    "forget",
+    "phase7"
+  ],
+  "title": "Exact forget request retires the memory",
+  "turns": [
+    {
+      "message": "I don't like cilantro.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}

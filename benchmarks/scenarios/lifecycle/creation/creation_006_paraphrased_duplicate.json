@@ -1,0 +1,60 @@
+{
+  "category": "creation",
+  "context_budget": 4,
+  "current_message": "For team lunches, vegetarian places are what I prefer.",
+  "current_session_id": "session-2",
+  "description": "A paraphrase of an existing preference must not yield two active memories for the same slot.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [
+      {
+        "logical_id": "food.team_lunch_style",
+        "match_terms": [
+          "vegetarian"
+        ],
+        "memory_id": null
+      }
+    ],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": true,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "none",
+        "kind": null,
+        "logical_id": null,
+        "target": null,
+        "value": null
+      }
+    ],
+    "rejection_reasons": [],
+    "response": null,
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": []
+  },
+  "notes": "Honest hard case: text-normalization dedupe may miss paraphrases, creating near-duplicates. The defensible outcome is one active memory for the slot.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "creation_006_paraphrased_duplicate",
+  "schema_version": "1",
+  "seed": 206,
+  "selection_k": 4,
+  "tags": [
+    "domain:food",
+    "duplicate",
+    "paraphrase",
+    "create"
+  ],
+  "title": "Paraphrased duplicate must not create a second memory",
+  "turns": [
+    {
+      "message": "I prefer vegetarian restaurants for team lunches.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}

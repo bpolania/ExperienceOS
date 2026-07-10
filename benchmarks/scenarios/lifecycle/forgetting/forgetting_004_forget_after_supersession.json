@@ -1,0 +1,78 @@
+{
+  "category": "forgetting",
+  "context_budget": 4,
+  "current_message": "Forget my morning drink preference entirely.",
+  "current_session_id": "session-3",
+  "description": "After tea->coffee supersession, forgetting the drink preference must forget the active coffee memory; the superseded tea record stays superseded, not resurrected.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": true,
+    "forgotten": [
+      {
+        "logical_id": "food.morning_drink.updated",
+        "match_terms": [
+          "coffee"
+        ],
+        "memory_id": null
+      }
+    ],
+    "memory_actions": [
+      {
+        "action": "forget",
+        "kind": null,
+        "logical_id": null,
+        "target": {
+          "logical_id": "food.morning_drink.updated",
+          "match_terms": [
+            "coffee"
+          ],
+          "memory_id": null
+        },
+        "value": null
+      }
+    ],
+    "rejection_reasons": [],
+    "response": null,
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": [
+      {
+        "logical_id": "food.morning_drink",
+        "match_terms": [
+          "tea"
+        ],
+        "memory_id": null
+      }
+    ]
+  },
+  "notes": "Lifecycle interplay: forget targets the active record; the superseded predecessor keeps its own status.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "forgetting_004_forget_after_supersession",
+  "schema_version": "1",
+  "seed": 218,
+  "selection_k": 4,
+  "tags": [
+    "domain:food",
+    "forget",
+    "after-supersession"
+  ],
+  "title": "Forget after supersession retires the active successor only",
+  "turns": [
+    {
+      "message": "I prefer tea in the morning.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "Actually, I prefer coffee in the morning.",
+      "role": "user",
+      "session_id": "session-2"
+    }
+  ]
+}

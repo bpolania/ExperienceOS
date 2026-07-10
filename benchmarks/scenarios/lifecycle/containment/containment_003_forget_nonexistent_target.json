@@ -1,0 +1,64 @@
+{
+  "category": "rejection",
+  "context_budget": 4,
+  "current_message": "Tidy up my saved preferences.",
+  "current_session_id": "session-2",
+  "description": "A scripted forget proposal names a fabricated memory ID; the engine must reject it and preserve everything.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [
+    "scripted_local_proposals"
+  ],
+  "expected": {
+    "active": [
+      {
+        "logical_id": "dev.preferred_test_command",
+        "match_terms": [
+          "pytest"
+        ],
+        "memory_id": null
+      }
+    ],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": true,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "none",
+        "kind": null,
+        "logical_id": null,
+        "target": null,
+        "value": null
+      }
+    ],
+    "rejection_reasons": [
+      "target_not_active"
+    ],
+    "response": null,
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": []
+  },
+  "notes": "Invalid targets are skipped and reported, never guessed. The pytest instruction must survive untouched.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "containment_003_forget_nonexistent_target",
+  "schema_version": "1",
+  "seed": 237,
+  "selection_k": 4,
+  "tags": [
+    "domain:software-development",
+    "containment",
+    "nonexistent-target",
+    "scripted-proposal"
+  ],
+  "title": "Forget targeting a nonexistent memory is rejected",
+  "turns": [
+    {
+      "message": "Always run the test suite with pytest -q before committing.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}

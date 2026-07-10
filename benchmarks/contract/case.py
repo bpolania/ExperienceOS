@@ -174,11 +174,21 @@ class ResponseConstraints:
 
 @dataclass(frozen=True)
 class ExpectedOutcome:
-    """Lifecycle and response oracle for the current message."""
+    """Lifecycle and response oracle for the current message.
+
+    Empty tuples are UNASSERTED — they impose no expectation. To
+    assert that the final-state lists are exhaustive (for example
+    "nothing may be active"), set ``final_state_exact`` to true; it
+    applies to ``active``, ``superseded``, and ``forgotten``.
+    ``compression_expected`` asserts that context compression must
+    occur on the current turn.
+    """
 
     memory_actions: tuple[ExpectedMemoryAction, ...] = ()
     rejection_reasons: tuple[str, ...] = ()
     fallback_expected: bool = False
+    final_state_exact: bool = False
+    compression_expected: bool = False
     active: tuple[MemoryRef, ...] = ()
     superseded: tuple[MemoryRef, ...] = ()
     forgotten: tuple[MemoryRef, ...] = ()
@@ -192,6 +202,8 @@ class ExpectedOutcome:
             "memory_actions": [a.to_payload() for a in self.memory_actions],
             "rejection_reasons": list(self.rejection_reasons),
             "fallback_expected": self.fallback_expected,
+            "final_state_exact": self.final_state_exact,
+            "compression_expected": self.compression_expected,
             "active": [r.to_payload() for r in self.active],
             "superseded": [r.to_payload() for r in self.superseded],
             "forgotten": [r.to_payload() for r in self.forgotten],
@@ -517,6 +529,10 @@ def case_from_dict(data: dict) -> BenchmarkCase:
             "expected.rejection_reasons",
         ),
         fallback_expected=bool(expected_data.get("fallback_expected", False)),
+        final_state_exact=bool(expected_data.get("final_state_exact", False)),
+        compression_expected=bool(
+            expected_data.get("compression_expected", False)
+        ),
         active=_memory_refs(
             expected_data.get("active"), scenario_id, "expected.active"
         ),

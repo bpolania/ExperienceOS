@@ -1,0 +1,84 @@
+{
+  "category": "selection",
+  "context_budget": 2,
+  "current_message": "Plan the team offsite in Portland — flights and the group dinner.",
+  "current_session_id": "session-2",
+  "description": "An offsite request needs both the travel preference and the dining preference within one budget.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": false,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "none",
+        "kind": null,
+        "logical_id": null,
+        "target": null,
+        "value": null
+      }
+    ],
+    "rejection_reasons": [],
+    "response": null,
+    "retrieval_candidates": [],
+    "selected": [
+      {
+        "logical_id": "travel.seat.short_work_trip",
+        "match_terms": [
+          "aisle"
+        ],
+        "memory_id": null
+      },
+      {
+        "logical_id": "food.team_lunch_style",
+        "match_terms": [
+          "vegetarian"
+        ],
+        "memory_id": null
+      }
+    ],
+    "skipped": [
+      {
+        "logical_id": "dev.editor_theme",
+        "match_terms": [
+          "dark"
+        ],
+        "memory_id": null
+      }
+    ],
+    "superseded": []
+  },
+  "notes": "Cross-domain composition: both travel and dining memories are relevant to one request.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "context_002_cross_domain_relevance",
+  "schema_version": "1",
+  "seed": 230,
+  "selection_k": 2,
+  "tags": [
+    "domain:work",
+    "selection",
+    "cross-domain"
+  ],
+  "title": "Relevant experience spans two domains",
+  "turns": [
+    {
+      "message": "I prefer aisle seats for short work trips.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "I prefer vegetarian restaurants for team lunches.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "I prefer dark mode in my code editor.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}

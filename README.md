@@ -373,14 +373,17 @@ built. The measurement rules — schemas, metric denominators, leakage
 definitions, context accounting, and fair-comparison constraints —
 are committed **before** any results in
 [docs/benchmark_contract.md](docs/benchmark_contract.md), with
-machine-readable contracts under `benchmarks/contract/`. The default
-benchmark path is fully offline (no credentials, no network, no model
-downloads). No benchmark results exist yet.
+machine-readable contracts under `benchmarks/contract/`. The
+40-scenario lifecycle dataset and its fixed oracle are documented in
+[docs/lifecycle_benchmark_dataset.md](docs/lifecycle_benchmark_dataset.md).
+The default benchmark path is fully offline (no credentials, no
+network, no model downloads). No benchmark results exist yet.
 
-Validate the contract level:
+Validate the contract and dataset:
 
 ```bash
-PYTHONPATH=. python -m pytest tests/test_benchmark_contract.py
+PYTHONPATH=. python -m pytest tests/test_benchmark_contract.py tests/test_benchmark_dataset.py
+PYTHONPATH=. python -m benchmarks.scenarios.validate
 ```
 
 ## Development

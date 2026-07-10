@@ -1,0 +1,59 @@
+{
+  "category": "creation",
+  "context_budget": 4,
+  "current_message": "I am based in the Denver office.",
+  "current_session_id": "session-1",
+  "description": "A long-lived synthetic fact about the user must create one active fact memory.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [
+      {
+        "logical_id": "work.base_office",
+        "match_terms": [
+          "Denver"
+        ],
+        "memory_id": null
+      }
+    ],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": true,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "create",
+        "kind": "fact",
+        "logical_id": "work.base_office",
+        "target": null,
+        "value": {
+          "must_exclude": [],
+          "must_include_all": [
+            "Denver"
+          ],
+          "must_include_any": []
+        }
+      }
+    ],
+    "rejection_reasons": [],
+    "response": null,
+    "retrieval_candidates": [],
+    "selected": [],
+    "skipped": [],
+    "superseded": []
+  },
+  "notes": "Durable: office location changes rarely and shapes future scheduling and travel answers. Synthetic identity; no real personal data.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "creation_002_durable_user_fact",
+  "schema_version": "1",
+  "seed": 202,
+  "selection_k": 4,
+  "tags": [
+    "domain:work",
+    "create",
+    "fact"
+  ],
+  "title": "Durable work-location fact is remembered",
+  "turns": []
+}

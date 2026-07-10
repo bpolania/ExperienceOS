@@ -1,0 +1,80 @@
+{
+  "category": "retrieval",
+  "context_budget": 1,
+  "current_message": "Suggest a trail snack for my weekend hike.",
+  "current_session_id": "session-2",
+  "description": "A snack request shares no keywords with the peanut-allergy instruction; the allergy must still be selected.",
+  "evaluation_mode": "deterministic",
+  "evaluator_requirements": [],
+  "expected": {
+    "active": [],
+    "compression_expected": false,
+    "fallback_expected": false,
+    "final_state_exact": false,
+    "forgotten": [],
+    "memory_actions": [
+      {
+        "action": "none",
+        "kind": null,
+        "logical_id": null,
+        "target": null,
+        "value": null
+      }
+    ],
+    "rejection_reasons": [],
+    "response": {
+      "expect_abstention": false,
+      "must_exclude": [
+        "peanut"
+      ],
+      "must_include_all": [],
+      "must_include_any": []
+    },
+    "retrieval_candidates": [],
+    "selected": [
+      {
+        "logical_id": "food.dislike.peanut",
+        "match_terms": [
+          "peanut"
+        ],
+        "memory_id": null
+      }
+    ],
+    "skipped": [
+      {
+        "logical_id": "dev.editor_theme",
+        "match_terms": [
+          "dark"
+        ],
+        "memory_id": null
+      }
+    ],
+    "superseded": []
+  },
+  "notes": "Honest hard case for keyword ranking: 'snack'/'hike' never mention peanuts. Tag/domain relevance must carry the food-safety memory into the single slot; systems relying on lexical overlap may pick the editor theme instead. Synthetic dislike, no real medical data.",
+  "requires_local_model": false,
+  "requires_provider": false,
+  "scenario_id": "retrieval_003_lexical_mismatch",
+  "schema_version": "1",
+  "seed": 223,
+  "selection_k": 1,
+  "tags": [
+    "domain:food",
+    "selection",
+    "lexical-mismatch",
+    "safety"
+  ],
+  "title": "Safety-relevant memory with no lexical overlap",
+  "turns": [
+    {
+      "message": "I don't like peanuts — never include them in my food.",
+      "role": "user",
+      "session_id": "session-1"
+    },
+    {
+      "message": "I prefer dark mode in my code editor.",
+      "role": "user",
+      "session_id": "session-1"
+    }
+  ]
+}
