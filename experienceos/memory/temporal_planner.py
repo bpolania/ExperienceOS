@@ -108,10 +108,15 @@ class TemporalMemoryPlanner(SemanticMemoryPlanner):
         normalizer=None,
         temporal_normalizer: TemporalNormalizer | None = None,
         assistant_ingestion: bool = False,
+        forget_resolver=None,
     ):
         super().__init__(normalizer=normalizer)
         self.temporal_normalizer = temporal_normalizer or TemporalNormalizer()
         self.assistant_ingestion = assistant_ingestion
+        # Optional Phase 9 Prompt 7 seam: when None (the default and
+        # the Prompt 6 configuration), forget handling below is the
+        # unchanged v1 pattern set.
+        self.forget_resolver = forget_resolver
         self.reference_time: str | None = None
         self._turn_seq = 0
         self._last_assistant: dict[tuple, str] = {}
@@ -177,9 +182,15 @@ class TemporalMemoryPlanner(SemanticMemoryPlanner):
         self.counters["turns"] += 1
         source_ref = f"{session_id}:{self._turn_seq}"
 
+        forget_actions: list = []
+        if self.forget_resolver is not None:
+            message, forget_actions = self._resolve_forgets(
+                message, existing, source_ref
+            )
         actions = super().plan_memory_actions(
             user_id, session_id, message, existing
         )
+        actions = [*forget_actions, *actions]
         actions = self._apply_temporal(actions, message, source_ref)
         actions.extend(self._tool_actions(source_ref, session_id))
         confirmation = self._confirmation_action(
@@ -196,6 +207,94 @@ class TemporalMemoryPlanner(SemanticMemoryPlanner):
             )
         )
         return actions
+
+    # -- Prompt 7 forget resolution -------------------------------------------------
+
+    def _plan_forgets(self, message, existing):
+        """When a Prompt 7 resolver is configured it OWNS forgetting:
+        the v1 pattern pass (which has no negation/question/quote
+        guards) is suppressed so 'Don't forget X' can never forget X.
+        Without a resolver, v1 behavior is untouched."""
+        if self.forget_resolver is not None:
+            return [], []
+        return super()._plan_forgets(message, existing)
+
+    def _resolve_forgets(self, message, existing, source_ref):
+        """Detect durable forget intent, resolve active targets, and
+        strip the forget clause so it never doubles as a creation
+        statement. Ambiguity and bulk requests are rejected with audit
+        events — never guessed, never mass-applied."""
+        from experienceos.memory.forget import (
+            ForgetIntentDetector,
+            ForgetOutcome,
+        )
+        from experienceos.memory.planner import FORGET
+
+        detector = ForgetIntentDetector()
+        intent = detector.detect(message)
+        if not intent.detected:
+            if intent.ambiguity_reason:
+                self.counters["forget_non_durable_guards"] = (
+                    self.counters.get("forget_non_durable_guards", 0) + 1
+                )
+            return message, []
+        self.counters["forget_intents_detected"] = (
+            self.counters.get("forget_intents_detected", 0) + 1
+        )
+        self._event(
+            "memory_forget_intent_detected",
+            source_ref=source_ref,
+            target=intent.target_text[:80],
+            bulk=intent.bulk,
+        )
+        result = self.forget_resolver.resolve(intent, existing)
+        if result.outcome == ForgetOutcome.BULK_UNSUPPORTED:
+            self.counters["forget_bulk_rejected"] = (
+                self.counters.get("forget_bulk_rejected", 0) + 1
+            )
+            self._event(
+                "memory_forget_bulk_rejected",
+                source_ref=source_ref, reason=result.reason,
+            )
+            return message, []
+        # Strip the forget clause so forget phrasing never doubles as
+        # a creation statement (mirrors the v1 span-removal contract).
+        start, end = intent.span
+        stripped = (message[:start] + " " + message[end:]).strip()
+        if result.outcome != ForgetOutcome.RESOLVED:
+            self.counters["forget_unresolved"] = (
+                self.counters.get("forget_unresolved", 0) + 1
+            )
+            self._event(
+                "memory_forget_target_rejected",
+                source_ref=source_ref,
+                outcome=result.outcome,
+                reason=result.reason[:120],
+            )
+            return stripped, []
+        actions = []
+        for target in result.targets:
+            self.counters["forget_targets_resolved"] = (
+                self.counters.get("forget_targets_resolved", 0) + 1
+            )
+            self._event(
+                "memory_forget_target_resolved",
+                source_ref=source_ref,
+                memory_id=target.id,
+                target_text=target.text[:80],
+                resolver_version=self.forget_resolver.version,
+            )
+            actions.append(
+                MemoryAction(
+                    action=FORGET,
+                    kind=target.kind,
+                    memory_id=target.id,
+                    text=target.text,
+                    reason="User asked to forget this experience.",
+                    request=message[start:end].strip(),
+                )
+            )
+        return stripped, actions
 
     # -- temporal + provenance on ordinary creates --------------------------------
 

@@ -1,0 +1,77 @@
+{
+  "_label": "DEVELOPMENT-ONLY fixtures for Phase 9 forget resolution and local-policy v2; never benchmark evidence",
+  "forget_intent_positives": [
+    "Forget my aisle-seat preference.",
+    "Forget the instruction about #ops reports.",
+    "Stop remembering my Pixel 9.",
+    "Remove the fact that I work for Globex.",
+    "Erase my daughter's soccer practice memory.",
+    "No longer keep the Celsius instruction.",
+    "Forget what I said about coffee.",
+    "I don't care about my study schedule preference anymore.",
+    "I no longer want you to remember my hotel preference."
+  ],
+  "forget_intent_negatives": [
+    "Don't forget my aisle preference.",
+    "Did you forget my employer?",
+    "Maybe forget it later.",
+    "What would happen if I asked you to forget my phone?",
+    "My friend said, 'Forget my address.'",
+    "For this answer, ignore my aisle preference.",
+    "Thanks!"
+  ],
+  "bulk_requests": [
+    "Forget everything.",
+    "Erase all my preferences.",
+    "Delete all memories."
+  ],
+  "target_resolution": [
+    {"memories": [["preference", "Prefers aisle seats for short work trips."],
+                   ["preference", "Prefers window seats for long international trips."]],
+     "request": "Forget my seat preference for long international trips.",
+     "expect": {"resolved_contains": "window"}},
+    {"memories": [["preference", "Prefers coffee in the morning."],
+                   ["preference", "Prefers morning flights."]],
+     "request": "Forget my morning drink preference.",
+     "expect": {"resolved_contains": "coffee"}},
+    {"memories": [["fact", "Works for Globex."], ["fact", "Phone is a Pixel 9."]],
+     "request": "Remove the fact that I work for Globex.",
+     "expect": {"resolved_contains": "Globex"}},
+    {"memories": [["preference", "Prefers aisle seats."],
+                   ["preference", "Prefers window seats."]],
+     "request": "Forget my seat preference.",
+     "expect": {"outcome": "ambiguous"}},
+    {"memories": [["preference", "Likes tea."]],
+     "request": "Forget my parking spot.",
+     "expect": {"outcome": "no_active_candidates"}}
+  ],
+  "multi_target": [
+    {"memories": [["preference", "Prefers aisle seats for short work trips."],
+                   ["instruction", "Use Celsius for weather reports."],
+                   ["fact", "Works for Globex."]],
+     "request": "Forget my aisle seat preference and the Celsius instruction.",
+     "expect": {"resolved_count": 2, "preserved_contains": "Globex"}}
+  ],
+  "local_policy_valid": [
+    {"class": "remember", "raw": {"action": "remember", "memory": {"kind": "fact", "statement": "Works for Globex."}, "evidence": "I work for Globex", "confidence": 0.9, "reason": "durable fact"}},
+    {"class": "forget_by_alias", "raw": {"action": "forget", "target": {"memory_id": "m1", "description": "coffee preference"}, "evidence": "forget my coffee preference", "confidence": 0.9, "reason": "explicit request"}},
+    {"class": "none", "raw": {"action": "none", "evidence": "what time is it", "confidence": 0.9, "reason": "no durable content"}}
+  ],
+  "local_policy_malformed": [
+    {"class": "markdown_fence", "raw": "```json\n{\"action\": \"none\", \"evidence\": \"hi\", \"confidence\": 0.9, \"reason\": \"r\"}\n```", "expect": "repaired"},
+    {"class": "trailing_comma", "raw": "{\"action\": \"none\", \"evidence\": \"hi\", \"confidence\": 0.9, \"reason\": \"r\",}", "expect": "repaired"},
+    {"class": "leading_commentary", "raw": "Sure! Here is the JSON: {\"action\": \"none\", \"evidence\": \"hi\", \"confidence\": 0.9, \"reason\": \"r\"}", "expect": "repaired"},
+    {"class": "invalid_enum", "raw": {"action": "supersede", "evidence": "x", "confidence": 0.9, "reason": "r"}, "expect": "rejected"},
+    {"class": "missing_fields", "raw": {"action": "remember"}, "expect": "rejected"},
+    {"class": "unknown_field", "raw": {"action": "none", "status": "active", "evidence": "x", "confidence": 0.9, "reason": "r"}, "expect": "rejected"},
+    {"class": "unparseable", "raw": "not json at all {{{", "expect": "rejected"}
+  ],
+  "state_containment": [
+    "attempt to forget superseded record",
+    "attempt to update forgotten record",
+    "duplicate remember",
+    "invented target id",
+    "bulk-forget proposal",
+    "malformed proposal never mutates state"
+  ]
+}

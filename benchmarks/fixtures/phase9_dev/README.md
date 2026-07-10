@@ -30,3 +30,8 @@ Subdirectories:
   timeline queries). Development-only; not part of the frozen
   evaluation; never affects final denominators; must not be cited as
   final benchmark evidence.
+- `forget_policy/` — Prompt 7 forget-intent positives/negatives, bulk
+  containment, target-resolution classes, local-policy v2 valid and
+  malformed outputs, and state-containment classes. Development-only;
+  not part of the frozen evaluation; never affects final denominators;
+  must not be cited as final benchmark evidence.

@@ -584,6 +584,56 @@ METRIC_DEFINITIONS: tuple[MetricDefinition, ...] = (
         "retrievals",
         "Historical evidence preserved on request; never as current.",
     ),
+    # --- Phase 9 forget/local-policy (v2-only observational counters
+    # --- from Prompt 7 diagnostics; Phase 8 formulas unchanged) ------
+    _m(
+        "forget_intent_detection_v2", "forget_policy_v2",
+        "durable forget intents detected",
+        "policy decisions",
+        "Generalized paraphrased forget-intent detection.",
+    ),
+    _m(
+        "forget_target_resolution_v2", "forget_policy_v2",
+        "forget targets resolved above thresholds",
+        "durable forget intents detected",
+        "Conservative resolution; ambiguity rejects instead of guessing.",
+    ),
+    _m(
+        "forget_ambiguity_containment_v2", "forget_policy_v2",
+        "forget intents rejected as unresolved or ambiguous",
+        "durable forget intents detected",
+        "Containment is correct behavior, not failure.",
+    ),
+    _m(
+        "bulk_forget_containment_v2", "forget_policy_v2",
+        "bulk forget requests rejected without mass action",
+        "durable forget intents detected",
+        "Bulk fuzzy deletion never happens.",
+    ),
+    _m(
+        "local_structural_validity_v2", "forget_policy_v2",
+        "local proposals structurally valid after parse/repair/retry",
+        "policy decisions",
+        "One-action schema validity through the strict parser.",
+    ),
+    _m(
+        "local_fallback_rate_v2", "forget_policy_v2",
+        "decisions resolved by per-action deterministic fallback",
+        "policy decisions",
+        "Lower is better only while containment stays complete.",
+    ),
+    _m(
+        "local_applied_action_rate_v2", "forget_policy_v2",
+        "decisions whose applied actions came from the local proposal",
+        "policy decisions",
+        "Direct local contribution after full validation.",
+    ),
+    _m(
+        "local_retry_success_v2", "forget_policy_v2",
+        "bounded retries producing a structurally valid proposal",
+        "bounded retries attempted",
+        "One retry maximum; success measured honestly.",
+    ),
 )
 
 

@@ -612,6 +612,108 @@ def run_dev_full_temporal(case: ExternalCase):
     )
 
 
+def run_experienceos_local_v2(case: ExternalCase) -> ExternalCaseRun:
+    """Prompt 7 system: pre-full-v2 + forget resolver + scripted
+    (simulated) local-policy v2 through the full containment pipeline."""
+    from benchmarks.adapters.experienceos_local_v2 import (
+        _make_planner_stack,
+    )
+    from experienceos import ExperienceOS
+    from experienceos.context.builder import ContextBuilder
+    from experienceos.context.compression import ExperienceCompressor
+    from experienceos.context.retrieval import HybridRetrievalStrategy
+    from experienceos.context.selection import CoverageSelectionStrategy
+    from experienceos.memory.temporal import TemporalRetrievalPolicy
+    from experienceos.policy.local_v2 import ScriptedLocalPolicyV2
+    from experienceos.providers import MockProvider
+
+    run = ExternalCaseRun(
+        case.question_id, case.category, "experienceos_local_v2"
+    )
+    run.sessions = len(case.sessions)
+    run.history_turns = sum(len(s.turns) for s in case.sessions)
+    planner = _make_planner_stack()
+    policy = ScriptedLocalPolicyV2(deterministic_planner=planner)
+    temporal_policy = TemporalRetrievalPolicy()
+    agent = ExperienceOS(
+        model=MockProvider(),
+        memory_policy=policy,
+        context_builder=ContextBuilder(
+            memory_budget=MEMORY_BUDGET,
+            compressor=ExperienceCompressor(),
+            retrieval_strategy=HybridRetrievalStrategy(
+                selection_strategy=CoverageSelectionStrategy(),
+                temporal_policy=temporal_policy,
+            ),
+        ),
+    )
+    user_id = f"lme-{case.question_id}"
+    memory_sessions: dict[str, str] = {}
+    for session in case.sessions:
+        planner.set_reference_time((session.date or "")[:10] or None)
+        for turn in session.turns:
+            if turn.role != "user":
+                continue
+            before = len(agent.events)
+            agent.chat(
+                user_id=user_id,
+                session_id=session.session_id,
+                message=turn.content,
+            )
+            for event in agent.events[before:]:
+                if str(event.type) == "memory_created":
+                    memory_sessions[event.payload["memory_id"]] = (
+                        session.session_id
+                    )
+    temporal_policy.reference_time = (
+        (case.question_date or "")[:10] or None
+    )
+    before = len(agent.events)
+    response = agent.chat(
+        user_id=user_id,
+        session_id="final-question",
+        message=_question_text(case),
+    )
+    candidates = []
+    context_contents: list[str] = []
+    for event in agent.events[before:]:
+        if str(event.type) == "context_built":
+            payload = event.payload
+            context_contents = [
+                m.get("content", "")
+                for m in payload.get("context_messages", [])
+            ]
+            for record in payload.get("selection_records", []):
+                candidates.append(
+                    (
+                        int(record.get("rank", 0)),
+                        memory_sessions.get(
+                            record.get("memory_id"), "unknown"
+                        ),
+                        bool(record.get("selected", False)),
+                    )
+                )
+                if record.get("selected"):
+                    run.selected_texts.append(record.get("text", ""))
+    run.truncation = "memory_selection"
+    run.extraction = {
+        "memory_count": len(memory_sessions),
+        "memory_extraction_strategy": (
+            "rules_first_hybrid+semantic+temporal+forget_resolver"
+        ),
+        "selection_strategy": "coverage_selection",
+        "local_model_mode": "scripted_simulated",
+        "selection_k": SELECTION_K,
+        "memory_budget": MEMORY_BUDGET,
+        **{f"policy_{k}": v for k, v in policy.summary().items()
+           if isinstance(v, (int, float))},
+    }
+    finished = _finish(run, case, [*context_contents,
+                                   _question_text(case)], candidates)
+    finished.response = response
+    return finished
+
+
 _RUNNERS = {
     "full_history": run_full_history,
     "naive_top_k": run_naive_top_k,
@@ -626,6 +728,7 @@ _RUNNERS = {
     "dev_extract_retrieval_coverage": run_dev_extract_retrieval_coverage,
     "experienceos_temporal_v2": run_experienceos_temporal_v2,
     "dev_full_temporal": run_dev_full_temporal,
+    "experienceos_local_v2": run_experienceos_local_v2,
 }
 
 

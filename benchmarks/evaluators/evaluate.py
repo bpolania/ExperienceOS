@@ -20,6 +20,9 @@ from benchmarks.evaluators.local_policy import local_policy_contributions
 from benchmarks.evaluators.extraction import extraction_contributions
 from benchmarks.evaluators.coverage_v2 import coverage_v2_contributions
 from benchmarks.evaluators.retrieval_v2 import retrieval_v2_contributions
+from benchmarks.evaluators.forget_policy_v2 import (
+    forget_policy_v2_contributions,
+)
 from benchmarks.evaluators.temporal_v2 import temporal_v2_contributions
 from benchmarks.evaluators.records import CaseEvaluation, CaseOutcome
 from benchmarks.evaluators.resolve import entries_of, resolve_ref
@@ -126,6 +129,9 @@ def evaluate_case(case, result) -> CaseEvaluation:
         evaluation.contributions.extend(
             temporal_v2_contributions(case, result)
         )
+        evaluation.contributions.extend(
+            forget_policy_v2_contributions(case, result)
+        )
     except Exception as exc:  # noqa: BLE001 — evaluator failure is evidence
         evaluation.outcome = CaseOutcome.FAILED
         evaluation.failures.append(
@@ -215,6 +221,14 @@ _NEUTRAL_METRICS = frozenset(
         "assistant_candidate_rejection_v2",
         "trusted_ingestion_acceptance_v2",
         "superseded_historical_admission_v2",
+        "forget_intent_detection_v2",
+        "forget_target_resolution_v2",
+        "forget_ambiguity_containment_v2",
+        "bulk_forget_containment_v2",
+        "local_structural_validity_v2",
+        "local_fallback_rate_v2",
+        "local_applied_action_rate_v2",
+        "local_retry_success_v2",
         "memory_token_share",
         "relevant_token_share",
         "compression_ratio",
