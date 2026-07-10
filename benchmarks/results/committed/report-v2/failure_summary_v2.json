@@ -1,0 +1,315 @@
+{
+ "external_final_system": {
+  "abstention_deferrals": 10,
+  "candidate_absent_cases": [
+   "08f4fc43",
+   "0ddfec37",
+   "0ddfec37_abs",
+   "1faac195",
+   "45dc21b6",
+   "5a7937c8",
+   "5c40ec5b",
+   "5e1b23de",
+   "66f24dbb",
+   "71315a70",
+   "76d63226",
+   "8e9d538c",
+   "982b5123_abs",
+   "a3838d2b",
+   "ad7109d1",
+   "bc8a6e93_abs",
+   "e831120c",
+   "gpt4_1e4a8aec",
+   "gpt4_468eb064"
+  ],
+  "candidate_absent_count": 19,
+  "candidate_unselected_cases": [
+   "001be529",
+   "00ca467f",
+   "01493427",
+   "031748ae_abs",
+   "2133c1b5",
+   "2133c1b5_abs",
+   "29f2956b_abs",
+   "37f165cf",
+   "6aeb4375_abs",
+   "7024f17c",
+   "8e91e7d9",
+   "a2f3aa27",
+   "a96c20ee",
+   "c7dc5443",
+   "dccbc061",
+   "edced276_abs",
+   "f685340e_abs",
+   "gpt4_7ca326fa",
+   "gpt4_93159ced_abs"
+  ],
+  "candidate_unselected_count": 19
+ },
+ "lifecycle_non_passed_by_system": {
+  "experienceos_coverage_v2": {
+   "failed": [
+    "updates_001_preference_replacement_cross_session",
+    "updates_002_fact_correction",
+    "updates_003_instruction_replacement",
+    "updates_004_now_prefer_wording",
+    "updates_005_instead_of_wording",
+    "updates_007_correction_with_distractors",
+    "updates_008_repeated_correction_chain",
+    "forgetting_002_paraphrased_forget",
+    "forgetting_004_forget_after_supersession",
+    "forgetting_006_restatement_not_resurrection",
+    "retrieval_001_one_relevant_among_many",
+    "retrieval_005_old_relevant_vs_recent_irrelevant",
+    "retrieval_006_no_memory_needed",
+    "retrieval_008_stale_would_mislead",
+    "context_001_budget_exceeded",
+    "context_005_active_and_inactive_versions",
+    "containment_002_supersede_inactive_target"
+   ],
+   "partial": [
+    "forgetting_005_forgotten_leakage_check",
+    "retrieval_007_correct_abstention"
+   ],
+   "skipped": [
+    "containment_005_one_sentence_supersession_local",
+    "containment_006_vague_forget_safe"
+   ]
+  },
+  "experienceos_extract_retrieval_v2": {
+   "failed": [
+    "updates_001_preference_replacement_cross_session",
+    "updates_002_fact_correction",
+    "updates_003_instruction_replacement",
+    "updates_004_now_prefer_wording",
+    "updates_005_instead_of_wording",
+    "updates_007_correction_with_distractors",
+    "updates_008_repeated_correction_chain",
+    "forgetting_002_paraphrased_forget",
+    "forgetting_004_forget_after_supersession",
+    "forgetting_006_restatement_not_resurrection",
+    "retrieval_001_one_relevant_among_many",
+    "retrieval_005_old_relevant_vs_recent_irrelevant",
+    "retrieval_006_no_memory_needed",
+    "retrieval_008_stale_would_mislead",
+    "context_001_budget_exceeded",
+    "context_005_active_and_inactive_versions",
+    "containment_002_supersede_inactive_target"
+   ],
+   "partial": [
+    "forgetting_005_forgotten_leakage_check",
+    "retrieval_007_correct_abstention"
+   ],
+   "skipped": [
+    "containment_005_one_sentence_supersession_local",
+    "containment_006_vague_forget_safe"
+   ]
+  },
+  "experienceos_hybrid_extract_v2": {
+   "failed": [
+    "updates_001_preference_replacement_cross_session",
+    "updates_002_fact_correction",
+    "updates_003_instruction_replacement",
+    "updates_004_now_prefer_wording",
+    "updates_005_instead_of_wording",
+    "updates_007_correction_with_distractors",
+    "updates_008_repeated_correction_chain",
+    "forgetting_002_paraphrased_forget",
+    "forgetting_004_forget_after_supersession",
+    "forgetting_006_restatement_not_resurrection",
+    "retrieval_001_one_relevant_among_many",
+    "retrieval_003_lexical_mismatch",
+    "retrieval_005_old_relevant_vs_recent_irrelevant",
+    "retrieval_006_no_memory_needed",
+    "retrieval_008_stale_would_mislead",
+    "context_001_budget_exceeded",
+    "context_002_cross_domain_relevance",
+    "context_005_active_and_inactive_versions",
+    "containment_002_supersede_inactive_target"
+   ],
+   "partial": [
+    "forgetting_005_forgotten_leakage_check",
+    "retrieval_007_correct_abstention"
+   ],
+   "skipped": [
+    "containment_005_one_sentence_supersession_local",
+    "containment_006_vague_forget_safe"
+   ]
+  },
+  "experienceos_hybrid_full_v2": {
+   "failed": [
+    "updates_001_preference_replacement_cross_session",
+    "updates_002_fact_correction",
+    "updates_003_instruction_replacement",
+    "updates_004_now_prefer_wording",
+    "updates_005_instead_of_wording",
+    "updates_007_correction_with_distractors",
+    "updates_008_repeated_correction_chain",
+    "forgetting_004_forget_after_supersession",
+    "retrieval_001_one_relevant_among_many",
+    "retrieval_005_old_relevant_vs_recent_irrelevant",
+    "retrieval_006_no_memory_needed",
+    "retrieval_008_stale_would_mislead",
+    "context_001_budget_exceeded",
+    "context_005_active_and_inactive_versions",
+    "containment_002_supersede_inactive_target"
+   ],
+   "partial": [
+    "forgetting_005_forgotten_leakage_check",
+    "retrieval_007_correct_abstention"
+   ],
+   "skipped": [
+    "containment_005_one_sentence_supersession_local",
+    "containment_006_vague_forget_safe"
+   ]
+  },
+  "experienceos_hybrid_retrieval_v2": {
+   "failed": [
+    "updates_001_preference_replacement_cross_session",
+    "updates_002_fact_correction",
+    "updates_003_instruction_replacement",
+    "updates_004_now_prefer_wording",
+    "updates_005_instead_of_wording",
+    "updates_007_correction_with_distractors",
+    "updates_008_repeated_correction_chain",
+    "forgetting_002_paraphrased_forget",
+    "forgetting_004_forget_after_supersession",
+    "forgetting_006_restatement_not_resurrection",
+    "retrieval_001_one_relevant_among_many",
+    "retrieval_005_old_relevant_vs_recent_irrelevant",
+    "retrieval_006_no_memory_needed",
+    "retrieval_008_stale_would_mislead",
+    "context_001_budget_exceeded",
+    "context_005_active_and_inactive_versions",
+    "containment_002_supersede_inactive_target"
+   ],
+   "partial": [
+    "forgetting_005_forgotten_leakage_check",
+    "retrieval_007_correct_abstention"
+   ],
+   "skipped": [
+    "containment_005_one_sentence_supersession_local",
+    "containment_006_vague_forget_safe"
+   ]
+  },
+  "experienceos_local_v2": {
+   "failed": [
+    "updates_001_preference_replacement_cross_session",
+    "updates_002_fact_correction",
+    "updates_003_instruction_replacement",
+    "updates_004_now_prefer_wording",
+    "updates_005_instead_of_wording",
+    "updates_007_correction_with_distractors",
+    "updates_008_repeated_correction_chain",
+    "forgetting_004_forget_after_supersession",
+    "retrieval_001_one_relevant_among_many",
+    "retrieval_005_old_relevant_vs_recent_irrelevant",
+    "retrieval_006_no_memory_needed",
+    "retrieval_008_stale_would_mislead",
+    "context_001_budget_exceeded",
+    "context_005_active_and_inactive_versions",
+    "containment_002_supersede_inactive_target"
+   ],
+   "partial": [
+    "forgetting_005_forgotten_leakage_check",
+    "retrieval_007_correct_abstention"
+   ],
+   "skipped": [
+    "containment_005_one_sentence_supersession_local",
+    "containment_006_vague_forget_safe"
+   ]
+  },
+  "experienceos_rules": {
+   "failed": [
+    "updates_001_preference_replacement_cross_session",
+    "updates_002_fact_correction",
+    "updates_003_instruction_replacement",
+    "updates_004_now_prefer_wording",
+    "updates_005_instead_of_wording",
+    "updates_007_correction_with_distractors",
+    "updates_008_repeated_correction_chain",
+    "forgetting_002_paraphrased_forget",
+    "forgetting_004_forget_after_supersession",
+    "forgetting_006_restatement_not_resurrection",
+    "retrieval_001_one_relevant_among_many",
+    "retrieval_003_lexical_mismatch",
+    "retrieval_005_old_relevant_vs_recent_irrelevant",
+    "retrieval_006_no_memory_needed",
+    "retrieval_008_stale_would_mislead",
+    "context_001_budget_exceeded",
+    "context_002_cross_domain_relevance",
+    "context_005_active_and_inactive_versions",
+    "containment_002_supersede_inactive_target"
+   ],
+   "partial": [
+    "forgetting_005_forgotten_leakage_check",
+    "retrieval_007_correct_abstention"
+   ],
+   "skipped": [
+    "containment_005_one_sentence_supersession_local",
+    "containment_006_vague_forget_safe"
+   ]
+  },
+  "experienceos_slots_v2": {
+   "failed": [
+    "updates_001_preference_replacement_cross_session",
+    "updates_002_fact_correction",
+    "updates_003_instruction_replacement",
+    "updates_004_now_prefer_wording",
+    "updates_005_instead_of_wording",
+    "updates_007_correction_with_distractors",
+    "updates_008_repeated_correction_chain",
+    "forgetting_002_paraphrased_forget",
+    "forgetting_004_forget_after_supersession",
+    "forgetting_006_restatement_not_resurrection",
+    "retrieval_001_one_relevant_among_many",
+    "retrieval_003_lexical_mismatch",
+    "retrieval_005_old_relevant_vs_recent_irrelevant",
+    "retrieval_006_no_memory_needed",
+    "retrieval_008_stale_would_mislead",
+    "context_001_budget_exceeded",
+    "context_002_cross_domain_relevance",
+    "context_005_active_and_inactive_versions"
+   ],
+   "partial": [
+    "forgetting_005_forgotten_leakage_check",
+    "retrieval_007_correct_abstention"
+   ],
+   "skipped": [
+    "containment_005_one_sentence_supersession_local",
+    "containment_006_vague_forget_safe"
+   ]
+  },
+  "experienceos_temporal_v2": {
+   "failed": [
+    "updates_001_preference_replacement_cross_session",
+    "updates_002_fact_correction",
+    "updates_003_instruction_replacement",
+    "updates_004_now_prefer_wording",
+    "updates_005_instead_of_wording",
+    "updates_007_correction_with_distractors",
+    "updates_008_repeated_correction_chain",
+    "forgetting_002_paraphrased_forget",
+    "forgetting_004_forget_after_supersession",
+    "forgetting_006_restatement_not_resurrection",
+    "retrieval_001_one_relevant_among_many",
+    "retrieval_005_old_relevant_vs_recent_irrelevant",
+    "retrieval_006_no_memory_needed",
+    "retrieval_008_stale_would_mislead",
+    "context_001_budget_exceeded",
+    "context_005_active_and_inactive_versions",
+    "containment_002_supersede_inactive_target"
+   ],
+   "partial": [
+    "forgetting_005_forgotten_leakage_check",
+    "retrieval_007_correct_abstention"
+   ],
+   "skipped": [
+    "containment_005_one_sentence_supersession_local",
+    "containment_006_vague_forget_safe"
+   ]
+  }
+ },
+ "note": "Raw per-case evidence for every failure remains in the committed artifacts; nothing was aggregated away.",
+ "schema_version": "1"
+}

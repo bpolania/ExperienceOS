@@ -1,0 +1,95 @@
+{
+  "schema_version": "1",
+  "label": "Phase 9 comparative v1-to-v2 report specification",
+  "sources": {
+    "lifecycle_v2": {
+      "path": "benchmarks/results/committed/lifecycle-v2-ablation",
+      "normalized_result_digest": "ee437bb3e9fde909f343112e40aaa6ecf63155a07a81ad67e017e310fbefb547"
+    },
+    "external_v2": {
+      "path": "benchmarks/results/committed/longmemeval-50-subset-v2",
+      "normalized_result_digest": "19b66cacb330e943b0460ccdb33e8cc6577fccb17621cb7a129f7420f5c7868f"
+    },
+    "lifecycle_v1_reference": {
+      "path": "benchmarks/results/committed/lifecycle-offline-v1",
+      "normalized_result_digest": "8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33"
+    },
+    "real_local_supplemental": {
+      "path": "benchmarks/results/local/full-v2-real-local-dev/summary.json",
+      "committed": false,
+      "note": "development-only; summarized in the report, never combined with canonical scores"
+    }
+  },
+  "final_system": "experienceos_hybrid_full_v2",
+  "baseline_system": "experienceos_rules",
+  "lifecycle_system_order": [
+    "experienceos_rules",
+    "experienceos_slots_v2",
+    "experienceos_hybrid_extract_v2",
+    "experienceos_hybrid_retrieval_v2",
+    "experienceos_extract_retrieval_v2",
+    "experienceos_coverage_v2",
+    "experienceos_temporal_v2",
+    "experienceos_local_v2",
+    "experienceos_hybrid_full_v2"
+  ],
+  "external_system_order": [
+    "full_history",
+    "naive_top_k",
+    "experienceos_rules",
+    "experienceos_hybrid_extract_v2",
+    "experienceos_hybrid_retrieval_v2",
+    "experienceos_extract_retrieval_v2",
+    "experienceos_coverage_v2",
+    "experienceos_temporal_v2",
+    "experienceos_local_v2",
+    "experienceos_hybrid_full_v2"
+  ],
+  "external_unsupported": {
+    "experienceos_slots_v2": "no distinct external runner: slot supersession is not exercised by the subset's retrieval-only evaluation"
+  },
+  "lifecycle_headline_metrics": [
+    "memory_creation_precision",
+    "memory_creation_recall",
+    "supersession_accuracy",
+    "old_value_deactivation_rate",
+    "conflicting_active_memory_rate",
+    "stale_context_leakage_rate",
+    "forget_detection_accuracy",
+    "correct_forget_target_rate",
+    "forgotten_exclusion_rate",
+    "unrelated_preservation_rate",
+    "memory_resurrection_rate",
+    "recall_at_k",
+    "inactive_contamination_rate"
+  ],
+  "lower_is_better": [
+    "conflicting_active_memory_rate",
+    "stale_context_leakage_rate",
+    "inactive_contamination_rate",
+    "memory_resurrection_rate",
+    "local_fallback_rate_v2"
+  ],
+  "external_headline_metrics": [
+    "answer_session_candidate_rate",
+    "answer_session_selection_rate",
+    "answer_session_mrr"
+  ],
+  "required_disclosures": [
+    "not an official LongMemEval score",
+    "scripted-simulated",
+    "direct model inference",
+    "zero-value padding",
+    "raw conversation turns",
+    "deterministic offline",
+    "selection rate fell"
+  ],
+  "outputs": {
+    "report_data": "benchmarks/results/committed/report-v2/report_data_v2.json",
+    "comparison_tables": "benchmarks/results/committed/report-v2/comparison_tables_v2.json",
+    "failure_summary": "benchmarks/results/committed/report-v2/failure_summary_v2.json",
+    "manifest": "benchmarks/results/committed/report-v2/report_manifest.json",
+    "readme": "benchmarks/results/committed/report-v2/README.md",
+    "markdown": "docs/benchmark_report_v2.md"
+  }
+}

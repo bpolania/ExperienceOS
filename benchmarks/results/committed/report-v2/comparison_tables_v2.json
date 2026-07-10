@@ -1,0 +1,202 @@
+{
+ "external_headline": [
+  {
+   "candidate": "0/0",
+   "context_tokens": 6308650,
+   "mrr": null,
+   "mrr_raw": "0/0",
+   "selection": "0/0",
+   "system": "full_history"
+  },
+  {
+   "candidate": "50/50",
+   "context_tokens": 130210,
+   "mrr": 0.658,
+   "mrr_raw": "32.8795/50",
+   "selection": "42/50",
+   "system": "naive_top_k"
+  },
+  {
+   "candidate": "28/50",
+   "context_tokens": 10328,
+   "mrr": 0.186,
+   "mrr_raw": "9.28315/50",
+   "selection": "14/50",
+   "system": "experienceos_rules"
+  },
+  {
+   "candidate": "29/50",
+   "context_tokens": 10321,
+   "mrr": 0.225,
+   "mrr_raw": "11.2311/50",
+   "selection": "16/50",
+   "system": "experienceos_hybrid_extract_v2"
+  },
+  {
+   "candidate": "28/50",
+   "context_tokens": 5142,
+   "mrr": 0.246,
+   "mrr_raw": "12.308/50",
+   "selection": "9/50",
+   "system": "experienceos_hybrid_retrieval_v2"
+  },
+  {
+   "candidate": "29/50",
+   "context_tokens": 5218,
+   "mrr": 0.285,
+   "mrr_raw": "14.2489/50",
+   "selection": "11/50",
+   "system": "experienceos_extract_retrieval_v2"
+  },
+  {
+   "candidate": "28/50",
+   "context_tokens": 5073,
+   "mrr": 0.246,
+   "mrr_raw": "12.308/50",
+   "selection": "9/50",
+   "system": "experienceos_coverage_v2"
+  },
+  {
+   "candidate": "30/50",
+   "context_tokens": 5445,
+   "mrr": 0.266,
+   "mrr_raw": "13.2929/50",
+   "selection": "10/50",
+   "system": "experienceos_temporal_v2"
+  },
+  {
+   "candidate": "31/50",
+   "context_tokens": 5527,
+   "mrr": 0.305,
+   "mrr_raw": "15.2365/50",
+   "selection": "12/50",
+   "system": "experienceos_local_v2"
+  },
+  {
+   "candidate": "31/50",
+   "context_tokens": 5527,
+   "mrr": 0.305,
+   "mrr_raw": "15.2365/50",
+   "selection": "12/50",
+   "system": "experienceos_hybrid_full_v2"
+  }
+ ],
+ "external_unsupported": {
+  "experienceos_slots_v2": "no distinct external runner: slot supersession is not exercised by the subset's retrieval-only evaluation"
+ },
+ "lifecycle_headline": [
+  {
+   "full_v2": "12/13",
+   "lower_is_better": false,
+   "metric": "Creation precision",
+   "metric_id": "memory_creation_precision",
+   "numerator_change": 2.0,
+   "rules": "10/11"
+  },
+  {
+   "full_v2": "12/13",
+   "lower_is_better": false,
+   "metric": "Creation recall",
+   "metric_id": "memory_creation_recall",
+   "numerator_change": 2.0,
+   "rules": "10/13"
+  },
+  {
+   "full_v2": "6/7",
+   "lower_is_better": false,
+   "metric": "Supersession accuracy",
+   "metric_id": "supersession_accuracy",
+   "numerator_change": 4.0,
+   "rules": "2/7"
+  },
+  {
+   "full_v2": "7/8",
+   "lower_is_better": false,
+   "metric": "Old-value deactivation",
+   "metric_id": "old_value_deactivation_rate",
+   "numerator_change": 4.0,
+   "rules": "3/8"
+  },
+  {
+   "full_v2": "0/7",
+   "lower_is_better": true,
+   "metric": "Conflicting-active rate \u2193",
+   "metric_id": "conflicting_active_memory_rate",
+   "numerator_change": -3.0,
+   "rules": "3/7"
+  },
+  {
+   "full_v2": "7/11",
+   "lower_is_better": true,
+   "metric": "Stale context leakage \u2193",
+   "metric_id": "stale_context_leakage_rate",
+   "numerator_change": -3.0,
+   "rules": "10/11"
+  },
+  {
+   "full_v2": "4/4",
+   "lower_is_better": false,
+   "metric": "Forget detection",
+   "metric_id": "forget_detection_accuracy",
+   "numerator_change": 2.0,
+   "rules": "2/4"
+  },
+  {
+   "full_v2": "4/4",
+   "lower_is_better": false,
+   "metric": "Correct forget target",
+   "metric_id": "correct_forget_target_rate",
+   "numerator_change": 2.0,
+   "rules": "2/2"
+  },
+  {
+   "full_v2": "2/2",
+   "lower_is_better": false,
+   "metric": "Forgotten exclusion",
+   "metric_id": "forgotten_exclusion_rate",
+   "numerator_change": 2.0,
+   "rules": "0/2"
+  },
+  {
+   "full_v2": "3/3",
+   "lower_is_better": false,
+   "metric": "Unrelated preservation",
+   "metric_id": "unrelated_preservation_rate",
+   "numerator_change": 0.0,
+   "rules": "3/3"
+  },
+  {
+   "full_v2": "0/6",
+   "lower_is_better": true,
+   "metric": "Resurrection/incorrect target \u2193",
+   "metric_id": "memory_resurrection_rate",
+   "numerator_change": 0.0,
+   "rules": "0/6"
+  },
+  {
+   "full_v2": "17/17",
+   "lower_is_better": false,
+   "metric": "Recall@K",
+   "metric_id": "recall_at_k",
+   "numerator_change": 2.0,
+   "rules": "15/17"
+  },
+  {
+   "full_v2": "0/18",
+   "lower_is_better": true,
+   "metric": "Inactive contamination \u2193",
+   "metric_id": "inactive_contamination_rate",
+   "numerator_change": -2.0,
+   "rules": "2/20"
+  },
+  {
+   "full_v2": "21",
+   "lower_is_better": false,
+   "metric": "Passed cases (of 40 scenarios)",
+   "metric_id": "passed_cases",
+   "numerator_change": 4,
+   "rules": "17"
+  }
+ ],
+ "schema_version": "1"
+}

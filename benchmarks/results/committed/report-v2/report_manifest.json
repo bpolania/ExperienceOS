@@ -1,0 +1,30 @@
+{
+ "files": {
+  "benchmarks/results/committed/report-v2/README.md": "9a4c423d35da7f5aa4c0f9eb4c41aa494b147b9cc83364d8bc86e4a4b00e11d8",
+  "benchmarks/results/committed/report-v2/comparison_tables_v2.json": "b47be8b8dd8ad2e2527e8d1522bc7880b38f7d5b80eb45f900e31ad09cd162e4",
+  "benchmarks/results/committed/report-v2/failure_summary_v2.json": "9b85970bce0d87e74c9cf22486ce92612155410431fb3739d8d0d4887bdf3f01",
+  "benchmarks/results/committed/report-v2/report_data_v2.json": "204fc59f07d083a3d5b45f67fab83518e8a1bec6d87d35d8c8ccce918b7f2887",
+  "docs/benchmark_report_v2.md": "1ad5689a8e9dfb97ed8b86a0d6e98d21c93d4375dec33a7752e0a0823cf2383a"
+ },
+ "report_data_digest": "3bc955b0c4940ef73a01c4066bff695596fc45cc144f8c850441ed30f5ab76fd",
+ "schema_version": "1",
+ "sources": {
+  "external_v2": {
+   "normalized_result_digest": "19b66cacb330e943b0460ccdb33e8cc6577fccb17621cb7a129f7420f5c7868f",
+   "path": "benchmarks/results/committed/longmemeval-50-subset-v2"
+  },
+  "lifecycle_v1_reference": {
+   "normalized_result_digest": "8b0e245d914a43bc578923111e8ff40e70d9c8aa487664c00125fc52fa319b33",
+   "path": "benchmarks/results/committed/lifecycle-offline-v1"
+  },
+  "lifecycle_v2": {
+   "normalized_result_digest": "ee437bb3e9fde909f343112e40aaa6ecf63155a07a81ad67e017e310fbefb547",
+   "path": "benchmarks/results/committed/lifecycle-v2-ablation"
+  },
+  "real_local_supplemental": {
+   "normalized_result_digest": null,
+   "path": "benchmarks/results/local/full-v2-real-local-dev/summary.json"
+  }
+ },
+ "spec_hash": "73e5d3aa504df687e1ff0d819bc04f91fea7e87311c4902d2eacc7abf348e69c"
+}
