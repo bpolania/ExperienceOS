@@ -1,0 +1,31 @@
+{
+  "answer_provider": "deterministic-echo/mock (offline)",
+  "context_limit": "not enforced (offline deterministic provider); full history untruncated",
+  "data_file": "longmemeval_s_cleaned.json",
+  "dataset_variant": "s_cleaned",
+  "display_label": "LongMemEval 50-case stratified subset",
+  "evaluator": "deterministic structural + labeled proxies; official GPT-4o judge NOT used",
+  "memory_budget": 6,
+  "mode": "offline-structural",
+  "retrieval_unit": "individual history turn (both roles); ExperienceOS ingests user turns via production chat",
+  "retrieval_weights": {
+    "overlap": 1.0,
+    "recency": 0.5
+  },
+  "retry_policy": "none",
+  "run_id": "longmemeval-50-subset-v2",
+  "selection_k": 6,
+  "systems": [
+    "full_history",
+    "naive_top_k",
+    "experienceos_rules",
+    "experienceos_hybrid_extract_v2",
+    "experienceos_hybrid_retrieval_v2",
+    "experienceos_extract_retrieval_v2",
+    "experienceos_coverage_v2",
+    "experienceos_temporal_v2",
+    "experienceos_local_v2",
+    "experienceos_hybrid_full_v2"
+  ],
+  "token_accounting_method": "approximation"
+}

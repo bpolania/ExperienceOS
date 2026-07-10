@@ -39,6 +39,7 @@ class SystemId:
     EXPERIENCEOS_COVERAGE_V2 = "experienceos_coverage_v2"
     EXPERIENCEOS_TEMPORAL_V2 = "experienceos_temporal_v2"
     EXPERIENCEOS_LOCAL_V2 = "experienceos_local_v2"
+    EXPERIENCEOS_HYBRID_FULL_V2 = "experienceos_hybrid_full_v2"
 
 
 KNOWN_SYSTEM_IDS = frozenset(

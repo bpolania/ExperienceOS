@@ -58,8 +58,21 @@ case "$command" in
         "$PYTHON" -m benchmarks.external.longmemeval.cli validate \
             "${2:?result dir required}"
         ;;
+    validate-v2)
+        "$PYTHON" -m benchmarks.validation_v2 lifecycle \
+            "${2:-benchmarks/results/committed/lifecycle-v2-ablation}"
+        ;;
+    validate-external-v2)
+        "$PYTHON" -m benchmarks.validation_v2 external \
+            "${2:-benchmarks/results/committed/longmemeval-50-subset-v2}"
+        ;;
+    validate-v2-consistency)
+        "$PYTHON" -m benchmarks.validation_v2 consistency \
+            "${2:-benchmarks/results/committed/lifecycle-v2-ablation}" \
+            "${3:-benchmarks/results/committed/longmemeval-50-subset-v2}"
+        ;;
     *)
-        echo "unknown command: $command (expected quick, full-offline, validate, report, validate-report, longmemeval-fixture, longmemeval-prepare, longmemeval-structural, longmemeval-live, validate-external)"
+        echo "unknown command: $command (expected quick, full-offline, validate, report, validate-report, longmemeval-fixture, longmemeval-prepare, longmemeval-structural, longmemeval-live, validate-external, validate-v2, validate-external-v2, validate-v2-consistency)"
         exit 2
         ;;
 esac

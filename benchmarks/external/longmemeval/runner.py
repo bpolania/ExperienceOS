@@ -714,6 +714,17 @@ def run_experienceos_local_v2(case: ExternalCase) -> ExternalCaseRun:
     return finished
 
 
+def run_experienceos_hybrid_full_v2(case: ExternalCase):
+    """Final Phase 9 composition (same pipeline as local_v2 scripted;
+    distinct system ID and final-system provenance)."""
+    run = run_experienceos_local_v2(case)
+    run.system_id = "experienceos_hybrid_full_v2"
+    run.extraction["final_system_version"] = "1"
+    run.extraction["simulated_proposal"] = 1
+    run.extraction["direct_model_inference"] = 0
+    return run
+
+
 _RUNNERS = {
     "full_history": run_full_history,
     "naive_top_k": run_naive_top_k,
@@ -729,6 +740,7 @@ _RUNNERS = {
     "experienceos_temporal_v2": run_experienceos_temporal_v2,
     "dev_full_temporal": run_dev_full_temporal,
     "experienceos_local_v2": run_experienceos_local_v2,
+    "experienceos_hybrid_full_v2": run_experienceos_hybrid_full_v2,
 }
 
 
@@ -797,6 +809,9 @@ def write_external_artifacts(
     manifest: dict | None = None,
     overwrite: bool = False,
     timestamp: str | None = None,
+    systems: tuple = EXTERNAL_SYSTEMS,
+    run_id: str | None = None,
+    unsupported_systems: dict | None = None,
 ) -> Path:
     manifest = manifest or load_manifest()
     final_dir = Path(output_dir)
@@ -825,7 +840,8 @@ def write_external_artifacts(
     config = {
         "display_label": REQUIRED_DISPLAY_LABEL,
         "mode": mode,
-        "systems": list(EXTERNAL_SYSTEMS),
+        "run_id": run_id or final_dir.name,
+        "systems": list(systems),
         "data_file": Path(data_file).name,
         "dataset_variant": cases[0].dataset_variant if cases else None,
         "memory_budget": MEMORY_BUDGET,
@@ -844,6 +860,8 @@ def write_external_artifacts(
     provenance = _external_provenance(
         mode, manifest, cases, runs, synthetic, timestamp
     )
+    if unsupported_systems:
+        provenance["unsupported_systems"] = dict(unsupported_systems)
 
     _write(staging / "external_run_config.json", config)
     _write(staging / "external_provenance.json", provenance)
@@ -922,14 +940,16 @@ def write_external_artifacts(
     }
     _write(staging / "artifact_manifest.json", artifact_manifest)
     (staging / "README.md").write_text(
-        _readme(mode, manifest, synthetic, digest)
+        _readme(mode, manifest, synthetic, digest, systems)
     )
 
     from benchmarks.external.longmemeval.validation import (
         validate_external_artifact,
     )
 
-    validate_external_artifact(staging, allow_staging=True)
+    validate_external_artifact(
+        staging, allow_staging=True, allowed_systems=systems
+    )
     staging.replace(final_dir)
     return final_dir
 
@@ -996,7 +1016,7 @@ def _external_provenance(mode, manifest, cases, runs, synthetic, timestamp):
         "failed_cases": sum(1 for s in statuses if s == "execution_failed"),
         "skipped_cases": 0,
         "deferred_cases": sum(1 for c in cases if c.abstention)
-        * len(EXTERNAL_SYSTEMS),
+        * len({r.system_id for r in runs}),
     }
 
 
@@ -1011,7 +1031,7 @@ def _write_jsonl(path: Path, lines) -> None:
     )
 
 
-def _readme(mode, manifest, synthetic, digest) -> str:
+def _readme(mode, manifest, synthetic, digest, systems=EXTERNAL_SYSTEMS) -> str:
     data_kind = (
         "SYNTHETIC official-shape fixtures (NOT a benchmark result)"
         if synthetic
@@ -1021,7 +1041,7 @@ def _readme(mode, manifest, synthetic, digest) -> str:
 
 - Data: {data_kind}; dataset variant per provenance; official source
   revision {manifest['source_revision']}.
-- Systems: {', '.join(EXTERNAL_SYSTEMS)}, identical session content,
+- Systems: {', '.join(systems)}, identical session content,
   identical answer-provider configuration, identical budgets.
 - Evaluation: deterministic structural evidence (official
   answer_session_ids retrieval oracle) plus clearly-labeled proxy

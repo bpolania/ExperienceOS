@@ -1,0 +1,49 @@
+{
+  "artifact_schema_version": "1",
+  "case_run_count": 500,
+  "display_label": "LongMemEval 50-case stratified subset",
+  "files": {
+    "aggregate.json": {
+      "records": 1,
+      "sha256": "a8cbd3d2807794d68835ebcc13cb99f22ac5edfa5868ab2bf633bb41c84b2fec"
+    },
+    "answer_evidence.jsonl": {
+      "records": 500,
+      "sha256": "c9425146c4e70880a4eb8b7af287a2de8641a79b019c18d2da8e838c820e73e5"
+    },
+    "cases.jsonl": {
+      "records": 500,
+      "sha256": "25147447e84ec4c15ae34a1f9232b9a856e1d664dedc86e45c34516c7c4a7513"
+    },
+    "external_manifest.json": {
+      "records": 1,
+      "sha256": "aa66a19b434d8d91f33ce4f4a09319cf0e9eee590b901216b6d67d77d0caec42"
+    },
+    "external_provenance.json": {
+      "records": 1,
+      "sha256": "1554efac22e9b87c47ee12a3e742536150e18492737b29d2158de2dc3a2313ee"
+    },
+    "external_run_config.json": {
+      "records": 1,
+      "sha256": "376b161e7138d3c6d521b48fd592e9e0365f9db81a7e780f71740413de9dc347"
+    },
+    "failures.json": {
+      "records": 1,
+      "sha256": "fcfac23391cee1f7fe3ab56a3ca4499c2ed1f1a59ddf6c623f84a2c7d4292d26"
+    },
+    "metric_contributions.jsonl": {
+      "records": 2820,
+      "sha256": "0d819ff822d4574e84e27ec72332995ea48abb51ffe28f505b491f517a918dce"
+    },
+    "retrieval_evidence.jsonl": {
+      "records": 500,
+      "sha256": "7063fafe5fde40d476b9887b6989fe0bea876ec698e379c6ab475de79079b365"
+    },
+    "selected_case_metadata.jsonl": {
+      "records": 50,
+      "sha256": "97fbc8bfea471a0c04fc822fa84163543c38d780654e1b8376ca8677021da5a3"
+    }
+  },
+  "normalized_result_digest": "19b66cacb330e943b0460ccdb33e8cc6577fccb17621cb7a129f7420f5c7868f",
+  "synthetic_data": false
+}

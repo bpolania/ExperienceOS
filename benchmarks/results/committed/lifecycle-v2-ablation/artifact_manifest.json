@@ -1,0 +1,35 @@
+{
+  "artifact_schema_version": "1",
+  "case_run_count": 360,
+  "files": {
+    "aggregate.json": {
+      "records": 1,
+      "sha256": "5340c200928f9c57ccac3137855bfe0737388ef95c6aeb56cc1aba41b75f03ca"
+    },
+    "cases.jsonl": {
+      "records": 360,
+      "sha256": "a758df596bfe5cf674fcd1f93dda03a656aa3b74ed14a414397c8216a951a694"
+    },
+    "execution_manifest.json": {
+      "records": 1,
+      "sha256": "dd0df3c435ad5f6c3096bfaa8e9974a27da42627cf028a385743c3c124072833"
+    },
+    "failures.json": {
+      "records": 1,
+      "sha256": "b94df18e773cc09965b7614bcf69acdbb60f43bd4e2195082bac38cdb3704303"
+    },
+    "metric_contributions.jsonl": {
+      "records": 7995,
+      "sha256": "9843e5336a42637f8885c4440e99fdd1653a753c5216ea7d2a7b28b49b8ad46b"
+    },
+    "provenance.json": {
+      "records": 1,
+      "sha256": "49a52ae665dbeffcf2da78ef72a23d3a9ee71d3fc716a0129b2d91ec63c65148"
+    },
+    "run_config.json": {
+      "records": 1,
+      "sha256": "94e05b8eeb092e98c23cf6efe6e433645effd0ec1105c509dcad91be21b247f6"
+    }
+  },
+  "normalized_result_digest": "ee437bb3e9fde909f343112e40aaa6ecf63155a07a81ad67e017e310fbefb547"
+}

@@ -1,0 +1,505 @@
+{
+  "deferred_evaluations": [
+    {
+      "question_id": "031748ae_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "full_history"
+    },
+    {
+      "question_id": "0ddfec37_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "full_history"
+    },
+    {
+      "question_id": "2133c1b5_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "full_history"
+    },
+    {
+      "question_id": "29f2956b_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "full_history"
+    },
+    {
+      "question_id": "6aeb4375_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "full_history"
+    },
+    {
+      "question_id": "982b5123_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "full_history"
+    },
+    {
+      "question_id": "bc8a6e93_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "full_history"
+    },
+    {
+      "question_id": "edced276_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "full_history"
+    },
+    {
+      "question_id": "f685340e_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "full_history"
+    },
+    {
+      "question_id": "gpt4_93159ced_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "full_history"
+    },
+    {
+      "question_id": "031748ae_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "naive_top_k"
+    },
+    {
+      "question_id": "0ddfec37_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "naive_top_k"
+    },
+    {
+      "question_id": "2133c1b5_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "naive_top_k"
+    },
+    {
+      "question_id": "29f2956b_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "naive_top_k"
+    },
+    {
+      "question_id": "6aeb4375_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "naive_top_k"
+    },
+    {
+      "question_id": "982b5123_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "naive_top_k"
+    },
+    {
+      "question_id": "bc8a6e93_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "naive_top_k"
+    },
+    {
+      "question_id": "edced276_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "naive_top_k"
+    },
+    {
+      "question_id": "f685340e_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "naive_top_k"
+    },
+    {
+      "question_id": "gpt4_93159ced_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "naive_top_k"
+    },
+    {
+      "question_id": "031748ae_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "question_id": "0ddfec37_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "question_id": "2133c1b5_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "question_id": "29f2956b_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "question_id": "6aeb4375_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "question_id": "982b5123_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "question_id": "bc8a6e93_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "question_id": "edced276_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "question_id": "f685340e_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "question_id": "gpt4_93159ced_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_rules"
+    },
+    {
+      "question_id": "031748ae_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_extract_v2"
+    },
+    {
+      "question_id": "0ddfec37_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_extract_v2"
+    },
+    {
+      "question_id": "2133c1b5_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_extract_v2"
+    },
+    {
+      "question_id": "29f2956b_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_extract_v2"
+    },
+    {
+      "question_id": "6aeb4375_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_extract_v2"
+    },
+    {
+      "question_id": "982b5123_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_extract_v2"
+    },
+    {
+      "question_id": "bc8a6e93_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_extract_v2"
+    },
+    {
+      "question_id": "edced276_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_extract_v2"
+    },
+    {
+      "question_id": "f685340e_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_extract_v2"
+    },
+    {
+      "question_id": "gpt4_93159ced_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_extract_v2"
+    },
+    {
+      "question_id": "031748ae_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_retrieval_v2"
+    },
+    {
+      "question_id": "0ddfec37_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_retrieval_v2"
+    },
+    {
+      "question_id": "2133c1b5_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_retrieval_v2"
+    },
+    {
+      "question_id": "29f2956b_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_retrieval_v2"
+    },
+    {
+      "question_id": "6aeb4375_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_retrieval_v2"
+    },
+    {
+      "question_id": "982b5123_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_retrieval_v2"
+    },
+    {
+      "question_id": "bc8a6e93_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_retrieval_v2"
+    },
+    {
+      "question_id": "edced276_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_retrieval_v2"
+    },
+    {
+      "question_id": "f685340e_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_retrieval_v2"
+    },
+    {
+      "question_id": "gpt4_93159ced_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_retrieval_v2"
+    },
+    {
+      "question_id": "031748ae_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_extract_retrieval_v2"
+    },
+    {
+      "question_id": "0ddfec37_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_extract_retrieval_v2"
+    },
+    {
+      "question_id": "2133c1b5_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_extract_retrieval_v2"
+    },
+    {
+      "question_id": "29f2956b_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_extract_retrieval_v2"
+    },
+    {
+      "question_id": "6aeb4375_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_extract_retrieval_v2"
+    },
+    {
+      "question_id": "982b5123_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_extract_retrieval_v2"
+    },
+    {
+      "question_id": "bc8a6e93_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_extract_retrieval_v2"
+    },
+    {
+      "question_id": "edced276_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_extract_retrieval_v2"
+    },
+    {
+      "question_id": "f685340e_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_extract_retrieval_v2"
+    },
+    {
+      "question_id": "gpt4_93159ced_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_extract_retrieval_v2"
+    },
+    {
+      "question_id": "031748ae_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_coverage_v2"
+    },
+    {
+      "question_id": "0ddfec37_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_coverage_v2"
+    },
+    {
+      "question_id": "2133c1b5_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_coverage_v2"
+    },
+    {
+      "question_id": "29f2956b_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_coverage_v2"
+    },
+    {
+      "question_id": "6aeb4375_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_coverage_v2"
+    },
+    {
+      "question_id": "982b5123_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_coverage_v2"
+    },
+    {
+      "question_id": "bc8a6e93_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_coverage_v2"
+    },
+    {
+      "question_id": "edced276_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_coverage_v2"
+    },
+    {
+      "question_id": "f685340e_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_coverage_v2"
+    },
+    {
+      "question_id": "gpt4_93159ced_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_coverage_v2"
+    },
+    {
+      "question_id": "031748ae_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_temporal_v2"
+    },
+    {
+      "question_id": "0ddfec37_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_temporal_v2"
+    },
+    {
+      "question_id": "2133c1b5_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_temporal_v2"
+    },
+    {
+      "question_id": "29f2956b_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_temporal_v2"
+    },
+    {
+      "question_id": "6aeb4375_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_temporal_v2"
+    },
+    {
+      "question_id": "982b5123_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_temporal_v2"
+    },
+    {
+      "question_id": "bc8a6e93_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_temporal_v2"
+    },
+    {
+      "question_id": "edced276_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_temporal_v2"
+    },
+    {
+      "question_id": "f685340e_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_temporal_v2"
+    },
+    {
+      "question_id": "gpt4_93159ced_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_temporal_v2"
+    },
+    {
+      "question_id": "031748ae_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_local_v2"
+    },
+    {
+      "question_id": "0ddfec37_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_local_v2"
+    },
+    {
+      "question_id": "2133c1b5_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_local_v2"
+    },
+    {
+      "question_id": "29f2956b_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_local_v2"
+    },
+    {
+      "question_id": "6aeb4375_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_local_v2"
+    },
+    {
+      "question_id": "982b5123_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_local_v2"
+    },
+    {
+      "question_id": "bc8a6e93_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_local_v2"
+    },
+    {
+      "question_id": "edced276_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_local_v2"
+    },
+    {
+      "question_id": "f685340e_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_local_v2"
+    },
+    {
+      "question_id": "gpt4_93159ced_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_local_v2"
+    },
+    {
+      "question_id": "031748ae_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_full_v2"
+    },
+    {
+      "question_id": "0ddfec37_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_full_v2"
+    },
+    {
+      "question_id": "2133c1b5_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_full_v2"
+    },
+    {
+      "question_id": "29f2956b_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_full_v2"
+    },
+    {
+      "question_id": "6aeb4375_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_full_v2"
+    },
+    {
+      "question_id": "982b5123_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_full_v2"
+    },
+    {
+      "question_id": "bc8a6e93_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_full_v2"
+    },
+    {
+      "question_id": "edced276_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_full_v2"
+    },
+    {
+      "question_id": "f685340e_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_full_v2"
+    },
+    {
+      "question_id": "gpt4_93159ced_abs",
+      "reason": "abstention verification requires a live labeled run",
+      "system_id": "experienceos_hybrid_full_v2"
+    }
+  ],
+  "system_execution_failures": []
+}

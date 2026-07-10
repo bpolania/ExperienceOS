@@ -61,7 +61,8 @@ def _fail(message: str):
 
 
 def validate_external_artifact(
-    path: str | Path, allow_staging: bool = False
+    path: str | Path, allow_staging: bool = False,
+    allowed_systems: tuple = EXTERNAL_SYSTEMS,
 ) -> dict:
     path = Path(path)
     if not path.is_dir():
@@ -110,7 +111,7 @@ def validate_external_artifact(
             "committed subset artifact"
         )
     for record in cases:
-        if record["system_id"] not in EXTERNAL_SYSTEMS:
+        if record["system_id"] not in allowed_systems:
             _fail(f"unknown external system {record['system_id']!r}")
         if not synthetic and record["question_id"] not in selected_ids:
             _fail(
