@@ -299,8 +299,38 @@ PYTHONPATH=. python examples/local_runner_smoke.py
 ```
 
 Without the dependency or model path, the smoke check skips cleanly
-(exit 0). The runner is an inference adapter only — it is not yet
-connected to memory decisions, which remain fully rule-based.
+(exit 0).
+
+`LocalModelMemoryPolicy` connects the runner to memory decisions:
+
+```python
+from experienceos import (
+    ExperienceOS,
+    LlamaCppLocalModelRunner,
+    LocalModelMemoryPolicy,
+    QwenCloud,
+)
+
+runner = LlamaCppLocalModelRunner(model_path="/path/to/qwen-small.gguf")
+
+agent = ExperienceOS(
+    model=QwenCloud(),  # Qwen Cloud remains the reasoning/response provider
+    memory_policy=LocalModelMemoryPolicy(runner),
+)
+```
+
+The local model manages memory proposals only — it can never mutate
+storage, and the engine validates every proposed target against the
+active-memory snapshot before applying anything. The SDK automatically
+supplies the deterministic rule-based policy as fallback, which runs
+whenever the local path is unavailable, fails, returns invalid output,
+or any proposal falls below the confidence threshold (default 0.60;
+batches are accepted or rejected atomically). Fallback decisions carry
+a typed reason (`dependency_missing`, `model_unavailable`,
+`model_load_failed`, `generation_failed`, `invalid_output`,
+`validation_failed`, `low_confidence`). A valid empty decision list
+means "nothing worth remembering" and does not fall back. Without the
+optional dependency, the agent simply behaves rule-based.
 
 ## Development
 

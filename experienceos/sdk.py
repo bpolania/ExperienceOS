@@ -78,7 +78,15 @@ class ExperienceOS:
         if experience_manager is not None:
             self.experience_manager = experience_manager
         elif memory_policy is not None:
-            self.experience_manager = ExperienceManager(memory_policy)
+            if isinstance(memory_policy, RuleBasedMemoryPolicy):
+                self.experience_manager = ExperienceManager(memory_policy)
+            else:
+                # Non-rule policies (e.g. LocalModelMemoryPolicy) always
+                # get the deterministic rule-based fallback.
+                self.experience_manager = ExperienceManager(
+                    memory_policy,
+                    fallback_policy=RuleBasedMemoryPolicy(),
+                )
         else:
             self.experience_manager = ExperienceManager(
                 RuleBasedMemoryPolicy(self.memory_planner)

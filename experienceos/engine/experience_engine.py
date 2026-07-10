@@ -126,24 +126,26 @@ class ExperienceEngine:
             else:
                 valid_actions.append(action)
 
-        planned = [
-            {
+        planned = []
+        for action, decision in zip(result.actions, result.decisions):
+            entry = {
                 **self._describe_action(action),
                 "confidence": decision.confidence,
                 "explanation": decision.explanation,
                 "decision_source": decision.decision_source,
             }
-            for action, decision in zip(result.actions, result.decisions)
-        ]
+            if decision.fallback_reason is not None:
+                entry["fallback_reason"] = decision.fallback_reason
+            planned.append(entry)
         emit(
             EventType.MEMORY_ACTION_PLANNED,
             {
                 "planned_actions": planned,
                 "policy": {
                     "mode": result.policy_mode,
-                    "decision_source": result.policy_mode,
-                    "fallback_used": False,
-                    "fallback_reason": None,
+                    "decision_source": result.decision_source,
+                    "fallback_used": result.fallback_used,
+                    "fallback_reason": result.fallback_reason,
                 },
                 "rejected_actions": [
                     {

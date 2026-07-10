@@ -9,6 +9,7 @@ from experienceos.policy.base import (
     PolicyAction,
     PolicyContext,
 )
+from experienceos.policy.local_model import LocalModelMemoryPolicy
 from experienceos.policy.local_runner import (
     LlamaCppLocalModelRunner,
     LocalModelAvailability,
@@ -35,6 +36,7 @@ __all__ = [
     "FallbackReason",
     "InvalidMemoryProposal",
     "LlamaCppLocalModelRunner",
+    "LocalModelMemoryPolicy",
     "LocalModelAvailability",
     "LocalModelDependencyMissing",
     "LocalModelGenerationFailed",
