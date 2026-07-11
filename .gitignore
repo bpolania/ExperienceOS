@@ -21,6 +21,13 @@ dist/
 # Model weights: local GGUF files must never be committed
 *.gguf
 
+# Embedding model weights and caches (Phase 11): local-only assets in
+# ONNX / safetensors / PyTorch formats must never be committed
+*.onnx
+*.safetensors
+*.pt
+*.pth
+
 # Benchmark runtime artifacts. Small committed evidence lives in
 # benchmarks/results/committed/, which is deliberately NOT ignored.
 benchmarks/results/local/

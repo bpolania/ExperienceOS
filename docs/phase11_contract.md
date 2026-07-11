@@ -655,8 +655,14 @@ against §17/§18; and a recommended Phase 12 direction.
 
 ## 21. Uncertainties deferred
 
-- Choice of optional embedding library and model (Prompt 2, subject to
-  §16; must run CPU-only from an explicit local path).
+- ~~Choice of optional embedding library~~ **Resolved in Prompt 2:**
+  sentence-transformers behind the `embeddings-local` extra, wrapped
+  by `experienceos/embeddings/local.py` (CPU-only, lazy import,
+  existing-local-path-only so downloads are impossible); the
+  deterministic CI provider is `deterministic` /
+  `stable-feature-hash-v1` at 512 dimensions. The specific local
+  model (e.g. `all-MiniLM-L6-v2`) remains a Prompt 3/7 evaluation
+  choice. See `docs/embedding_providers.md`.
 - Exact fusion weights and the lexical/semantic scale analysis
   (Prompt 4).
 - Whether embedding-only mode needs its own zero-relevance floor to

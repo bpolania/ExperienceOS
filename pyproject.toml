@@ -9,6 +9,7 @@ dependencies = []
 demo = ["streamlit>=1.49", "python-dotenv>=1.0"]
 dev = ["pytest>=7.0"]
 local = ["llama-cpp-python>=0.3"]
+embeddings-local = ["sentence-transformers>=3.0"]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
