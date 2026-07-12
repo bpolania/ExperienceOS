@@ -117,15 +117,20 @@ adoption approval and lists the decisive failed gates:
 and `downstream_benefit`. The final classification is displayed as
 **Shadow only**.
 
-> Discrepancy note: the governing narrative for this work listed
-> "defensible precision" among the failed gates. The committed
-> `adoption_gates.json` — the source of truth per the benchmark contract
-> — records `precision_defensible` as **pass** (durable false-positive
-> delta of exactly 1, within the ≤1 threshold) and `downstream_benefit`
-> as the third **fail** instead. The dashboard surfaces the committed
-> artifact faithfully. The two decisive gates (no recall improvement,
-> duplicate active memories) fail in both accounts, and the
-> classification is shadow-only regardless.
+> Discrepancy note: an earlier narrative listed "defensible precision"
+> among the failed gates. The committed `adoption_gates.json` — the
+> source of truth per the benchmark contract — records
+> `precision_defensible` as **pass** (durable false-positive delta of
+> exactly 1, within the ≤1 threshold) and `downstream_benefit` as the
+> third **fail** instead. Three distinct things must be kept separate:
+> the *formal gate result* (`precision_defensible` passes), the
+> *measured trade-off* (durable false positives still rose from 1 to 2 —
+> a forget-directive over-extraction — so precision is not free), and
+> the *final classification* (**shadow-only**, unchanged). The dashboard
+> surfaces the committed artifact faithfully and does not hide the
+> false-positive regression behind the passing formal gate. The two
+> decisive gates (no recall improvement, duplicate active memories) fail
+> in both accounts.
 
 ## 12. Case Examples
 

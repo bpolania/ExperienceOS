@@ -150,6 +150,26 @@ demo surfaces to make the platform visible.
   threshold, and performs whole-batch typed fallback to the rules;
   the engine still validates targets against the active snapshot and
   remains the only mutation authority. Policies never touch storage.
+- **Grounded extraction** (`experienceos/memory/grounding.py`,
+  `grounded_extraction.py`, `learned_extraction.py`,
+  `extraction_integration.py`) — an evaluated, non-default path for
+  admitting memory proposals from deterministic or learned components.
+  The boundaries are strict and layered: a controller only ever
+  **proposes** exactly one grounded candidate or abstains (no store, no
+  mutation handle); the `GroundedCandidateValidator` independently
+  checks exact evidence spans, approved source and provenance, canonical
+  kinds, and durability, rejecting questions, hypotheticals, temporary
+  states, one-off requests, unsupported third-party ownership, and
+  unsupported normalization; the `ExtractionIntegrationCoordinator`
+  routes a validated proposal through one of four effect modes —
+  `disabled` (the default), `shadow` and `candidate` (non-mutating), and
+  `adopted` (explicit authorization only) — re-validating at the
+  boundary and never creating a second write path. `ExperienceManager`
+  remains lifecycle-policy authority and the engine remains the only
+  mutation authority: an authorized adopted action is merged into the
+  same action list the engine already validates and applies. The
+  deterministic controller is classified shadow-only; no controller is
+  adopted. See [grounded_extraction_report.md](grounded_extraction_report.md).
 - **Dashboard** (`demo/`) — a Streamlit visibility layer over the SDK's
   event history and memory store. The dashboard is not the product: it
   exists to make the ExperienceOS platform observable — memories

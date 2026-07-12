@@ -508,6 +508,58 @@ leakage stayed zero for every system. Full evidence:
 architecture:
 [docs/controller_architecture.md](docs/controller_architecture.md).
 
+## Grounded experience extraction (evaluated, shadow-only)
+
+ExperienceOS can accept memory proposals from deterministic or learned
+components, but a component earns durable-write access only by citing
+exact user evidence, clearing the same lifecycle authority, and passing
+predeclared adoption gates. Grounded extraction is the machinery for
+**evaluating** such components — it changes no default (extraction
+integration is `disabled`).
+
+What exists now:
+
+- **grounded candidate validation** (`experienceos/memory/grounding.py`):
+  exact evidence-span matching, approved source and provenance, canonical
+  kinds, and rejection of questions, hypotheticals, temporary states,
+  one-off requests, unsupported third-party ownership, and unsupported
+  normalization — proposal-only, non-mutating
+- **a deterministic controller** (`grounded_rules-1`) that proposes
+  exactly one grounded candidate or abstains — **non-canonical**
+- **an optional learned-controller foundation** — narrow runner protocol,
+  strict structured output, untrusted-output handling, exact-span
+  verification, explicit deterministic fallback, and optional lazy local
+  and Qwen runners — proposal-only and, in the committed benchmark,
+  **unavailable** (no runtime configured; never downloads a model)
+- **an integration seam** with four effect modes — `disabled` (default),
+  `shadow`, `candidate`, `adopted` — where shadow and candidate never
+  mutate and adopted requires explicit authorization and still routes
+  through the single engine mutation boundary (no second write path)
+- **dashboard diagnostics** exposing the live decision trace, evidence
+  spans, grounding/lifecycle separation, canonical effect, and the
+  committed benchmark evidence (see
+  [docs/extraction_diagnostics_dashboard.md](docs/extraction_diagnostics_dashboard.md))
+
+**Measured result** (frozen lifecycle annotations; committed evidence,
+not an official benchmark): the deterministic controller was well
+grounded — grounded-span validity 6/6 (100%), unsupported-claim rate
+0/6, proposal precision 5/6 (83.3%), recall 5/13 (38.5%) — but it did
+**not** improve durable creation over the canonical planner (11/13
+both), missed durable facts, and under benchmark-only adoption produced
+one forget-directive false positive and two semantic-duplicate active
+memories. State corruption, inactive contamination, and forgotten and
+superseded leakage all stayed zero. **12 of 15 adoption gates passed**,
+but passing most gates is not adoption: the three failed gates — no
+creation-recall/candidate-absence improvement, semantic duplicate active
+memories, and no measured downstream benefit — are decisive (the formal
+`precision_defensible` gate passed, yet durable false positives still
+increased, a real trade-off). The controller is therefore classified
+**shadow-only** and **no controller is adopted**. This is the product
+working as intended: ExperienceOS evaluates an experience component and
+refuses to let it affect durable memory until the evidence justifies it.
+Full evidence:
+[docs/grounded_extraction_report.md](docs/grounded_extraction_report.md).
+
 The section below is the frozen **Phase 8 (v1)** evidence, preserved
 unchanged as the historical baseline the v2 numbers are measured
 against.
