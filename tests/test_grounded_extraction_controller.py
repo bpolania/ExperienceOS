@@ -363,8 +363,13 @@ def test_extraction_has_no_side_effects(tmp_path):
 def test_controller_not_constructed_by_canonical_code():
     import pathlib
 
+    # The deterministic controller defines itself, and the optional
+    # learned controller composes it as an explicit fallback — both are
+    # peer optional extraction modules, not canonical kernel code. No
+    # OTHER production module may reference it.
+    peer_modules = {"grounded_extraction.py", "learned_extraction.py"}
     for path in pathlib.Path("experienceos").rglob("*.py"):
-        if path.name == "grounded_extraction.py":
+        if path.name in peer_modules:
             continue
         assert "DeterministicGroundedExtractionController" not in (
             path.read_text()
