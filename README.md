@@ -462,6 +462,52 @@ Full comparative report: [docs/benchmark_report_v2.md](docs/benchmark_report_v2.
 [temporal/provenance](docs/phase9_temporal_provenance.md),
 [forgetting & local policy](docs/phase9_forget_policy.md).
 
+## Phase 11: semantic retrieval and controller foundation
+
+Phase 11 added an optional, measured semantic-retrieval capability
+and the first specialized-controller seams on top of the deterministic
+kernel — **without changing the canonical default**: Phase 9
+lexical/hybrid retrieval remains the recommended path.
+
+What exists now:
+
+- **provider-independent embedding abstraction**
+  (`experienceos/embeddings/`): a deterministic test provider
+  (`stable-feature-hash-v1`, 512 dims) for CI/reproducibility, plus an
+  optional local sentence-transformers provider (`pip install -e
+  ".[embeddings-local]"`, lazy import, local-files-only, never
+  downloads) — implemented but **unmeasured** (dependency not
+  installed)
+- **lifecycle-safe semantic scoring** with a bounded process-local
+  cache: eligibility is decided before any similarity, so forgotten
+  and superseded memories are never embedded and can never be
+  resurrected
+- **deterministic fixed-weight score fusion** with frozen versioned
+  profiles and a reference bypass proven byte-identical to Phase 9
+- **shadow-only MemoryGate**: proposes admit/reject/abstain on the
+  finished selection; `affected_selection` is invariantly zero
+- **proposal-only contracts** for six specialized controller roles
+  (admission, extraction, update, forget-intent, gate, transition
+  verification) — interface-only except the shadow gate
+- **dashboard diagnostics**: retrieval mode, provider status, score
+  breakdowns, lifecycle-exclusion labels, cache counters, and
+  shadow-gate proposals (see
+  [docs/dashboard_phase11_diagnostics.md](docs/dashboard_phase11_diagnostics.md))
+
+**Measured result** (fixed 50-case subset, deterministic test
+embedding provider — plumbing evidence, not learned semantic quality,
+and not an official LongMemEval score): the Phase 9 reference
+reproduced exactly (selection 12/50, MRR 0.305, 5,527 context
+tokens); embedding-only retrieval regressed materially (2/50, MRR
+0.168) and is **not adopted**; fused retrieval selected one more case
+(13/50) with fewer tokens (5,448) but materially regressed MRR
+(0.293) and remains **experimental**; the gate shadow produced 34,148
+proposals with zero selection effect and zero failures. Lifecycle
+leakage stayed zero for every system. Full evidence:
+[docs/phase11_semantic_retrieval_report.md](docs/phase11_semantic_retrieval_report.md);
+architecture:
+[docs/controller_architecture.md](docs/controller_architecture.md).
+
 The section below is the frozen **Phase 8 (v1)** evidence, preserved
 unchanged as the historical baseline the v2 numbers are measured
 against.
@@ -542,6 +588,16 @@ Validate the Phase 9 v2 evidence and report:
 ./scripts/run_benchmarks.sh validate-external-v2
 ./scripts/run_benchmarks.sh validate-v2-consistency
 ./scripts/run_benchmarks.sh validate-report-v2
+```
+
+Validate the committed Phase 11 retrieval evidence (four systems,
+double-run digest-locked, deterministic test embedding provider):
+
+```bash
+./scripts/run_benchmarks.sh validate-phase11
+./scripts/run_benchmarks.sh validate-external-phase11
+./scripts/run_benchmarks.sh validate-phase11-consistency
+./scripts/run_benchmarks.sh validate-report-phase11
 ```
 
 Validate the contract, dataset, baselines, and adapters:
