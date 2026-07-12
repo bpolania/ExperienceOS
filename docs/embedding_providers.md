@@ -6,11 +6,17 @@ exists so later Phase 11 prompts can request embeddings without
 coupling ExperienceOS core logic to a particular model, library, or
 service.
 
-**Status: no retrieval integration exists yet.** Nothing in
-`HybridRetrievalStrategy`, selection, context building, or the engine
-consumes embeddings. Semantic candidate generation begins in Prompt 3;
-score fusion begins in Prompt 4. No retrieval benchmark has been run
-for this implementation, and no retrieval-improvement claim is made.
+**Status: consumed by opt-in semantic retrieval (Prompt 3) only.**
+`HybridRetrievalStrategy` can be configured with a
+`SemanticCandidateGenerator` and an explicit semantic mode — see
+`docs/semantic_retrieval.md`; the default mode is `disabled` and
+preserves the Phase 9 path byte-for-byte. Score fusion begins in
+Prompt 4. No retrieval benchmark has been run for this implementation,
+no retrieval-improvement claim is made, and benchmark adoption is
+deferred to Prompt 7. The deterministic provider validates lifecycle
+and retrieval plumbing — it is not neural semantic-quality evidence;
+the optional local provider remains optional and no real model was
+downloaded.
 
 ## Authority boundaries
 

@@ -21,6 +21,12 @@ from experienceos.embeddings.base import (
     require_text,
     validate_vector,
 )
+from experienceos.embeddings.cache import (
+    DEFAULT_MAX_ENTRIES,
+    EmbeddingCache,
+    EmbeddingCacheKey,
+    content_digest,
+)
 from experienceos.embeddings.deterministic import (
     DEFAULT_DIMENSIONS,
     DeterministicEmbeddingProvider,
@@ -33,8 +39,12 @@ from experienceos.embeddings.factory import (
 
 __all__ = [
     "DEFAULT_DIMENSIONS",
+    "DEFAULT_MAX_ENTRIES",
     "DeterministicEmbeddingProvider",
     "EMBEDDING_MODES",
+    "EmbeddingCache",
+    "EmbeddingCacheKey",
+    "content_digest",
     "EmbeddingAvailability",
     "EmbeddingConfigError",
     "EmbeddingDimensionError",

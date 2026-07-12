@@ -661,12 +661,32 @@ against §17/§18; and a recommended Phase 12 direction.
   existing-local-path-only so downloads are impossible); the
   deterministic CI provider is `deterministic` /
   `stable-feature-hash-v1` at 512 dimensions. The specific local
-  model (e.g. `all-MiniLM-L6-v2`) remains a Prompt 3/7 evaluation
+  model (e.g. `all-MiniLM-L6-v2`) remains a Prompt 7 evaluation
   choice. See `docs/embedding_providers.md`.
+- ~~Semantic candidate generation and cache design~~ **Resolved in
+  Prompt 3** (see `docs/semantic_retrieval.md`): modes
+  `disabled`/`score_only`/`semantic_only` fixed per strategy instance;
+  process-local LRU `EmbeddingCache` (default 4096 entries) keyed
+  `(provider_id, model_id, dimensions, sha256(canonical text))` with
+  late-dimension discovery treated as a miss; canonical memory text =
+  text + identity attribute/value/scope + sorted tags; semantic score
+  = `max(0, cosine)` in [0, 1] with raw cosine retained; initial
+  relevance floor 0.30 (measured against deterministic-provider noise
+  ~0.25, not claimed optimal — Prompt 7 evaluates); deterministic
+  lexical fallback on typed provider errors with sanitized reasons,
+  `semantic_strict` opt-in raise; diagnostics additive on
+  `RetrievalCandidate.semantic` / `RetrievalResult.semantic`.
+- Whether embedding-only mode needs a different relevance floor per
+  provider (the 0.30 default is calibrated on the deterministic
+  provider; learned-embedding cosine distributions differ) —
+  Prompt 7.
 - Exact fusion weights and the lexical/semantic scale analysis
   (Prompt 4).
-- Whether embedding-only mode needs its own zero-relevance floor to
-  avoid noise candidates (Prompt 3/4, informed by ablation).
+- ~~Whether embedding-only mode needs its own zero-relevance floor~~
+  **Resolved in Prompt 3:** yes — the semantic relevance floor above
+  (0.30, strictly-greater-than) fills the zero-relevance role for
+  semantic candidates; below-floor entries are excluded as
+  `below_semantic_floor`, never padded toward K.
 - SQLite cache persistence (only if §13 latency criteria demand it).
 - The final "materially regress" threshold ratification (Prompt 7).
 - Whether the gate heuristic produces useful recommendation

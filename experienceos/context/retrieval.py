@@ -265,7 +265,9 @@ class RetrievalCandidate:
     rank: int = 0  # 1-based over ranked candidates; 0 = never ranked
     selected: bool = False
     exclusion_reason: str | None = None  # inactive_*, zero_relevance,
-    # not_top_k, token_budget
+    # not_top_k, token_budget, below_semantic_floor
+    semantic: dict | None = None  # Phase 11: vector-free semantic
+    # evidence; None whenever semantic retrieval is disabled
 
 
 @dataclass
@@ -290,6 +292,8 @@ class RetrievalResult:
     strategy_version: str = RETRIEVAL_STRATEGY_VERSION
     warnings: tuple = ()
     coverage: dict = field(default_factory=dict)  # Prompt 5 evidence
+    semantic: dict = field(default_factory=dict)  # Phase 11 summary;
+    # empty whenever semantic retrieval is disabled
 
 
 class RetrievalStrategy(Protocol):
@@ -346,6 +350,9 @@ class HybridRetrievalStrategy:
         candidate_limit: int | None = None,
         selection_strategy=None,
         temporal_policy=None,
+        semantic_generator=None,
+        semantic_mode: str = "disabled",
+        semantic_strict: bool = False,
     ):
         self.weights = dict(weights or SCORING_WEIGHTS)
         # Candidate limit bounds scored candidates when populations are
@@ -359,6 +366,25 @@ class HybridRetrievalStrategy:
         # every earlier configuration), admission, scoring, and
         # rendering below are byte-identical to Prompt 4/5.
         self.temporal_policy = temporal_policy
+        # Optional Phase 11 Prompt 3 seam: mode is explicit, fixed per
+        # strategy instance, and never chosen from query content. With
+        # the default "disabled" mode (and every earlier
+        # configuration) no provider is invoked, no cache exists, and
+        # retrieval below is byte-identical to Phase 9.
+        from experienceos.context.semantic import SEMANTIC_MODES
+
+        if semantic_mode not in SEMANTIC_MODES:
+            raise ValueError(
+                f"unknown semantic_mode {semantic_mode!r}; expected one "
+                f"of {SEMANTIC_MODES}"
+            )
+        if semantic_mode != "disabled" and semantic_generator is None:
+            raise ValueError(
+                "semantic_mode requires a configured semantic_generator"
+            )
+        self.semantic_generator = semantic_generator
+        self.semantic_mode = semantic_mode
+        self.semantic_strict = semantic_strict
         self.counters = {
             "retrievals": 0,
             "active_memories": 0,
@@ -403,6 +429,28 @@ class HybridRetrievalStrategy:
             "historical_mode_support": False,  # Prompt 6 owns temporal
             "lifecycle_filtering": "active_only_before_ranking",
             "scoring_weights_version": LEXICAL_SCORING_VERSION,
+            # Additive Phase 11 block, present only when configured so
+            # every earlier configuration's summary stays identical.
+            **(
+                {
+                    "semantic_retrieval": {
+                        "mode": self.semantic_mode,
+                        "strict": self.semantic_strict,
+                        "relevance_floor": (
+                            self.semantic_generator.relevance_floor
+                        ),
+                        "provider_id": (
+                            self.semantic_generator.provider.provider_id
+                        ),
+                        "model_id": (
+                            self.semantic_generator.provider.model_id
+                        ),
+                        "cache": self.semantic_generator.cache.summary(),
+                    }
+                }
+                if self.semantic_mode != "disabled"
+                else {}
+            ),
         }
 
     # -- retrieval ---------------------------------------------------------------
@@ -458,41 +506,35 @@ class HybridRetrievalStrategy:
             result.inactive_filtered += 1
         result.active_count = len(active)
 
-        # 2. Corpus statistics for BM25-style IDF over active memories.
-        doc_tokens = {e.id: tokenize(e.text) for e in active}
-        doc_count = len(active)
-        doc_frequency: dict[str, int] = {}
-        for tokens in doc_tokens.values():
-            for token in tokens:
-                doc_frequency[token] = doc_frequency.get(token, 0) + 1
+        # Phase 11 Prompt 3: semantic scoring runs strictly AFTER the
+        # lifecycle filter above — only admitted entries are ever
+        # embedded, so similarity can never widen admission. Provider
+        # failure or unavailability falls back to the unchanged
+        # lexical path (recorded in ``result.semantic``).
+        semantic_outcome = None
+        if self.semantic_mode != "disabled":
+            semantic_outcome = self._semantic_outcome(
+                request, tuple(active), result
+            )
+            for candidate in result.candidates:
+                # Lifecycle-excluded records were never embedded.
+                candidate.semantic = {"considered": False}
 
-        def idf(token: str) -> float:
-            df = doc_frequency.get(token, 0)
-            return math.log(1.0 + (doc_count - df + 0.5) / (df + 0.5))
-
-        # 3. Score every admitted memory (bounded population).
-        by_id = {e.id: e for e in request.memories}
-        scored: list[RetrievalCandidate] = []
-        for entry in active:
-            candidate = self._score(entry, query, doc_tokens[entry.id], idf)
-            if candidate.final_score <= 0.0:
-                candidate.exclusion_reason = "zero_relevance"
-                result.zero_relevance_excluded += 1
-                result.candidates.append(candidate)
-                continue
-            if intent is not None:
-                # Temporal fit and provenance trust REFINE candidates
-                # that are already relevant; they never create
-                # relevance (zero-relevance exclusion happened above).
-                components, bonus = self.temporal_policy.score(
-                    entry, intent, by_id
+        if (
+            self.semantic_mode == "semantic_only"
+            and semantic_outcome is not None
+        ):
+            scored = self._semantic_candidates(
+                active, semantic_outcome, result
+            )
+        else:
+            scored = self._lexical_scored(
+                request, query, active, intent, result
+            )
+            if semantic_outcome is not None:  # score_only diagnostics
+                self._attach_semantic_diagnostics(
+                    scored, result, semantic_outcome
                 )
-                candidate.component_scores.update(components)
-                candidate.final_score = round(
-                    candidate.final_score + bonus, 6
-                )
-            scored.append(candidate)
-        result.lexical_candidates = len(scored)
 
         # 4. Deterministic ranking (documented tie-break order).
         scored.sort(
@@ -552,6 +594,168 @@ class HybridRetrievalStrategy:
 
         self._count(result)
         return result
+
+    def _lexical_scored(
+        self, request, query, active, intent, result
+    ) -> list[RetrievalCandidate]:
+        """Steps 2-3 of the Phase 9 pipeline, moved verbatim: corpus
+        statistics plus lexical/structured scoring of every admitted
+        memory. Behavior is unchanged from Phase 9."""
+        # 2. Corpus statistics for BM25-style IDF over active memories.
+        doc_tokens = {e.id: tokenize(e.text) for e in active}
+        doc_count = len(active)
+        doc_frequency: dict[str, int] = {}
+        for tokens in doc_tokens.values():
+            for token in tokens:
+                doc_frequency[token] = doc_frequency.get(token, 0) + 1
+
+        def idf(token: str) -> float:
+            df = doc_frequency.get(token, 0)
+            return math.log(1.0 + (doc_count - df + 0.5) / (df + 0.5))
+
+        # 3. Score every admitted memory (bounded population).
+        by_id = {e.id: e for e in request.memories}
+        scored: list[RetrievalCandidate] = []
+        for entry in active:
+            candidate = self._score(entry, query, doc_tokens[entry.id], idf)
+            if candidate.final_score <= 0.0:
+                candidate.exclusion_reason = "zero_relevance"
+                result.zero_relevance_excluded += 1
+                result.candidates.append(candidate)
+                continue
+            if intent is not None:
+                # Temporal fit and provenance trust REFINE candidates
+                # that are already relevant; they never create
+                # relevance (zero-relevance exclusion happened above).
+                components, bonus = self.temporal_policy.score(
+                    entry, intent, by_id
+                )
+                candidate.component_scores.update(components)
+                candidate.final_score = round(
+                    candidate.final_score + bonus, 6
+                )
+            scored.append(candidate)
+        result.lexical_candidates = len(scored)
+        return scored
+
+    def _semantic_outcome(self, request, active, result):
+        """Score admitted entries semantically, or record a fallback.
+
+        Returns the scoring outcome, or ``None`` after recording a
+        deterministic fallback to the lexical path. Only typed
+        embedding errors are contained; programming errors propagate.
+        """
+        from experienceos.embeddings.base import EmbeddingProviderError
+
+        def _fallback(reason: str) -> None:
+            result.semantic = {
+                "mode": self.semantic_mode,
+                "enabled": True,
+                "provider_available": False,
+                "provider_id": self.semantic_generator.provider.provider_id,
+                "model_id": self.semantic_generator.provider.model_id,
+                "fallback_used": True,
+                "fallback_reason": reason,
+            }
+
+        try:
+            outcome = self.semantic_generator.score_memories(
+                request.query, active
+            )
+        except EmbeddingProviderError as exc:
+            if self.semantic_strict:
+                raise
+            availability = getattr(exc, "availability", None)
+            _fallback(
+                availability.reason
+                if availability is not None and availability.reason
+                else type(exc).__name__
+            )
+            return None
+        result.semantic = {
+            "mode": self.semantic_mode,
+            "enabled": True,
+            "provider_available": True,
+            "provider_id": outcome.provider_id,
+            "model_id": outcome.model_id,
+            "dimensions": outcome.dimensions,
+            "relevance_floor": outcome.relevance_floor,
+            "query_zero_vector": outcome.query_zero_vector,
+            "eligible_count": outcome.eligible_count,
+            "scored_count": len(outcome.scores),
+            "semantic_candidate_count": outcome.above_floor_count,
+            "query_embedding": outcome.query_embedding,
+            "memory_embedding": outcome.memory_embedding,
+            "cache": outcome.cache,
+            "fallback_used": False,
+            "fallback_reason": None,
+        }
+        return outcome
+
+    def _semantic_candidates(
+        self, active, outcome, result
+    ) -> list[RetrievalCandidate]:
+        """Semantic-only candidate generation over admitted entries.
+
+        Ranking is semantic score first; lexical scores are never
+        mixed in (fusion is Prompt 4). Entries at or below the
+        relevance floor are excluded as ``below_semantic_floor`` —
+        never padded toward K. The shared step-4 sort then orders
+        candidates by (-final_score, -(phrase+entity)=0, -kind
+        priority, -confidence, -created_at, id): the documented
+        semantic tie-break tuple.
+        """
+        scored: list[RetrievalCandidate] = []
+        for entry in active:
+            score = outcome.scores[entry.id]
+            identity = _identity_metadata(entry)
+            candidate = RetrievalCandidate(
+                memory=entry,
+                status=entry.status,
+                component_scores={
+                    "semantic_score": score.score,
+                    "semantic_raw_cosine": score.raw_cosine,
+                },
+                final_score=score.score,
+                kind_priority=_KIND_PRIORITY.get(entry.kind, 0),
+                confidence=_entry_confidence(entry, identity),
+                token_estimate=_token_estimate(entry.text),
+                semantic=self._semantic_evidence(score, outcome),
+            )
+            if not score.above_floor:
+                candidate.exclusion_reason = "below_semantic_floor"
+                result.candidates.append(candidate)
+                continue
+            scored.append(candidate)
+        return scored
+
+    def _attach_semantic_diagnostics(self, scored, result, outcome) -> None:
+        """score_only mode: semantic evidence rides along as
+        diagnostics on the lexically-scored candidates; final scores
+        and ranking are untouched (fusion is Prompt 4)."""
+        for candidate in scored:
+            score = outcome.scores.get(candidate.memory.id)
+            if score is not None:
+                candidate.semantic = self._semantic_evidence(score, outcome)
+        for candidate in result.candidates:
+            score = outcome.scores.get(candidate.memory.id)
+            if score is not None and candidate.semantic is None:
+                candidate.semantic = self._semantic_evidence(score, outcome)
+
+    @staticmethod
+    def _semantic_evidence(score, outcome) -> dict:
+        return {
+            "considered": True,
+            "score": score.score,
+            "raw_cosine": score.raw_cosine,
+            "rank": score.rank,
+            "above_floor": score.above_floor,
+            "cache_status": score.cache_status,
+            "relevance_floor": outcome.relevance_floor,
+            "provider_id": outcome.provider_id,
+            "model_id": outcome.model_id,
+            "dimensions": outcome.dimensions,
+        }
 
     def _coverage_selection(self, request, query, scored, result) -> int:
         """Delegate final selection to the configured Prompt 5 strategy.
