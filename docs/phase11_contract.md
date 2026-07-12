@@ -706,6 +706,23 @@ against §17/§18; and a recommended Phase 12 direction.
   -created_at, id)`; fallback = the exact lexical reference path with
   sanitized reasons; diagnostics reconstruct the fused score from
   per-component contributions.
+- ~~MemoryGate shadow design (§14)~~ **Resolved in Prompt 5** (see
+  `docs/memory_gate.md`): `experienceos/controllers/gate.py` with the
+  proposal-only `MemoryGate` Protocol, frozen `GateCandidateEvidence`
+  (bounded primitives, 300-char text cap) and construction-validated
+  `GateProposal` (admit/reject/abstain, score+confidence in [0,1],
+  `shadow_mode=True` / `affected_selection=False` enforced);
+  `PassThroughMemoryGate` (`gate_pass_through-1`) and the
+  deterministic `HeuristicShadowMemoryGate`
+  (`gate_shadow_heuristic-1`: admit on precision/dual-evidence/
+  strength ≥ 0.35, reject on near-floor semantic-only, abstain
+  otherwise); integration via `memory_gate` strategy parameter and
+  `experienceos/context/gating.py:evaluate_shadow_gate`, running
+  strictly after selection and budget enforcement over the post-limit
+  (rank > 0) pool; agreement rule selected+admit / skipped+reject =
+  agreement, abstain = neutral, rest = disagreement; per-candidate
+  failure containment recording exception type names only, optional
+  `gate_strict` raise; `affected_selection` invariantly 0.
 - SQLite cache persistence (only if §13 latency criteria demand it).
 - The final "materially regress" threshold ratification (Prompt 7).
 - Whether the gate heuristic produces useful recommendation

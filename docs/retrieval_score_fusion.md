@@ -112,6 +112,14 @@ profile — can admit an inactive record. `candidate_limit`, selection
 K, and token budgets are enforced unchanged. The fusion layer holds no
 store, bus, engine, or mutation handle and persists nothing.
 
+## Gate shadow observation (Prompt 5)
+
+The shadow MemoryGate (`docs/memory_gate.md`) observes retrieval
+results strictly after selection and budget enforcement are final: it
+reads fusion breakdowns as evidence and attaches additive diagnostics,
+but cannot alter fusion scores, the candidate union, ranking, or
+selection in any configuration.
+
 ## Limitations
 
 Deterministic-provider fixtures demonstrate the mechanism (a

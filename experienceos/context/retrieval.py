@@ -270,6 +270,8 @@ class RetrievalCandidate:
     # evidence; None whenever semantic retrieval is disabled
     fusion: dict | None = None  # Phase 11 Prompt 4: reconstructable
     # fusion breakdown; None outside fused mode
+    gate: dict | None = None  # Phase 11 Prompt 5: shadow-gate
+    # proposal evidence; None whenever no gate is configured
 
 
 @dataclass
@@ -296,6 +298,8 @@ class RetrievalResult:
     coverage: dict = field(default_factory=dict)  # Prompt 5 evidence
     semantic: dict = field(default_factory=dict)  # Phase 11 summary;
     # empty whenever semantic retrieval is disabled
+    gate: dict = field(default_factory=dict)  # Phase 11 Prompt 5
+    # shadow-gate summary; empty whenever no gate is configured
 
 
 class RetrievalStrategy(Protocol):
@@ -356,6 +360,8 @@ class HybridRetrievalStrategy:
         semantic_mode: str = "disabled",
         semantic_strict: bool = False,
         fusion_profile=None,
+        memory_gate=None,
+        gate_strict: bool = False,
     ):
         self.weights = dict(weights or SCORING_WEIGHTS)
         # Candidate limit bounds scored candidates when populations are
@@ -413,6 +419,13 @@ class HybridRetrievalStrategy:
         self.semantic_generator = semantic_generator
         self.semantic_mode = semantic_mode
         self.semantic_strict = semantic_strict
+        # Optional Phase 11 Prompt 5 seam: a shadow-only MemoryGate
+        # evaluated strictly AFTER canonical selection and budget
+        # enforcement. It observes the finished result and attaches
+        # additive diagnostics; it can never alter it. Default None:
+        # no gate, no diagnostics, byte-identical earlier behavior.
+        self.memory_gate = memory_gate
+        self.gate_strict = gate_strict
         self.counters = {
             "retrievals": 0,
             "active_memories": 0,
@@ -640,6 +653,25 @@ class HybridRetrievalStrategy:
         result.latency_ms = (time.perf_counter() - started) * 1000.0
 
         self._count(result)
+
+        # Phase 11 Prompt 5: shadow-gate evaluation of the FINISHED
+        # canonical result — selection, ordering, reasons, and budgets
+        # above are final; the gate can only attach diagnostics.
+        if self.memory_gate is not None:
+            from experienceos.context.gating import evaluate_shadow_gate
+
+            evaluate_shadow_gate(
+                self.memory_gate,
+                result,
+                query=request.query,
+                retrieval_mode=self.semantic_mode,
+                fusion_profile_id=(
+                    self.fusion_profile.profile_id
+                    if self.fusion_profile is not None
+                    else None
+                ),
+                strict=self.gate_strict,
+            )
         return result
 
     def _lexical_scored(
