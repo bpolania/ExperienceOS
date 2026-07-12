@@ -268,6 +268,8 @@ class RetrievalCandidate:
     # not_top_k, token_budget, below_semantic_floor
     semantic: dict | None = None  # Phase 11: vector-free semantic
     # evidence; None whenever semantic retrieval is disabled
+    fusion: dict | None = None  # Phase 11 Prompt 4: reconstructable
+    # fusion breakdown; None outside fused mode
 
 
 @dataclass
@@ -353,6 +355,7 @@ class HybridRetrievalStrategy:
         semantic_generator=None,
         semantic_mode: str = "disabled",
         semantic_strict: bool = False,
+        fusion_profile=None,
     ):
         self.weights = dict(weights or SCORING_WEIGHTS)
         # Candidate limit bounds scored candidates when populations are
@@ -378,7 +381,32 @@ class HybridRetrievalStrategy:
                 f"unknown semantic_mode {semantic_mode!r}; expected one "
                 f"of {SEMANTIC_MODES}"
             )
-        if semantic_mode != "disabled" and semantic_generator is None:
+        # Phase 11 Prompt 4 seam: an explicit, versioned fusion profile
+        # applies only in "fused" mode. The lexical_reference profile
+        # bypasses fusion entirely and routes through the unchanged
+        # Phase 9 path (the zero-semantic-weight equivalence design).
+        if semantic_mode == "fused":
+            from experienceos.context.fusion import resolve_fusion_profile
+
+            self.fusion_profile = resolve_fusion_profile(fusion_profile)
+        else:
+            if fusion_profile is not None:
+                raise ValueError(
+                    "fusion_profile is only valid with "
+                    "semantic_mode='fused'"
+                )
+            self.fusion_profile = None
+        from experienceos.context.fusion import REFERENCE_PROFILE_ID
+
+        self._reference_bypass = (
+            semantic_mode == "fused"
+            and self.fusion_profile.profile_id == REFERENCE_PROFILE_ID
+        )
+        if (
+            semantic_mode != "disabled"
+            and not self._reference_bypass
+            and semantic_generator is None
+        ):
             raise ValueError(
                 "semantic_mode requires a configured semantic_generator"
             )
@@ -432,26 +460,28 @@ class HybridRetrievalStrategy:
             # Additive Phase 11 block, present only when configured so
             # every earlier configuration's summary stays identical.
             **(
-                {
-                    "semantic_retrieval": {
-                        "mode": self.semantic_mode,
-                        "strict": self.semantic_strict,
-                        "relevance_floor": (
-                            self.semantic_generator.relevance_floor
-                        ),
-                        "provider_id": (
-                            self.semantic_generator.provider.provider_id
-                        ),
-                        "model_id": (
-                            self.semantic_generator.provider.model_id
-                        ),
-                        "cache": self.semantic_generator.cache.summary(),
-                    }
-                }
+                {"semantic_retrieval": self._semantic_summary()}
                 if self.semantic_mode != "disabled"
                 else {}
             ),
         }
+
+    def _semantic_summary(self) -> dict:
+        block = {
+            "mode": self.semantic_mode,
+            "strict": self.semantic_strict,
+        }
+        if self.semantic_generator is not None:
+            block.update(
+                relevance_floor=self.semantic_generator.relevance_floor,
+                provider_id=self.semantic_generator.provider.provider_id,
+                model_id=self.semantic_generator.provider.model_id,
+                cache=self.semantic_generator.cache.summary(),
+            )
+        if self.fusion_profile is not None:
+            block["fusion_profile"] = self.fusion_profile.to_metadata()
+            block["reference_bypass"] = self._reference_bypass
+        return block
 
     # -- retrieval ---------------------------------------------------------------
 
@@ -512,7 +542,7 @@ class HybridRetrievalStrategy:
         # failure or unavailability falls back to the unchanged
         # lexical path (recorded in ``result.semantic``).
         semantic_outcome = None
-        if self.semantic_mode != "disabled":
+        if self.semantic_mode != "disabled" and not self._reference_bypass:
             semantic_outcome = self._semantic_outcome(
                 request, tuple(active), result
             )
@@ -520,14 +550,29 @@ class HybridRetrievalStrategy:
                 # Lifecycle-excluded records were never embedded.
                 candidate.semantic = {"considered": False}
 
-        if (
+        if semantic_outcome is not None and (
             self.semantic_mode == "semantic_only"
-            and semantic_outcome is not None
+            or (
+                self.semantic_mode == "fused"
+                and self.fusion_profile.component_weights.get("semantic")
+                == 1.0
+                and len(self.fusion_profile.component_weights) == 1
+            )
         ):
+            # semantic_only mode, and the embedding_only fused profile,
+            # share one implementation: semantic evidence plus
+            # non-relevance refiners, lexical never mixed in.
             scored = self._semantic_candidates(
                 active, semantic_outcome, result
             )
+        elif self.semantic_mode == "fused" and semantic_outcome is not None:
+            scored = self._fused_candidates(
+                request, query, active, intent, result, semantic_outcome
+            )
         else:
+            # disabled mode, the lexical_reference profile, score_only
+            # mode, and every semantic/fused fallback: the unchanged
+            # Phase 9 lexical path.
             scored = self._lexical_scored(
                 request, query, active, intent, result
             )
@@ -556,6 +601,8 @@ class HybridRetrievalStrategy:
                 candidate.exclusion_reason = "below_candidate_limit"
                 result.candidates.append(candidate)
             scored = scored[:limit]
+        if result.semantic.get("fusion") is not None:
+            result.semantic["fusion"]["post_limit_count"] = len(scored)
 
         # 5. Final selection with optional token-budget enforcement.
         # K never grows; zero-relevance records never pad the context.
@@ -657,6 +704,13 @@ class HybridRetrievalStrategy:
                 "fallback_used": True,
                 "fallback_reason": reason,
             }
+            if self.fusion_profile is not None:
+                # A fused profile falls back to the exact lexical
+                # reference path, recorded here.
+                result.semantic["fusion_profile_id"] = (
+                    self.fusion_profile.profile_id
+                )
+                result.semantic["fallback_path"] = "lexical_reference"
 
         try:
             outcome = self.semantic_generator.score_memories(
@@ -690,6 +744,10 @@ class HybridRetrievalStrategy:
             "fallback_used": False,
             "fallback_reason": None,
         }
+        if self.fusion_profile is not None:
+            result.semantic["fusion_profile_id"] = (
+                self.fusion_profile.profile_id
+            )
         return outcome
 
     def _semantic_candidates(
@@ -741,6 +799,153 @@ class HybridRetrievalStrategy:
             score = outcome.scores.get(candidate.memory.id)
             if score is not None and candidate.semantic is None:
                 candidate.semantic = self._semantic_evidence(score, outcome)
+
+    def _fused_candidates(
+        self, request, query, active, intent, result, outcome
+    ) -> list[RetrievalCandidate]:
+        """Fused candidate pool: the union of lexical-evidence and
+        above-floor semantic-evidence candidates over the already
+        lifecycle-admitted entries (contract §6/§13 rules).
+
+        A memory enters through positive lexical/structured relevance,
+        a semantic score above the relevance floor, or both. For a
+        lexically relevant memory, a below-floor semantic score still
+        contributes to fusion (it refines an already-relevant
+        candidate); a memory without lexical relevance needs an
+        above-floor semantic score. Kind, confidence, recency, and
+        temporal bonus never create eligibility. Zero-evidence
+        memories are excluded as ``no_fused_evidence`` — never padded.
+        """
+        from experienceos.context.fusion import (
+            fuse_components,
+            structured_aggregate,
+        )
+
+        profile = self.fusion_profile
+        doc_tokens = {e.id: tokenize(e.text) for e in active}
+        doc_count = len(active)
+        doc_frequency: dict[str, int] = {}
+        for tokens in doc_tokens.values():
+            for token in tokens:
+                doc_frequency[token] = doc_frequency.get(token, 0) + 1
+
+        def idf(token: str) -> float:
+            df = doc_frequency.get(token, 0)
+            return math.log(1.0 + (doc_count - df + 0.5) / (df + 0.5))
+
+        by_id = {e.id: e for e in request.memories}
+        sort_key = self._ranking_key
+        fused: list[RetrievalCandidate] = []
+        lexical_positive: list[tuple[RetrievalCandidate, float]] = []
+        counts = {"lexical": 0, "semantic": 0, "overlap": 0,
+                  "lexical_only": 0, "semantic_only": 0}
+        for entry in active:
+            candidate = self._score(entry, query, doc_tokens[entry.id], idf)
+            lexical_final = candidate.final_score  # pre-fusion ranking
+            if intent is not None:
+                components, bonus = self.temporal_policy.score(
+                    entry, intent, by_id
+                )
+                candidate.component_scores.update(components)
+                raw_temporal = bonus
+            else:
+                raw_temporal = 0.0
+            score = outcome.scores[entry.id]
+            candidate.semantic = self._semantic_evidence(score, outcome)
+            lexical_evidence = lexical_final > 0.0
+            semantic_evidence = score.above_floor
+            if not lexical_evidence and not semantic_evidence:
+                candidate.exclusion_reason = "no_fused_evidence"
+                result.candidates.append(candidate)
+                continue
+            counts["lexical"] += int(lexical_evidence)
+            counts["semantic"] += int(semantic_evidence)
+            if lexical_evidence and semantic_evidence:
+                counts["overlap"] += 1
+                evidence_source = "lexical_and_semantic"
+            elif lexical_evidence:
+                counts["lexical_only"] += 1
+                evidence_source = "lexical_only"
+            else:
+                counts["semantic_only"] += 1
+                evidence_source = "semantic_only"
+            breakdown = fuse_components(
+                profile,
+                {
+                    "lexical": candidate.component_scores["lexical_score"],
+                    "structured": structured_aggregate(
+                        candidate.component_scores, self.weights
+                    ),
+                    "semantic": score.score,
+                    "temporal": raw_temporal,
+                },
+            )
+            candidate.fusion = {
+                "profile_id": profile.profile_id,
+                "profile_version": profile.version,
+                "normalization_id": profile.normalization_id,
+                "raw": breakdown.raw,
+                "normalized": breakdown.normalized,
+                "weights": breakdown.weights,
+                "contributions": breakdown.contributions,
+                "fused_score": breakdown.fused_score,
+                "evidence_source": evidence_source,
+                "semantic_rank": score.rank,
+                "lexical_rank": None,  # filled below
+                "fused_rank": None,  # filled below
+                "rank_delta": None,
+            }
+            candidate.final_score = breakdown.fused_score
+            fused.append(candidate)
+            if lexical_evidence:
+                lexical_positive.append((candidate, lexical_final))
+
+        # Pre-fusion lexical ranks (existing tuple over pre-fusion
+        # scores) and prospective fused ranks: the same key the shared
+        # step-4 sort applies, so these equal the final ranks.
+        lexical_order = sorted(
+            lexical_positive,
+            key=lambda item: sort_key(item[0], final=item[1]),
+        )
+        for rank, (candidate, _) in enumerate(lexical_order, start=1):
+            candidate.fusion["lexical_rank"] = rank
+        demoted = 0
+        for rank, candidate in enumerate(
+            sorted(fused, key=sort_key), start=1
+        ):
+            candidate.fusion["fused_rank"] = rank
+            lexical_rank = candidate.fusion["lexical_rank"]
+            if lexical_rank is not None:
+                candidate.fusion["rank_delta"] = lexical_rank - rank
+                demoted += int(rank > lexical_rank)
+        result.semantic["fusion"] = {
+            "profile": profile.to_metadata(),
+            "eligible_count": len(active),
+            "lexical_candidate_count": counts["lexical"],
+            "semantic_candidate_count": counts["semantic"],
+            "overlap_count": counts["overlap"],
+            "lexical_only_count": counts["lexical_only"],
+            "semantic_only_count": counts["semantic_only"],
+            "union_count": len(fused),
+            "promoted_by_semantic": counts["semantic_only"],
+            "demoted_after_fusion": demoted,
+        }
+        return fused
+
+    def _ranking_key(self, candidate, final=None):
+        """The shared deterministic step-4 ranking tuple."""
+        score = candidate.final_score if final is None else final
+        return (
+            -score,
+            -(
+                candidate.component_scores.get("phrase_score", 0.0)
+                + candidate.component_scores.get("entity_score", 0.0)
+            ),
+            -candidate.kind_priority,
+            -candidate.confidence,
+            -candidate.memory.created_at.timestamp(),
+            candidate.memory.id,
+        )
 
     @staticmethod
     def _semantic_evidence(score, outcome) -> dict:

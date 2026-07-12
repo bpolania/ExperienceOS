@@ -22,6 +22,14 @@ memory eligible, and there is no second admission path.
 
 ## Modes (`semantic_mode`, fixed per strategy instance)
 
+Prompt 4 added a fourth mode, **`fused`**, which combines normalized
+lexical/structured/semantic/temporal evidence under fixed versioned
+profiles — see `docs/retrieval_score_fusion.md`. The three Prompt 3
+modes below remain available and unchanged; semantic scores are now
+consumable by fused retrieval through the same single
+`SemanticCandidateGenerator` invocation. No canonical adoption
+decision has been made for any semantic or fused mode.
+
 - **`disabled`** (default): byte-identical Phase 9 behavior. No
   provider constructed or invoked, no cache activity, empty
   `result.semantic`, `candidate.semantic is None`. Regression-tested

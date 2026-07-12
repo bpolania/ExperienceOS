@@ -687,6 +687,25 @@ against §17/§18; and a recommended Phase 12 direction.
   (0.30, strictly-greater-than) fills the zero-relevance role for
   semantic candidates; below-floor entries are excluded as
   `below_semantic_floor`, never padded toward K.
+- ~~Score-fusion design (§11)~~ **Resolved in Prompt 4** (see
+  `docs/retrieval_score_fusion.md`): normalization `bounded_ratio-1`
+  (lexical `x/(x+3)`, structured aggregate `x/(x+2)`, semantic
+  identity, temporal `min(x,1)`); components classified
+  lexical/structured/semantic as primary relevance, temporal (which
+  contains the only provenance signal, `trust_score`) as
+  compatibility, kind/confidence/recency/ID as unfused rank refiners;
+  profiles `lexical_reference` (Phase 9 bypass, provider never
+  inspected), `embedding_only`, `lexical_semantic` (.55/.45),
+  `structured_semantic` (.55/.45), `full_fusion` (default: lexical
+  .35, structured .25, semantic .30, temporal .10) — all version 1,
+  frozen, validated, chosen from the range audit, never from
+  benchmark labels; fused pool = union of lexical-relevant and
+  above-floor semantic candidates (below-floor semantic refines
+  lexically relevant candidates only); ranking tuple
+  `(-fused_score, -(phrase+entity), -kind_priority, -confidence,
+  -created_at, id)`; fallback = the exact lexical reference path with
+  sanitized reasons; diagnostics reconstruct the fused score from
+  per-component contributions.
 - SQLite cache persistence (only if §13 latency criteria demand it).
 - The final "materially regress" threshold ratification (Prompt 7).
 - Whether the gate heuristic produces useful recommendation

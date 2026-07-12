@@ -40,7 +40,7 @@ from experienceos.embeddings.cache import (
 from experienceos.memory.schema import ExperienceEntry
 from experienceos.memory.semantic import METADATA_KEY
 
-SEMANTIC_MODES = ("disabled", "score_only", "semantic_only")
+SEMANTIC_MODES = ("disabled", "score_only", "semantic_only", "fused")
 DEFAULT_SEMANTIC_FLOOR = 0.30
 SEMANTIC_SCORING_VERSION = "1"
 

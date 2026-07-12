@@ -39,7 +39,10 @@ def semantic_strategy(mode="semantic_only", floor=DEFAULT_SEMANTIC_FLOOR,
 
 
 def test_mode_validation():
-    assert SEMANTIC_MODES == ("disabled", "score_only", "semantic_only")
+    # "fused" joined the mode set in Prompt 4.
+    assert SEMANTIC_MODES == (
+        "disabled", "score_only", "semantic_only", "fused"
+    )
     with pytest.raises(ValueError):
         HybridRetrievalStrategy(semantic_mode="fusion")
     with pytest.raises(ValueError):
