@@ -63,7 +63,8 @@ def storage_status(store) -> tuple[str, str]:
 
 
 def create_agent(
-    provider: ModelProvider, memory_store=None, memory_policy=None
+    provider: ModelProvider, memory_store=None, memory_policy=None,
+    extraction=None,
 ) -> ExperienceOS:
     """Agent with fresh event history; memory store optional (in-memory default).
 
@@ -71,9 +72,13 @@ def create_agent(
     show related memories collapsing into compact context. SDK defaults
     remain uncompressed. ``memory_policy=None`` keeps the deterministic
     rule-based default; a local policy automatically gets the rule-based
-    fallback from the SDK.
+    fallback from the SDK. ``extraction`` is an optional grounded-extraction
+    config (None keeps grounded extraction disabled — the default); it can
+    only ever be shadow or candidate here, which are non-mutating.
     """
     kwargs = {"memory_policy": memory_policy} if memory_policy is not None else {}
+    if extraction is not None:
+        kwargs["extraction"] = extraction
     return ExperienceOS(
         model=provider,
         memory_store=memory_store or InMemoryMemoryStore(),

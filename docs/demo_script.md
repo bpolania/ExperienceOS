@@ -87,6 +87,35 @@ This is literally what the model received: the summary plus the one
 uncompressed fact. No superseded, no forgotten memories. The mock
 response even confirms how many experience entries were injected.
 
+### 7. Grounded extraction: ExperienceOS evaluates its own components
+
+Scroll to **Extraction decision trace** and **Grounded extraction
+evaluation (committed evidence)**. This shows ExperienceOS judging one of
+its own experience-management components and refusing to adopt it.
+
+1. Leave **Grounded extraction** on *Disabled* — that is the default.
+2. Switch it to *Shadow (observe, non-mutating)* and send a durable
+   statement (e.g. "I prefer aisle seats for short work trips.").
+3. The trace shows the controller **proposed a candidate**.
+4. The committed case examples show the **exact evidence span** it cited.
+5. Grounding validation shows **valid**.
+6. Canonical effect shows **no** — shadow proposes but never changes
+   memory; the memory you see was created by the canonical planner.
+7. Open the committed evaluation: one case
+   (`creation_002_durable_user_fact`) is a **durable fact the controller
+   missed**.
+8. Another (`forgetting_003_forget_one_of_several`) is a **forget
+   directive it wrongly extracted from** — a false positive.
+9. The adoption-gate table shows **12/15 passed** but the **decisive
+   gates fail**: no creation-recall improvement and duplicate active
+   memories.
+10. So ExperienceOS keeps the controller **Shadow only** — it evaluates
+    the evidence and refuses adoption when the evidence is insufficient.
+
+Nothing in this view changes runtime behavior: shadow and candidate are
+non-mutating, adopted mode is not selectable, and no controller is
+adopted.
+
 ## Optional live Qwen close (30 seconds)
 
 If credentials are set (`QWEN_API_KEY`), switch the sidebar provider to

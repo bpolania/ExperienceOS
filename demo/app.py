@@ -82,6 +82,19 @@ from demo.support import (
     phase11_candidate_rows,
     retrieval_diagnostics,
 )
+from demo.extraction_diagnostics import (
+    MODE_CHOICES,
+    MODE_DISABLED,
+    MODE_LABELS,
+    build_extraction_config,
+    canonical_effect_label,
+    classification_label,
+    configured_extraction_mode,
+    extraction_case_examples,
+    extraction_trace,
+    grounded_extraction_summary,
+    outcome_label,
+)
 
 st.set_page_config(page_title="ExperienceOS", page_icon="🧠", layout="wide")
 
@@ -90,21 +103,26 @@ def rebuild_agent(
     provider_choice: str,
     storage_choice: str = STORAGE_IN_MEMORY,
     policy_choice: str = POLICY_RULE_BASED,
+    extraction_mode: str = MODE_DISABLED,
 ) -> None:
     """Recreate the agent and clear UI state.
 
     Persisted SQLite memories survive this — used at startup and when
-    the provider, storage, or policy selection changes, so switching
-    never loses accumulated experience.
+    the provider, storage, policy, or extraction-mode selection changes,
+    so switching never loses accumulated experience. ``extraction_mode``
+    is only ever disabled, shadow, or candidate — all non-mutating; the
+    dashboard never builds adopted mode.
     """
     st.session_state.agent = create_agent(
         make_provider(provider_choice),
         make_memory_store(storage_choice),
         make_memory_policy(policy_choice),
+        extraction=build_extraction_config(extraction_mode),
     )
     st.session_state.agent_provider = provider_choice
     st.session_state.agent_storage = storage_choice
     st.session_state.agent_policy = policy_choice
+    st.session_state.agent_extraction_mode = extraction_mode
     st.session_state.chat_history = []
     st.session_state.last_error = None
 
@@ -114,14 +132,17 @@ def full_demo_reset(
     storage_choice: str,
     demo_user_id: str,
     policy_choice: str = POLICY_RULE_BASED,
+    extraction_mode: str = MODE_DISABLED,
 ) -> None:
     """Return the demo to a known clean state for the next run.
 
     Rebuilds the agent, then removes the demo user's memories in every
     lifecycle status (both storage modes) and clears event history —
-    no stale state can leak into the next scripted run.
+    no stale state (including the live extraction trace) can leak into
+    the next scripted run. Committed benchmark artifacts are untouched.
     """
-    rebuild_agent(provider_choice, storage_choice, policy_choice)
+    rebuild_agent(provider_choice, storage_choice, policy_choice,
+                  extraction_mode)
     reset_demo_state(st.session_state.agent, demo_user_id)
 
 
@@ -152,12 +173,25 @@ with st.sidebar:
     provider_choice = st.selectbox("Provider", PROVIDER_CHOICES, index=0)
     storage_choice = st.selectbox("Memory storage", STORAGE_CHOICES, index=0)
     policy_choice = st.selectbox("Memory policy", POLICY_CHOICES, index=0)
+    extraction_label = st.selectbox(
+        "Grounded extraction", MODE_CHOICES, index=0,
+        help=(
+            "Disabled is the default. Shadow and candidate are "
+            "non-mutating: the controller proposes and is evaluated, but "
+            "durable memory never changes. Adopted mode is not selectable "
+            "here — it requires an explicit authorization object."
+        ),
+    )
+    extraction_mode = MODE_LABELS[extraction_label]
     if (
         provider_choice != st.session_state.agent_provider
         or storage_choice != st.session_state.agent_storage
         or policy_choice != st.session_state.get("agent_policy", POLICY_RULE_BASED)
+        or extraction_mode != st.session_state.get(
+            "agent_extraction_mode", MODE_DISABLED)
     ):
-        rebuild_agent(provider_choice, storage_choice, policy_choice)
+        rebuild_agent(
+            provider_choice, storage_choice, policy_choice, extraction_mode)
 
     agent = st.session_state.agent
     if policy_choice == POLICY_LOCAL_MODEL:
@@ -204,12 +238,16 @@ with st.sidebar:
         "using only current experience."
     )
     if st.button("Reset demo", width="stretch"):
-        full_demo_reset(provider_choice, storage_choice, user_id, policy_choice)
+        full_demo_reset(
+            provider_choice, storage_choice, user_id, policy_choice,
+            extraction_mode)
         st.rerun()
     if storage_label == "SQLite":
         if st.button("Clear persistent memories", width="stretch"):
             st.session_state.agent.memory_store.clear()
-            rebuild_agent(provider_choice, storage_choice, policy_choice)
+            rebuild_agent(
+                provider_choice, storage_choice, policy_choice,
+                extraction_mode)
             st.rerun()
 
 # --- Header -------------------------------------------------------------------
@@ -413,6 +451,191 @@ with col_platform:
             st.caption(
                 f"Full benchmark evidence: `{benchmark['report_doc']}`"
             )
+
+    # --- Extraction decision trace (live) ---
+    st.markdown("**Extraction decision trace**")
+    st.caption(
+        "Grounded extraction is a bounded seam. Shadow and candidate "
+        "modes propose and evaluate but never change durable memory; "
+        "only an explicitly authorized adopted action can. This "
+        "dashboard never enables adopted mode."
+    )
+    configured_mode = configured_extraction_mode(agent)
+    trace = extraction_trace(agent.events)
+    if configured_mode == MODE_DISABLED and not trace:
+        st.caption("Grounded extraction integration is disabled.")
+    elif not trace:
+        st.caption("No extraction decisions have been recorded.")
+    else:
+        latest = trace[0]
+        st.caption(
+            f"Mode: {latest.get('effect_mode') or configured_mode} · "
+            f"Controller: {latest.get('controller_id') or '—'} "
+            f"({latest.get('controller_type') or '—'}) · "
+            f"Outcome: {outcome_label(latest)}"
+        )
+        st.dataframe(
+            [
+                {"Signal": "Proposal present",
+                 "Value": format_flag(latest.get("proposal_present"))},
+                {"Signal": "Proposed kind",
+                 "Value": latest.get("proposed_kind") or "None"},
+                {"Signal": "Normalized text",
+                 "Value": latest.get("normalized_text") or "None"},
+                {"Signal": "Evidence offsets",
+                 "Value": (
+                     f"[{latest.get('evidence_start')}, "
+                     f"{latest.get('evidence_end')})"
+                     if latest.get("evidence_start") is not None
+                     else "Not applicable")},
+                {"Signal": "Grounding",
+                 "Value": (
+                     f"{latest.get('grounding_code')}"
+                     if latest.get("grounding_status") is not None
+                     else "Not evaluated")},
+                {"Signal": "Lifecycle evaluation",
+                 "Value": latest.get("lifecycle_evaluation") or (
+                     "Not evaluated")},
+                {"Signal": "Duplicate / conflict",
+                 "Value": latest.get("duplicate_or_conflict") or "None"},
+                {"Signal": "Adoption authorized",
+                 "Value": format_flag(latest.get("adoption_authorized"))},
+                {"Signal": "Action generated",
+                 "Value": format_flag(latest.get("action_generated"))},
+                {"Signal": "Action applied",
+                 "Value": format_flag(latest.get("action_applied"))},
+                {"Signal": "Canonical effect",
+                 "Value": canonical_effect_label(latest)},
+                {"Signal": "Final proposal source",
+                 "Value": latest.get("final_proposal_source") or "None"},
+            ],
+            width="stretch",
+            hide_index=True,
+        )
+        st.caption(
+            "Grounding validity is proposal quality, not lifecycle "
+            "acceptance — a valid, non-mutating proposal still shows "
+            "canonical effect: no."
+        )
+        runner_status = latest.get("runner_status")
+        st.caption(
+            "Learned runner: "
+            + (str(runner_status) if runner_status is not None
+               else "Not applicable (deterministic controller)")
+            + f" · Parser: {latest.get('parser_status') or 'Not applicable'}"
+            + f" · Fallback used: "
+            + format_flag(latest.get("fallback_used"))
+        )
+        if len(trace) > 1:
+            with st.expander(f"Recent extraction decisions ({len(trace)})"):
+                st.dataframe(
+                    [
+                        {
+                            "Mode": v.get("effect_mode") or "—",
+                            "Outcome": outcome_label(v),
+                            "Kind": v.get("proposed_kind") or "None",
+                            "Grounding": v.get("grounding_code") or "—",
+                            "Lifecycle": v.get("lifecycle_evaluation") or "—",
+                            "Canonical effect": format_flag(
+                                v.get("canonical_effect")),
+                        }
+                        for v in trace
+                    ],
+                    width="stretch",
+                    hide_index=True,
+                )
+
+    # --- Grounded extraction evaluation (committed evidence) ---
+    with st.expander("Grounded extraction evaluation (committed evidence)"):
+        summary = grounded_extraction_summary()
+        if summary is None:
+            st.caption(
+                "Committed grounded-extraction evaluation is unavailable."
+            )
+        else:
+            st.caption(
+                f"Deterministic controller classification: "
+                f"**{classification_label(summary['classification'])}**"
+            )
+            st.caption(summary["classification_reason"])
+            m = summary["metrics"]
+            st.dataframe(
+                [
+                    {"Metric": "Proposal precision", "Value": m["precision"]},
+                    {"Metric": "Proposal recall", "Value": m["recall"]},
+                    {"Metric": "Proposal F1", "Value": m["f1"]},
+                    {"Metric": "Grounded-span validity",
+                     "Value": m["grounded_span_validity"]},
+                    {"Metric": "No-candidate recall",
+                     "Value": m["no_candidate_recall"]},
+                    {"Metric": "Durable creation — canonical reference",
+                     "Value": m["durable_creation_reference"]},
+                    {"Metric": "Durable creation — grounded (benchmark "
+                               "adopted)",
+                     "Value": m["durable_creation_grounded"]},
+                    {"Metric": "Duplicate active memories",
+                     "Value": str(m["duplicate_active_memories"])},
+                    {"Metric": "State corruption",
+                     "Value": str(m["state_corruption"])},
+                ],
+                width="stretch",
+                hide_index=True,
+            )
+            gates = summary["gates"]
+            st.caption(
+                f"Adoption gates: {gates['passed']}/{gates['total']} passed "
+                f"— passing most gates is not adoption approval; the failed "
+                f"gates are decisive. Failed: "
+                f"{', '.join(gates['failed_gates']) or 'none'}."
+            )
+            st.dataframe(
+                [
+                    {"Gate": g["gate"], "Status": g["status"],
+                     "Threshold": g["threshold"]}
+                    for g in gates["rows"]
+                ],
+                width="stretch",
+                hide_index=True,
+            )
+            for learned in summary["learned"]:
+                st.caption(
+                    f"`{learned['system_id']}`: "
+                    + ("executed" if learned["executed"]
+                       else f"not executed — {learned['skip_reason']}")
+                )
+            cards = extraction_case_examples()
+            if cards:
+                st.caption("Illustrative committed cases:")
+                for card in cards:
+                    st.markdown(
+                        f"`{card['case_id']}` — {card['why']}"
+                    )
+                    st.caption(
+                        f"Expected candidate: "
+                        f"{format_flag(card['expected_candidate'])} · "
+                        f"Proposed: {format_flag(card['proposal_present'])} "
+                        f"({card['proposed_kind'] or 'none'}) · "
+                        f"Score: {card['proposal_score']} · "
+                        f"Grounding: {card['grounding_code'] or '—'} · "
+                        f"Duplicate-active leak: "
+                        f"{card['duplicate_active_leak']} · "
+                        f"Canonical effect: "
+                        f"{format_flag(card['canonical_effect'])}"
+                    )
+                    evidence = card["evidence"]
+                    if evidence["available"]:
+                        st.markdown(
+                            evidence["excerpt_html"],
+                            unsafe_allow_html=True,
+                        )
+                        st.caption(f"Evidence span {evidence['offsets_label']}")
+                    elif card["source_excerpt"]:
+                        st.caption(
+                            f"Source: {card['source_excerpt']} "
+                            "(controller proposed no candidate)"
+                        )
+            st.caption(summary["provider_note"])
+            st.caption(f"Full benchmark evidence: `{summary['report_doc']}`")
 
     st.markdown("**Compressed context (last turn)**")
     summaries = [summary_display(s) for s in compressed_summaries(agent.events)]
