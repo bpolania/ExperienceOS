@@ -119,6 +119,15 @@ rendered context); K and token budgets unaffected by admit proposals;
 reject proposals leave selections intact; stores, events, and memory
 metadata untouched; gate constructors accept no authority handles.
 
+## Place in the controller architecture
+
+MemoryGate is the first of six specialized controller seams and the
+only one meaningfully integrated (shadow-only) in Phase 11; the other
+five are interface-only contracts — see
+`docs/controller_architecture.md`. Prompt 6 changed nothing in this
+module: gate IDs, proposal schema, invariants, and selection identity
+are byte-unchanged.
+
 ## Limitations and future work
 
 No enforcement, no learned gate, no local-model or Qwen gate, no

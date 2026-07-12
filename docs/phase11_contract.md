@@ -723,6 +723,21 @@ against §17/§18; and a recommended Phase 12 direction.
   agreement, abstain = neutral, rest = disagreement; per-candidate
   failure containment recording exception type names only, optional
   `gate_strict` raise; `affected_selection` invariantly 0.
+- ~~Specialized controller contracts (§15)~~ **Resolved in Prompt 6**
+  (see `docs/controller_architecture.md`): interface-only,
+  proposal-only contracts in `experienceos/controllers/` —
+  `admission.py`, `extraction.py`, `update.py`, `forget.py`,
+  `transition.py` over shared `base.py` conventions (frozen evidence
+  and construction-validated proposals, `proposal_only=True` enforced,
+  bounded reasons/diagnostics/text, typed `ControllerError` hierarchy,
+  `EvidenceSpan` + `MemorySnapshot` models, memory-layer literals
+  mirrored for structural isolation); deterministic defaults
+  `admission_abstain-1`, `extraction_noop-1`, `update_abstain-1`,
+  `forget_intent_none-1`, `transition_abstain-1` (abstain chosen over
+  pass-through for the verifier); extraction proposals represent one
+  grounded candidate or none with optional spans (Phase 12 shape);
+  `MemoryGate` reused byte-unchanged; zero canonical integration — no
+  default construction, no activation flag, no registry.
 - SQLite cache persistence (only if §13 latency criteria demand it).
 - The final "materially regress" threshold ratification (Prompt 7).
 - Whether the gate heuristic produces useful recommendation
