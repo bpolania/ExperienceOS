@@ -44,6 +44,7 @@ class ExperienceEngine:
         memory_store: MemoryStore,
         memory_planner: MemoryPlanner | None = None,
         experience_manager: ExperienceManager | None = None,
+        extraction_coordinator=None,
     ):
         self.model = model
         self.event_bus = event_bus
@@ -53,6 +54,10 @@ class ExperienceEngine:
         self.experience_manager = experience_manager or ExperienceManager(
             RuleBasedMemoryPolicy(self.memory_planner)
         )
+        # Optional grounded-extraction integration seam. None (the
+        # default) keeps every existing path identical: no controller
+        # runs and no integration event is emitted.
+        self.extraction_coordinator = extraction_coordinator
 
     def run_interaction(
         self,
@@ -148,25 +153,28 @@ class ExperienceEngine:
         valid_actions: list[MemoryAction] = []
         rejected_actions: list[tuple[MemoryAction, str]] = []
         for action in result.actions:
-            if (
-                action.action in (SUPERSEDE, FORGET)
-                and action.memory_id not in active_ids
-            ):
-                rejected_actions.append((action, "target_not_active"))
-                continue
-            if action.action == CREATE:
-                matching_ids = [
-                    m.id
-                    for m in memories
-                    if m.kind == action.kind
-                    and _normalized_text(m.text) == _normalized_text(action.text)
-                ]
-                if matching_ids and not all(
-                    mid in retired_ids for mid in matching_ids
-                ):
-                    rejected_actions.append((action, "duplicate_of_active"))
-                    continue
-            valid_actions.append(action)
+            reason = self._reject_reason(
+                action, memories, active_ids, retired_ids
+            )
+            if reason is not None:
+                rejected_actions.append((action, reason))
+            else:
+                valid_actions.append(action)
+
+        # Grounded-extraction integration: runs after the canonical
+        # plan is validated and before the sole mutation boundary. In
+        # disabled mode nothing happens; shadow/candidate never touch
+        # valid_actions; only an authorized adopted proposal is merged,
+        # and it passes the SAME lifecycle check and SAME application.
+        extraction_event = None
+        if (
+            self.extraction_coordinator is not None
+            and self.extraction_coordinator.enabled
+        ):
+            extraction_event = self._evaluate_extraction(
+                user_id, session_id, message, memories, active_ids,
+                retired_ids, valid_actions,
+            )
 
         planned = []
         for action, decision in zip(result.actions, result.decisions):
@@ -198,6 +206,11 @@ class ExperienceEngine:
                 ],
             },
         )
+        if extraction_event is not None:
+            emit(
+                EventType.EXTRACTION_INTEGRATION_EVALUATED,
+                extraction_event,
+            )
         self._apply_memory_actions(valid_actions, user_id, session_id, emit)
 
         messages = [*context_messages, {"role": "user", "content": message}]
@@ -217,6 +230,126 @@ class ExperienceEngine:
         emit(EventType.RESPONSE_RETURNED, {"response": response})
         emit(EventType.INTERACTION_COMPLETED)
         return response
+
+    @staticmethod
+    def _reject_reason(action, memories, active_ids, retired_ids):
+        """The single lifecycle-admission check, shared by canonical
+        planning and adopted/candidate extraction evaluation. A policy
+        can never re-target inactive memory; a create duplicating an
+        active memory is rejected unless every match is retired in this
+        same batch. Returns a bounded reason or None (admissible)."""
+        if (
+            action.action in (SUPERSEDE, FORGET)
+            and action.memory_id not in active_ids
+        ):
+            return "target_not_active"
+        if action.action == CREATE:
+            matching_ids = [
+                m.id
+                for m in memories
+                if m.kind == action.kind
+                and _normalized_text(m.text)
+                == _normalized_text(action.text)
+            ]
+            if matching_ids and not all(
+                mid in retired_ids for mid in matching_ids
+            ):
+                return "duplicate_of_active"
+        return None
+
+    def _extraction_reject_reason(
+        self, action, memories, active_ids, retired_ids, planned
+    ):
+        """The canonical admission check plus a same-batch dedup: a
+        controller create equivalent to a canonical create already in
+        this batch must not add a second active memory (contract §14).
+        Only applied to controller-originated actions — canonical
+        planning is unchanged."""
+        reason = self._reject_reason(
+            action, memories, active_ids, retired_ids
+        )
+        if reason is not None:
+            return reason
+        if action.action == CREATE and any(
+            planned_action.action == CREATE
+            and planned_action.kind == action.kind
+            and _normalized_text(planned_action.text)
+            == _normalized_text(action.text)
+            for planned_action in planned
+        ):
+            return "duplicate_of_planned"
+        return None
+
+    def _evaluate_extraction(
+        self, user_id, session_id, message, memories, active_ids,
+        retired_ids, valid_actions,
+    ) -> dict:
+        """Run the extraction coordinator and interpret its bounded
+        decision. Shadow/candidate never mutate; only an authorized,
+        lifecycle-admissible adopted action is appended to
+        valid_actions (the same list applied by the sole mutation
+        boundary). Returns the integration event payload."""
+        from experienceos.controllers.extraction import ExtractionEvidence
+        from experienceos.memory.extraction_integration import (
+            MODE_ADOPTED,
+            MODE_CANDIDATE,
+            STATUS_AUTHORIZED,
+            STATUS_PROPOSED,
+        )
+
+        source_id = f"{session_id}:{len(self.event_bus.history())}"
+        provenance = "user_asserted"
+        evidence = ExtractionEvidence(
+            user_text=message,
+            provenance_label=provenance,
+            metadata={"source_id": source_id, "user_id": user_id},
+        )
+        outcome = self.extraction_coordinator.evaluate(
+            evidence, source_id=source_id, provenance=provenance
+        )
+        diagnostics = dict(outcome.diagnostics)
+        action = outcome.translated_action
+
+        # Candidate mode: non-mutating lifecycle evaluation using the
+        # SAME admission check; nothing is applied.
+        if outcome.effect_mode == MODE_CANDIDATE and action is not None:
+            reason = self._extraction_reject_reason(
+                action, memories, active_ids, retired_ids, valid_actions
+            )
+            diagnostics["lifecycle_evaluation"] = (
+                "rejected" if reason else "eligible"
+            )
+            diagnostics["lifecycle_rejection_reason"] = reason
+            diagnostics["duplicate_or_conflict"] = (
+                reason if reason and "duplicate" in reason else None
+            )
+            diagnostics["action_applied"] = False
+            diagnostics["canonical_effect"] = False
+
+        # Adopted mode: an authorized, admissible action is merged into
+        # the canonical valid_actions list and applied by the engine.
+        elif outcome.effect_mode == MODE_ADOPTED and (
+            outcome.status == STATUS_AUTHORIZED and action is not None
+        ):
+            reason = self._extraction_reject_reason(
+                action, memories, active_ids, retired_ids, valid_actions
+            )
+            if reason is None:
+                valid_actions.append(action)
+                diagnostics["lifecycle_evaluation"] = "eligible"
+                diagnostics["action_applied"] = True
+                diagnostics["canonical_effect"] = True
+            else:
+                diagnostics["lifecycle_evaluation"] = "rejected"
+                diagnostics["lifecycle_rejection_reason"] = reason
+                diagnostics["duplicate_or_conflict"] = (
+                    reason if "duplicate" in reason else None
+                )
+                diagnostics["action_applied"] = False
+                diagnostics["canonical_effect"] = False
+        # Shadow (and any non-applied path): diagnostics already carry
+        # canonical_effect False from the coordinator.
+        return diagnostics
 
     @staticmethod
     def _describe_action(action: MemoryAction) -> dict:

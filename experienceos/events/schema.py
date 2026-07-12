@@ -31,6 +31,9 @@ class EventType:
     MEMORY_CANDIDATE_REJECTED = "memory_candidate_rejected"
     MEMORY_CANDIDATE_ACCEPTED = "memory_candidate_accepted"
     MEMORY_EXTRACTION_FAILED_SAFE = "memory_extraction_failed_safe"
+    # Grounded-extraction integration (emitted only when an extraction
+    # coordinator is configured and enabled; additive for consumers).
+    EXTRACTION_INTEGRATION_EVALUATED = "extraction_integration_evaluated"
 
 
 @dataclass(frozen=True)

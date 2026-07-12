@@ -54,6 +54,7 @@ class ExperienceOS:
         memory_planner: MemoryPlanner | None = None,
         memory_policy: MemoryPolicy | None = None,
         experience_manager: ExperienceManager | None = None,
+        extraction=None,
     ):
         provided = [
             name
@@ -91,6 +92,11 @@ class ExperienceOS:
             self.experience_manager = ExperienceManager(
                 RuleBasedMemoryPolicy(self.memory_planner)
             )
+        # Optional grounded-extraction integration. Accepts a ready
+        # coordinator or an ExtractionIntegrationConfig; None (the
+        # default) leaves canonical behavior fully unchanged and
+        # constructs no controller.
+        self.extraction_coordinator = self._build_extraction(extraction)
         self.engine = ExperienceEngine(
             model=self.model,
             event_bus=self.event_bus,
@@ -98,6 +104,25 @@ class ExperienceOS:
             memory_store=self.memory_store,
             memory_planner=self.memory_planner,
             experience_manager=self.experience_manager,
+            extraction_coordinator=self.extraction_coordinator,
+        )
+
+    @staticmethod
+    def _build_extraction(extraction):
+        if extraction is None:
+            return None
+        from experienceos.memory.extraction_integration import (
+            ExtractionIntegrationConfig,
+            ExtractionIntegrationCoordinator,
+        )
+
+        if isinstance(extraction, ExtractionIntegrationCoordinator):
+            return extraction
+        if isinstance(extraction, ExtractionIntegrationConfig):
+            return ExtractionIntegrationCoordinator(extraction)
+        raise ValueError(
+            "extraction must be an ExtractionIntegrationConfig or "
+            "ExtractionIntegrationCoordinator"
         )
 
     @classmethod
