@@ -541,3 +541,394 @@ def supplied_context_lines(events: list[ExperienceEvent]) -> list[str]:
                 ]
         return []
     return []
+
+
+# ---------------------------------------------------------------------------
+# Phase 11 retrieval diagnostics (Prompt 8). Pure, Streamlit-free,
+# tolerant helpers: they read recorded event evidence and committed
+# report data only — they never construct providers, load models,
+# recompute retrieval, or mutate anything.
+# ---------------------------------------------------------------------------
+
+LIFECYCLE_AUTHORITY_NOTICE = (
+    "Lifecycle rules are applied before semantic scoring. Embeddings "
+    "and the shadow gate can rank or propose, but they cannot "
+    "reactivate forgotten experience, override supersession, or "
+    "bypass the context budget."
+)
+
+PHASE11_REPORT_DATA_PATH = (
+    "benchmarks/results/committed/report-phase11/report_data_phase11.json"
+)
+PHASE11_ADOPTION_PATH = (
+    "benchmarks/results/committed/report-phase11/"
+    "adoption_gates_phase11.json"
+)
+PHASE11_REPORT_DOC = "docs/phase11_semantic_retrieval_report.md"
+
+_HARD_LIFECYCLE_PREFIX = "inactive_"
+_RELEVANCE_EXCLUSIONS = (
+    "zero_relevance", "below_semantic_floor", "no_fused_evidence",
+)
+_LIMIT_EXCLUSIONS = ("below_candidate_limit",)
+_BUDGET_EXCLUSIONS = ("token_budget",)
+
+
+def format_score(value, precision: int = 3) -> str:
+    """Safe display for possibly missing/malformed score values."""
+    if value is None:
+        return "—"
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return "—"
+    if number != number or number in (float("inf"), float("-inf")):
+        return "—"
+    return f"{number:.{precision}f}"
+
+
+def format_ms(value) -> str:
+    """Safe milliseconds display; absent timing is never fabricated."""
+    if value is None:
+        return "—"
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return "—"
+    if number != number or number < 0 or number == float("inf"):
+        return "—"
+    return f"{number:.1f} ms"
+
+
+def format_flag(value) -> str:
+    if value is None:
+        return "—"
+    return "Yes" if value else "No"
+
+
+def format_rate(numerator, denominator) -> str:
+    try:
+        return f"{int(numerator)}/{int(denominator)}"
+    except (TypeError, ValueError):
+        return "—"
+
+
+def exclusion_kind(reason) -> str:
+    """Classify a canonical exclusion reason by its authority level.
+
+    Hard lifecycle exclusions (forgotten/superseded records) are not
+    the same kind of decision as relevance exclusions, ranking skips,
+    or budget skips — the display keeps them distinct.
+    """
+    if not reason or not isinstance(reason, str):
+        return "selected"
+    if reason.startswith(_HARD_LIFECYCLE_PREFIX):
+        return "lifecycle"
+    if reason in _RELEVANCE_EXCLUSIONS:
+        return "relevance"
+    if reason in _BUDGET_EXCLUSIONS:
+        return "budget"
+    if reason in _LIMIT_EXCLUSIONS:
+        return "candidate_limit"
+    return "selection"
+
+
+EXCLUSION_KIND_LABELS = {
+    "selected": "Selected",
+    "lifecycle": "Lifecycle exclusion (authoritative)",
+    "relevance": "No query relevance",
+    "candidate_limit": "Candidate-limit exclusion",
+    "selection": "Ranking skip",
+    "budget": "Token-budget skip",
+}
+
+
+def retrieval_diagnostics(events: list[ExperienceEvent]) -> dict | None:
+    """Bounded Phase 11 retrieval summary from the last context event.
+
+    Returns None before any retrieval; every field is guarded so old
+    (Phase 8/9) events without diagnostics render safely.
+    """
+    for event in reversed(events):
+        if event.type != EventType.CONTEXT_BUILT:
+            continue
+        payload = event.payload or {}
+        diagnostics = payload.get("retrieval_diagnostics") or {}
+        semantic = diagnostics.get("semantic") or {}
+        gate = diagnostics.get("gate") or {}
+        fusion = semantic.get("fusion") or {}
+        profile = fusion.get("profile") or {}
+        return {
+            "retrieval_mode": diagnostics.get(
+                "retrieval_mode", "disabled"
+            ),
+            "embedding_enabled": bool(semantic.get("enabled", False)),
+            "provider_id": semantic.get("provider_id"),
+            "model_id": semantic.get("model_id"),
+            "dimensions": semantic.get("dimensions"),
+            "provider_available": semantic.get("provider_available"),
+            "semantic_floor": semantic.get("relevance_floor"),
+            "fallback_used": semantic.get("fallback_used", False),
+            "fallback_reason": semantic.get("fallback_reason"),
+            "fallback_path": semantic.get("fallback_path"),
+            "fusion_profile": profile.get("profile_id")
+            or semantic.get("fusion_profile_id"),
+            "fusion_profile_version": profile.get("version"),
+            "eligible_count": diagnostics.get("eligible_count"),
+            "lifecycle_excluded_count": diagnostics.get(
+                "lifecycle_excluded_count"
+            ),
+            "semantic_candidate_count": semantic.get(
+                "semantic_candidate_count"
+            ),
+            "union_count": fusion.get("union_count"),
+            "post_limit_count": fusion.get("post_limit_count"),
+            "cache": semantic.get("cache") or None,
+            "context_token_estimate": diagnostics.get(
+                "context_token_estimate"
+            ),
+            "k": diagnostics.get("k"),
+            "budget_compliant": diagnostics.get("budget_compliant"),
+            "gate_enabled": bool(gate.get("enabled", False)),
+            "gate_controller_id": gate.get("controller_id"),
+            "gate_status": gate.get("status"),
+            "gate_shadow_mode": gate.get("shadow_mode"),
+            "gate_affected_selection": gate.get("affected_selection", 0),
+            "selected": payload.get("selected_memory_count", 0),
+        }
+    return None
+
+
+def gate_shadow_summary(events: list[ExperienceEvent]) -> dict | None:
+    """Shadow-gate tallies from the last context event; None when no
+    gate is configured or the event predates Phase 11."""
+    for event in reversed(events):
+        if event.type != EventType.CONTEXT_BUILT:
+            continue
+        gate = (event.payload or {}).get(
+            "retrieval_diagnostics", {}
+        ).get("gate") or {}
+        if not gate.get("enabled"):
+            return None
+        return {
+            "controller_id": gate.get("controller_id", "—"),
+            "evaluated": gate.get("evaluated", 0),
+            "admit": gate.get("admit", 0),
+            "reject": gate.get("reject", 0),
+            "abstain": gate.get("abstain", 0),
+            "agreement": gate.get("agreement", 0),
+            "disagreement": gate.get("disagreement", 0),
+            "failures": gate.get("failures", 0),
+            "affected_selection": gate.get("affected_selection", 0),
+            "status": gate.get("status", "—"),
+        }
+    return None
+
+
+def _gate_cell(record_gate) -> str:
+    if not isinstance(record_gate, dict) or not record_gate.get(
+        "considered"
+    ):
+        return "—"
+    if record_gate.get("status") == "failed":
+        return "Shadow eval failed (contained)"
+    proposal = str(record_gate.get("proposal", "—")).capitalize()
+    return f"Shadow: {proposal}"
+
+
+def phase11_candidate_rows(records: list[dict] | None) -> list[dict]:
+    """Phase 11 columns for the selection table, preserving canonical
+    audit order; safe on old records without Phase 11 fields."""
+    rows = []
+    for record in records or []:
+        reason = record.get("exclusion_reason")
+        kind = (
+            "selected" if record.get("selected") else
+            exclusion_kind(reason or "not_top_k")
+        )
+        semantic = record.get("semantic")
+        fusion = record.get("fusion")
+        semantic_score = (
+            semantic.get("score")
+            if isinstance(semantic, dict) and semantic.get("considered")
+            else None
+        )
+        rows.append(
+            {
+                "Decision": EXCLUSION_KIND_LABELS.get(kind, "Skipped"),
+                "Kind": record.get("kind", "—"),
+                "Memory": str(record.get("text", ""))[:120],
+                "Score": format_score(record.get("score")),
+                "Semantic": format_score(semantic_score),
+                "Fused": format_score(
+                    fusion.get("fused_score")
+                    if isinstance(fusion, dict) else None
+                ),
+                "Evidence": (
+                    fusion.get("evidence_source", "—")
+                    if isinstance(fusion, dict) else "—"
+                ),
+                "Cache": (
+                    semantic.get("cache_status", "—")
+                    if isinstance(semantic, dict)
+                    and semantic.get("considered") else "—"
+                ),
+                "Shadow gate": _gate_cell(record.get("gate")),
+            }
+        )
+    return rows
+
+
+def candidate_detail(record: dict) -> dict:
+    """Bounded per-candidate detail for an expander view. Never
+    includes vectors, paths, or raw exceptions."""
+    semantic = record.get("semantic")
+    fusion = record.get("fusion")
+    gate = record.get("gate")
+    detail = {
+        "canonical": {
+            "lifecycle_status": record.get("status", "—"),
+            "selected": format_flag(record.get("selected")),
+            "reason": record.get("reason", "—"),
+            "exclusion_kind": EXCLUSION_KIND_LABELS.get(
+                "selected" if record.get("selected") else
+                exclusion_kind(record.get("exclusion_reason")
+                               or "not_top_k")
+            ),
+            "rank": record.get("rank", "—"),
+        },
+        "component_scores": {
+            name: format_score(value)
+            for name, value in (
+                record.get("component_scores") or {}
+            ).items()
+        },
+    }
+    if isinstance(semantic, dict):
+        if semantic.get("considered"):
+            detail["semantic"] = {
+                "provider": f"{semantic.get('provider_id', '—')} / "
+                            f"{semantic.get('model_id', '—')}",
+                "dimensions": semantic.get("dimensions", "—"),
+                "raw_cosine": format_score(semantic.get("raw_cosine")),
+                "score": format_score(semantic.get("score")),
+                "floor": format_score(semantic.get("relevance_floor")),
+                "above_floor": format_flag(semantic.get("above_floor")),
+                "semantic_rank": semantic.get("rank", "—"),
+                "cache": semantic.get("cache_status", "—"),
+            }
+        else:
+            detail["semantic"] = {"considered": "No (never embedded)"}
+    if isinstance(fusion, dict):
+        detail["fusion"] = {
+            "profile": f"{fusion.get('profile_id', '—')} v"
+                       f"{fusion.get('profile_version', '—')}",
+            "normalization": fusion.get("normalization_id", "—"),
+            "raw": {k: format_score(v)
+                    for k, v in (fusion.get("raw") or {}).items()},
+            "normalized": {
+                k: format_score(v)
+                for k, v in (fusion.get("normalized") or {}).items()
+            },
+            "weights": fusion.get("weights") or {},
+            "contributions": {
+                k: format_score(v)
+                for k, v in (fusion.get("contributions") or {}).items()
+            },
+            "fused_score": format_score(fusion.get("fused_score")),
+            "evidence_source": fusion.get("evidence_source", "—"),
+            "lexical_rank": fusion.get("lexical_rank", "—"),
+            "fused_rank": fusion.get("fused_rank", "—"),
+            "rank_delta": fusion.get("rank_delta", "—"),
+        }
+    if isinstance(gate, dict):
+        if gate.get("considered"):
+            if gate.get("status") == "failed":
+                detail["shadow_gate"] = {
+                    "status": "Evaluation failed (contained; canonical "
+                              "selection preserved)",
+                    "failure_type": gate.get("failure", "—"),
+                }
+            else:
+                detail["shadow_gate"] = {
+                    "controller": gate.get("controller_id", "—"),
+                    "shadow_proposal": str(
+                        gate.get("proposal", "—")
+                    ).capitalize(),
+                    "confidence": format_score(gate.get("confidence")),
+                    "reason": str(gate.get("reason", "—"))[:160],
+                    "canonical_result": (
+                        "Selected" if gate.get("canonical_selected")
+                        else "Skipped"
+                    ),
+                    "agreement": gate.get(
+                        "agreement_with_selection", "—"
+                    ),
+                    "affected_selection": "No",
+                }
+        else:
+            detail["shadow_gate"] = {"considered": "No"}
+    return detail
+
+
+def phase11_benchmark_summary(
+    report_data_path: str = PHASE11_REPORT_DATA_PATH,
+    adoption_path: str = PHASE11_ADOPTION_PATH,
+) -> dict | None:
+    """Compact Prompt 7 summary read from committed report data.
+
+    Returns None when the committed artifacts are missing or
+    malformed — the dashboard shows an unavailable state and never
+    regenerates or recomputes benchmark evidence.
+    """
+    import json
+    from pathlib import Path
+
+    try:
+        data = json.loads(Path(report_data_path).read_text())
+        gates = json.loads(Path(adoption_path).read_text())
+        external = data["external"]
+
+        def row(system):
+            cells = external[system]
+            return {
+                "selection": format_rate(
+                    cells["answer_session_selection_rate"]["numerator"],
+                    cells["answer_session_selection_rate"][
+                        "denominator"
+                    ],
+                ),
+                "mrr": format_score(
+                    cells["answer_session_mrr"]["value"]
+                ),
+                "tokens": cells["context_tokens_total"],
+            }
+
+        return {
+            "reference": row("experienceos_hybrid_full_v2_reference"),
+            "embedding_only": row("experienceos_embedding_only_v1"),
+            "fused": row("experienceos_fused_retrieval_v1"),
+            "classifications": {
+                "embedding_only": gates["experienceos_embedding_only_v1"][
+                    "classification"
+                ],
+                "fused": gates["experienceos_fused_retrieval_v1"][
+                    "classification"
+                ],
+                "gate_shadow": gates["experienceos_gate_shadow_v1"][
+                    "classification"
+                ],
+            },
+            "gate_affected_selection": data["gate_shadow"]["external"][
+                "gate_affected_selection"
+            ],
+            "provider_note": (
+                "Committed semantic results use the deterministic test "
+                "embedding provider. They do not establish "
+                "learned-embedding quality, and none of this is an "
+                "official LongMemEval score."
+            ),
+            "report_doc": PHASE11_REPORT_DOC,
+        }
+    except (OSError, ValueError, KeyError, TypeError):
+        return None

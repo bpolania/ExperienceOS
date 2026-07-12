@@ -738,6 +738,21 @@ against §17/§18; and a recommended Phase 12 direction.
   grounded candidate or none with optional spans (Phase 12 shape);
   `MemoryGate` reused byte-unchanged; zero canonical integration — no
   default construction, no activation flag, no registry.
+- ~~Dashboard visibility (Prompt 8)~~ **Resolved in Prompt 8** (see
+  `docs/dashboard_phase11_diagnostics.md`): additive
+  `semantic`/`fusion`/`gate` fields on `ContextSelectionRecord` and a
+  `retrieval_diagnostics` dict on `ContextBuildResult` / the
+  `CONTEXT_BUILT` payload; Streamlit-free helpers in
+  `demo/support.py` (`retrieval_diagnostics`,
+  `phase11_candidate_rows`, `candidate_detail`,
+  `gate_shadow_summary`, `phase11_benchmark_summary`,
+  `exclusion_kind`, formatting guards); panel under "Context
+  selection (last turn)" in `demo/app.py` with the lifecycle-
+  authority notice, shadow-qualified gate wording, and a benchmark
+  expander reading the committed report-phase11 data; old-event/
+  empty/reset compatibility and model-loading safety proven with
+  Streamlit AppTest (available at streamlit 1.59) plus helper,
+  subprocess-import, and monkeypatch tests.
 - SQLite cache persistence (only if §13 latency criteria demand it —
   Prompt 7 measured sub-millisecond deterministic-provider retrieval,
   so persistence remains unneeded).

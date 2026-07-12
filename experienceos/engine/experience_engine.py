@@ -111,6 +111,10 @@ class ExperienceEngine:
                 "memory_budget": build.memory_budget,
                 "selection_records": [asdict(r) for r in build.selection_records],
                 "compressed_summaries": [s.to_payload() for s in build.summaries],
+                # Phase 11: additive; empty for legacy/disabled paths.
+                "retrieval_diagnostics": getattr(
+                    build, "retrieval_diagnostics", {}
+                ),
             },
         )
 

@@ -72,6 +72,16 @@ from demo.support import (
     superseded_rows,
     supplied_context_lines,
 )
+from demo.support import (
+    LIFECYCLE_AUTHORITY_NOTICE,
+    candidate_detail,
+    format_flag,
+    format_score,
+    gate_shadow_summary,
+    phase11_benchmark_summary,
+    phase11_candidate_rows,
+    retrieval_diagnostics,
+)
 
 st.set_page_config(page_title="ExperienceOS", page_icon="🧠", layout="wide")
 
@@ -298,7 +308,8 @@ with col_platform:
         )
 
     st.markdown("**Context selection (last turn)**")
-    records = selection_rows(selection_records(agent.events))
+    raw_records = selection_records(agent.events)
+    records = selection_rows(raw_records)
     if records:
         summary = selection_summary(agent.events) or {}
         st.caption(
@@ -309,6 +320,99 @@ with col_platform:
         st.dataframe(records, width="stretch", hide_index=True)
     else:
         st.caption("No context selection has been built yet.")
+
+    st.markdown("**Retrieval diagnostics (Phase 11)**")
+    st.caption(LIFECYCLE_AUTHORITY_NOTICE)
+    diagnostics = retrieval_diagnostics(agent.events)
+    if diagnostics is None:
+        st.caption("No retrieval event yet.")
+    elif diagnostics["retrieval_mode"] == "disabled":
+        st.caption(
+            "Retrieval mode: lexical (Phase 9 path). Semantic retrieval "
+            "disabled — no embedding provider configured, no cache, no "
+            "shadow gate."
+        )
+    else:
+        provider = (
+            f"{diagnostics.get('provider_id') or 'Not available'} / "
+            f"{diagnostics.get('model_id') or 'Not available'}"
+        )
+        st.caption(
+            f"Retrieval mode: {diagnostics['retrieval_mode']} — "
+            f"embedding provider {provider} "
+            f"(deterministic test provider: plumbing evidence, not "
+            f"learned semantic quality). "
+            f"Fusion profile: "
+            f"{diagnostics.get('fusion_profile') or 'None'}. "
+            f"Fallback: "
+            f"{diagnostics.get('fallback_reason') or 'No fallback'}. "
+            f"Eligible {diagnostics.get('eligible_count', '—')}, "
+            f"lifecycle-excluded "
+            f"{diagnostics.get('lifecycle_excluded_count', '—')}, "
+            f"budget compliant "
+            f"{format_flag(diagnostics.get('budget_compliant'))}."
+        )
+        cache = diagnostics.get("cache")
+        if cache:
+            st.caption(
+                f"Embedding cache: {cache.get('hits', 0)} hits / "
+                f"{cache.get('lookups', 0)} lookups "
+                f"({cache.get('misses', 0)} misses, "
+                f"{cache.get('evictions', 0)} evictions)."
+            )
+        gate = gate_shadow_summary(agent.events)
+        if gate is not None:
+            st.caption(
+                f"Shadow gate {gate['controller_id']}: "
+                f"{gate['evaluated']} evaluated — {gate['admit']} admit, "
+                f"{gate['reject']} reject, {gate['abstain']} abstain; "
+                f"{gate['disagreement']} disagreements. Proposals did "
+                f"not change context (affected selection: "
+                f"{gate['affected_selection']})."
+            )
+        else:
+            st.caption("Shadow gate: Disabled.")
+        phase11_rows = phase11_candidate_rows(raw_records)
+        if phase11_rows:
+            st.dataframe(phase11_rows, width="stretch", hide_index=True)
+        with st.expander("Per-candidate score breakdowns"):
+            for record in raw_records:
+                st.markdown(
+                    f"`{str(record.get('memory_id', ''))[:8]}` "
+                    f"{str(record.get('text', ''))[:80]}"
+                )
+                st.json(candidate_detail(record))
+
+    with st.expander("Phase 11 benchmark summary (committed evidence)"):
+        benchmark = phase11_benchmark_summary()
+        if benchmark is None:
+            st.caption("Benchmark summary unavailable.")
+        else:
+            st.dataframe(
+                [
+                    {"System": "Phase 9 reference",
+                     **benchmark["reference"]},
+                    {"System": "Embedding-only",
+                     **benchmark["embedding_only"]},
+                    {"System": "Fused (experimental)",
+                     **benchmark["fused"]},
+                ],
+                width="stretch",
+                hide_index=True,
+            )
+            classifications = benchmark["classifications"]
+            st.caption(
+                f"Adoption: embedding-only "
+                f"{classifications['embedding_only']}; fused "
+                f"{classifications['fused']}; fused+gate "
+                f"{classifications['gate_shadow']}. Lifecycle leakage "
+                f"zero; gate affected selection "
+                f"{benchmark['gate_affected_selection']}."
+            )
+            st.caption(benchmark["provider_note"])
+            st.caption(
+                f"Full benchmark evidence: `{benchmark['report_doc']}`"
+            )
 
     st.markdown("**Compressed context (last turn)**")
     summaries = [summary_display(s) for s in compressed_summaries(agent.events)]

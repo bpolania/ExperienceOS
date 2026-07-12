@@ -70,6 +70,12 @@ class ContextSelectionRecord:
     # Hybrid-retrieval extensions (empty on the default v1 path).
     component_scores: dict = field(default_factory=dict)
     exclusion_reason: str | None = None
+    # Phase 11 diagnostics (None whenever the feature is disabled, so
+    # earlier configurations serialize with null-valued additive keys
+    # and old consumers keep working via .get()).
+    semantic: dict | None = None
+    fusion: dict | None = None
+    gate: dict | None = None
 
 
 @dataclass
@@ -83,6 +89,10 @@ class ContextBuildResult:
     memory_budget: int | None = None
     selection_records: list[ContextSelectionRecord] = field(default_factory=list)
     summaries: list[ExperienceSummary] = field(default_factory=list)
+    # Phase 11: bounded retrieval-level diagnostics (mode, provider,
+    # fallback, gate summary, counts); empty on the legacy path and
+    # for pre-Phase 11 strategies.
+    retrieval_diagnostics: dict = field(default_factory=dict)
 
 
 class ContextBuilder:
@@ -117,9 +127,10 @@ class ContextBuilder:
         memories: list[ExperienceEntry] | None = None,
     ) -> ContextBuildResult:
         candidates = list(memories or [])
+        retrieval_diagnostics: dict = {}
         if self.retrieval_strategy is not None:
-            selected, skipped, records = self._strategy_selection(
-                session_id, message, candidates
+            selected, skipped, records, retrieval_diagnostics = (
+                self._strategy_selection(session_id, message, candidates)
             )
         else:
             ranked = self._rank_candidates(message, candidates)
@@ -176,6 +187,7 @@ class ContextBuilder:
             memory_budget=self.memory_budget,
             selection_records=records,
             summaries=summaries,
+            retrieval_diagnostics=retrieval_diagnostics,
         )
 
     def select_memories(
@@ -183,7 +195,7 @@ class ContextBuilder:
     ) -> tuple[list[ExperienceEntry], list[ExperienceEntry]]:
         """Deterministically rank candidates and split at the budget."""
         if self.retrieval_strategy is not None:
-            selected, skipped, _ = self._strategy_selection(
+            selected, skipped, _, _ = self._strategy_selection(
                 "", message, candidates
             )
             return selected, skipped
@@ -264,9 +276,32 @@ class ContextBuilder:
                     matched_domains=list(candidate.matched_domains),
                     component_scores=dict(candidate.component_scores),
                     exclusion_reason=candidate.exclusion_reason,
+                    semantic=getattr(candidate, "semantic", None),
+                    fusion=getattr(candidate, "fusion", None),
+                    gate=getattr(candidate, "gate", None),
                 )
             )
-        return selected, skipped, records
+        diagnostics = {
+            "strategy": getattr(result, "strategy", None),
+            "retrieval_mode": (
+                (result.semantic or {}).get("mode", "disabled")
+                if hasattr(result, "semantic")
+                else "disabled"
+            ),
+            "semantic": dict(getattr(result, "semantic", {}) or {}),
+            "gate": dict(getattr(result, "gate", {}) or {}),
+            "eligible_count": getattr(result, "active_count", None),
+            "lifecycle_excluded_count": getattr(
+                result, "inactive_filtered", None
+            ),
+            "context_token_estimate": getattr(
+                result, "context_token_estimate", None
+            ),
+            "k": getattr(result, "k", None),
+            "k_compliant": getattr(result, "k_compliant", None),
+            "budget_compliant": getattr(result, "budget_compliant", None),
+        }
+        return selected, skipped, records, diagnostics
 
     @staticmethod
     def _rank_candidates(
