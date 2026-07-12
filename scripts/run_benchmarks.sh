@@ -106,8 +106,25 @@ case "$command" in
     validate-report-phase11)
         "$PYTHON" -m benchmarks.reporting.report_phase11 validate
         ;;
+    run-grounded-extraction)
+        "$PYTHON" -m benchmarks.grounded_extraction.cli run "${@:2}"
+        ;;
+    validate-grounded-extraction)
+        "$PYTHON" -m benchmarks.grounded_extraction.cli validate \
+            "${2:-benchmarks/results/committed/grounded-extraction-ablation}"
+        "$PYTHON" -m benchmarks.grounded_extraction.cli validate \
+            "${3:-benchmarks/results/committed/grounded-extraction}"
+        "$PYTHON" -m benchmarks.grounded_extraction.cli validate \
+            "${4:-benchmarks/results/committed/report-grounded-extraction}"
+        ;;
+    smoke-grounded-extraction)
+        "$PYTHON" -m benchmarks.grounded_extraction.cli smoke
+        ;;
+    report-grounded-extraction)
+        "$PYTHON" -m benchmarks.grounded_extraction.cli report
+        ;;
     *)
-        echo "unknown command: $command (expected quick, full-offline, validate, report, validate-report, longmemeval-fixture, longmemeval-prepare, longmemeval-structural, longmemeval-live, validate-external, validate-v2, validate-external-v2, validate-v2-consistency, report-v2, validate-report-v2, run-phase11, run-external-phase11, validate-phase11, validate-external-phase11, validate-phase11-consistency, report-phase11, validate-report-phase11)"
+        echo "unknown command: $command (expected quick, full-offline, validate, report, validate-report, longmemeval-fixture, longmemeval-prepare, longmemeval-structural, longmemeval-live, validate-external, validate-v2, validate-external-v2, validate-v2-consistency, report-v2, validate-report-v2, run-phase11, run-external-phase11, validate-phase11, validate-external-phase11, validate-phase11-consistency, report-phase11, validate-report-phase11, run-grounded-extraction, validate-grounded-extraction, smoke-grounded-extraction, report-grounded-extraction)"
         exit 2
         ;;
 esac

@@ -1,0 +1,8 @@
+{
+  "cases_with_created_memory": 14,
+  "downstream_selected_cases": 16,
+  "duplicate_active_leaks": 2,
+  "grounded_valid_proposals": 6,
+  "isolated_applied_created_memories": 16,
+  "lifecycle_eligible": 3
+}

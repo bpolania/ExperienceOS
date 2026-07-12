@@ -1,0 +1,542 @@
+{
+  "aggregates": [
+    {
+      "case_counts": {
+        "duplicate": 2,
+        "negative": 24,
+        "positive": 13,
+        "scorable": 39,
+        "total": 40,
+        "unscorable": 1
+      },
+      "controller_id": null,
+      "controller_type": "none",
+      "controller_version": null,
+      "creation_metrics": {
+        "accepted_durable_memory_count": 11,
+        "correct_kind_rate": null,
+        "duplicate_dedup_correct": {
+          "denominator": 2,
+          "numerator": 2,
+          "rate": 1.0
+        },
+        "durable_creation_recall": {
+          "denominator": 13,
+          "numerator": 11,
+          "rate": 0.8461538461538461
+        },
+        "durable_false_positive_count": 1,
+        "f1": null,
+        "precision": null,
+        "recall": null
+      },
+      "dataset_id": "experienceos-lifecycle-v1",
+      "downstream_metrics": {
+        "answer_bearing_candidate_rate": {
+          "denominator": 13,
+          "numerator": 11,
+          "rate": 0.8461538461538461
+        },
+        "downstream_selection_rate": {
+          "denominator": 11,
+          "numerator": 11,
+          "rate": 1.0
+        },
+        "mrr": null,
+        "recall_at_k": null
+      },
+      "fallback_mode": "none",
+      "grounding_metrics": {
+        "grounded_span_validity": {
+          "denominator": null,
+          "note": "not applicable to this system",
+          "numerator": null,
+          "rate": null
+        },
+        "grounding_rejected_count": null,
+        "unsupported_claim_rate": {
+          "denominator": null,
+          "note": "not applicable to this system",
+          "numerator": null,
+          "rate": null
+        }
+      },
+      "latency_metrics": {
+        "count": 0,
+        "max_ms": null,
+        "mean_ms": null,
+        "min_ms": null,
+        "note": "grounded extraction disabled; no extraction overhead",
+        "p50_ms": null,
+        "p95_ms": null
+      },
+      "lifecycle_metrics": {
+        "duplicate_proposal_rate": {
+          "denominator": null,
+          "note": "not applicable to this system",
+          "numerator": null,
+          "rate": null
+        },
+        "lifecycle_eligible": {
+          "denominator": null,
+          "note": "not applicable to this system",
+          "numerator": null,
+          "rate": null
+        },
+        "rejected_proposal_count": null
+      },
+      "no_candidate_metrics": {
+        "no_candidate_precision": {
+          "denominator": null,
+          "note": "not applicable to this system",
+          "numerator": null,
+          "rate": null
+        },
+        "no_candidate_recall": {
+          "denominator": null,
+          "note": "not applicable to this system",
+          "numerator": null,
+          "rate": null
+        }
+      },
+      "proposal_metrics": {
+        "candidate_absent_count": null,
+        "direct_valid_proposal_rate": {
+          "denominator": null,
+          "note": "not applicable to this system",
+          "numerator": null,
+          "rate": null
+        },
+        "proposal_rate": {
+          "denominator": null,
+          "note": "not applicable to this system",
+          "numerator": null,
+          "rate": null
+        },
+        "valid_proposal_rate": {
+          "denominator": null,
+          "note": "not applicable to this system",
+          "numerator": null,
+          "rate": null
+        }
+      },
+      "rejection_metrics": {},
+      "runner_id": null,
+      "runner_version": null,
+      "safety_metrics": {
+        "direct_mutation_violation": 0,
+        "duplicate_active_memories": 0,
+        "forgotten_leakage": 0,
+        "inactive_contamination": 0,
+        "stale_leakage": 0,
+        "state_corruption": 0,
+        "superseded_leakage": 0,
+        "unauthorized_application": 0
+      },
+      "system_config_digest": "62e1a66c46a9e6b68c47f5e792959ee1e3280b2afa11fb199bf7e0f14b4752ab",
+      "system_id": "experienceos_hybrid_full_v2_reference",
+      "validator_id": null,
+      "validator_version": null
+    },
+    {
+      "case_counts": {
+        "duplicate": 2,
+        "negative": 24,
+        "positive": 13,
+        "scorable": 39,
+        "total": 40,
+        "unscorable": 1
+      },
+      "controller_id": "grounded_rules-1",
+      "controller_type": "deterministic",
+      "controller_version": "1",
+      "creation_metrics": {
+        "accepted_durable_memory_count": 13,
+        "correct_kind_rate": {
+          "denominator": 6,
+          "numerator": 5,
+          "rate": 0.8333333333333334
+        },
+        "duplicate_dedup_correct": {
+          "denominator": 2,
+          "numerator": 2,
+          "rate": 1.0
+        },
+        "durable_creation_recall": {
+          "denominator": 13,
+          "numerator": 11,
+          "rate": 0.8461538461538461
+        },
+        "durable_false_positive_count": 2,
+        "f1": {
+          "value": 0.5263157894736842
+        },
+        "precision": {
+          "denominator": 6,
+          "numerator": 5,
+          "rate": 0.8333333333333334
+        },
+        "recall": {
+          "denominator": 13,
+          "numerator": 5,
+          "rate": 0.38461538461538464
+        }
+      },
+      "dataset_id": "experienceos-lifecycle-v1",
+      "downstream_metrics": {
+        "answer_bearing_candidate_rate": {
+          "denominator": 13,
+          "numerator": 11,
+          "rate": 0.8461538461538461
+        },
+        "downstream_selection_rate": {
+          "denominator": 11,
+          "numerator": 11,
+          "rate": 1.0
+        },
+        "mrr": null,
+        "recall_at_k": null
+      },
+      "fallback_mode": "none",
+      "grounding_metrics": {
+        "grounded_span_validity": {
+          "denominator": 6,
+          "numerator": 6,
+          "rate": 1.0
+        },
+        "grounding_rejected_count": 0,
+        "unsupported_claim_rate": {
+          "denominator": 6,
+          "numerator": 0,
+          "rate": 0.0
+        }
+      },
+      "latency_metrics": {
+        "count": 40,
+        "max_ms": 1.3585840060841292,
+        "mean_ms": 0.09347300219815224,
+        "min_ms": 0.010499992640689015,
+        "p50_ms": 0.03691602614708245,
+        "p95_ms": 0.23883304675109684
+      },
+      "lifecycle_metrics": {
+        "duplicate_proposal_rate": {
+          "denominator": 2,
+          "numerator": 0,
+          "rate": 0.0
+        },
+        "lifecycle_eligible": {
+          "denominator": 6,
+          "numerator": 3,
+          "rate": 0.5
+        },
+        "rejected_proposal_count": 0
+      },
+      "no_candidate_metrics": {
+        "no_candidate_precision": {
+          "denominator": 31,
+          "numerator": 23,
+          "rate": 0.7419354838709677
+        },
+        "no_candidate_recall": {
+          "denominator": 24,
+          "numerator": 23,
+          "rate": 0.9583333333333334
+        }
+      },
+      "proposal_metrics": {
+        "candidate_absent_count": 33,
+        "direct_valid_proposal_rate": {
+          "denominator": 6,
+          "numerator": 6,
+          "rate": 1.0
+        },
+        "proposal_rate": {
+          "denominator": 39,
+          "numerator": 6,
+          "rate": 0.15384615384615385
+        },
+        "valid_proposal_rate": {
+          "denominator": 6,
+          "numerator": 6,
+          "rate": 1.0
+        }
+      },
+      "rejection_metrics": {
+        "non-durable": {
+          "denominator": 6,
+          "numerator": 5,
+          "rate": 0.8333333333333334
+        },
+        "one-off-request": {
+          "denominator": 11,
+          "numerator": 11,
+          "rate": 1.0
+        },
+        "question": {
+          "denominator": 6,
+          "numerator": 6,
+          "rate": 1.0
+        },
+        "temporary-state": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1.0
+        }
+      },
+      "runner_id": null,
+      "runner_version": null,
+      "safety_metrics": {
+        "direct_mutation_violation": 0,
+        "duplicate_active_memories": 2,
+        "forgotten_leakage": 0,
+        "inactive_contamination": 0,
+        "stale_leakage": 0,
+        "state_corruption": 0,
+        "superseded_leakage": 0,
+        "unauthorized_application": 0
+      },
+      "system_config_digest": "a81411457d34c8dbe78e7bfede602a93b2b77203261ad7b8efbb117c6afcf1b1",
+      "system_id": "experienceos_grounded_rules_v1",
+      "validator_id": "grounded_candidate_validator",
+      "validator_version": "1"
+    }
+  ],
+  "classifications": [
+    {
+      "classification": "shadow_only",
+      "reason": "Fails adoption gates: no durable creation-recall improvement over the canonical planner, and under adoption it adds a forget-directive false positive plus semantic-duplicate active memories. Safe and useful as observation, not as a durable writer.",
+      "system_id": "experienceos_grounded_rules_v1"
+    },
+    {
+      "classification": "unavailable",
+      "reason": "no configured local learned runner available",
+      "system_id": "experienceos_grounded_learned_shadow_v1"
+    },
+    {
+      "classification": "unavailable",
+      "reason": "no configured local learned runner available",
+      "system_id": "experienceos_grounded_learned_candidate_v1"
+    },
+    {
+      "classification": "unavailable",
+      "reason": "no optional learned runtime configured (no credentials for the Qwen ceiling)",
+      "system_id": "experienceos_grounded_qwen_ceiling_v1"
+    }
+  ],
+  "dataset_id": "experienceos-lifecycle-v1",
+  "external": {
+    "classification_counts": {
+      "downstream-only": 10,
+      "extraction-oracle-insufficient": 10,
+      "not-extraction-related": 10,
+      "retrieval-only": 20
+    },
+    "dataset_id": "longmemeval-50-subset-v1",
+    "note": "The external subset is a multi-session retrieval benchmark. Frozen artifacts retain only digests/previews of source text, so no exact single-message extraction oracle can be built. Classification-only; not part of the primary extraction aggregates and never an official LongMemEval score.",
+    "run_schema_version": "1",
+    "scorable_for_extraction": 0,
+    "total_cases": 50
+  },
+  "fixture_smoke": {
+    "fixture_count": 37,
+    "is_primary_benchmark_evidence": false,
+    "negative_abstained": 13,
+    "negative_fixtures": 13,
+    "note": "Development-only smoke: rule/parser/abstention coverage over the committed development fixtures. Not held-out benchmark evidence; excluded from all primary aggregates.",
+    "positive_accepted": 24,
+    "positive_fixtures": 24
+  },
+  "gates": {
+    "all_pass": false,
+    "available": true,
+    "failed": 3,
+    "gate_count": 15,
+    "gates": [
+      {
+        "evidence": "lifecycle durable layer (isolated)",
+        "gate": "creation_recall_or_absence_improvement",
+        "measured": "reference 11/13 vs grounded 11/13",
+        "notes": "adoption adds no new durable creation over the canonical planner",
+        "status": "fail",
+        "threshold": "durable creation recall improves by >=1 case vs reference"
+      },
+      {
+        "evidence": "lifecycle durable layer (isolated)",
+        "gate": "precision_defensible",
+        "measured": "reference 1 vs grounded 2",
+        "notes": "grounded adoption adds a forget-directive over-extraction",
+        "status": "pass",
+        "threshold": "durable false positives regress by at most 1 vs reference"
+      },
+      {
+        "evidence": "grounding layer",
+        "gate": "grounded_span_validity",
+        "measured": "6/6",
+        "notes": "",
+        "status": "pass",
+        "threshold": "100% of accepted proposals have valid exact spans"
+      },
+      {
+        "evidence": "grounding layer",
+        "gate": "unsupported_claim_rate",
+        "measured": "0/6",
+        "notes": "",
+        "status": "pass",
+        "threshold": "0 among accepted; <=2% among raw proposals"
+      },
+      {
+        "evidence": "no-candidate layer",
+        "gate": "no_candidate_behavior_defensible",
+        "measured": "grounded no-candidate recall 23/24",
+        "notes": "one forget-directive false positive lowers abstention",
+        "status": "pass",
+        "threshold": "no-candidate recall regresses by at most 1 case vs reference (reference abstains on all negatives)"
+      },
+      {
+        "evidence": "safety layer (isolated)",
+        "gate": "inactive_contamination",
+        "measured": 0,
+        "notes": "",
+        "status": "pass",
+        "threshold": "0"
+      },
+      {
+        "evidence": "safety layer (isolated)",
+        "gate": "forgotten_leakage",
+        "measured": 0,
+        "notes": "",
+        "status": "pass",
+        "threshold": "0"
+      },
+      {
+        "evidence": "safety layer (isolated)",
+        "gate": "superseded_in_current_context_leakage",
+        "measured": 0,
+        "notes": "",
+        "status": "pass",
+        "threshold": "0"
+      },
+      {
+        "evidence": "safety layer (isolated)",
+        "gate": "state_corruption",
+        "measured": 0,
+        "notes": "",
+        "status": "pass",
+        "threshold": "0"
+      },
+      {
+        "evidence": "safety layer (isolated)",
+        "gate": "duplicate_active_memories",
+        "measured": 2,
+        "notes": "canonical and grounded normalize differently; exact-text dedup misses semantic duplicates",
+        "status": "fail",
+        "threshold": "0 (no semantic-duplicate active memories under adoption)"
+      },
+      {
+        "evidence": "downstream layer",
+        "gate": "downstream_benefit",
+        "measured": "grounded downstream selection 11/11; no new durable memories vs reference",
+        "notes": "grounded creates no memory the reference did not already create",
+        "status": "fail",
+        "threshold": "external candidate/selection rate improves, or new durable memories become retrievable"
+      },
+      {
+        "evidence": "latency layer (digest-excluded)",
+        "gate": "latency",
+        "mean_ms": 0.09347300219815224,
+        "measured": "mean total extraction latency (digest-excluded)",
+        "notes": "",
+        "status": "pass",
+        "threshold": "deterministic extraction adds <= 5 ms mean per interaction"
+      },
+      {
+        "evidence": "integration event payload",
+        "gate": "diagnostics_complete",
+        "measured": "integration diagnostics present per case",
+        "notes": "",
+        "status": "pass",
+        "threshold": "every extraction decision carries full integration diagnostics"
+      },
+      {
+        "evidence": "benchmark reproducibility",
+        "gate": "default_tests_offline_deterministic",
+        "measured": "two-run digest equality holds; no network/model/credentials",
+        "notes": "",
+        "status": "pass",
+        "threshold": "default tests remain offline and deterministic"
+      },
+      {
+        "evidence": "optional-run records",
+        "gate": "optional_runners_skip_cleanly",
+        "measured": "learned and Qwen systems recorded as clean skips",
+        "notes": "",
+        "status": "pass",
+        "threshold": "optional learned paths skip cleanly when unavailable"
+      }
+    ],
+    "not_measurable": 0,
+    "passed": 12,
+    "reference_id": "experienceos_hybrid_full_v2_reference",
+    "system_id": "experienceos_grounded_rules_v1"
+  },
+  "grounded_present": true,
+  "grounding_ablation": {
+    "raw_proposals": 6,
+    "removed_by_code": {},
+    "removed_by_grounding": 0,
+    "validated_proposals": 6
+  },
+  "lifecycle_ablation": {
+    "cases_with_created_memory": 14,
+    "downstream_selected_cases": 16,
+    "duplicate_active_leaks": 2,
+    "grounded_valid_proposals": 6,
+    "isolated_applied_created_memories": 16,
+    "lifecycle_eligible": 3
+  },
+  "optional_runs": [
+    {
+      "controller_id": "grounded_learned_shadow-1",
+      "controller_version": "1",
+      "executed": false,
+      "fallback_substituted": false,
+      "metrics": null,
+      "requires_credentials": false,
+      "requires_runner": true,
+      "runner_id": null,
+      "skip_reason": "no configured local learned runner available",
+      "system_id": "experienceos_grounded_learned_shadow_v1"
+    },
+    {
+      "controller_id": "grounded_learned_shadow-1",
+      "controller_version": "1",
+      "executed": false,
+      "fallback_substituted": false,
+      "metrics": null,
+      "requires_credentials": false,
+      "requires_runner": true,
+      "runner_id": null,
+      "skip_reason": "no configured local learned runner available",
+      "system_id": "experienceos_grounded_learned_candidate_v1"
+    },
+    {
+      "controller_id": "grounded_learned_shadow-1",
+      "controller_version": "1",
+      "executed": false,
+      "fallback_substituted": false,
+      "metrics": null,
+      "requires_credentials": true,
+      "requires_runner": true,
+      "runner_id": "qwen_cloud",
+      "skip_reason": "no optional learned runtime configured (no credentials for the Qwen ceiling)",
+      "system_id": "experienceos_grounded_qwen_ceiling_v1"
+    }
+  ],
+  "reference_present": true,
+  "run_schema_version": "1",
+  "systems": [
+    "experienceos_hybrid_full_v2_reference",
+    "experienceos_grounded_rules_v1"
+  ]
+}

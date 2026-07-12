@@ -1,0 +1,303 @@
+[
+  {
+    "case_counts": {
+      "duplicate": 2,
+      "negative": 24,
+      "positive": 13,
+      "scorable": 39,
+      "total": 40,
+      "unscorable": 1
+    },
+    "controller_id": null,
+    "controller_type": "none",
+    "controller_version": null,
+    "creation_metrics": {
+      "accepted_durable_memory_count": 11,
+      "correct_kind_rate": null,
+      "duplicate_dedup_correct": {
+        "denominator": 2,
+        "numerator": 2,
+        "rate": 1.0
+      },
+      "durable_creation_recall": {
+        "denominator": 13,
+        "numerator": 11,
+        "rate": 0.8461538461538461
+      },
+      "durable_false_positive_count": 1,
+      "f1": null,
+      "precision": null,
+      "recall": null
+    },
+    "dataset_id": "experienceos-lifecycle-v1",
+    "downstream_metrics": {
+      "answer_bearing_candidate_rate": {
+        "denominator": 13,
+        "numerator": 11,
+        "rate": 0.8461538461538461
+      },
+      "downstream_selection_rate": {
+        "denominator": 11,
+        "numerator": 11,
+        "rate": 1.0
+      },
+      "mrr": null,
+      "recall_at_k": null
+    },
+    "fallback_mode": "none",
+    "grounding_metrics": {
+      "grounded_span_validity": {
+        "denominator": null,
+        "note": "not applicable to this system",
+        "numerator": null,
+        "rate": null
+      },
+      "grounding_rejected_count": null,
+      "unsupported_claim_rate": {
+        "denominator": null,
+        "note": "not applicable to this system",
+        "numerator": null,
+        "rate": null
+      }
+    },
+    "latency_metrics": {
+      "count": 0,
+      "max_ms": null,
+      "mean_ms": null,
+      "min_ms": null,
+      "note": "grounded extraction disabled; no extraction overhead",
+      "p50_ms": null,
+      "p95_ms": null
+    },
+    "lifecycle_metrics": {
+      "duplicate_proposal_rate": {
+        "denominator": null,
+        "note": "not applicable to this system",
+        "numerator": null,
+        "rate": null
+      },
+      "lifecycle_eligible": {
+        "denominator": null,
+        "note": "not applicable to this system",
+        "numerator": null,
+        "rate": null
+      },
+      "rejected_proposal_count": null
+    },
+    "no_candidate_metrics": {
+      "no_candidate_precision": {
+        "denominator": null,
+        "note": "not applicable to this system",
+        "numerator": null,
+        "rate": null
+      },
+      "no_candidate_recall": {
+        "denominator": null,
+        "note": "not applicable to this system",
+        "numerator": null,
+        "rate": null
+      }
+    },
+    "proposal_metrics": {
+      "candidate_absent_count": null,
+      "direct_valid_proposal_rate": {
+        "denominator": null,
+        "note": "not applicable to this system",
+        "numerator": null,
+        "rate": null
+      },
+      "proposal_rate": {
+        "denominator": null,
+        "note": "not applicable to this system",
+        "numerator": null,
+        "rate": null
+      },
+      "valid_proposal_rate": {
+        "denominator": null,
+        "note": "not applicable to this system",
+        "numerator": null,
+        "rate": null
+      }
+    },
+    "rejection_metrics": {},
+    "runner_id": null,
+    "runner_version": null,
+    "safety_metrics": {
+      "direct_mutation_violation": 0,
+      "duplicate_active_memories": 0,
+      "forgotten_leakage": 0,
+      "inactive_contamination": 0,
+      "stale_leakage": 0,
+      "state_corruption": 0,
+      "superseded_leakage": 0,
+      "unauthorized_application": 0
+    },
+    "system_config_digest": "62e1a66c46a9e6b68c47f5e792959ee1e3280b2afa11fb199bf7e0f14b4752ab",
+    "system_id": "experienceos_hybrid_full_v2_reference",
+    "validator_id": null,
+    "validator_version": null
+  },
+  {
+    "case_counts": {
+      "duplicate": 2,
+      "negative": 24,
+      "positive": 13,
+      "scorable": 39,
+      "total": 40,
+      "unscorable": 1
+    },
+    "controller_id": "grounded_rules-1",
+    "controller_type": "deterministic",
+    "controller_version": "1",
+    "creation_metrics": {
+      "accepted_durable_memory_count": 13,
+      "correct_kind_rate": {
+        "denominator": 6,
+        "numerator": 5,
+        "rate": 0.8333333333333334
+      },
+      "duplicate_dedup_correct": {
+        "denominator": 2,
+        "numerator": 2,
+        "rate": 1.0
+      },
+      "durable_creation_recall": {
+        "denominator": 13,
+        "numerator": 11,
+        "rate": 0.8461538461538461
+      },
+      "durable_false_positive_count": 2,
+      "f1": {
+        "value": 0.5263157894736842
+      },
+      "precision": {
+        "denominator": 6,
+        "numerator": 5,
+        "rate": 0.8333333333333334
+      },
+      "recall": {
+        "denominator": 13,
+        "numerator": 5,
+        "rate": 0.38461538461538464
+      }
+    },
+    "dataset_id": "experienceos-lifecycle-v1",
+    "downstream_metrics": {
+      "answer_bearing_candidate_rate": {
+        "denominator": 13,
+        "numerator": 11,
+        "rate": 0.8461538461538461
+      },
+      "downstream_selection_rate": {
+        "denominator": 11,
+        "numerator": 11,
+        "rate": 1.0
+      },
+      "mrr": null,
+      "recall_at_k": null
+    },
+    "fallback_mode": "none",
+    "grounding_metrics": {
+      "grounded_span_validity": {
+        "denominator": 6,
+        "numerator": 6,
+        "rate": 1.0
+      },
+      "grounding_rejected_count": 0,
+      "unsupported_claim_rate": {
+        "denominator": 6,
+        "numerator": 0,
+        "rate": 0.0
+      }
+    },
+    "latency_metrics": {
+      "count": 40,
+      "max_ms": 1.3585840060841292,
+      "mean_ms": 0.09347300219815224,
+      "min_ms": 0.010499992640689015,
+      "p50_ms": 0.03691602614708245,
+      "p95_ms": 0.23883304675109684
+    },
+    "lifecycle_metrics": {
+      "duplicate_proposal_rate": {
+        "denominator": 2,
+        "numerator": 0,
+        "rate": 0.0
+      },
+      "lifecycle_eligible": {
+        "denominator": 6,
+        "numerator": 3,
+        "rate": 0.5
+      },
+      "rejected_proposal_count": 0
+    },
+    "no_candidate_metrics": {
+      "no_candidate_precision": {
+        "denominator": 31,
+        "numerator": 23,
+        "rate": 0.7419354838709677
+      },
+      "no_candidate_recall": {
+        "denominator": 24,
+        "numerator": 23,
+        "rate": 0.9583333333333334
+      }
+    },
+    "proposal_metrics": {
+      "candidate_absent_count": 33,
+      "direct_valid_proposal_rate": {
+        "denominator": 6,
+        "numerator": 6,
+        "rate": 1.0
+      },
+      "proposal_rate": {
+        "denominator": 39,
+        "numerator": 6,
+        "rate": 0.15384615384615385
+      },
+      "valid_proposal_rate": {
+        "denominator": 6,
+        "numerator": 6,
+        "rate": 1.0
+      }
+    },
+    "rejection_metrics": {
+      "non-durable": {
+        "denominator": 6,
+        "numerator": 5,
+        "rate": 0.8333333333333334
+      },
+      "one-off-request": {
+        "denominator": 11,
+        "numerator": 11,
+        "rate": 1.0
+      },
+      "question": {
+        "denominator": 6,
+        "numerator": 6,
+        "rate": 1.0
+      },
+      "temporary-state": {
+        "denominator": 1,
+        "numerator": 1,
+        "rate": 1.0
+      }
+    },
+    "runner_id": null,
+    "runner_version": null,
+    "safety_metrics": {
+      "direct_mutation_violation": 0,
+      "duplicate_active_memories": 2,
+      "forgotten_leakage": 0,
+      "inactive_contamination": 0,
+      "stale_leakage": 0,
+      "state_corruption": 0,
+      "superseded_leakage": 0,
+      "unauthorized_application": 0
+    },
+    "system_config_digest": "a81411457d34c8dbe78e7bfede602a93b2b77203261ad7b8efbb117c6afcf1b1",
+    "system_id": "experienceos_grounded_rules_v1",
+    "validator_id": "grounded_candidate_validator",
+    "validator_version": "1"
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "artifact_schema_version": "1",
+  "files": {
+    "README.md": {
+      "sha256": "e3074354310c70148920383ec2b7f54414a7755e04e02933f01c5fad9313cdab"
+    },
+    "external_cases.jsonl": {
+      "sha256": "5f876db9fbcf08a1828e149f838bf044d0db09af4d6cc73ca4c56adaec57a510"
+    },
+    "external_classification.json": {
+      "sha256": "6f6a66bde307f9036e896a594ac1447db662797ebd6e04cab3d779d75bd5e1c8"
+    }
+  },
+  "normalized_result_digest": "544421a1a6f580fcda5dc9c3a1b89e4ce71c0212eae8be2399859848c194e2e2"
+}

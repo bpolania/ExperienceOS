@@ -1,0 +1,30 @@
+{
+  "artifact_schema_version": "1",
+  "files": {
+    "README.md": {
+      "sha256": "fb48c72c16f8badf7a2b2abf3bc253b71bb0138a1eabfb840ed8cb41d7b38e75"
+    },
+    "ablation_grounding.json": {
+      "sha256": "cee9e04f0b8675207c41e11a9cc99c87217a5d7a8bb82203d54bb0916aed6c5d"
+    },
+    "ablation_lifecycle.json": {
+      "sha256": "817fc24e7f9dffb6f36bf0b3e1bd4615e4ece483abb6ea61e728b83aec78e603"
+    },
+    "aggregates.json": {
+      "sha256": "fc77d1e7e22678b238fddb3e989f0a43b365ce68d72f81524d7e9ba97e5446e9"
+    },
+    "cases.jsonl": {
+      "sha256": "3d6dd622c54964e99f48c4ded82a07129db7b01665e4f102c10f65be66e6aa0c"
+    },
+    "fixture_smoke.json": {
+      "sha256": "59e46b010f581ad818b43c19de2382500384a69e79221186fd5087d99986e137"
+    },
+    "optional_runs.json": {
+      "sha256": "244e18ade2a73f76a29684845e2510a94ea2169b183cba9311ff9b658e3cb3e1"
+    },
+    "run_config.json": {
+      "sha256": "48d0e061a65647e2bae562b76c77330f440c03dbec75f3addd39f9e2d914121e"
+    }
+  },
+  "normalized_result_digest": "544421a1a6f580fcda5dc9c3a1b89e4ce71c0212eae8be2399859848c194e2e2"
+}

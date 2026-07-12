@@ -208,14 +208,27 @@ def test_fixtures_live_outside_committed_results():
         )
 
 
-def test_canonical_benchmark_code_does_not_reference_fixtures():
+def test_development_fixture_loader_used_only_by_labeled_smoke():
+    # The development-fixture LOADER must not feed primary benchmark
+    # aggregates: its only benchmark consumer is the grounded-extraction
+    # runner's labeled fixture_smoke, and it must not be imported by the
+    # scoring/aggregation/evaluation code.
+    marker = "benchmarks.fixtures.grounded_extraction"
     consumers = []
     for path in Path("benchmarks").rglob("*.py"):
         if "fixtures" in path.parts:
             continue
-        if "grounded_extraction" in path.read_text():
-            consumers.append(str(path))
-    assert consumers == [], consumers
+        if marker in path.read_text():
+            consumers.append(path)
+    assert consumers == [
+        Path("benchmarks/grounded_extraction/runner.py")
+    ], consumers
+    runner = Path("benchmarks/grounded_extraction/runner.py").read_text()
+    smoke = runner.split("def fixture_smoke", 1)[1].split("\ndef ", 1)[0]
+    assert marker in smoke
+    for module in ("scoring.py", "evaluation.py", "gates.py"):
+        assert marker not in Path(
+            f"benchmarks/grounded_extraction/{module}").read_text()
 
 
 def test_no_secrets_or_personal_paths_in_fixture_data():

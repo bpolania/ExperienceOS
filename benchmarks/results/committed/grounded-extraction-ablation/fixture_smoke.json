@@ -1,0 +1,9 @@
+{
+  "fixture_count": 37,
+  "is_primary_benchmark_evidence": false,
+  "negative_abstained": 13,
+  "negative_fixtures": 13,
+  "note": "Development-only smoke: rule/parser/abstention coverage over the committed development fixtures. Not held-out benchmark evidence; excluded from all primary aggregates.",
+  "positive_accepted": 24,
+  "positive_fixtures": 24
+}

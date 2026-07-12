@@ -1,0 +1,38 @@
+[
+  {
+    "controller_id": "grounded_learned_shadow-1",
+    "controller_version": "1",
+    "executed": false,
+    "fallback_substituted": false,
+    "metrics": null,
+    "requires_credentials": false,
+    "requires_runner": true,
+    "runner_id": null,
+    "skip_reason": "no configured local learned runner available",
+    "system_id": "experienceos_grounded_learned_shadow_v1"
+  },
+  {
+    "controller_id": "grounded_learned_shadow-1",
+    "controller_version": "1",
+    "executed": false,
+    "fallback_substituted": false,
+    "metrics": null,
+    "requires_credentials": false,
+    "requires_runner": true,
+    "runner_id": null,
+    "skip_reason": "no configured local learned runner available",
+    "system_id": "experienceos_grounded_learned_candidate_v1"
+  },
+  {
+    "controller_id": "grounded_learned_shadow-1",
+    "controller_version": "1",
+    "executed": false,
+    "fallback_substituted": false,
+    "metrics": null,
+    "requires_credentials": true,
+    "requires_runner": true,
+    "runner_id": "qwen_cloud",
+    "skip_reason": "no optional learned runtime configured (no credentials for the Qwen ceiling)",
+    "system_id": "experienceos_grounded_qwen_ceiling_v1"
+  }
+]

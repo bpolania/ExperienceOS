@@ -1,0 +1,21 @@
+{
+  "artifact_schema_version": "1",
+  "files": {
+    "README.md": {
+      "sha256": "fc61a57f8202429482984bc5669f55b25b33a98cd095ecc22bc16ee474d089ab"
+    },
+    "adoption_gates.json": {
+      "sha256": "098e87a29069d7fde266cbc49b5a4592897d6eca75ad326ec7e602ea651a3819"
+    },
+    "comparison_table.csv": {
+      "sha256": "62bac2e049df6a5c314bf758503c2227302ea1d58fbe05a84119d62a3f06c39c"
+    },
+    "comparison_table.md": {
+      "sha256": "2c91fff5b0719d75815fdd437df7da23d41719bc44c6bab6e323a091c74ed76b"
+    },
+    "report_data.json": {
+      "sha256": "b366363f7ab65a121de93be84467e85ec24bca2572314ce17f009b40600c5e54"
+    }
+  },
+  "normalized_result_digest": "544421a1a6f580fcda5dc9c3a1b89e4ce71c0212eae8be2399859848c194e2e2"
+}

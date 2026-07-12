@@ -1,0 +1,12 @@
+{
+  "dataset_id": "experienceos-lifecycle-v1",
+  "run_schema_version": "1",
+  "system_config_digests": {
+    "experienceos_grounded_rules_v1": "a81411457d34c8dbe78e7bfede602a93b2b77203261ad7b8efbb117c6afcf1b1",
+    "experienceos_hybrid_full_v2_reference": "62e1a66c46a9e6b68c47f5e792959ee1e3280b2afa11fb199bf7e0f14b4752ab"
+  },
+  "systems": [
+    "experienceos_hybrid_full_v2_reference",
+    "experienceos_grounded_rules_v1"
+  ]
+}
