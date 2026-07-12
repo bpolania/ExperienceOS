@@ -1,0 +1,70 @@
+{
+  "external_headline": [
+    {
+      "candidate": "31/50 (0.620)",
+      "context_tokens": 5527,
+      "mrr": 0.3047,
+      "selected_memories": 51,
+      "selection": "12/50 (0.240)",
+      "system": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "candidate": "31/50 (0.620)",
+      "context_tokens": 3950,
+      "mrr": 0.1676,
+      "selected_memories": 8,
+      "selection": "2/50 (0.040)",
+      "system": "experienceos_embedding_only_v1"
+    },
+    {
+      "candidate": "31/50 (0.620)",
+      "context_tokens": 5448,
+      "mrr": 0.2931,
+      "selected_memories": 48,
+      "selection": "13/50 (0.260)",
+      "system": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "candidate": "31/50 (0.620)",
+      "context_tokens": 5448,
+      "mrr": 0.2931,
+      "selected_memories": 48,
+      "selection": "13/50 (0.260)",
+      "system": "experienceos_gate_shadow_v1"
+    }
+  ],
+  "lifecycle_headline": [
+    {
+      "forgotten_exclusion": "2/2 (1.000)",
+      "inactive_contamination": "0/18 (0.000)",
+      "passed": 21,
+      "recall_at_k": "17/17 (1.000)",
+      "stale_leakage": "7/11 (0.636)",
+      "system": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "forgotten_exclusion": "2/2 (1.000)",
+      "inactive_contamination": "0/2 (0.000)",
+      "passed": 15,
+      "recall_at_k": "2/17 (0.118)",
+      "stale_leakage": "7/7 (1.000)",
+      "system": "experienceos_embedding_only_v1"
+    },
+    {
+      "forgotten_exclusion": "2/2 (1.000)",
+      "inactive_contamination": "0/18 (0.000)",
+      "passed": 21,
+      "recall_at_k": "17/17 (1.000)",
+      "stale_leakage": "7/11 (0.636)",
+      "system": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "forgotten_exclusion": "2/2 (1.000)",
+      "inactive_contamination": "0/18 (0.000)",
+      "passed": 21,
+      "recall_at_k": "17/17 (1.000)",
+      "stale_leakage": "7/11 (0.636)",
+      "system": "experienceos_gate_shadow_v1"
+    }
+  ]
+}

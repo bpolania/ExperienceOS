@@ -738,7 +738,37 @@ against §17/§18; and a recommended Phase 12 direction.
   grounded candidate or none with optional spans (Phase 12 shape);
   `MemoryGate` reused byte-unchanged; zero canonical integration — no
   default construction, no activation flag, no registry.
-- SQLite cache persistence (only if §13 latency criteria demand it).
-- The final "materially regress" threshold ratification (Prompt 7).
+- SQLite cache persistence (only if §13 latency criteria demand it —
+  Prompt 7 measured sub-millisecond deterministic-provider retrieval,
+  so persistence remains unneeded).
+- ~~The final "materially regress" threshold ratification~~
+  **Ratified in Prompt 7:** a drop of more than 1 case on a frozen
+  numerator, or more than 2% relative on a continuous metric, is
+  material (the deterministic benchmarks have zero run-to-run
+  variance, so committed values compare directly). Encoded in
+  `benchmarks/reporting/report_phase11.py` and not loosened after
+  observing results.
+- ~~Benchmark execution (§9/§17/§19 Prompt 7)~~ **Resolved in
+  Prompt 7:** system IDs `experienceos_hybrid_full_v2_reference` /
+  `experienceos_embedding_only_v1` / `experienceos_fused_retrieval_v1`
+  / `experienceos_gate_shadow_v1`; committed artifacts at
+  `benchmarks/results/committed/phase11-retrieval-ablation/` (digest
+  `5fb0fb88…`), `phase11-semantic-retrieval/` (digest `5ff129ce…`),
+  and `report-phase11/`; report at
+  `docs/phase11_semantic_retrieval_report.md`; commands `run-phase11`,
+  `run-external-phase11`, `validate-phase11`,
+  `validate-external-phase11`, `validate-phase11-consistency`,
+  `report-phase11`, `validate-report-phase11`. Reference lock:
+  behavioral reproduction with full metric equality (one
+  run-composition-relative derived metric excluded, documented).
+  **Adoption results (deterministic test provider):** embedding-only
+  `not_adopted` (broad material regression — lifecycle Recall@K 2/17,
+  external selection 2/50, MRR 0.168); fused `experimental` (mixed:
+  selection 13/50 vs 12/50, MRR 0.293 vs 0.305 — a material single-
+  metric regression under the test provider, inconclusive for learned
+  embeddings); gate-shadow `experimental` (canonically identical to
+  fused; `affected_selection` 0 everywhere). Provider-specific floor
+  calibration remains open pending a real local provider
+  (`dependency_missing` skip recorded).
 - Whether the gate heuristic produces useful recommendation
   distributions or the seam ships proof-only (Prompt 5/7).

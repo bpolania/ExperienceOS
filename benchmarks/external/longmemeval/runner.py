@@ -615,6 +615,21 @@ def run_dev_full_temporal(case: ExternalCase):
 def run_experienceos_local_v2(case: ExternalCase) -> ExternalCaseRun:
     """Prompt 7 system: pre-full-v2 + forget resolver + scripted
     (simulated) local-policy v2 through the full containment pipeline."""
+    return _run_local_v2_pipeline(case, "experienceos_local_v2")
+
+
+def _run_local_v2_pipeline(
+    case: ExternalCase,
+    system_id: str,
+    retrieval_kwargs: dict | None = None,
+    gate=None,
+) -> ExternalCaseRun:
+    """The local_v2/full_v2 pipeline, parameterized for Phase 11.
+
+    With the default ``retrieval_kwargs=None`` this is the exact
+    Phase 9 execution; Phase 11 systems inject semantic/fused/gate
+    strategy kwargs and additive diagnostics only.
+    """
     from benchmarks.adapters.experienceos_local_v2 import (
         _make_planner_stack,
     )
@@ -627,24 +642,24 @@ def run_experienceos_local_v2(case: ExternalCase) -> ExternalCaseRun:
     from experienceos.policy.local_v2 import ScriptedLocalPolicyV2
     from experienceos.providers import MockProvider
 
-    run = ExternalCaseRun(
-        case.question_id, case.category, "experienceos_local_v2"
-    )
+    run = ExternalCaseRun(case.question_id, case.category, system_id)
     run.sessions = len(case.sessions)
     run.history_turns = sum(len(s.turns) for s in case.sessions)
     planner = _make_planner_stack()
     policy = ScriptedLocalPolicyV2(deterministic_planner=planner)
     temporal_policy = TemporalRetrievalPolicy()
+    strategy = HybridRetrievalStrategy(
+        selection_strategy=CoverageSelectionStrategy(),
+        temporal_policy=temporal_policy,
+        **(retrieval_kwargs or {}),
+    )
     agent = ExperienceOS(
         model=MockProvider(),
         memory_policy=policy,
         context_builder=ContextBuilder(
             memory_budget=MEMORY_BUDGET,
             compressor=ExperienceCompressor(),
-            retrieval_strategy=HybridRetrievalStrategy(
-                selection_strategy=CoverageSelectionStrategy(),
-                temporal_policy=temporal_policy,
-            ),
+            retrieval_strategy=strategy,
         ),
     )
     user_id = f"lme-{case.question_id}"
@@ -708,10 +723,103 @@ def run_experienceos_local_v2(case: ExternalCase) -> ExternalCaseRun:
         **{f"policy_{k}": v for k, v in policy.summary().items()
            if isinstance(v, (int, float))},
     }
+    if retrieval_kwargs:
+        # Additive Phase 11 evidence: flattened numeric semantic/cache
+        # counters from the strategy summary (which excludes latency),
+        # plus gate tallies. Existing systems emit none of this.
+        semantic = strategy.summary().get("semantic_retrieval", {})
+        run.extraction.update(
+            {
+                "phase11_retrieval_mode": strategy.semantic_mode,
+                "phase11_semantic_floor": semantic.get(
+                    "relevance_floor", 0.0
+                ),
+                **{
+                    f"semantic_cache_{k}": v
+                    for k, v in semantic.get("cache", {}).items()
+                    if isinstance(v, (int, float))
+                },
+            }
+        )
+        if strategy.fusion_profile is not None:
+            run.extraction["phase11_fusion_profile"] = (
+                strategy.fusion_profile.profile_id
+            )
+    if gate is not None:
+        run.extraction.update(gate.counters)
     finished = _finish(run, case, [*context_contents,
                                    _question_text(case)], candidates)
     finished.response = response
     return finished
+
+
+def _phase11_retrieval_kwargs(role: str) -> tuple[dict, object]:
+    """Strategy kwargs per Phase 11 role (deterministic provider)."""
+    from benchmarks.adapters.experienceos_phase11 import (
+        CountingShadowGate,
+        make_semantic_generator,
+    )
+
+    if role == "embedding_only":
+        return (
+            {
+                "semantic_generator": make_semantic_generator(),
+                "semantic_mode": "semantic_only",
+            },
+            None,
+        )
+    kwargs = {
+        "semantic_generator": make_semantic_generator(),
+        "semantic_mode": "fused",
+        "fusion_profile": "full_fusion",
+    }
+    gate = CountingShadowGate() if role == "gate_shadow" else None
+    if gate is not None:
+        kwargs["memory_gate"] = gate
+    return kwargs, gate
+
+
+def run_experienceos_hybrid_full_v2_reference(case: ExternalCase):
+    """Phase 11 anchor: the exact Phase 9 final pipeline under the
+    reference ID. No embeddings, no cache, no fusion, no gate."""
+    run = _run_local_v2_pipeline(
+        case, "experienceos_hybrid_full_v2_reference"
+    )
+    run.extraction["phase11_role"] = "reference"
+    run.extraction["reference_of"] = "experienceos_hybrid_full_v2"
+    run.extraction["simulated_proposal"] = 1
+    run.extraction["direct_model_inference"] = 0
+    return run
+
+
+def run_experienceos_embedding_only_v1(case: ExternalCase):
+    kwargs, gate = _phase11_retrieval_kwargs("embedding_only")
+    run = _run_local_v2_pipeline(
+        case, "experienceos_embedding_only_v1",
+        retrieval_kwargs=kwargs, gate=gate,
+    )
+    run.extraction["phase11_role"] = "embedding_only"
+    return run
+
+
+def run_experienceos_fused_retrieval_v1(case: ExternalCase):
+    kwargs, gate = _phase11_retrieval_kwargs("fused")
+    run = _run_local_v2_pipeline(
+        case, "experienceos_fused_retrieval_v1",
+        retrieval_kwargs=kwargs, gate=gate,
+    )
+    run.extraction["phase11_role"] = "fused"
+    return run
+
+
+def run_experienceos_gate_shadow_v1(case: ExternalCase):
+    kwargs, gate = _phase11_retrieval_kwargs("gate_shadow")
+    run = _run_local_v2_pipeline(
+        case, "experienceos_gate_shadow_v1",
+        retrieval_kwargs=kwargs, gate=gate,
+    )
+    run.extraction["phase11_role"] = "gate_shadow"
+    return run
 
 
 def run_experienceos_hybrid_full_v2(case: ExternalCase):
@@ -741,6 +849,14 @@ _RUNNERS = {
     "dev_full_temporal": run_dev_full_temporal,
     "experienceos_local_v2": run_experienceos_local_v2,
     "experienceos_hybrid_full_v2": run_experienceos_hybrid_full_v2,
+    # Phase 11 retrieval systems; not in EXTERNAL_SYSTEMS, so v1/v2
+    # committed pipelines and validators stay untouched.
+    "experienceos_hybrid_full_v2_reference": (
+        run_experienceos_hybrid_full_v2_reference
+    ),
+    "experienceos_embedding_only_v1": run_experienceos_embedding_only_v1,
+    "experienceos_fused_retrieval_v1": run_experienceos_fused_retrieval_v1,
+    "experienceos_gate_shadow_v1": run_experienceos_gate_shadow_v1,
 }
 
 

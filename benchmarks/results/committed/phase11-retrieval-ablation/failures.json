@@ -1,0 +1,131 @@
+{
+  "ambiguous_references": [],
+  "deferred_evaluations": [
+    {
+      "reason": "abstention verification requires provider-backed evaluation; deferred in deterministic offline mode",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "reason": "model_scored response evaluation requires a judge; deferred in deterministic offline mode",
+      "scenario_id": "retrieval_007_correct_abstention",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "reason": "abstention verification requires provider-backed evaluation; deferred in deterministic offline mode",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "reason": "model_scored response evaluation requires a judge; deferred in deterministic offline mode",
+      "scenario_id": "retrieval_007_correct_abstention",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "reason": "abstention verification requires provider-backed evaluation; deferred in deterministic offline mode",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "reason": "model_scored response evaluation requires a judge; deferred in deterministic offline mode",
+      "scenario_id": "retrieval_007_correct_abstention",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "reason": "abstention verification requires provider-backed evaluation; deferred in deterministic offline mode",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "reason": "model_scored response evaluation requires a judge; deferred in deterministic offline mode",
+      "scenario_id": "retrieval_007_correct_abstention",
+      "system_id": "experienceos_gate_shadow_v1"
+    }
+  ],
+  "evaluator_failures": [],
+  "skipped_cases": [
+    {
+      "reason": "requires_local_model: no real local model configured for this run",
+      "scenario_id": "containment_005_one_sentence_supersession_local",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "reason": "requires_local_model: no real local model configured for this run",
+      "scenario_id": "containment_006_vague_forget_safe",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "reason": "requires_local_model: no real local model configured for this run",
+      "scenario_id": "containment_005_one_sentence_supersession_local",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "reason": "requires_local_model: no real local model configured for this run",
+      "scenario_id": "containment_006_vague_forget_safe",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "reason": "requires_local_model: no real local model configured for this run",
+      "scenario_id": "containment_005_one_sentence_supersession_local",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "reason": "requires_local_model: no real local model configured for this run",
+      "scenario_id": "containment_006_vague_forget_safe",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "reason": "requires_local_model: no real local model configured for this run",
+      "scenario_id": "containment_005_one_sentence_supersession_local",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "reason": "requires_local_model: no real local model configured for this run",
+      "scenario_id": "containment_006_vague_forget_safe",
+      "system_id": "experienceos_gate_shadow_v1"
+    }
+  ],
+  "system_execution_failures": [],
+  "unresolved_references": [
+    {
+      "reference": "active:work.daily_status_channel.v3",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "reference": "superseded:work.daily_status_channel.v2",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "reference": "active:work.daily_status_channel.v3",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "reference": "superseded:work.daily_status_channel.v2",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "reference": "active:work.daily_status_channel.v3",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "reference": "superseded:work.daily_status_channel.v2",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "reference": "active:work.daily_status_channel.v3",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "reference": "superseded:work.daily_status_channel.v2",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "system_id": "experienceos_gate_shadow_v1"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "context_budget_source": "per-scenario",
+  "dataset_version": "experienceos-lifecycle-v1",
+  "evaluator_mode": "deterministic",
+  "fail_fast": false,
+  "local_policy_mode": "scripted",
+  "max_output_tokens": null,
+  "memory_policy_mode": "per-system",
+  "notes": [],
+  "output_dir": "benchmarks/results/committed/phase11-retrieval-ablation",
+  "overwrite": true,
+  "profile": "full-offline",
+  "response_provider_mode": "deterministic-offline",
+  "retry_policy": "none",
+  "run_id": "phase11-retrieval-ablation",
+  "scenario_ids": [],
+  "seed_policy": "per-scenario committed seeds",
+  "selection_k_source": "per-scenario",
+  "storage_mode": "in_memory",
+  "suite_version": "experienceos-lifecycle-v1",
+  "systems": [
+    "experienceos_hybrid_full_v2_reference",
+    "experienceos_embedding_only_v1",
+    "experienceos_fused_retrieval_v1",
+    "experienceos_gate_shadow_v1"
+  ],
+  "temperature": null,
+  "token_accounting_method": "approximation"
+}

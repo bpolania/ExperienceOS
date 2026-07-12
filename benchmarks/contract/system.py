@@ -40,6 +40,13 @@ class SystemId:
     EXPERIENCEOS_TEMPORAL_V2 = "experienceos_temporal_v2"
     EXPERIENCEOS_LOCAL_V2 = "experienceos_local_v2"
     EXPERIENCEOS_HYBRID_FULL_V2 = "experienceos_hybrid_full_v2"
+    # Phase 11 retrieval systems (v1/v2 IDs above stay frozen).
+    EXPERIENCEOS_HYBRID_FULL_V2_REFERENCE = (
+        "experienceos_hybrid_full_v2_reference"
+    )
+    EXPERIENCEOS_EMBEDDING_ONLY_V1 = "experienceos_embedding_only_v1"
+    EXPERIENCEOS_FUSED_RETRIEVAL_V1 = "experienceos_fused_retrieval_v1"
+    EXPERIENCEOS_GATE_SHADOW_V1 = "experienceos_gate_shadow_v1"
 
 
 KNOWN_SYSTEM_IDS = frozenset(

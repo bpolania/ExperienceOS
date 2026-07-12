@@ -1,0 +1,11 @@
+{
+  "files": {
+    "adoption_gates": "1a21ec09ae6168fcd7d0606138e29dccb44b52d3a23e97dabfbb7e3c80082315",
+    "comparison_tables": "522da3df9b4c8cbeb6872a32794f8c88c3249d5c469680f0090112192bfa805d",
+    "markdown": "0bb9107d636f2fed3bebe4177155baefb7f184b30185ba93650aa7af3a545c4c",
+    "readme": "2d40bdf3260b5de02d6d96d18a249db2f73697a48487db2e241bf41e48ac7193",
+    "report_data": "fb799a03ef805e8a34d41ee985591b6ad67aa4b7cfd14f6cb05dedf3686128f6"
+  },
+  "report_data_digest": "13c1acc998083e9132a036c38d4b52ed54d5443cb04daabc45c59c673c376564",
+  "spec_hash": "83655ed12baed328d10a4f9c60af2d45b8b3db70a089d87b9a5757d99dcaa86e"
+}

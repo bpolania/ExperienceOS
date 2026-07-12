@@ -1,0 +1,214 @@
+{
+  "classification_rule": "safety failure or material regression -> not_adopted; improvement above threshold -> optional_useful (deterministic test embeddings cannot justify recommended_candidate); otherwise -> experimental",
+  "experienceos_embedding_only_v1": {
+    "classification": "not_adopted",
+    "gates": {
+      "10_benefit_visible_in_report": {
+        "evidence": {
+          "candidate_gain_cases": 0.0,
+          "mrr_relative_change": -0.4499
+        },
+        "pass": false
+      },
+      "1_candidate_or_mrr_improves": {
+        "evidence": {
+          "candidate_gain_cases": 0.0,
+          "mrr_relative_change": -0.4499
+        },
+        "pass": false
+      },
+      "2_recall_at_k_no_material_regression": {
+        "evidence": {
+          "recall_at_k_case_drop": 15.0
+        },
+        "pass": false
+      },
+      "3_inactive_contamination_zero": {
+        "evidence": {
+          "denominator": 2.0,
+          "numerator": 0.0
+        },
+        "pass": true
+      },
+      "4_forgotten_leakage_zero": {
+        "evidence": {
+          "denominator": 1.0,
+          "numerator": 0.0
+        },
+        "pass": true
+      },
+      "5_superseded_leakage_zero_current_mode": {
+        "evidence": {
+          "denominator": 2.0,
+          "numerator": 0.0
+        },
+        "pass": true
+      },
+      "6_context_within_budget": {
+        "evidence": {
+          "reference_tokens": 5527,
+          "relative_growth": -0.2853,
+          "tokens": 3950
+        },
+        "pass": true
+      },
+      "7_deterministic_fallback_available": {
+        "evidence": "typed provider failures fall back to the exact lexical reference path (unit-proven)",
+        "pass": true
+      },
+      "8_latency_acceptable_or_optional": {
+        "evidence": "deterministic provider adds sub-ms hashing; the learned provider remains optional",
+        "pass": true
+      },
+      "9_diagnostics_explain_ranking": {
+        "evidence": "per-candidate component/normalized/contribution breakdowns committed in evidence",
+        "pass": true
+      },
+      "any_improvement": false,
+      "material_regression_count": 3,
+      "selection_drop_cases": 10.0
+    }
+  },
+  "experienceos_fused_retrieval_v1": {
+    "classification": "experimental",
+    "gates": {
+      "10_benefit_visible_in_report": {
+        "evidence": {
+          "candidate_gain_cases": 0.0,
+          "mrr_relative_change": -0.0383
+        },
+        "pass": false
+      },
+      "1_candidate_or_mrr_improves": {
+        "evidence": {
+          "candidate_gain_cases": 0.0,
+          "mrr_relative_change": -0.0383
+        },
+        "pass": false
+      },
+      "2_recall_at_k_no_material_regression": {
+        "evidence": {
+          "recall_at_k_case_drop": 0.0
+        },
+        "pass": true
+      },
+      "3_inactive_contamination_zero": {
+        "evidence": {
+          "denominator": 18.0,
+          "numerator": 0.0
+        },
+        "pass": true
+      },
+      "4_forgotten_leakage_zero": {
+        "evidence": {
+          "denominator": 1.0,
+          "numerator": 0.0
+        },
+        "pass": true
+      },
+      "5_superseded_leakage_zero_current_mode": {
+        "evidence": {
+          "denominator": 18.0,
+          "numerator": 0.0
+        },
+        "pass": true
+      },
+      "6_context_within_budget": {
+        "evidence": {
+          "reference_tokens": 5527,
+          "relative_growth": -0.0143,
+          "tokens": 5448
+        },
+        "pass": true
+      },
+      "7_deterministic_fallback_available": {
+        "evidence": "typed provider failures fall back to the exact lexical reference path (unit-proven)",
+        "pass": true
+      },
+      "8_latency_acceptable_or_optional": {
+        "evidence": "deterministic provider adds sub-ms hashing; the learned provider remains optional",
+        "pass": true
+      },
+      "9_diagnostics_explain_ranking": {
+        "evidence": "per-candidate component/normalized/contribution breakdowns committed in evidence",
+        "pass": true
+      },
+      "any_improvement": true,
+      "material_regression_count": 1,
+      "selection_drop_cases": -1.0
+    }
+  },
+  "experienceos_gate_shadow_v1": {
+    "classification": "experimental",
+    "gates": {
+      "10_benefit_visible_in_report": {
+        "evidence": {
+          "candidate_gain_cases": 0.0,
+          "mrr_relative_change": -0.0383
+        },
+        "pass": false
+      },
+      "1_candidate_or_mrr_improves": {
+        "evidence": {
+          "candidate_gain_cases": 0.0,
+          "mrr_relative_change": -0.0383
+        },
+        "pass": false
+      },
+      "2_recall_at_k_no_material_regression": {
+        "evidence": {
+          "recall_at_k_case_drop": 0.0
+        },
+        "pass": true
+      },
+      "3_inactive_contamination_zero": {
+        "evidence": {
+          "denominator": 18.0,
+          "numerator": 0.0
+        },
+        "pass": true
+      },
+      "4_forgotten_leakage_zero": {
+        "evidence": {
+          "denominator": 1.0,
+          "numerator": 0.0
+        },
+        "pass": true
+      },
+      "5_superseded_leakage_zero_current_mode": {
+        "evidence": {
+          "denominator": 18.0,
+          "numerator": 0.0
+        },
+        "pass": true
+      },
+      "6_context_within_budget": {
+        "evidence": {
+          "reference_tokens": 5527,
+          "relative_growth": -0.0143,
+          "tokens": 5448
+        },
+        "pass": true
+      },
+      "7_deterministic_fallback_available": {
+        "evidence": "typed provider failures fall back to the exact lexical reference path (unit-proven)",
+        "pass": true
+      },
+      "8_latency_acceptable_or_optional": {
+        "evidence": "deterministic provider adds sub-ms hashing; the learned provider remains optional",
+        "pass": true
+      },
+      "9_diagnostics_explain_ranking": {
+        "evidence": "per-candidate component/normalized/contribution breakdowns committed in evidence",
+        "pass": true
+      },
+      "any_improvement": true,
+      "material_regression_count": 1,
+      "selection_drop_cases": -1.0
+    }
+  },
+  "threshold": {
+    "absolute_cases": 1,
+    "relative": 0.02
+  }
+}

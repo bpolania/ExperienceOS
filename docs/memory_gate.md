@@ -128,6 +128,17 @@ five are interface-only contracts — see
 module: gate IDs, proposal schema, invariants, and selection identity
 are byte-unchanged.
 
+## Measured status (Prompt 7)
+
+Benchmarked at scale in `docs/phase11_semantic_retrieval_report.md`
+(`experienceos_gate_shadow_v1`): canonical metrics identical to the
+fused system on both benchmarks, `affected_selection` 0 across every
+case, zero gate failures, and measurable proposal distributions
+(external: 34,148 evaluated — 5,028 admit, 2,047 reject, 27,073
+abstain, 2,187 disagreements — see the report's gate-shadow table).
+Agreement with the selector remains descriptive evidence, not a
+quality metric.
+
 ## Limitations and future work
 
 No enforcement, no learned gate, no local-model or Qwen gate, no

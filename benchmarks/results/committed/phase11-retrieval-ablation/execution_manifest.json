@@ -1,0 +1,1125 @@
+{
+  "artifact_schema_version": "1",
+  "runs": [
+    {
+      "index": 0,
+      "outcome": "passed",
+      "scenario_id": "creation_001_explicit_scoped_preference",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 1,
+      "outcome": "passed",
+      "scenario_id": "creation_002_durable_user_fact",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 2,
+      "outcome": "passed",
+      "scenario_id": "creation_003_durable_instruction",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 3,
+      "outcome": "passed",
+      "scenario_id": "creation_004_non_durable_statement",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 4,
+      "outcome": "passed",
+      "scenario_id": "creation_005_exact_duplicate_restatement",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 5,
+      "outcome": "passed",
+      "scenario_id": "creation_006_paraphrased_duplicate",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 6,
+      "outcome": "failed",
+      "scenario_id": "updates_001_preference_replacement_cross_session",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 7,
+      "outcome": "failed",
+      "scenario_id": "updates_002_fact_correction",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 8,
+      "outcome": "failed",
+      "scenario_id": "updates_003_instruction_replacement",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 9,
+      "outcome": "failed",
+      "scenario_id": "updates_004_now_prefer_wording",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 10,
+      "outcome": "failed",
+      "scenario_id": "updates_005_instead_of_wording",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 11,
+      "outcome": "passed",
+      "scenario_id": "updates_006_scoped_preferences_coexist",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 12,
+      "outcome": "failed",
+      "scenario_id": "updates_007_correction_with_distractors",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 13,
+      "outcome": "failed",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 14,
+      "outcome": "passed",
+      "scenario_id": "forgetting_001_exact_forget",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 15,
+      "outcome": "passed",
+      "scenario_id": "forgetting_002_paraphrased_forget",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 16,
+      "outcome": "passed",
+      "scenario_id": "forgetting_003_forget_one_of_several",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 17,
+      "outcome": "failed",
+      "scenario_id": "forgetting_004_forget_after_supersession",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 18,
+      "outcome": "partial",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 19,
+      "outcome": "passed",
+      "scenario_id": "forgetting_006_restatement_not_resurrection",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 20,
+      "outcome": "failed",
+      "scenario_id": "retrieval_001_one_relevant_among_many",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 21,
+      "outcome": "passed",
+      "scenario_id": "retrieval_002_multiple_relevant",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 22,
+      "outcome": "passed",
+      "scenario_id": "retrieval_003_lexical_mismatch",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 23,
+      "outcome": "passed",
+      "scenario_id": "retrieval_004_wrong_domain_similar_wording",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 24,
+      "outcome": "failed",
+      "scenario_id": "retrieval_005_old_relevant_vs_recent_irrelevant",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 25,
+      "outcome": "failed",
+      "scenario_id": "retrieval_006_no_memory_needed",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 26,
+      "outcome": "partial",
+      "scenario_id": "retrieval_007_correct_abstention",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 27,
+      "outcome": "failed",
+      "scenario_id": "retrieval_008_stale_would_mislead",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 28,
+      "outcome": "failed",
+      "scenario_id": "context_001_budget_exceeded",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 29,
+      "outcome": "passed",
+      "scenario_id": "context_002_cross_domain_relevance",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 30,
+      "outcome": "passed",
+      "scenario_id": "context_003_redundant_compression",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 31,
+      "outcome": "passed",
+      "scenario_id": "context_004_instruction_priority",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 32,
+      "outcome": "failed",
+      "scenario_id": "context_005_active_and_inactive_versions",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 33,
+      "outcome": "passed",
+      "scenario_id": "context_006_minimal_context_sufficient",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 34,
+      "outcome": "passed",
+      "scenario_id": "containment_001_duplicate_create_contained",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 35,
+      "outcome": "failed",
+      "scenario_id": "containment_002_supersede_inactive_target",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 36,
+      "outcome": "passed",
+      "scenario_id": "containment_003_forget_nonexistent_target",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 37,
+      "outcome": "passed",
+      "scenario_id": "containment_004_malformed_proposal_fallback",
+      "status": "passed",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 38,
+      "outcome": "skipped",
+      "scenario_id": "containment_005_one_sentence_supersession_local",
+      "status": "skipped",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 39,
+      "outcome": "skipped",
+      "scenario_id": "containment_006_vague_forget_safe",
+      "status": "skipped",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "index": 40,
+      "outcome": "passed",
+      "scenario_id": "creation_001_explicit_scoped_preference",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 41,
+      "outcome": "passed",
+      "scenario_id": "creation_002_durable_user_fact",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 42,
+      "outcome": "passed",
+      "scenario_id": "creation_003_durable_instruction",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 43,
+      "outcome": "passed",
+      "scenario_id": "creation_004_non_durable_statement",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 44,
+      "outcome": "passed",
+      "scenario_id": "creation_005_exact_duplicate_restatement",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 45,
+      "outcome": "passed",
+      "scenario_id": "creation_006_paraphrased_duplicate",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 46,
+      "outcome": "failed",
+      "scenario_id": "updates_001_preference_replacement_cross_session",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 47,
+      "outcome": "failed",
+      "scenario_id": "updates_002_fact_correction",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 48,
+      "outcome": "failed",
+      "scenario_id": "updates_003_instruction_replacement",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 49,
+      "outcome": "failed",
+      "scenario_id": "updates_004_now_prefer_wording",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 50,
+      "outcome": "failed",
+      "scenario_id": "updates_005_instead_of_wording",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 51,
+      "outcome": "passed",
+      "scenario_id": "updates_006_scoped_preferences_coexist",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 52,
+      "outcome": "failed",
+      "scenario_id": "updates_007_correction_with_distractors",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 53,
+      "outcome": "failed",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 54,
+      "outcome": "passed",
+      "scenario_id": "forgetting_001_exact_forget",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 55,
+      "outcome": "passed",
+      "scenario_id": "forgetting_002_paraphrased_forget",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 56,
+      "outcome": "passed",
+      "scenario_id": "forgetting_003_forget_one_of_several",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 57,
+      "outcome": "failed",
+      "scenario_id": "forgetting_004_forget_after_supersession",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 58,
+      "outcome": "partial",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 59,
+      "outcome": "passed",
+      "scenario_id": "forgetting_006_restatement_not_resurrection",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 60,
+      "outcome": "failed",
+      "scenario_id": "retrieval_001_one_relevant_among_many",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 61,
+      "outcome": "failed",
+      "scenario_id": "retrieval_002_multiple_relevant",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 62,
+      "outcome": "failed",
+      "scenario_id": "retrieval_003_lexical_mismatch",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 63,
+      "outcome": "passed",
+      "scenario_id": "retrieval_004_wrong_domain_similar_wording",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 64,
+      "outcome": "failed",
+      "scenario_id": "retrieval_005_old_relevant_vs_recent_irrelevant",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 65,
+      "outcome": "failed",
+      "scenario_id": "retrieval_006_no_memory_needed",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 66,
+      "outcome": "partial",
+      "scenario_id": "retrieval_007_correct_abstention",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 67,
+      "outcome": "failed",
+      "scenario_id": "retrieval_008_stale_would_mislead",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 68,
+      "outcome": "failed",
+      "scenario_id": "context_001_budget_exceeded",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 69,
+      "outcome": "failed",
+      "scenario_id": "context_002_cross_domain_relevance",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 70,
+      "outcome": "failed",
+      "scenario_id": "context_003_redundant_compression",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 71,
+      "outcome": "failed",
+      "scenario_id": "context_004_instruction_priority",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 72,
+      "outcome": "failed",
+      "scenario_id": "context_005_active_and_inactive_versions",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 73,
+      "outcome": "failed",
+      "scenario_id": "context_006_minimal_context_sufficient",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 74,
+      "outcome": "passed",
+      "scenario_id": "containment_001_duplicate_create_contained",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 75,
+      "outcome": "failed",
+      "scenario_id": "containment_002_supersede_inactive_target",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 76,
+      "outcome": "passed",
+      "scenario_id": "containment_003_forget_nonexistent_target",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 77,
+      "outcome": "passed",
+      "scenario_id": "containment_004_malformed_proposal_fallback",
+      "status": "passed",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 78,
+      "outcome": "skipped",
+      "scenario_id": "containment_005_one_sentence_supersession_local",
+      "status": "skipped",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 79,
+      "outcome": "skipped",
+      "scenario_id": "containment_006_vague_forget_safe",
+      "status": "skipped",
+      "system_id": "experienceos_embedding_only_v1"
+    },
+    {
+      "index": 80,
+      "outcome": "passed",
+      "scenario_id": "creation_001_explicit_scoped_preference",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 81,
+      "outcome": "passed",
+      "scenario_id": "creation_002_durable_user_fact",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 82,
+      "outcome": "passed",
+      "scenario_id": "creation_003_durable_instruction",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 83,
+      "outcome": "passed",
+      "scenario_id": "creation_004_non_durable_statement",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 84,
+      "outcome": "passed",
+      "scenario_id": "creation_005_exact_duplicate_restatement",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 85,
+      "outcome": "passed",
+      "scenario_id": "creation_006_paraphrased_duplicate",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 86,
+      "outcome": "failed",
+      "scenario_id": "updates_001_preference_replacement_cross_session",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 87,
+      "outcome": "failed",
+      "scenario_id": "updates_002_fact_correction",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 88,
+      "outcome": "failed",
+      "scenario_id": "updates_003_instruction_replacement",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 89,
+      "outcome": "failed",
+      "scenario_id": "updates_004_now_prefer_wording",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 90,
+      "outcome": "failed",
+      "scenario_id": "updates_005_instead_of_wording",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 91,
+      "outcome": "passed",
+      "scenario_id": "updates_006_scoped_preferences_coexist",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 92,
+      "outcome": "failed",
+      "scenario_id": "updates_007_correction_with_distractors",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 93,
+      "outcome": "failed",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 94,
+      "outcome": "passed",
+      "scenario_id": "forgetting_001_exact_forget",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 95,
+      "outcome": "passed",
+      "scenario_id": "forgetting_002_paraphrased_forget",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 96,
+      "outcome": "passed",
+      "scenario_id": "forgetting_003_forget_one_of_several",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 97,
+      "outcome": "failed",
+      "scenario_id": "forgetting_004_forget_after_supersession",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 98,
+      "outcome": "partial",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 99,
+      "outcome": "passed",
+      "scenario_id": "forgetting_006_restatement_not_resurrection",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 100,
+      "outcome": "failed",
+      "scenario_id": "retrieval_001_one_relevant_among_many",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 101,
+      "outcome": "passed",
+      "scenario_id": "retrieval_002_multiple_relevant",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 102,
+      "outcome": "passed",
+      "scenario_id": "retrieval_003_lexical_mismatch",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 103,
+      "outcome": "passed",
+      "scenario_id": "retrieval_004_wrong_domain_similar_wording",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 104,
+      "outcome": "failed",
+      "scenario_id": "retrieval_005_old_relevant_vs_recent_irrelevant",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 105,
+      "outcome": "failed",
+      "scenario_id": "retrieval_006_no_memory_needed",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 106,
+      "outcome": "partial",
+      "scenario_id": "retrieval_007_correct_abstention",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 107,
+      "outcome": "failed",
+      "scenario_id": "retrieval_008_stale_would_mislead",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 108,
+      "outcome": "failed",
+      "scenario_id": "context_001_budget_exceeded",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 109,
+      "outcome": "passed",
+      "scenario_id": "context_002_cross_domain_relevance",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 110,
+      "outcome": "passed",
+      "scenario_id": "context_003_redundant_compression",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 111,
+      "outcome": "passed",
+      "scenario_id": "context_004_instruction_priority",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 112,
+      "outcome": "failed",
+      "scenario_id": "context_005_active_and_inactive_versions",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 113,
+      "outcome": "passed",
+      "scenario_id": "context_006_minimal_context_sufficient",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 114,
+      "outcome": "passed",
+      "scenario_id": "containment_001_duplicate_create_contained",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 115,
+      "outcome": "failed",
+      "scenario_id": "containment_002_supersede_inactive_target",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 116,
+      "outcome": "passed",
+      "scenario_id": "containment_003_forget_nonexistent_target",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 117,
+      "outcome": "passed",
+      "scenario_id": "containment_004_malformed_proposal_fallback",
+      "status": "passed",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 118,
+      "outcome": "skipped",
+      "scenario_id": "containment_005_one_sentence_supersession_local",
+      "status": "skipped",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 119,
+      "outcome": "skipped",
+      "scenario_id": "containment_006_vague_forget_safe",
+      "status": "skipped",
+      "system_id": "experienceos_fused_retrieval_v1"
+    },
+    {
+      "index": 120,
+      "outcome": "passed",
+      "scenario_id": "creation_001_explicit_scoped_preference",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 121,
+      "outcome": "passed",
+      "scenario_id": "creation_002_durable_user_fact",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 122,
+      "outcome": "passed",
+      "scenario_id": "creation_003_durable_instruction",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 123,
+      "outcome": "passed",
+      "scenario_id": "creation_004_non_durable_statement",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 124,
+      "outcome": "passed",
+      "scenario_id": "creation_005_exact_duplicate_restatement",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 125,
+      "outcome": "passed",
+      "scenario_id": "creation_006_paraphrased_duplicate",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 126,
+      "outcome": "failed",
+      "scenario_id": "updates_001_preference_replacement_cross_session",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 127,
+      "outcome": "failed",
+      "scenario_id": "updates_002_fact_correction",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 128,
+      "outcome": "failed",
+      "scenario_id": "updates_003_instruction_replacement",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 129,
+      "outcome": "failed",
+      "scenario_id": "updates_004_now_prefer_wording",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 130,
+      "outcome": "failed",
+      "scenario_id": "updates_005_instead_of_wording",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 131,
+      "outcome": "passed",
+      "scenario_id": "updates_006_scoped_preferences_coexist",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 132,
+      "outcome": "failed",
+      "scenario_id": "updates_007_correction_with_distractors",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 133,
+      "outcome": "failed",
+      "scenario_id": "updates_008_repeated_correction_chain",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 134,
+      "outcome": "passed",
+      "scenario_id": "forgetting_001_exact_forget",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 135,
+      "outcome": "passed",
+      "scenario_id": "forgetting_002_paraphrased_forget",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 136,
+      "outcome": "passed",
+      "scenario_id": "forgetting_003_forget_one_of_several",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 137,
+      "outcome": "failed",
+      "scenario_id": "forgetting_004_forget_after_supersession",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 138,
+      "outcome": "partial",
+      "scenario_id": "forgetting_005_forgotten_leakage_check",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 139,
+      "outcome": "passed",
+      "scenario_id": "forgetting_006_restatement_not_resurrection",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 140,
+      "outcome": "failed",
+      "scenario_id": "retrieval_001_one_relevant_among_many",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 141,
+      "outcome": "passed",
+      "scenario_id": "retrieval_002_multiple_relevant",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 142,
+      "outcome": "passed",
+      "scenario_id": "retrieval_003_lexical_mismatch",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 143,
+      "outcome": "passed",
+      "scenario_id": "retrieval_004_wrong_domain_similar_wording",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 144,
+      "outcome": "failed",
+      "scenario_id": "retrieval_005_old_relevant_vs_recent_irrelevant",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 145,
+      "outcome": "failed",
+      "scenario_id": "retrieval_006_no_memory_needed",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 146,
+      "outcome": "partial",
+      "scenario_id": "retrieval_007_correct_abstention",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 147,
+      "outcome": "failed",
+      "scenario_id": "retrieval_008_stale_would_mislead",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 148,
+      "outcome": "failed",
+      "scenario_id": "context_001_budget_exceeded",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 149,
+      "outcome": "passed",
+      "scenario_id": "context_002_cross_domain_relevance",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 150,
+      "outcome": "passed",
+      "scenario_id": "context_003_redundant_compression",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 151,
+      "outcome": "passed",
+      "scenario_id": "context_004_instruction_priority",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 152,
+      "outcome": "failed",
+      "scenario_id": "context_005_active_and_inactive_versions",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 153,
+      "outcome": "passed",
+      "scenario_id": "context_006_minimal_context_sufficient",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 154,
+      "outcome": "passed",
+      "scenario_id": "containment_001_duplicate_create_contained",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 155,
+      "outcome": "failed",
+      "scenario_id": "containment_002_supersede_inactive_target",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 156,
+      "outcome": "passed",
+      "scenario_id": "containment_003_forget_nonexistent_target",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 157,
+      "outcome": "passed",
+      "scenario_id": "containment_004_malformed_proposal_fallback",
+      "status": "passed",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 158,
+      "outcome": "skipped",
+      "scenario_id": "containment_005_one_sentence_supersession_local",
+      "status": "skipped",
+      "system_id": "experienceos_gate_shadow_v1"
+    },
+    {
+      "index": 159,
+      "outcome": "skipped",
+      "scenario_id": "containment_006_vague_forget_safe",
+      "status": "skipped",
+      "system_id": "experienceos_gate_shadow_v1"
+    }
+  ]
+}

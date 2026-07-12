@@ -1,0 +1,35 @@
+{
+  "artifact_schema_version": "1",
+  "case_run_count": 160,
+  "files": {
+    "aggregate.json": {
+      "records": 1,
+      "sha256": "c2be22fb19c5b7d100f2090d148c5cd8dfaf0c00532f91de8c80ed995f7aa6e7"
+    },
+    "cases.jsonl": {
+      "records": 160,
+      "sha256": "144c56d4d492ef4058f786619f94e59c1b46ecbad95b6072fd40dd91a8346222"
+    },
+    "execution_manifest.json": {
+      "records": 1,
+      "sha256": "cc652f2ee9ebd52621c830086b5071576e266a840e4b9f71b44810f36b6c6da2"
+    },
+    "failures.json": {
+      "records": 1,
+      "sha256": "6f6778844fae44acbab5fd6b160dc0f4b90c6e1a42695cc4fe14dd5c3b4317bd"
+    },
+    "metric_contributions.jsonl": {
+      "records": 4887,
+      "sha256": "aa7d5df877a355f3384a80f926df66c9b86c8ab8fd6bb8e350d753c7a7e7d7e8"
+    },
+    "provenance.json": {
+      "records": 1,
+      "sha256": "7f09623e8d1f81965ec9e5ba5ea26bc7c9a78002431c844fc6f7a0f6029d9bcc"
+    },
+    "run_config.json": {
+      "records": 1,
+      "sha256": "19f7f0f33e343596d2b727b23f01f7358094ef25321f695bb0164d9cfabaddda"
+    }
+  },
+  "normalized_result_digest": "5fb0fb8825956933ceed0297f417c4844f61f800536ec2e6c474d5475f19cf15"
+}

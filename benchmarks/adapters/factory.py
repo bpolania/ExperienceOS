@@ -31,6 +31,12 @@ from benchmarks.adapters.experienceos_rules import ExperienceOSRulesAdapter
 from benchmarks.adapters.experienceos_slots_v2 import (
     ExperienceOSSlotsV2Adapter,
 )
+from benchmarks.adapters.experienceos_phase11 import (
+    ExperienceOSEmbeddingOnlyV1Adapter,
+    ExperienceOSFusedRetrievalV1Adapter,
+    ExperienceOSGateShadowV1Adapter,
+    ExperienceOSHybridFullV2ReferenceAdapter,
+)
 from benchmarks.adapters.experienceos_temporal_v2 import (
     ExperienceOSTemporalV2Adapter,
 )
@@ -48,6 +54,11 @@ ADAPTER_SYSTEM_IDS = (
     SystemId.EXPERIENCEOS_TEMPORAL_V2,
     SystemId.EXPERIENCEOS_LOCAL_V2,
     SystemId.EXPERIENCEOS_HYBRID_FULL_V2,
+    # Phase 11 retrieval systems (Prompt 7); earlier IDs stay frozen.
+    SystemId.EXPERIENCEOS_HYBRID_FULL_V2_REFERENCE,
+    SystemId.EXPERIENCEOS_EMBEDDING_ONLY_V1,
+    SystemId.EXPERIENCEOS_FUSED_RETRIEVAL_V1,
+    SystemId.EXPERIENCEOS_GATE_SHADOW_V1,
 )
 
 
@@ -97,6 +108,22 @@ def create_system(
         return ExperienceOSLocalV2Adapter(provider=provider, seed=seed)
     if system_id == SystemId.EXPERIENCEOS_HYBRID_FULL_V2:
         return ExperienceOSHybridFullV2Adapter(
+            provider=provider, seed=seed
+        )
+    if system_id == SystemId.EXPERIENCEOS_HYBRID_FULL_V2_REFERENCE:
+        return ExperienceOSHybridFullV2ReferenceAdapter(
+            provider=provider, seed=seed
+        )
+    if system_id == SystemId.EXPERIENCEOS_EMBEDDING_ONLY_V1:
+        return ExperienceOSEmbeddingOnlyV1Adapter(
+            provider=provider, seed=seed
+        )
+    if system_id == SystemId.EXPERIENCEOS_FUSED_RETRIEVAL_V1:
+        return ExperienceOSFusedRetrievalV1Adapter(
+            provider=provider, seed=seed
+        )
+    if system_id == SystemId.EXPERIENCEOS_GATE_SHADOW_V1:
+        return ExperienceOSGateShadowV1Adapter(
             provider=provider, seed=seed
         )
     if system_id in BASELINE_CLASSES:

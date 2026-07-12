@@ -1,0 +1,466 @@
+{
+  "cache": {
+    "external": {
+      "experienceos_embedding_only_v1": {
+        "evictions": 0,
+        "hits": 135270,
+        "invalidated": 0,
+        "lookups": 136547,
+        "misses": 1277,
+        "stores": 1277
+      },
+      "experienceos_fused_retrieval_v1": {
+        "evictions": 0,
+        "hits": 135270,
+        "invalidated": 0,
+        "lookups": 136547,
+        "misses": 1277,
+        "stores": 1277
+      },
+      "experienceos_gate_shadow_v1": {
+        "evictions": 0,
+        "hits": 135270,
+        "invalidated": 0,
+        "lookups": 136547,
+        "misses": 1277,
+        "stores": 1277
+      },
+      "experienceos_hybrid_full_v2_reference": {}
+    },
+    "lifecycle": {
+      "experienceos_embedding_only_v1": {
+        "evictions": 0,
+        "hits": 44,
+        "invalidated": 0,
+        "lookups": 104,
+        "misses": 60,
+        "stores": 60
+      },
+      "experienceos_fused_retrieval_v1": {
+        "evictions": 0,
+        "hits": 44,
+        "invalidated": 0,
+        "lookups": 104,
+        "misses": 60,
+        "stores": 60
+      },
+      "experienceos_gate_shadow_v1": {
+        "evictions": 0,
+        "hits": 44,
+        "invalidated": 0,
+        "lookups": 104,
+        "misses": 60,
+        "stores": 60
+      }
+    }
+  },
+  "external": {
+    "experienceos_embedding_only_v1": {
+      "answer_session_candidate_rate": {
+        "denominator": 50.0,
+        "numerator": 31.0,
+        "value": 0.62
+      },
+      "answer_session_mrr": {
+        "denominator": 50.0,
+        "numerator": 8.381000704276564,
+        "value": 0.1676200140855313
+      },
+      "answer_session_selection_rate": {
+        "denominator": 50.0,
+        "numerator": 2.0,
+        "value": 0.04
+      },
+      "candidate_total": 1276,
+      "context_tokens_total": 3950,
+      "selected_memories_total": 8
+    },
+    "experienceos_fused_retrieval_v1": {
+      "answer_session_candidate_rate": {
+        "denominator": 50.0,
+        "numerator": 31.0,
+        "value": 0.62
+      },
+      "answer_session_mrr": {
+        "denominator": 50.0,
+        "numerator": 14.653167665667665,
+        "value": 0.2930633533133533
+      },
+      "answer_session_selection_rate": {
+        "denominator": 50.0,
+        "numerator": 13.0,
+        "value": 0.26
+      },
+      "candidate_total": 1276,
+      "context_tokens_total": 5448,
+      "selected_memories_total": 48
+    },
+    "experienceos_gate_shadow_v1": {
+      "answer_session_candidate_rate": {
+        "denominator": 50.0,
+        "numerator": 31.0,
+        "value": 0.62
+      },
+      "answer_session_mrr": {
+        "denominator": 50.0,
+        "numerator": 14.653167665667665,
+        "value": 0.2930633533133533
+      },
+      "answer_session_selection_rate": {
+        "denominator": 50.0,
+        "numerator": 13.0,
+        "value": 0.26
+      },
+      "candidate_total": 1276,
+      "context_tokens_total": 5448,
+      "selected_memories_total": 48
+    },
+    "experienceos_hybrid_full_v2_reference": {
+      "answer_session_candidate_rate": {
+        "denominator": 50.0,
+        "numerator": 31.0,
+        "value": 0.62
+      },
+      "answer_session_mrr": {
+        "denominator": 50.0,
+        "numerator": 15.236500999000997,
+        "value": 0.3047300199800199
+      },
+      "answer_session_selection_rate": {
+        "denominator": 50.0,
+        "numerator": 12.0,
+        "value": 0.24
+      },
+      "candidate_total": 1276,
+      "context_tokens_total": 5527,
+      "selected_memories_total": 51
+    }
+  },
+  "gate_equivalence": {
+    "external_metrics_equal": true,
+    "lifecycle_metrics_equal": true
+  },
+  "gate_shadow": {
+    "external": {
+      "gate_abstain": 27073,
+      "gate_admit": 5028,
+      "gate_affected_selection": 0,
+      "gate_agreement": 4888,
+      "gate_disagreement": 2187,
+      "gate_evaluated": 34148,
+      "gate_failures": 0,
+      "gate_neutral": 27073,
+      "gate_reject": 2047,
+      "gate_selected_proposed_reject": 1752,
+      "gate_skipped_proposed_admit": 435
+    },
+    "lifecycle": {
+      "gate_abstain": 36,
+      "gate_admit": 22,
+      "gate_affected_selection": 0,
+      "gate_agreement": 22,
+      "gate_disagreement": 0,
+      "gate_evaluated": 58,
+      "gate_failures": 0,
+      "gate_neutral": 36,
+      "gate_reject": 0,
+      "gate_selected_proposed_reject": 0,
+      "gate_skipped_proposed_admit": 0
+    }
+  },
+  "historical": {
+    "external_hybrid_full_v2": {
+      "answer_session_candidate_rate": {
+        "denominator": 50.0,
+        "numerator": 31.0,
+        "value": 0.62
+      },
+      "answer_session_mrr": {
+        "denominator": 50.0,
+        "numerator": 15.236500999000997,
+        "value": 0.3047300199800199
+      },
+      "answer_session_selection_rate": {
+        "denominator": 50.0,
+        "numerator": 12.0,
+        "value": 0.24
+      }
+    },
+    "external_naive_top_k": {
+      "answer_session_candidate_rate": {
+        "denominator": 50.0,
+        "numerator": 50.0,
+        "value": 1.0
+      },
+      "answer_session_mrr": {
+        "denominator": 50.0,
+        "numerator": 32.87946170484466,
+        "value": 0.6575892340968932
+      },
+      "answer_session_selection_rate": {
+        "denominator": 50.0,
+        "numerator": 42.0,
+        "value": 0.84
+      }
+    },
+    "lifecycle_hybrid_full_v2": {
+      "case_outcomes": {
+        "failed": 15,
+        "partial": 2,
+        "passed": 21,
+        "skipped": 2
+      },
+      "forget_detection_accuracy": {
+        "denominator": 4.0,
+        "numerator": 4.0,
+        "value": 1.0
+      },
+      "forgotten_exclusion_rate": {
+        "denominator": 2.0,
+        "numerator": 2.0,
+        "value": 1.0
+      },
+      "forgotten_response_contamination_rate": {
+        "denominator": 1.0,
+        "numerator": 0.0,
+        "value": 0.0
+      },
+      "inactive_contamination_rate": {
+        "denominator": 18.0,
+        "numerator": 0.0,
+        "value": 0.0
+      },
+      "memory_creation_recall": {
+        "denominator": 13.0,
+        "numerator": 12.0,
+        "value": 0.9230769230769231
+      },
+      "memory_token_share": {
+        "denominator": 2289.0,
+        "numerator": 1027.0,
+        "value": 0.4486675404106597
+      },
+      "recall_at_k": {
+        "denominator": 17.0,
+        "numerator": 17.0,
+        "value": 1.0
+      },
+      "stale_selected_leakage_rate": {
+        "denominator": 11.0,
+        "numerator": 7.0,
+        "value": 0.6363636363636364
+      }
+    }
+  },
+  "lifecycle": {
+    "experienceos_embedding_only_v1": {
+      "case_outcomes": {
+        "failed": 21,
+        "partial": 2,
+        "passed": 15,
+        "skipped": 2
+      },
+      "forget_detection_accuracy": {
+        "denominator": 4.0,
+        "numerator": 4.0,
+        "value": 1.0
+      },
+      "forgotten_exclusion_rate": {
+        "denominator": 2.0,
+        "numerator": 2.0,
+        "value": 1.0
+      },
+      "forgotten_response_contamination_rate": {
+        "denominator": 1.0,
+        "numerator": 0.0,
+        "value": 0.0
+      },
+      "inactive_contamination_rate": {
+        "denominator": 2.0,
+        "numerator": 0.0,
+        "value": 0.0
+      },
+      "memory_creation_recall": {
+        "denominator": 13.0,
+        "numerator": 12.0,
+        "value": 0.9230769230769231
+      },
+      "memory_token_share": {
+        "denominator": 1686.0,
+        "numerator": 421.0,
+        "value": 0.24970344009489917
+      },
+      "recall_at_k": {
+        "denominator": 17.0,
+        "numerator": 2.0,
+        "value": 0.11764705882352941
+      },
+      "stale_selected_leakage_rate": {
+        "denominator": 7.0,
+        "numerator": 7.0,
+        "value": 1.0
+      }
+    },
+    "experienceos_fused_retrieval_v1": {
+      "case_outcomes": {
+        "failed": 15,
+        "partial": 2,
+        "passed": 21,
+        "skipped": 2
+      },
+      "forget_detection_accuracy": {
+        "denominator": 4.0,
+        "numerator": 4.0,
+        "value": 1.0
+      },
+      "forgotten_exclusion_rate": {
+        "denominator": 2.0,
+        "numerator": 2.0,
+        "value": 1.0
+      },
+      "forgotten_response_contamination_rate": {
+        "denominator": 1.0,
+        "numerator": 0.0,
+        "value": 0.0
+      },
+      "inactive_contamination_rate": {
+        "denominator": 18.0,
+        "numerator": 0.0,
+        "value": 0.0
+      },
+      "memory_creation_recall": {
+        "denominator": 13.0,
+        "numerator": 12.0,
+        "value": 0.9230769230769231
+      },
+      "memory_token_share": {
+        "denominator": 2289.0,
+        "numerator": 1027.0,
+        "value": 0.4486675404106597
+      },
+      "recall_at_k": {
+        "denominator": 17.0,
+        "numerator": 17.0,
+        "value": 1.0
+      },
+      "stale_selected_leakage_rate": {
+        "denominator": 11.0,
+        "numerator": 7.0,
+        "value": 0.6363636363636364
+      }
+    },
+    "experienceos_gate_shadow_v1": {
+      "case_outcomes": {
+        "failed": 15,
+        "partial": 2,
+        "passed": 21,
+        "skipped": 2
+      },
+      "forget_detection_accuracy": {
+        "denominator": 4.0,
+        "numerator": 4.0,
+        "value": 1.0
+      },
+      "forgotten_exclusion_rate": {
+        "denominator": 2.0,
+        "numerator": 2.0,
+        "value": 1.0
+      },
+      "forgotten_response_contamination_rate": {
+        "denominator": 1.0,
+        "numerator": 0.0,
+        "value": 0.0
+      },
+      "inactive_contamination_rate": {
+        "denominator": 18.0,
+        "numerator": 0.0,
+        "value": 0.0
+      },
+      "memory_creation_recall": {
+        "denominator": 13.0,
+        "numerator": 12.0,
+        "value": 0.9230769230769231
+      },
+      "memory_token_share": {
+        "denominator": 2289.0,
+        "numerator": 1027.0,
+        "value": 0.4486675404106597
+      },
+      "recall_at_k": {
+        "denominator": 17.0,
+        "numerator": 17.0,
+        "value": 1.0
+      },
+      "stale_selected_leakage_rate": {
+        "denominator": 11.0,
+        "numerator": 7.0,
+        "value": 0.6363636363636364
+      }
+    },
+    "experienceos_hybrid_full_v2_reference": {
+      "case_outcomes": {
+        "failed": 15,
+        "partial": 2,
+        "passed": 21,
+        "skipped": 2
+      },
+      "forget_detection_accuracy": {
+        "denominator": 4.0,
+        "numerator": 4.0,
+        "value": 1.0
+      },
+      "forgotten_exclusion_rate": {
+        "denominator": 2.0,
+        "numerator": 2.0,
+        "value": 1.0
+      },
+      "forgotten_response_contamination_rate": {
+        "denominator": 1.0,
+        "numerator": 0.0,
+        "value": 0.0
+      },
+      "inactive_contamination_rate": {
+        "denominator": 18.0,
+        "numerator": 0.0,
+        "value": 0.0
+      },
+      "memory_creation_recall": {
+        "denominator": 13.0,
+        "numerator": 12.0,
+        "value": 0.9230769230769231
+      },
+      "memory_token_share": {
+        "denominator": 2289.0,
+        "numerator": 1027.0,
+        "value": 0.4486675404106597
+      },
+      "recall_at_k": {
+        "denominator": 17.0,
+        "numerator": 17.0,
+        "value": 1.0
+      },
+      "stale_selected_leakage_rate": {
+        "denominator": 11.0,
+        "numerator": 7.0,
+        "value": 0.6363636363636364
+      }
+    }
+  },
+  "provider": {
+    "dimensions": 512,
+    "fallback_count": 0,
+    "model_id": "stable-feature-hash-v1",
+    "optional_local_provider": "skipped: dependency_missing",
+    "provider_class": "deterministic_test_embeddings",
+    "provider_id": "deterministic"
+  },
+  "reference_lock": {
+    "excluded_metrics": [
+      "external_token_reduction_vs_full_history"
+    ],
+    "external_metrics_equal": true,
+    "lifecycle_metrics_equal": true,
+    "method": "behavioral_reproduction_full_metric_equality_excluding_run_composition_relative_metrics"
+  },
+  "schema_version": "phase11-report-1"
+}

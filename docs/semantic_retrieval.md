@@ -122,6 +122,15 @@ convention), cache counters, fallback state. `summary()` gains a
 `semantic_retrieval` block only when configured. Old payloads remain
 valid; disabled mode adds nothing. Dashboard visibility is Prompt 8.
 
+## Measured status (Prompt 7)
+
+Benchmarked in `docs/phase11_semantic_retrieval_report.md`:
+`semantic_only` (as `experienceos_embedding_only_v1`) is classified
+**not_adopted** under the deterministic test provider (lifecycle
+Recall@K 2/17, external selection 2/50 vs 12/50) — a result about the
+test provider's token-overlap embeddings, not learned embeddings.
+Lifecycle safety stayed zero-leakage in every mode.
+
 ## Limitations
 
 Deterministic-provider scores measure token overlap, not meaning —

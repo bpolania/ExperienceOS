@@ -77,8 +77,37 @@ case "$command" in
             "${2:-benchmarks/results/committed/lifecycle-v2-ablation}" \
             "${3:-benchmarks/results/committed/longmemeval-50-subset-v2}"
         ;;
+    run-phase11)
+        "$PYTHON" -m benchmarks.phase11 lifecycle \
+            --output "${2:-benchmarks/results/committed/phase11-retrieval-ablation}" \
+            --overwrite
+        ;;
+    run-external-phase11)
+        "$PYTHON" -m benchmarks.phase11 external \
+            --output "${2:-benchmarks/results/committed/phase11-semantic-retrieval}" \
+            --overwrite
+        ;;
+    validate-phase11)
+        "$PYTHON" -m benchmarks.validation_phase11 lifecycle \
+            "${2:-benchmarks/results/committed/phase11-retrieval-ablation}"
+        ;;
+    validate-external-phase11)
+        "$PYTHON" -m benchmarks.validation_phase11 external \
+            "${2:-benchmarks/results/committed/phase11-semantic-retrieval}"
+        ;;
+    validate-phase11-consistency)
+        "$PYTHON" -m benchmarks.validation_phase11 consistency \
+            "${2:-benchmarks/results/committed/phase11-retrieval-ablation}" \
+            "${3:-benchmarks/results/committed/phase11-semantic-retrieval}"
+        ;;
+    report-phase11)
+        "$PYTHON" -m benchmarks.reporting.report_phase11 generate
+        ;;
+    validate-report-phase11)
+        "$PYTHON" -m benchmarks.reporting.report_phase11 validate
+        ;;
     *)
-        echo "unknown command: $command (expected quick, full-offline, validate, report, validate-report, longmemeval-fixture, longmemeval-prepare, longmemeval-structural, longmemeval-live, validate-external, validate-v2, validate-external-v2, validate-v2-consistency, report-v2, validate-report-v2)"
+        echo "unknown command: $command (expected quick, full-offline, validate, report, validate-report, longmemeval-fixture, longmemeval-prepare, longmemeval-structural, longmemeval-live, validate-external, validate-v2, validate-external-v2, validate-v2-consistency, report-v2, validate-report-v2, run-phase11, run-external-phase11, validate-phase11, validate-external-phase11, validate-phase11-consistency, report-phase11, validate-report-phase11)"
         exit 2
         ;;
 esac

@@ -1,0 +1,41 @@
+{
+  "spec_version": "phase11-report-1",
+  "sources": {
+    "phase11_lifecycle": {
+      "path": "benchmarks/results/committed/phase11-retrieval-ablation",
+      "normalized_result_digest": "5fb0fb8825956933ceed0297f417c4844f61f800536ec2e6c474d5475f19cf15"
+    },
+    "phase11_external": {
+      "path": "benchmarks/results/committed/phase11-semantic-retrieval",
+      "normalized_result_digest": "5ff129ce4d638edaa3a49fda4f949f5337edf16ce4b5be216922b55b1d40390a"
+    },
+    "lifecycle_v2_reference": {
+      "path": "benchmarks/results/committed/lifecycle-v2-ablation",
+      "normalized_result_digest": "ee437bb3e9fde909f343112e40aaa6ecf63155a07a81ad67e017e310fbefb547"
+    },
+    "external_v2_reference": {
+      "path": "benchmarks/results/committed/longmemeval-50-subset-v2",
+      "normalized_result_digest": "19b66cacb330e943b0460ccdb33e8cc6577fccb17621cb7a129f7420f5c7868f"
+    }
+  },
+  "materiality_threshold": {
+    "absolute_cases": 1,
+    "relative": 0.02
+  },
+  "required_disclosures": [
+    "not an official longmemeval score",
+    "deterministic test embedding provider",
+    "not evidence of neural semantic quality",
+    "dependency_missing",
+    "affected_selection",
+    "naive top-k"
+  ],
+  "outputs": {
+    "report_data": "benchmarks/results/committed/report-phase11/report_data_phase11.json",
+    "adoption_gates": "benchmarks/results/committed/report-phase11/adoption_gates_phase11.json",
+    "comparison_tables": "benchmarks/results/committed/report-phase11/comparison_tables_phase11.json",
+    "readme": "benchmarks/results/committed/report-phase11/README.md",
+    "markdown": "docs/phase11_semantic_retrieval_report.md",
+    "manifest": "benchmarks/results/committed/report-phase11/report_manifest.json"
+  }
+}

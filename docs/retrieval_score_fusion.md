@@ -120,6 +120,18 @@ reads fusion breakdowns as evidence and attaches additive diagnostics,
 but cannot alter fusion scores, the candidate union, ranking, or
 selection in any configuration.
 
+## Measured status (Prompt 7)
+
+Benchmarked in `docs/phase11_semantic_retrieval_report.md`:
+`experienceos_fused_retrieval_v1` (this module's `full_fusion`
+profile) is classified **experimental** — external selection improved
+by one case (13/50 vs 12/50) with fewer context tokens (5,448 vs
+5,527), but MRR regressed materially (0.293 vs 0.305, −3.8%) under the
+deterministic test provider; lifecycle outcomes were identical to the
+Phase 9 reference and all safety gates passed. Mixed single-metric
+evidence tied to the test provider is inconclusive for learned
+embeddings.
+
 ## Limitations
 
 Deterministic-provider fixtures demonstrate the mechanism (a

@@ -144,12 +144,19 @@ class ExperienceOSLocalV2Adapter(ExperienceOSAdapterBase):
         )
         return self._planner
 
+    def _retrieval_kwargs(self, case) -> dict:
+        """Phase 11 seam: subclasses may add semantic/fusion/gate
+        strategy kwargs. Empty here, so every existing configuration
+        constructs the byte-identical Phase 9 strategy."""
+        return {}
+
     def _make_retrieval_strategy(self, case):
         self._temporal_policy = TemporalRetrievalPolicy()
         self._coverage_strategy = CoverageSelectionStrategy()
         self._retrieval = HybridRetrievalStrategy(
             selection_strategy=self._coverage_strategy,
             temporal_policy=self._temporal_policy,
+            **self._retrieval_kwargs(case),
         )
         self.diagnostics.update(
             {
