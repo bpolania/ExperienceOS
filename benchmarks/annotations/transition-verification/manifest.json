@@ -1,0 +1,92 @@
+{
+  "ambiguous_cases": 4,
+  "annotation_format_version": "1",
+  "commands": {
+    "manifest": "python -m benchmarks.annotations.transition_verification manifest",
+    "validate": "python -m pytest tests/test_transition_verification_annotations.py",
+    "verify_manifest": "python -m benchmarks.annotations.transition_verification verify"
+  },
+  "complete_before_state": 50,
+  "corpus_files": {
+    "development-fixtures.jsonl": {
+      "records": 27,
+      "sha256": "d65dfd2efdc2c409c66b38862f5cdab303d0390fb1960842808206e2808e7a5c"
+    },
+    "historical-scored.jsonl": {
+      "records": 28,
+      "sha256": "c990a585c29d3f507603894bb1e68b974153d895eb5d613bc808e5642b7aafe0"
+    },
+    "unresolved-candidates.jsonl": {
+      "records": 13,
+      "sha256": "8c3bff2b1a1ae2c2fdcf4a0b6234e4432028eb3d53cf8cfc2fec294d773a4775"
+    }
+  },
+  "counts_by_classification": {
+    "development_only": 27,
+    "excluded": 11,
+    "historical_scored": 28,
+    "historical_unresolved": 2
+  },
+  "counts_by_primary_type": {
+    "create_new": 6,
+    "duplicate_noop": 3,
+    "forget_existing": 5,
+    "reject_ambiguous": 2,
+    "reject_hypothetical": 1,
+    "reject_question": 6,
+    "reject_temporary": 2,
+    "reject_unsupported": 8,
+    "scoped_coexistence": 3,
+    "semantic_duplicate_noop": 2,
+    "supersede_existing": 17
+  },
+  "counts_by_scoring_category": {
+    "ambiguous_forget": 2,
+    "ambiguous_transition": 1,
+    "broad_forget": 2,
+    "correction": 4,
+    "creation": 9,
+    "current_state_replacement": 2,
+    "current_value_preservation": 1,
+    "direct_replacement": 3,
+    "exact_duplicate": 2,
+    "forget_as_creation_prevention": 2,
+    "forget_directive": 6,
+    "forget_question": 2,
+    "forgotten_leakage": 7,
+    "historical_statement": 2,
+    "hypothetical": 1,
+    "instead_of_replacement": 3,
+    "instruction_replacement": 1,
+    "lineage": 17,
+    "memory_inspection": 5,
+    "negative_forget": 1,
+    "no_op": 24,
+    "rejection": 17,
+    "repeated_correction": 2,
+    "scoped_coexistence": 3,
+    "semantic_duplicate": 3,
+    "stale_leakage": 1,
+    "superseded_leakage": 4,
+    "supersession": 18,
+    "temporary_exception": 2,
+    "unrelated_preservation": 8,
+    "unsupported_transition": 1,
+    "update_target": 18,
+    "used_to_now_replacement": 2
+  },
+  "development_only": 27,
+  "excluded": 11,
+  "historical_scored": 28,
+  "historical_unresolved": 2,
+  "manual_adjudication": 0,
+  "partial_before_state": 5,
+  "source_families": [
+    "authored",
+    "experienceos-lifecycle-v1",
+    "grounded-extraction-ablation"
+  ],
+  "total_records": 68,
+  "transition_contract_commit": "938cbd097635a62af21dd555da33f586234bdfef",
+  "transition_contract_path": "docs/transition_verification_contract.md"
+}

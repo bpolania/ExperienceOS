@@ -1,0 +1,153 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Transition verification annotation record",
+  "description": "One before-to-after memory transition case. The authoritative validator is benchmarks/annotations/transition_verification.py; this schema documents the record contract. Scorable records (historical_scored, development_only) carry a non-null expected_transition and after_state; historical_unresolved and excluded records carry a resolution block and null oracle.",
+  "type": "object",
+  "required": [
+    "case_id",
+    "annotation_format_version",
+    "annotation_classification",
+    "benchmark_scored",
+    "development_only",
+    "source_family",
+    "source_case_id",
+    "source_paths",
+    "oracle_origin",
+    "ambiguity",
+    "scoring_categories",
+    "before_state",
+    "expected_transition",
+    "notes"
+  ],
+  "properties": {
+    "case_id": {
+      "type": "string",
+      "pattern": "^transition:[a-z0-9-]+:[A-Za-z0-9_.-]+:[a-z0-9_]+$",
+      "description": "Deterministic stable id: transition:<source-family>:<source-case-id>:<suffix> for historical/unresolved/excluded, transition:development:<category>:<ordinal> for fixtures. No UUIDs, line numbers, timestamps, or process vocabulary."
+    },
+    "annotation_format_version": {"type": "string", "enum": ["1"]},
+    "annotation_classification": {
+      "type": "string",
+      "enum": ["historical_scored", "development_only", "historical_unresolved", "excluded"]
+    },
+    "benchmark_scored": {"type": "boolean"},
+    "development_only": {"type": "boolean"},
+    "source_family": {"type": "string"},
+    "source_case_id": {"type": "string"},
+    "source_split": {"type": ["string", "null"]},
+    "source_system_id": {"type": ["string", "null"]},
+    "source_report": {"type": ["string", "null"]},
+    "source_paths": {"type": "array", "items": {"type": "string"}},
+    "oracle_origin": {
+      "type": "string",
+      "description": "inherited_historical_benchmark_oracle | historical_lifecycle_assertion | authored_fixture | manual_contract_adjudication | frozen_report_conclusion | committed_trace | not_available"
+    },
+    "manual_adjudication": {"type": "boolean"},
+    "ambiguity": {
+      "type": "object",
+      "required": ["ambiguous", "fail_closed_required", "strict_target_scoring", "in_historical_scoring"],
+      "properties": {
+        "ambiguous": {"type": "boolean"},
+        "source": {"type": ["string", "null"]},
+        "fail_closed_required": {"type": "boolean"},
+        "acceptable_outcomes": {"type": "array"},
+        "strict_target_scoring": {"type": "boolean"},
+        "human_adjudicated": {"type": "boolean"},
+        "in_historical_scoring": {"type": "boolean"}
+      }
+    },
+    "scoring_categories": {"type": "array", "items": {"type": "string"}},
+    "source_statement": {"type": ["string", "null"]},
+    "source_session_id": {"type": ["string", "null"]},
+    "source_role": {"type": ["string", "null"]},
+    "grounded_candidate_ref": {"type": ["string", "object", "null"]},
+    "evidence_span_ref": {"type": ["string", "object", "null"]},
+    "grounding_status": {"type": "string"},
+    "grounding_predates_infrastructure": {"type": "boolean"},
+    "before_state": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["memory_ref", "lifecycle_state", "kind"],
+        "properties": {
+          "memory_ref": {
+            "type": "object",
+            "properties": {
+              "logical_id": {"type": ["string", "null"]},
+              "match_terms": {"type": "array", "items": {"type": "string"}}
+            }
+          },
+          "lifecycle_state": {"type": "string", "enum": ["active", "superseded", "forgotten"]},
+          "kind": {"type": "string", "enum": ["preference", "fact", "instruction"]},
+          "canonical_text": {"type": "string"},
+          "normalized_value": {"type": "string"},
+          "subject": {"type": "string"},
+          "attribute": {"type": "string"},
+          "value": {"type": "string"},
+          "scope": {"type": "string"},
+          "qualifiers": {"type": "string"},
+          "temporal_validity": {"type": "string"},
+          "provenance": {"type": "string"},
+          "creation_source": {"type": "string"},
+          "supersession_lineage": {"type": "string"},
+          "forgotten_lineage": {"type": "string"}
+        }
+      }
+    },
+    "expected_transition": {
+      "type": ["object", "null"],
+      "description": "Non-null for scorable records; null for unresolved/excluded.",
+      "properties": {
+        "primary_type": {
+          "type": "string",
+          "enum": [
+            "create_new", "duplicate_noop", "semantic_duplicate_noop",
+            "supersede_existing", "scoped_coexistence", "forget_existing",
+            "reject_forget_directive_as_creation", "reject_unsupported",
+            "reject_ambiguous", "reject_temporary", "reject_question",
+            "reject_hypothetical", "reject_unrelated", "shadow_only"
+          ]
+        },
+        "target_refs": {"type": "array"},
+        "created": {"type": "array"},
+        "superseded_refs": {"type": "array"},
+        "forgotten_refs": {"type": "array"},
+        "preserved_refs": {"type": "array"},
+        "unchanged_refs": {"type": "array"},
+        "rejection_reason": {"type": ["string", "null"]},
+        "ambiguity_handling": {"type": ["string", "null"]},
+        "canonical_effect": {"type": "boolean"},
+        "fallback": {"type": ["string", "null"]}
+      }
+    },
+    "after_state": {
+      "type": ["object", "null"],
+      "description": "Full final lifecycle state for scorable records; null otherwise.",
+      "properties": {
+        "active": {"type": "array"},
+        "superseded": {"type": "array"},
+        "forgotten": {"type": "array"},
+        "created": {"type": "array"},
+        "created_count": {"type": "integer"},
+        "active_count": {"type": "integer"},
+        "semantic_duplicate_count": {"type": "integer"},
+        "stale_active_count": {"type": "integer"},
+        "lineage_edges": {"type": "array"},
+        "final_active_summary": {"type": "string"}
+      }
+    },
+    "resolution": {
+      "type": "object",
+      "description": "Present on historical_unresolved and excluded records.",
+      "required": ["reason"],
+      "properties": {
+        "reason": {"type": "string"},
+        "missing_evidence": {"type": "string"},
+        "fail_closed_possible": {"type": "boolean"},
+        "covered_by_fixture": {"type": ["string", "null"]},
+        "human_adjudication_may_resolve": {"type": "boolean"}
+      }
+    },
+    "notes": {"type": "string"}
+  }
+}
