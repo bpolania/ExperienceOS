@@ -34,6 +34,9 @@ class EventType:
     # Grounded-extraction integration (emitted only when an extraction
     # coordinator is configured and enabled; additive for consumers).
     EXTRACTION_INTEGRATION_EVALUATED = "extraction_integration_evaluated"
+    # Transition integration (emitted only when a transition coordinator
+    # is configured and enabled; additive for consumers).
+    TRANSITION_INTEGRATION_EVALUATED = "transition_integration_evaluated"
 
 
 @dataclass(frozen=True)

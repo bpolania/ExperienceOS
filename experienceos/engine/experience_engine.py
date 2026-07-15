@@ -45,6 +45,7 @@ class ExperienceEngine:
         memory_planner: MemoryPlanner | None = None,
         experience_manager: ExperienceManager | None = None,
         extraction_coordinator=None,
+        transition_coordinator=None,
     ):
         self.model = model
         self.event_bus = event_bus
@@ -58,6 +59,10 @@ class ExperienceEngine:
         # default) keeps every existing path identical: no controller
         # runs and no integration event is emitted.
         self.extraction_coordinator = extraction_coordinator
+        # Optional transition integration seam. None (the default) keeps
+        # every existing path identical: no controller runs, no verifier
+        # runs, and no integration event is emitted.
+        self.transition_coordinator = transition_coordinator
 
     def run_interaction(
         self,
@@ -176,6 +181,22 @@ class ExperienceEngine:
                 retired_ids, valid_actions,
             )
 
+        # Transition integration: runs after the canonical plan is
+        # validated and before the sole mutation boundary, exactly like
+        # the extraction seam. Disabled does nothing; shadow, candidate,
+        # and verify-only never touch valid_actions; only an authorized
+        # adopted action is merged, and it passes the SAME lifecycle
+        # check and the SAME application path.
+        transition_event = None
+        if (
+            self.transition_coordinator is not None
+            and self.transition_coordinator.enabled
+        ):
+            transition_event = self._evaluate_transition(
+                user_id, session_id, message, memories, active_ids,
+                retired_ids, valid_actions,
+            )
+
         planned = []
         for action, decision in zip(result.actions, result.decisions):
             entry = {
@@ -210,6 +231,11 @@ class ExperienceEngine:
             emit(
                 EventType.EXTRACTION_INTEGRATION_EVALUATED,
                 extraction_event,
+            )
+        if transition_event is not None:
+            emit(
+                EventType.TRANSITION_INTEGRATION_EVALUATED,
+                transition_event,
             )
         self._apply_memory_actions(valid_actions, user_id, session_id, emit)
 
@@ -350,6 +376,87 @@ class ExperienceEngine:
         # Shadow (and any non-applied path): diagnostics already carry
         # canonical_effect False from the coordinator.
         return diagnostics
+
+    def _evaluate_transition(
+        self, user_id, session_id, message, memories, active_ids,
+        retired_ids, valid_actions,
+    ) -> dict:
+        """Run the transition coordinator and interpret its decision.
+
+        Disabled never reaches here. Shadow, candidate, and verify-only
+        never touch ``valid_actions``. Only an authorized adopted action
+        is appended — to the same list applied by the sole mutation
+        boundary, after the same admission check every controller-derived
+        action already faces. Returns the integration event payload.
+        """
+        from experienceos.memory.transition_integration import (
+            CanonicalActionEffect,
+            CanonicalEffectStatus,
+            TransitionIntegrationMode,
+            TransitionIntegrationRequest,
+        )
+        from experienceos.memory.transition_verification import (
+            EvidenceMode,
+            TransitionSourceEvidence,
+            build_before_state,
+        )
+
+        request_id = f"{session_id}:{len(self.event_bus.history())}"
+        evidence = TransitionSourceEvidence(
+            source_statement=message,
+            source_event_id=request_id,
+            session_id=session_id,
+            evidence_mode=EvidenceMode.GROUNDED_VALID,
+            provenance_ref="user_asserted",
+        )
+        request = TransitionIntegrationRequest(
+            statement=message,
+            evidence=evidence,
+            before_state=build_before_state(memories, user_id=user_id),
+            request_id=request_id,
+            user_id=user_id,
+            existing_actions=tuple(valid_actions),
+        )
+        result = self.transition_coordinator.evaluate(request)
+        payload = result.to_record()
+
+        # Only adopted mode can reach the canonical list, and only with
+        # an authorization bound to this exact verified proposal.
+        if (
+            result.effective_mode == TransitionIntegrationMode.ADOPTED
+            and result.canonical_action_effect == CanonicalActionEffect.ACTION_ADDED
+            and result.generated_actions
+        ):
+            rejections = []
+            for action in result.generated_actions:
+                reason = self._extraction_reject_reason(
+                    action, memories, active_ids, retired_ids, valid_actions
+                )
+                if reason is not None:
+                    rejections.append(reason)
+            if rejections:
+                payload["canonical_action_effect"] = (
+                    CanonicalActionEffect.LIFECYCLE_REJECTED
+                )
+                payload["canonical_effect_status"] = (
+                    CanonicalEffectStatus.AUTHORIZED_NOT_APPLIED
+                )
+                payload["lifecycle_rejection_reason"] = rejections[0]
+                payload["manager_admitted"] = False
+                payload["action_applied"] = False
+            else:
+                # Supersession is two linked actions; both enter the same
+                # canonical list together or neither does.
+                for action in result.generated_actions:
+                    valid_actions.append(action)
+                payload["canonical_action_effect"] = CanonicalActionEffect.APPLIED
+                payload["canonical_effect_status"] = CanonicalEffectStatus.APPLIED
+                payload["lifecycle_rejection_reason"] = None
+                payload["manager_admitted"] = True
+                payload["action_applied"] = True
+        else:
+            payload["action_applied"] = False
+        return payload
 
     @staticmethod
     def _describe_action(action: MemoryAction) -> dict:

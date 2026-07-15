@@ -55,6 +55,7 @@ class ExperienceOS:
         memory_policy: MemoryPolicy | None = None,
         experience_manager: ExperienceManager | None = None,
         extraction=None,
+        transition=None,
     ):
         provided = [
             name
@@ -97,6 +98,11 @@ class ExperienceOS:
         # default) leaves canonical behavior fully unchanged and
         # constructs no controller.
         self.extraction_coordinator = self._build_extraction(extraction)
+        # Optional transition integration. Accepts a ready coordinator or
+        # a TransitionIntegrationConfig; None (the default) leaves
+        # canonical behavior fully unchanged and constructs no
+        # controller, no verifier, and no integration event.
+        self.transition_coordinator = self._build_transition(transition)
         self.engine = ExperienceEngine(
             model=self.model,
             event_bus=self.event_bus,
@@ -105,6 +111,7 @@ class ExperienceOS:
             memory_planner=self.memory_planner,
             experience_manager=self.experience_manager,
             extraction_coordinator=self.extraction_coordinator,
+            transition_coordinator=self.transition_coordinator,
         )
 
     @staticmethod
@@ -123,6 +130,31 @@ class ExperienceOS:
         raise ValueError(
             "extraction must be an ExtractionIntegrationConfig or "
             "ExtractionIntegrationCoordinator"
+        )
+
+    @staticmethod
+    def _build_transition(transition):
+        """Build the transition coordinator, or None.
+
+        There is no environment-variable path: adopted mode requires a
+        structured configuration in code plus an authorization bound to
+        an exact verified proposal, so a stray string can never enable a
+        canonical effect.
+        """
+        if transition is None:
+            return None
+        from experienceos.memory.transition_integration import (
+            TransitionIntegrationConfig,
+            TransitionIntegrationCoordinator,
+        )
+
+        if isinstance(transition, TransitionIntegrationCoordinator):
+            return transition
+        if isinstance(transition, TransitionIntegrationConfig):
+            return TransitionIntegrationCoordinator(transition)
+        raise ValueError(
+            "transition must be a TransitionIntegrationConfig or "
+            "TransitionIntegrationCoordinator"
         )
 
     @classmethod
