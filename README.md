@@ -560,6 +560,91 @@ refuses to let it affect durable memory until the evidence justifies it.
 Full evidence:
 [docs/grounded_extraction_report.md](docs/grounded_extraction_report.md).
 
+## Experience transition verification (evaluated, candidate-only)
+
+Accumulating experience is not just adding memories — it is knowing when
+a new statement *replaces* an old one, when it merely coexists with it,
+and when it asks to remove one. ExperienceOS treats that judgement as a
+**transition**: a proposal about how durable state should change, which
+must be verified against evidence and authorized before it can touch
+anything. Transition integration is `disabled` by default and **no
+transition controller is canonical**.
+
+What exists now:
+
+- **semantic memory identity** (`experienceos/memory/identity.py`):
+  projects a statement into subject, attribute, value, and scope, then
+  compares it against existing memories — so "my phone is a Pixel" can
+  supersede "my phone is an iPhone" while "aisle seats **for work
+  trips**" coexists with an unscoped seat preference. Identity is
+  structural, not a similarity score; a float never decides safety
+- **a proposal and verification model**
+  (`experienceos/memory/transition_verification.py`): a controller
+  proposes a transition, and a separate verifier checks it against the
+  before-state and the cited evidence. **The verifier never applies
+  anything** — `action_applied` is invariantly false
+- **deterministic update and forget controllers**
+  (`update_intelligence.py`, `forget_intelligence.py`): propose
+  supersession or forget-target resolution, or abstain. Forget
+  directives are routed to the forget path rather than answered with a
+  new memory, questions about removal ("could you remove my airport
+  preference?") are never treated as directives, and ambiguous targets
+  fail closed instead of guessing
+- **governed integration** (`transition_integration.py`) with five
+  modes — `disabled` (default), `shadow`, `candidate`, `verify_only`,
+  `adopted`. Only `adopted` can reach durable state, and only with an
+  authorization bound to **20 exact fields** of one specific verified
+  proposal. Any mismatch fails closed and names the field; there is no
+  wildcard and no environment-variable path. Everything still routes
+  through the single engine mutation boundary — no second write path
+- **dashboard diagnostics** exposing the live 13-stage transition trace,
+  identity and target resolution, projected-versus-applied state, and
+  the committed benchmark evidence (see
+  [docs/transition_dashboard.md](docs/transition_dashboard.md))
+
+**Measured result** (28 historical scored cases from frozen lifecycle
+annotations, plus 27 development fixtures kept separate; committed
+evidence, not an official benchmark): the transition intelligence
+**proposes correctly** — 28/28 transition classifications correct, 11/11
+update targets resolved with **0 wrong**, 0 scoped and 0 unrelated
+memories lost, 0 ambiguous targets guessed into a mutation, and 20/20
+authorization mismatches rejected. Stale active-memory leakage drops
+materially: **6 → 1** stale pairs. But under isolated benchmark-only
+adoption the integration **adds** its replacement create alongside the
+canonical planner's create, so both persist: semantic-duplicate active
+pairs go **0 → 10**. **18 of 20 adoption gates passed, 1 failed, 1 is
+inconclusive** — and all **9 blocking safety gates passed**. Passing
+every safety gate is still not adoption: the failed Gate 1 (duplicate
+active memories) is decisive, so the path is classified
+**`TRANSITION_PATH_CANDIDATE_ONLY`** and no controller is adopted. Gate
+6 is reported **inconclusive**, not passed — both systems already create
+zero memories from forget directives, so no reduction can be
+demonstrated, and absence of regression is not measured improvement.
+
+The known cause is integration semantics — the transition's create is
+*added* rather than *replacing* the planner's — and it is documented
+rather than papered over. This is the product working as designed:
+ExperienceOS evaluated its own transition intelligence, found the
+proposals sound and the applied outcome wanting, and refused adoption.
+Full evidence:
+[docs/transition_verification_report.md](docs/transition_verification_report.md)
+· closure: [docs/transition_verification_closure.md](docs/transition_verification_closure.md)
+· judge runbook: [docs/transition_demo_runbook.md](docs/transition_demo_runbook.md)
+· contract (frozen before results):
+[docs/transition_verification_contract.md](docs/transition_verification_contract.md)
+· components: [semantic identity](docs/semantic_memory_identity.md),
+[verification model](docs/transition_verification.md),
+[update](docs/update_intelligence.md),
+[forget](docs/forget_directive_intelligence.md),
+[integration](docs/transition_integration.md).
+
+Validate the committed transition evidence (offline; no credentials, no
+network, no model):
+
+```bash
+./scripts/run_benchmarks.sh validate-transition-verification
+```
+
 The section below is the frozen **Phase 8 (v1)** evidence, preserved
 unchanged as the historical baseline the v2 numbers are measured
 against.
@@ -650,6 +735,13 @@ double-run digest-locked, deterministic test embedding provider):
 ./scripts/run_benchmarks.sh validate-external-phase11
 ./scripts/run_benchmarks.sh validate-phase11-consistency
 ./scripts/run_benchmarks.sh validate-report-phase11
+```
+
+Validate the committed transition evidence (three artifact families:
+per-case verification, ablations, and the report):
+
+```bash
+./scripts/run_benchmarks.sh validate-transition-verification
 ```
 
 Validate the contract, dataset, baselines, and adapters:

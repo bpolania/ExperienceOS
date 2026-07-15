@@ -171,6 +171,14 @@ case "$command" in
         "$PYTHON" -m benchmarks.transition_benchmark.cli validate \
             "${2:-benchmarks/results/committed/report-transition-verification}"
         ;;
+    validate-transition-verification)
+        "$PYTHON" -m benchmarks.transition_benchmark.cli validate \
+            "${2:-benchmarks/results/committed/transition-verification}"
+        "$PYTHON" -m benchmarks.transition_benchmark.cli validate \
+            "${3:-benchmarks/results/committed/transition-ablation}"
+        "$PYTHON" -m benchmarks.transition_benchmark.cli validate \
+            "${4:-benchmarks/results/committed/report-transition-verification}"
+        ;;
     smoke-transition-benchmark)
         "$PYTHON" -m benchmarks.transition_benchmark.cli smoke "${@:2}"
         ;;
@@ -178,7 +186,7 @@ case "$command" in
         "$PYTHON" -m benchmarks.transition_benchmark.cli repeat
         ;;
     *)
-        echo "unknown command: $command (expected quick, full-offline, validate, report, validate-report, longmemeval-fixture, longmemeval-prepare, longmemeval-structural, longmemeval-live, validate-external, validate-v2, validate-external-v2, validate-v2-consistency, report-v2, validate-report-v2, run-phase11, run-external-phase11, validate-phase11, validate-external-phase11, validate-phase11-consistency, report-phase11, validate-report-phase11, run-grounded-extraction, validate-grounded-extraction, smoke-grounded-extraction, report-grounded-extraction, evaluate-semantic-identity, repeat-semantic-identity, evaluate-transition-verification, repeat-transition-verification, evaluate-update-intelligence, repeat-update-intelligence, evaluate-forget-intelligence, repeat-forget-intelligence, smoke-transition-integration, transition-benchmark, transition-benchmark-verify, transition-ablation, transition-ablation-verify, transition-report, transition-report-verify, smoke-transition-benchmark, repeat-transition-benchmark)"
+        echo "unknown command: $command (expected quick, full-offline, validate, report, validate-report, longmemeval-fixture, longmemeval-prepare, longmemeval-structural, longmemeval-live, validate-external, validate-v2, validate-external-v2, validate-v2-consistency, report-v2, validate-report-v2, run-phase11, run-external-phase11, validate-phase11, validate-external-phase11, validate-phase11-consistency, report-phase11, validate-report-phase11, run-grounded-extraction, validate-grounded-extraction, smoke-grounded-extraction, report-grounded-extraction, evaluate-semantic-identity, repeat-semantic-identity, evaluate-transition-verification, repeat-transition-verification, evaluate-update-intelligence, repeat-update-intelligence, evaluate-forget-intelligence, repeat-forget-intelligence, smoke-transition-integration, transition-benchmark, transition-benchmark-verify, transition-ablation, transition-ablation-verify, transition-report, transition-report-verify, validate-transition-verification, smoke-transition-benchmark, repeat-transition-benchmark)"
         exit 2
         ;;
 esac
