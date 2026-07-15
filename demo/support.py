@@ -64,7 +64,7 @@ def storage_status(store) -> tuple[str, str]:
 
 def create_agent(
     provider: ModelProvider, memory_store=None, memory_policy=None,
-    extraction=None,
+    extraction=None, transition=None,
 ) -> ExperienceOS:
     """Agent with fresh event history; memory store optional (in-memory default).
 
@@ -75,10 +75,17 @@ def create_agent(
     fallback from the SDK. ``extraction`` is an optional grounded-extraction
     config (None keeps grounded extraction disabled — the default); it can
     only ever be shadow or candidate here, which are non-mutating.
+    ``transition`` is an optional transition-integration config (None
+    keeps transition integration disabled — the default); the dashboard
+    only ever supplies shadow, candidate, or verify-only, all of which
+    are non-mutating. Adopted mode needs an authorization bound to an
+    exact verified proposal and is never reachable from the UI.
     """
     kwargs = {"memory_policy": memory_policy} if memory_policy is not None else {}
     if extraction is not None:
         kwargs["extraction"] = extraction
+    if transition is not None:
+        kwargs["transition"] = transition
     return ExperienceOS(
         model=provider,
         memory_store=memory_store or InMemoryMemoryStore(),

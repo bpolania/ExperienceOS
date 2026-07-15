@@ -82,6 +82,38 @@ from demo.support import (
     phase11_candidate_rows,
     retrieval_diagnostics,
 )
+from demo.transition_diagnostics import (
+    REPORT_DOC as REPORT_DOC_PATH,
+    MODE_CHOICES as TRANSITION_MODE_CHOICES,
+    MODE_DISABLED as TRANSITION_DISABLED,
+    MODE_LABELS as TRANSITION_MODE_LABELS,
+    TRANSITION_LABELS,
+    ablation_rows,
+    benchmark_available,
+    build_transition_config,
+    case_ids,
+    case_rows,
+    case_systems,
+    claim_rows,
+    configured_transition_mode,
+    downstream_summary,
+    duplicate_finding,
+    duplicate_stale_rows,
+    gate_rows,
+    highlighted_gates,
+    lifecycle_cards,
+    lifecycle_chain,
+    lifecycle_groups,
+    limitation_rows,
+    lineage_rows,
+    partition_counts,
+    pipeline_stages,
+    safety_rows,
+    STATUS_BADGES,
+    status_summary,
+    system_rows,
+    transition_trace,
+)
 from demo.extraction_diagnostics import (
     MODE_CHOICES,
     MODE_DISABLED,
@@ -104,6 +136,7 @@ def rebuild_agent(
     storage_choice: str = STORAGE_IN_MEMORY,
     policy_choice: str = POLICY_RULE_BASED,
     extraction_mode: str = MODE_DISABLED,
+    transition_mode: str = TRANSITION_DISABLED,
 ) -> None:
     """Recreate the agent and clear UI state.
 
@@ -118,11 +151,13 @@ def rebuild_agent(
         make_memory_store(storage_choice),
         make_memory_policy(policy_choice),
         extraction=build_extraction_config(extraction_mode),
+        transition=build_transition_config(transition_mode),
     )
     st.session_state.agent_provider = provider_choice
     st.session_state.agent_storage = storage_choice
     st.session_state.agent_policy = policy_choice
     st.session_state.agent_extraction_mode = extraction_mode
+    st.session_state.agent_transition_mode = transition_mode
     st.session_state.chat_history = []
     st.session_state.last_error = None
 
@@ -133,6 +168,7 @@ def full_demo_reset(
     demo_user_id: str,
     policy_choice: str = POLICY_RULE_BASED,
     extraction_mode: str = MODE_DISABLED,
+    transition_mode: str = TRANSITION_DISABLED,
 ) -> None:
     """Return the demo to a known clean state for the next run.
 
@@ -142,7 +178,7 @@ def full_demo_reset(
     the next scripted run. Committed benchmark artifacts are untouched.
     """
     rebuild_agent(provider_choice, storage_choice, policy_choice,
-                  extraction_mode)
+                  extraction_mode, transition_mode)
     reset_demo_state(st.session_state.agent, demo_user_id)
 
 
@@ -183,15 +219,29 @@ with st.sidebar:
         ),
     )
     extraction_mode = MODE_LABELS[extraction_label]
+    transition_label = st.selectbox(
+        "Transition intelligence", TRANSITION_MODE_CHOICES, index=0,
+        help=(
+            "Disabled is the default. Shadow, candidate, and verify-only "
+            "are non-mutating: the controller proposes and the verifier "
+            "checks, but durable memory never changes. Adopted mode is "
+            "not selectable — it requires an authorization bound to an "
+            "exact verified proposal."
+        ),
+    )
+    transition_mode = TRANSITION_MODE_LABELS[transition_label]
     if (
         provider_choice != st.session_state.agent_provider
         or storage_choice != st.session_state.agent_storage
         or policy_choice != st.session_state.get("agent_policy", POLICY_RULE_BASED)
         or extraction_mode != st.session_state.get(
             "agent_extraction_mode", MODE_DISABLED)
+        or transition_mode != st.session_state.get(
+            "agent_transition_mode", TRANSITION_DISABLED)
     ):
         rebuild_agent(
-            provider_choice, storage_choice, policy_choice, extraction_mode)
+            provider_choice, storage_choice, policy_choice, extraction_mode,
+            transition_mode)
 
     agent = st.session_state.agent
     if policy_choice == POLICY_LOCAL_MODEL:
@@ -240,14 +290,14 @@ with st.sidebar:
     if st.button("Reset demo", width="stretch"):
         full_demo_reset(
             provider_choice, storage_choice, user_id, policy_choice,
-            extraction_mode)
+            extraction_mode, transition_mode)
         st.rerun()
     if storage_label == "SQLite":
         if st.button("Clear persistent memories", width="stretch"):
             st.session_state.agent.memory_store.clear()
             rebuild_agent(
                 provider_choice, storage_choice, policy_choice,
-                extraction_mode)
+                extraction_mode, transition_mode)
             st.rerun()
 
 # --- Header -------------------------------------------------------------------
@@ -266,6 +316,40 @@ if chat_message:
 
 if st.session_state.last_error:
     st.error(st.session_state.last_error)
+
+# --- Persistent transition status ----------------------------------------------
+# Loaded from the committed benchmark evidence, never recomputed here. The
+# honest headline is fixed: candidate only, gate 1 failed, default disabled.
+
+_status = status_summary()
+_effective_mode = configured_transition_mode(st.session_state.agent)
+_latest_trace = transition_trace(st.session_state.agent.events, limit=1)
+_latest_applied = bool(_latest_trace and _latest_trace[-1].get("action_applied"))
+
+st.markdown("#### Transition intelligence status")
+_s1, _s2, _s3, _s4 = st.columns(4)
+_s1.metric("Runtime default", _status["runtime_default"])
+_s1.caption(f"Configured now: {TRANSITION_DISABLED if _effective_mode is None else _effective_mode}")
+_s2.metric("Transition path", _status["classification_label"])
+_s2.caption("From committed benchmark evidence")
+_s3.metric("Canonical controller", _status["canonical_controller"])
+_s3.caption("No controller is canonical")
+_s4.metric(
+    "Latest applied controller action", "Yes" if _latest_applied else "No"
+)
+_s4.caption(f"Effective mode: {_effective_mode}")
+
+if _status["available"]:
+    # Caution, never success styling: gate 1 fails.
+    st.warning(
+        f"**Adoption gates: {_status['gate_summary']}.** "
+        f"{_status['rationale']}"
+    )
+else:
+    st.info(
+        "Committed transition benchmark evidence is unavailable; no "
+        "classification is shown and none is inferred."
+    )
 
 # --- Main layout ---------------------------------------------------------------
 
@@ -705,3 +789,422 @@ with col_platform:
                 )
     else:
         st.caption("No events yet.")
+
+# --- Transition intelligence ---------------------------------------------------
+# Live runtime diagnostics and committed benchmark evidence. Everything
+# below reads; nothing recomputes a metric or re-derives a decision.
+
+st.divider()
+st.subheader("Transition intelligence")
+st.caption(
+    "How ExperienceOS decides whether a new statement is the same "
+    "experience, a replacement, a scoped addition, a forget directive, or "
+    "something it must refuse. Proposal, verification, authorization, "
+    "translation, and application are separate stages — none implies the "
+    "next."
+)
+
+_trace = transition_trace(st.session_state.agent.events)
+
+with st.expander("Transition trace (live)", expanded=False):
+    if _effective_mode == TRANSITION_DISABLED:
+        st.info(
+            "No transition analysis ran because integration is disabled "
+            "(the default). Select shadow, candidate, or verify-only in the "
+            "sidebar to observe the pipeline without mutating memory."
+        )
+    elif not _trace:
+        st.caption("No transition decisions have been recorded yet.")
+    else:
+        _latest = _trace[-1]
+        if _latest.get("malformed"):
+            st.warning(
+                "The latest transition annotation could not be read "
+                f"({_latest.get('reason', 'unknown')}); no values are shown "
+                "for it."
+            )
+        else:
+            st.caption(
+                f"Configured: {_latest['configured_mode']} · Effective: "
+                f"{_latest['effective_mode']} · System: "
+                f"{_latest['system_id'] or '—'} · Annotation v"
+                f"{_latest['annotation_version']}"
+            )
+            st.dataframe(
+                [
+                    {
+                        "Stage": stage["stage"],
+                        "Status": STATUS_BADGES.get(
+                            stage["status"], stage["status"]
+                        ),
+                        "Detail": stage["detail"],
+                    }
+                    for stage in pipeline_stages(_latest)
+                ],
+                width="stretch",
+                hide_index=True,
+            )
+            st.caption(
+                "NOT RUN means the stage did not execute — it does not mean "
+                "the stage passed."
+            )
+            if _latest["diagnostics"]:
+                with st.expander(
+                    f"Diagnostics ({len(_latest['diagnostics'])})"
+                ):
+                    st.dataframe(
+                        _latest["diagnostics"], width="stretch",
+                        hide_index=True,
+                    )
+        if len(_trace) > 1:
+            with st.expander(f"Recent transition decisions ({len(_trace)})"):
+                st.dataframe(
+                    [
+                        {
+                            "Mode": r.get("effective_mode", "—"),
+                            "Route": r.get("route", "—"),
+                            "Transition": TRANSITION_LABELS.get(
+                                r.get("transition_type"), r.get("transition_type")
+                                or "—"
+                            ),
+                            "Verifier": r.get("verifier_status") or "—",
+                            "Applied": "Yes" if r.get("action_applied") else "No",
+                        }
+                        for r in _trace
+                        if not r.get("malformed")
+                    ],
+                    width="stretch", hide_index=True,
+                )
+
+with st.expander("Memory lifecycle (live)", expanded=False):
+    _cards = lifecycle_cards(st.session_state.agent, user_id)
+    if not _cards:
+        st.caption("No memories yet for this user.")
+    else:
+        _groups = lifecycle_groups(_cards)
+        _g1, _g2, _g3, _g4 = st.columns(4)
+        _g1.metric("Active", _groups["active"])
+        _g2.metric("Superseded", _groups["superseded"])
+        _g3.metric("Forgotten", _groups["forgotten"])
+        _g4.metric("Duplicate pairs", len(_groups["duplicate_pairs"]))
+        st.caption(
+            f"Stale active pairs: {len(_groups['stale_pairs'])} · Scoped "
+            f"siblings: {len(_groups['scoped_pairs'])}. Superseded and "
+            "forgotten records are kept and shown: accumulated experience "
+            "includes its history."
+        )
+        st.dataframe(
+            [
+                {
+                    "Memory": c["memory_id"][:12],
+                    "Status": c["status"],
+                    "Kind": c["kind"],
+                    "Subject": c["subject"],
+                    "Attribute": c["attribute"],
+                    "Value": c["value"],
+                    "Scope": c["scope"],
+                    "Text": c["text"],
+                }
+                for c in _cards
+            ],
+            width="stretch", hide_index=True,
+        )
+        _lineage = lineage_rows(_cards)
+        if _lineage:
+            with st.expander(f"Lineage and audit records ({len(_lineage)})"):
+                st.dataframe(_lineage, width="stretch", hide_index=True)
+                st.caption(
+                    "Replaced and forgotten experience is retained for audit "
+                    "and excluded from current context."
+                )
+
+# --- Committed benchmark evidence ---------------------------------------------
+
+if not benchmark_available():
+    st.info(
+        "Committed transition benchmark artifacts are unavailable. No "
+        "metrics are shown and none are inferred."
+    )
+else:
+    _finding = duplicate_finding()
+    _partitions = partition_counts()
+
+    with st.expander(
+        "Benchmark: the central finding (committed evidence)", expanded=False
+    ):
+        st.markdown(
+            f"**Transition path: {_status['classification_label']}**"
+        )
+        st.caption(_status["rationale"])
+        st.markdown(
+            "The proposal intelligence is correct and the projected state is "
+            "cleaner — but applying it duplicates the replacement create, so "
+            "the applied lifecycle fails the duplicate-reduction gate."
+        )
+        st.dataframe(
+            [
+                {
+                    "Metric": r["metric"],
+                    "Reference (applied)": str(r["reference"]),
+                    "Candidate projection": str(r["candidate_projection"]),
+                    "Isolated applied": str(r["isolated_applied"]),
+                }
+                for r in duplicate_stale_rows()
+            ],
+            width="stretch", hide_index=True,
+        )
+        st.warning(
+            f"Stale active pairs improve {_finding['reference_stale']} → "
+            f"{_finding['applied_stale']}, but duplicate pairs regress "
+            f"{_finding['reference_duplicates']} → "
+            f"{_finding['applied_duplicates']}. Cause: {_finding['cause']}. "
+            f"Consequence: {_finding['consequence']}. Required future work: "
+            f"{_finding['future_work']} — not done here."
+        )
+        st.caption(
+            "Candidate projection is what a verified proposal *would* do. "
+            "Isolated applied is what an authorized benchmark action really "
+            "did through the existing manager and engine. Neither is normal "
+            "runtime state, which remains disabled."
+        )
+
+    with st.expander("Benchmark: adoption gates (all 20)", expanded=False):
+        st.caption(
+            f"{_status['gate_summary']} · Historical evidence: "
+            f"{_partitions.get('historical_scored', '—')} cases · "
+            f"Development fixtures: "
+            f"{_partitions.get('development_fixtures', '—')} cases "
+            "(reported separately, never merged)."
+        )
+        for _g in highlighted_gates():
+            st.warning(
+                f"**Gate {_g['gate']} — {_g['decision_label']}: {_g['name']}**"
+                f"\n\nReference: {_g['reference']} · Candidate: "
+                f"{_g['candidate']}\n\n{_g['justification']}"
+            )
+        st.dataframe(
+            [
+                {
+                    "#": g["gate"],
+                    "Gate": g["name"],
+                    "Decision": g["decision_label"],
+                    "Blocking": "Yes" if g["blocking"] else "No",
+                    "Reference": str(g["reference"]),
+                    "Candidate": str(g["candidate"]),
+                }
+                for g in gate_rows()
+            ],
+            width="stretch", hide_index=True,
+        )
+        with st.expander("Gate detail"):
+            _gate_choice = st.selectbox(
+                "Gate", [f"{g['gate']}. {g['name']}" for g in gate_rows()],
+                key="transition_gate_detail",
+            )
+            _gate = gate_rows()[int(_gate_choice.split(".")[0]) - 1]
+            st.json(
+                {
+                    "gate": _gate["gate"],
+                    "role": _gate["role"],
+                    "threshold_or_procedure": _gate["threshold"],
+                    "reference": _gate["reference"],
+                    "candidate": _gate["candidate"],
+                    "absolute_delta": _gate["absolute_delta"],
+                    "relative_delta": _gate["relative_delta"],
+                    "decision": _gate["decision"],
+                    "blocking": _gate["blocking"],
+                    "justification": _gate["justification"],
+                    "evidence": _gate["evidence"],
+                }
+            )
+
+    with st.expander("Benchmark: system comparison", expanded=False):
+        st.caption(
+            "Historical-scored evidence only. Unavailable systems receive no "
+            "score."
+        )
+        st.dataframe(
+            [
+                {
+                    "System": r["system_id"],
+                    "Reference level": r["reference_level"],
+                    "Mode": r["mode"],
+                    "Available": "Yes" if r["available"] else "No",
+                    "Classification": r["classification"],
+                    "Targets": r["targets"],
+                    "Stale pairs": str(r["stale_pairs"]),
+                    "Duplicate pairs": str(r["duplicate_pairs"]),
+                    "Preservation": str(r["preservation"]),
+                    "Applied": str(r["actions_applied"]),
+                }
+                for r in system_rows()
+            ],
+            width="stretch", hide_index=True,
+        )
+        for _r in system_rows():
+            if not _r["available"]:
+                st.caption(f"{_r['system_id']}: Unavailable — {_r['unavailable_reason']}")
+
+    with st.expander("Benchmark: lifecycle chain and context budget"):
+        _chain = lifecycle_chain()
+        _turn_rows = []
+        for _sid, _c in (_chain.get("systems") or {}).items():
+            for _turn in _c["turns"]:
+                _turn_rows.append(
+                    {
+                        "System": _sid.replace("experienceos_", ""),
+                        "Turn": _turn["turn"],
+                        "Active": _turn["active"],
+                        "Superseded": _turn["superseded"],
+                        "Forgotten": _turn["forgotten"],
+                        "Duplicates": _turn["duplicate_pairs"],
+                        "Stale": _turn["stale_pairs"],
+                    }
+                )
+        if _turn_rows:
+            st.caption(
+                f"{_chain.get('turns', 0)}-turn chain. {_chain.get('note', '')}"
+            )
+            st.dataframe(_turn_rows, width="stretch", hide_index=True)
+        _down = downstream_summary()
+        if _down:
+            st.markdown("**Context budget and retrieval**")
+            st.dataframe(
+                [
+                    {
+                        "Metric": "Selection rate",
+                        "Reference": str(_down["reference"]["selection_rate"]),
+                        "Transition": str(_down["adopted"]["selection_rate"]),
+                    },
+                    {
+                        "Metric": "Context tokens",
+                        "Reference": str(_down["reference"]["context_tokens"]),
+                        "Transition": str(_down["adopted"]["context_tokens"]),
+                    },
+                    {
+                        "Metric": "Inactive memories retrieved",
+                        "Reference": str(_down["reference"]["inactive_retrieved"]),
+                        "Transition": str(_down["adopted"]["inactive_retrieved"]),
+                    },
+                ],
+                width="stretch", hide_index=True,
+            )
+            st.caption(
+                "Unchanged selection rate and token count are reported as "
+                "non-regression, not improvement. Recall@K and MRR are "
+                "unavailable: the transition corpus carries no relevance "
+                "judgements and none were synthesized."
+            )
+
+    with st.expander("Benchmark: ablations (read-only evidence)"):
+        st.caption(
+            "Which architectural pieces earn their place. Every ablation is "
+            "benchmark-only and non-adoptable; none is a runtime control."
+        )
+        st.dataframe(
+            [
+                {
+                    "Ablation": r["ablation_id"],
+                    "Component removed": r["disabled_component"],
+                    "Cases": str(r["applicable_cases"]),
+                    "Score": str(r["score"]),
+                    "Safety failures": str(r["safety_failures"]),
+                    "Runtime eligible": "No" if not r["runtime_eligible"] else "Yes",
+                }
+                for r in ablation_rows()
+            ],
+            width="stretch", hide_index=True,
+        )
+        st.caption(
+            "The verifier-with-oracle-proposals row is an upper bound on "
+            "verifier correctness — not controller quality."
+        )
+
+    with st.expander("Benchmark: safety (every zero-tolerance metric)"):
+        st.dataframe(safety_rows(), width="stretch", hide_index=True)
+        _blocking = [g for g in gate_rows() if g["blocking"]]
+        _blocking_passed = sum(1 for g in _blocking if g["decision"] == "pass")
+        st.caption(
+            "Reported whether or not they passed. Blocking safety gates: "
+            f"{_blocking_passed}/{len(_blocking)} pass."
+        )
+
+    _claims = claim_rows()
+    with st.expander("Claims and limitations", expanded=False):
+        st.markdown("**Supported by measurement**")
+        st.dataframe(
+            [
+                {"Claim": c["claim"], "Evidence": c.get("detail", ""),
+                 "Backing": c.get("backing", "")}
+                for c in _claims["supported"]
+            ],
+            width="stretch", hide_index=True,
+        )
+        st.markdown("**Not supported**")
+        st.dataframe(
+            [
+                {"Claim": c["claim"], "Reason": c.get("reason", "")}
+                for c in _claims["unsupported"]
+            ],
+            width="stretch", hide_index=True,
+        )
+        st.markdown("**Limitations**")
+        for _limit in limitation_rows():
+            st.markdown(f"- {_limit}")
+        st.caption(
+            "Fixture-only categories (negative forget, forget and inspection "
+            "questions, hypothetical forget, broad forget, ambiguous forget "
+            "targets, switched-from-to, no-longer-now, overlapping scope) are "
+            "engineering evidence, not historical evidence."
+        )
+
+    with st.expander("Diagnostics explorer (committed per-case evidence)"):
+        _f1, _f2, _f3 = st.columns(3)
+        _sys_filter = _f1.selectbox(
+            "System", ["(all)"] + case_systems(), key="transition_case_system"
+        )
+        _part_filter = _f2.selectbox(
+            "Partition", ["(all)", "historical_scored", "development_only"],
+            key="transition_case_partition",
+        )
+        _case_filter = _f3.selectbox(
+            "Case", ["(all)"] + case_ids(), key="transition_case_id"
+        )
+        _rows = case_rows(
+            system_id=None if _sys_filter == "(all)" else _sys_filter,
+            partition=None if _part_filter == "(all)" else _part_filter,
+            source_case_id=None if _case_filter == "(all)" else _case_filter,
+        )
+        st.caption(f"{len(_rows)} case records")
+        st.dataframe(
+            [
+                {
+                    "Case": r["source_case_id"],
+                    "Partition": r["partition"],
+                    "System": r["system_id"].replace("experienceos_", ""),
+                    "Observed": TRANSITION_LABELS.get(
+                        r["observed_type"], r["observed_type"] or "—"
+                    ),
+                    "Correct": "Yes" if r["classification_correct"] else "No",
+                    "Target correct": "Yes" if r["target_correct"] else "No",
+                    "Verifier": r["verifier_status"] or "—",
+                    "Applied": "Yes" if r["action_applied"] else "No",
+                }
+                for r in _rows[:200]
+            ],
+            width="stretch", hide_index=True,
+        )
+        if _rows:
+            with st.expander("Case detail"):
+                st.caption(
+                    "Expected-transition fields are scoring evidence and are "
+                    "not part of any system's input."
+                )
+                st.json(_rows[0])
+
+    st.caption(
+        f"Committed evidence: `{REPORT_DOC_PATH}` · artifacts under "
+        "`benchmarks/results/committed/transition-verification`, "
+        "`transition-ablation`, and `report-transition-verification`. The "
+        "dashboard reads these; it does not recompute them."
+    )
