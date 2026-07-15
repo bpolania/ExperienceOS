@@ -1,0 +1,22 @@
+{
+  "benchmark_version": "1",
+  "classification": "TRANSITION_PATH_CANDIDATE_ONLY",
+  "code_commit": "56672f60bbab8097f4acff7c4b11ca9b917cb9f4",
+  "content_digest": "5dd83d40dd5ac4546b016fcd7d7fa3a0a74777c5dfbcfefc53127186e8fd0b69",
+  "contract_commit": "938cbd097635a62af21dd555da33f586234bdfef",
+  "corpus_commit": "dba85ec8ff88d792c7e15da0b4720d77b895b774",
+  "environment": "offline; mock provider; no model, credentials, or network",
+  "file_digests": {
+    "README.md": "8ffeca0102acd64f1f649d233c57a37cb4efca3faf0e12194e45543ac5225036",
+    "artifact_index.json": "04f816fcab2d5ccdc3f92b96a7d04943469d664081922c919d29fd15958cf915",
+    "claims.json": "6ad0485bd60fbb4f7eba3a4c0526d60d61db26bed73825ef105d2177a8f83ad3",
+    "gate_summary.json": "79924ed526ac90d88326c12172ae03ad533bbf52a40d3d58273dda99ed64b36e",
+    "headline_metrics.json": "34b9342cdee4e742850a33c6b896bac592ff5a88f5b0a35c9891bbe646078734",
+    "limitations.json": "bd9b316d4cc2b443b64f1ad4c239701737c562e6de4e71a8e2e7baa355737fe0",
+    "report_data.json": "33ef88b61777b97984ae1b8b2e9f3df3c249c6bf0172ee284b36fd2d972714e9"
+  },
+  "regeneration_command": "./scripts/run_benchmarks.sh transition-report",
+  "schema_version": "1",
+  "verification_command": "./scripts/run_benchmarks.sh transition-report-verify"
+}
+

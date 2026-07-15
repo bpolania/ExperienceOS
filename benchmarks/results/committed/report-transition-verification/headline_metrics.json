@@ -1,0 +1,14 @@
+{
+  "adopted_duplicate_pairs": 10,
+  "adopted_stale_pairs": 1,
+  "classification_correct": 28,
+  "classification_total": 28,
+  "gates_failed": 1,
+  "gates_inconclusive": 1,
+  "gates_passed": 18,
+  "reference_duplicate_pairs": 0,
+  "reference_stale_pairs": 6,
+  "target_correct": 11,
+  "target_total": 11
+}
+

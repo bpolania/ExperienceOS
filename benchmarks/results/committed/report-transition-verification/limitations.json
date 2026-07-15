@@ -1,0 +1,20 @@
+{
+  "limitations": [
+    "small historical transition corpus (28 scored cases)",
+    "sparse historical semantic-duplicate evidence (1 scored case)",
+    "sparse historical forget evidence (4 affirmative directives, all exact-target)",
+    "question, negative-forget, hypothetical, broad-forget, and ambiguous-target coverage exists only in development fixtures",
+    "bounded deterministic controller vocabulary",
+    "the controller lexicon and the corpus share domains, so accuracy does not generalize beyond them",
+    "the reference is the full canonical composition on this corpus; a component-only view is reported separately as an ablation",
+    "the transition corpus carries no relevance judgements, so Recall@K and MRR are unavailable rather than synthesized",
+    "no learned controller and no multilingual evaluation",
+    "no bulk forget support",
+    "adopted infrastructure is tested only in isolated benchmark runs",
+    "in-memory authorization; no production authorization service",
+    "no production deployment evidence",
+    "no measured answer-quality improvement",
+    "the typed grounding_validation field remains unfixed"
+  ]
+}
+

@@ -1,0 +1,34 @@
+{
+  "adopted": {
+    "active_memories": 2,
+    "candidates": 2,
+    "context_tokens": 17,
+    "inactive_retrieved": 0,
+    "inactive_selected": 0,
+    "mrr": null,
+    "recall_at_1": null,
+    "recall_at_3": null,
+    "selected_memories": 2,
+    "selection_rate": 1.0,
+    "skipped_memories": 0,
+    "unavailable_reason": "the transition corpus supplies no relevance judgements; Recall@K and MRR have no defensible denominator here and are not synthesized"
+  },
+  "cases": 1,
+  "note": "candidate mode is non-mutating, so downstream state equals the reference; this measures that transition diagnostics do not disturb retrieval or the context budget",
+  "query": "What are my travel preferences?",
+  "reference": {
+    "active_memories": 2,
+    "candidates": 2,
+    "context_tokens": 17,
+    "inactive_retrieved": 0,
+    "inactive_selected": 0,
+    "mrr": null,
+    "recall_at_1": null,
+    "recall_at_3": null,
+    "selected_memories": 2,
+    "selection_rate": 1.0,
+    "skipped_memories": 0,
+    "unavailable_reason": "the transition corpus supplies no relevance judgements; Recall@K and MRR have no defensible denominator here and are not synthesized"
+  }
+}
+

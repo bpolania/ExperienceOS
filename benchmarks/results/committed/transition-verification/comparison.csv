@@ -1,0 +1,6 @@
+system_id,reference_level,classification_correct,classification_total,target_correct,target_total,target_wrong,actual_duplicate_pairs,actual_stale_pairs,actual_created,targets_deactivated,preservation_correct,projected_duplicate_pairs,projected_stale_pairs,actions_applied
+experienceos_hybrid_full_v2_reference,full_composition,0,28,0,11,11,0,6,14,5,28,0,0,0
+experienceos_transition_shadow_v1,full_composition,28,28,11,11,0,0,6,14,5,28,0,0,0
+experienceos_transition_candidate_v1,full_composition,28,28,11,11,0,0,6,14,5,28,0,0,0
+experienceos_transition_rules_v1,proposal_only,28,28,11,11,0,0,0,0,0,28,0,0,0
+experienceos_transition_adopted_v1,full_composition,28,28,11,11,0,10,1,25,10,28,0,0,14

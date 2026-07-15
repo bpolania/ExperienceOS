@@ -1,0 +1,7 @@
+{
+  "ablation": "benchmarks/results/committed/transition-ablation",
+  "human_readable": "docs/transition_verification_report.md",
+  "report": "benchmarks/results/committed/report-transition-verification",
+  "verification": "benchmarks/results/committed/transition-verification"
+}
+

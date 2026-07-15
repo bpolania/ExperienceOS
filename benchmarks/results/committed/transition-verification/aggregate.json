@@ -1,0 +1,2139 @@
+{
+  "authorization": {
+    "bound_fields": 20,
+    "exact_match_accepted": true,
+    "mismatches_rejected": 20,
+    "mismatches_tested": 20,
+    "unauthorized_applications": 0
+  },
+  "partitions": {
+    "development_fixtures": {
+      "records": 27,
+      "systems": {
+        "experienceos_hybrid_full_v2_reference": {
+          "abstentions": 27,
+          "actions_applied": 0,
+          "cases": 27,
+          "classification": {
+            "correct": 0,
+            "rate": 0.0,
+            "total": 27
+          },
+          "diagnostics_complete": {
+            "correct": 0,
+            "rate": null,
+            "total": 0
+          },
+          "lifecycle_actual": {
+            "created": 9,
+            "duplicate_pairs": 2,
+            "preservation": {
+              "correct": 27,
+              "rate": 1.0,
+              "total": 27
+            },
+            "stale_pairs": 6,
+            "targets_deactivated": {
+              "correct": 2,
+              "rate": 0.1818,
+              "total": 11
+            }
+          },
+          "lifecycle_projected": {
+            "available": 0,
+            "duplicate_pairs": 0,
+            "stale_pairs": 0
+          },
+          "macro_f1": 0.0,
+          "micro_f1": 0.0,
+          "per_label": {
+            "create_new": {
+              "f1": 0.0,
+              "fn": 1,
+              "fp": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "support": 1,
+              "tp": 0
+            },
+            "duplicate_noop": {
+              "f1": 0.0,
+              "fn": 2,
+              "fp": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "support": 2,
+              "tp": 0
+            },
+            "forget_existing": {
+              "f1": 0.0,
+              "fn": 1,
+              "fp": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "support": 1,
+              "tp": 0
+            },
+            "reject_ambiguous": {
+              "f1": 0.0,
+              "fn": 2,
+              "fp": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "support": 2,
+              "tp": 0
+            },
+            "reject_hypothetical": {
+              "f1": 0.0,
+              "fn": 1,
+              "fp": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "support": 1,
+              "tp": 0
+            },
+            "reject_question": {
+              "f1": 0.0,
+              "fn": 2,
+              "fp": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "support": 2,
+              "tp": 0
+            },
+            "reject_temporary": {
+              "f1": 0.0,
+              "fn": 1,
+              "fp": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "support": 1,
+              "tp": 0
+            },
+            "reject_unsupported": {
+              "f1": 0.0,
+              "fn": 4,
+              "fp": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "support": 4,
+              "tp": 0
+            },
+            "scoped_coexistence": {
+              "f1": 0.0,
+              "fn": 2,
+              "fp": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "support": 2,
+              "tp": 0
+            },
+            "semantic_duplicate_noop": {
+              "f1": 0.0,
+              "fn": 2,
+              "fp": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "support": 2,
+              "tp": 0
+            },
+            "supersede_existing": {
+              "f1": 0.0,
+              "fn": 10,
+              "fp": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "support": 10,
+              "tp": 0
+            }
+          },
+          "proposals": 0,
+          "target": {
+            "correct": 0,
+            "rate": 0.0,
+            "spurious": 0,
+            "total": 11,
+            "wrong": 11
+          },
+          "verifier": {
+            "accepted": 0,
+            "evaluated": 0
+          }
+        },
+        "experienceos_transition_adopted_v1": {
+          "abstentions": 0,
+          "actions_applied": 13,
+          "cases": 27,
+          "classification": {
+            "correct": 27,
+            "rate": 1.0,
+            "total": 27
+          },
+          "diagnostics_complete": {
+            "correct": 27,
+            "rate": 1.0,
+            "total": 27
+          },
+          "lifecycle_actual": {
+            "created": 21,
+            "duplicate_pairs": 9,
+            "preservation": {
+              "correct": 27,
+              "rate": 1.0,
+              "total": 27
+            },
+            "stale_pairs": 2,
+            "targets_deactivated": {
+              "correct": 10,
+              "rate": 0.9091,
+              "total": 11
+            }
+          },
+          "lifecycle_projected": {
+            "available": 0,
+            "duplicate_pairs": 0,
+            "stale_pairs": 0
+          },
+          "macro_f1": 1.0,
+          "micro_f1": 1.0,
+          "per_label": {
+            "create_new": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "duplicate_noop": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "forget_existing": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "reject_ambiguous": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 2,
+              "tp": 2
+            },
+            "reject_hypothetical": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "reject_question": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 2,
+              "tp": 2
+            },
+            "reject_temporary": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "reject_unsupported": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 4,
+              "tp": 4
+            },
+            "scoped_coexistence": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 2,
+              "tp": 2
+            },
+            "semantic_duplicate_noop": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 2,
+              "tp": 2
+            },
+            "supersede_existing": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 10,
+              "tp": 10
+            }
+          },
+          "proposals": 27,
+          "target": {
+            "correct": 11,
+            "rate": 1.0,
+            "spurious": 0,
+            "total": 11,
+            "wrong": 0
+          },
+          "verifier": {
+            "accepted": 27,
+            "evaluated": 27
+          }
+        },
+        "experienceos_transition_candidate_v1": {
+          "abstentions": 0,
+          "actions_applied": 0,
+          "cases": 27,
+          "classification": {
+            "correct": 27,
+            "rate": 1.0,
+            "total": 27
+          },
+          "diagnostics_complete": {
+            "correct": 27,
+            "rate": 1.0,
+            "total": 27
+          },
+          "lifecycle_actual": {
+            "created": 9,
+            "duplicate_pairs": 2,
+            "preservation": {
+              "correct": 27,
+              "rate": 1.0,
+              "total": 27
+            },
+            "stale_pairs": 6,
+            "targets_deactivated": {
+              "correct": 2,
+              "rate": 0.1818,
+              "total": 11
+            }
+          },
+          "lifecycle_projected": {
+            "available": 27,
+            "duplicate_pairs": 0,
+            "stale_pairs": 0
+          },
+          "macro_f1": 1.0,
+          "micro_f1": 1.0,
+          "per_label": {
+            "create_new": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "duplicate_noop": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "forget_existing": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "reject_ambiguous": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 2,
+              "tp": 2
+            },
+            "reject_hypothetical": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "reject_question": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 2,
+              "tp": 2
+            },
+            "reject_temporary": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "reject_unsupported": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 4,
+              "tp": 4
+            },
+            "scoped_coexistence": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 2,
+              "tp": 2
+            },
+            "semantic_duplicate_noop": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 2,
+              "tp": 2
+            },
+            "supersede_existing": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 10,
+              "tp": 10
+            }
+          },
+          "proposals": 27,
+          "target": {
+            "correct": 11,
+            "rate": 1.0,
+            "spurious": 0,
+            "total": 11,
+            "wrong": 0
+          },
+          "verifier": {
+            "accepted": 27,
+            "evaluated": 27
+          }
+        },
+        "experienceos_transition_rules_v1": {
+          "abstentions": 0,
+          "actions_applied": 0,
+          "cases": 27,
+          "classification": {
+            "correct": 27,
+            "rate": 1.0,
+            "total": 27
+          },
+          "diagnostics_complete": {
+            "correct": 27,
+            "rate": 1.0,
+            "total": 27
+          },
+          "lifecycle_actual": {
+            "created": 0,
+            "duplicate_pairs": 0,
+            "preservation": {
+              "correct": 27,
+              "rate": 1.0,
+              "total": 27
+            },
+            "stale_pairs": 0,
+            "targets_deactivated": {
+              "correct": 0,
+              "rate": 0.0,
+              "total": 11
+            }
+          },
+          "lifecycle_projected": {
+            "available": 27,
+            "duplicate_pairs": 0,
+            "stale_pairs": 0
+          },
+          "macro_f1": 1.0,
+          "micro_f1": 1.0,
+          "per_label": {
+            "create_new": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "duplicate_noop": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "forget_existing": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "reject_ambiguous": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 2,
+              "tp": 2
+            },
+            "reject_hypothetical": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "reject_question": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 2,
+              "tp": 2
+            },
+            "reject_temporary": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "reject_unsupported": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 4,
+              "tp": 4
+            },
+            "scoped_coexistence": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 2,
+              "tp": 2
+            },
+            "semantic_duplicate_noop": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 2,
+              "tp": 2
+            },
+            "supersede_existing": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 10,
+              "tp": 10
+            }
+          },
+          "proposals": 27,
+          "target": {
+            "correct": 11,
+            "rate": 1.0,
+            "spurious": 0,
+            "total": 11,
+            "wrong": 0
+          },
+          "verifier": {
+            "accepted": 27,
+            "evaluated": 27
+          }
+        },
+        "experienceos_transition_shadow_v1": {
+          "abstentions": 0,
+          "actions_applied": 0,
+          "cases": 27,
+          "classification": {
+            "correct": 27,
+            "rate": 1.0,
+            "total": 27
+          },
+          "diagnostics_complete": {
+            "correct": 27,
+            "rate": 1.0,
+            "total": 27
+          },
+          "lifecycle_actual": {
+            "created": 9,
+            "duplicate_pairs": 2,
+            "preservation": {
+              "correct": 27,
+              "rate": 1.0,
+              "total": 27
+            },
+            "stale_pairs": 6,
+            "targets_deactivated": {
+              "correct": 2,
+              "rate": 0.1818,
+              "total": 11
+            }
+          },
+          "lifecycle_projected": {
+            "available": 27,
+            "duplicate_pairs": 0,
+            "stale_pairs": 0
+          },
+          "macro_f1": 1.0,
+          "micro_f1": 1.0,
+          "per_label": {
+            "create_new": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "duplicate_noop": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "forget_existing": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "reject_ambiguous": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 2,
+              "tp": 2
+            },
+            "reject_hypothetical": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "reject_question": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 2,
+              "tp": 2
+            },
+            "reject_temporary": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "reject_unsupported": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 4,
+              "tp": 4
+            },
+            "scoped_coexistence": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 2,
+              "tp": 2
+            },
+            "semantic_duplicate_noop": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 2,
+              "tp": 2
+            },
+            "supersede_existing": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 10,
+              "tp": 10
+            }
+          },
+          "proposals": 27,
+          "target": {
+            "correct": 11,
+            "rate": 1.0,
+            "spurious": 0,
+            "total": 11,
+            "wrong": 0
+          },
+          "verifier": {
+            "accepted": 27,
+            "evaluated": 27
+          }
+        }
+      }
+    },
+    "historical_scored": {
+      "records": 28,
+      "systems": {
+        "experienceos_hybrid_full_v2_reference": {
+          "abstentions": 28,
+          "actions_applied": 0,
+          "cases": 28,
+          "classification": {
+            "correct": 0,
+            "rate": 0.0,
+            "total": 28
+          },
+          "diagnostics_complete": {
+            "correct": 0,
+            "rate": null,
+            "total": 0
+          },
+          "lifecycle_actual": {
+            "created": 14,
+            "duplicate_pairs": 0,
+            "preservation": {
+              "correct": 28,
+              "rate": 1.0,
+              "total": 28
+            },
+            "stale_pairs": 6,
+            "targets_deactivated": {
+              "correct": 5,
+              "rate": 0.4545,
+              "total": 11
+            }
+          },
+          "lifecycle_projected": {
+            "available": 0,
+            "duplicate_pairs": 0,
+            "stale_pairs": 0
+          },
+          "macro_f1": 0.0,
+          "micro_f1": 0.0,
+          "per_label": {
+            "create_new": {
+              "f1": 0.0,
+              "fn": 5,
+              "fp": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "support": 5,
+              "tp": 0
+            },
+            "duplicate_noop": {
+              "f1": 0.0,
+              "fn": 1,
+              "fp": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "support": 1,
+              "tp": 0
+            },
+            "forget_existing": {
+              "f1": 0.0,
+              "fn": 4,
+              "fp": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "support": 4,
+              "tp": 0
+            },
+            "reject_question": {
+              "f1": 0.0,
+              "fn": 4,
+              "fp": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "support": 4,
+              "tp": 0
+            },
+            "reject_temporary": {
+              "f1": 0.0,
+              "fn": 1,
+              "fp": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "support": 1,
+              "tp": 0
+            },
+            "reject_unsupported": {
+              "f1": 0.0,
+              "fn": 4,
+              "fp": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "support": 4,
+              "tp": 0
+            },
+            "scoped_coexistence": {
+              "f1": 0.0,
+              "fn": 1,
+              "fp": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "support": 1,
+              "tp": 0
+            },
+            "semantic_duplicate_noop": {
+              "f1": 0.0,
+              "fn": 1,
+              "fp": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "support": 1,
+              "tp": 0
+            },
+            "supersede_existing": {
+              "f1": 0.0,
+              "fn": 7,
+              "fp": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "support": 7,
+              "tp": 0
+            }
+          },
+          "proposals": 0,
+          "target": {
+            "correct": 0,
+            "rate": 0.0,
+            "spurious": 0,
+            "total": 11,
+            "wrong": 11
+          },
+          "verifier": {
+            "accepted": 0,
+            "evaluated": 0
+          }
+        },
+        "experienceos_transition_adopted_v1": {
+          "abstentions": 0,
+          "actions_applied": 14,
+          "cases": 28,
+          "classification": {
+            "correct": 28,
+            "rate": 1.0,
+            "total": 28
+          },
+          "diagnostics_complete": {
+            "correct": 28,
+            "rate": 1.0,
+            "total": 28
+          },
+          "lifecycle_actual": {
+            "created": 25,
+            "duplicate_pairs": 10,
+            "preservation": {
+              "correct": 28,
+              "rate": 1.0,
+              "total": 28
+            },
+            "stale_pairs": 1,
+            "targets_deactivated": {
+              "correct": 10,
+              "rate": 0.9091,
+              "total": 11
+            }
+          },
+          "lifecycle_projected": {
+            "available": 0,
+            "duplicate_pairs": 0,
+            "stale_pairs": 0
+          },
+          "macro_f1": 1.0,
+          "micro_f1": 1.0,
+          "per_label": {
+            "create_new": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 5,
+              "tp": 5
+            },
+            "duplicate_noop": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "forget_existing": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 4,
+              "tp": 4
+            },
+            "reject_question": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 4,
+              "tp": 4
+            },
+            "reject_temporary": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "reject_unsupported": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 4,
+              "tp": 4
+            },
+            "scoped_coexistence": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "semantic_duplicate_noop": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "supersede_existing": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 7,
+              "tp": 7
+            }
+          },
+          "proposals": 28,
+          "target": {
+            "correct": 11,
+            "rate": 1.0,
+            "spurious": 0,
+            "total": 11,
+            "wrong": 0
+          },
+          "verifier": {
+            "accepted": 28,
+            "evaluated": 28
+          }
+        },
+        "experienceos_transition_candidate_v1": {
+          "abstentions": 0,
+          "actions_applied": 0,
+          "cases": 28,
+          "classification": {
+            "correct": 28,
+            "rate": 1.0,
+            "total": 28
+          },
+          "diagnostics_complete": {
+            "correct": 28,
+            "rate": 1.0,
+            "total": 28
+          },
+          "lifecycle_actual": {
+            "created": 14,
+            "duplicate_pairs": 0,
+            "preservation": {
+              "correct": 28,
+              "rate": 1.0,
+              "total": 28
+            },
+            "stale_pairs": 6,
+            "targets_deactivated": {
+              "correct": 5,
+              "rate": 0.4545,
+              "total": 11
+            }
+          },
+          "lifecycle_projected": {
+            "available": 28,
+            "duplicate_pairs": 0,
+            "stale_pairs": 0
+          },
+          "macro_f1": 1.0,
+          "micro_f1": 1.0,
+          "per_label": {
+            "create_new": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 5,
+              "tp": 5
+            },
+            "duplicate_noop": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "forget_existing": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 4,
+              "tp": 4
+            },
+            "reject_question": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 4,
+              "tp": 4
+            },
+            "reject_temporary": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "reject_unsupported": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 4,
+              "tp": 4
+            },
+            "scoped_coexistence": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "semantic_duplicate_noop": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "supersede_existing": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 7,
+              "tp": 7
+            }
+          },
+          "proposals": 28,
+          "target": {
+            "correct": 11,
+            "rate": 1.0,
+            "spurious": 0,
+            "total": 11,
+            "wrong": 0
+          },
+          "verifier": {
+            "accepted": 28,
+            "evaluated": 28
+          }
+        },
+        "experienceos_transition_rules_v1": {
+          "abstentions": 0,
+          "actions_applied": 0,
+          "cases": 28,
+          "classification": {
+            "correct": 28,
+            "rate": 1.0,
+            "total": 28
+          },
+          "diagnostics_complete": {
+            "correct": 28,
+            "rate": 1.0,
+            "total": 28
+          },
+          "lifecycle_actual": {
+            "created": 0,
+            "duplicate_pairs": 0,
+            "preservation": {
+              "correct": 28,
+              "rate": 1.0,
+              "total": 28
+            },
+            "stale_pairs": 0,
+            "targets_deactivated": {
+              "correct": 0,
+              "rate": 0.0,
+              "total": 11
+            }
+          },
+          "lifecycle_projected": {
+            "available": 28,
+            "duplicate_pairs": 0,
+            "stale_pairs": 0
+          },
+          "macro_f1": 1.0,
+          "micro_f1": 1.0,
+          "per_label": {
+            "create_new": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 5,
+              "tp": 5
+            },
+            "duplicate_noop": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "forget_existing": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 4,
+              "tp": 4
+            },
+            "reject_question": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 4,
+              "tp": 4
+            },
+            "reject_temporary": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "reject_unsupported": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 4,
+              "tp": 4
+            },
+            "scoped_coexistence": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "semantic_duplicate_noop": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "supersede_existing": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 7,
+              "tp": 7
+            }
+          },
+          "proposals": 28,
+          "target": {
+            "correct": 11,
+            "rate": 1.0,
+            "spurious": 0,
+            "total": 11,
+            "wrong": 0
+          },
+          "verifier": {
+            "accepted": 28,
+            "evaluated": 28
+          }
+        },
+        "experienceos_transition_shadow_v1": {
+          "abstentions": 0,
+          "actions_applied": 0,
+          "cases": 28,
+          "classification": {
+            "correct": 28,
+            "rate": 1.0,
+            "total": 28
+          },
+          "diagnostics_complete": {
+            "correct": 28,
+            "rate": 1.0,
+            "total": 28
+          },
+          "lifecycle_actual": {
+            "created": 14,
+            "duplicate_pairs": 0,
+            "preservation": {
+              "correct": 28,
+              "rate": 1.0,
+              "total": 28
+            },
+            "stale_pairs": 6,
+            "targets_deactivated": {
+              "correct": 5,
+              "rate": 0.4545,
+              "total": 11
+            }
+          },
+          "lifecycle_projected": {
+            "available": 28,
+            "duplicate_pairs": 0,
+            "stale_pairs": 0
+          },
+          "macro_f1": 1.0,
+          "micro_f1": 1.0,
+          "per_label": {
+            "create_new": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 5,
+              "tp": 5
+            },
+            "duplicate_noop": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "forget_existing": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 4,
+              "tp": 4
+            },
+            "reject_question": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 4,
+              "tp": 4
+            },
+            "reject_temporary": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "reject_unsupported": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 4,
+              "tp": 4
+            },
+            "scoped_coexistence": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "semantic_duplicate_noop": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 1,
+              "tp": 1
+            },
+            "supersede_existing": {
+              "f1": 1.0,
+              "fn": 0,
+              "fp": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "support": 7,
+              "tp": 7
+            }
+          },
+          "proposals": 28,
+          "target": {
+            "correct": 11,
+            "rate": 1.0,
+            "spurious": 0,
+            "total": 11,
+            "wrong": 0
+          },
+          "verifier": {
+            "accepted": 28,
+            "evaluated": 28
+          }
+        }
+      }
+    }
+  },
+  "safety": {
+    "ambiguous_targets_guessed": 0,
+    "direct_mutation_violations": 0,
+    "forgotten_leakage": 0,
+    "lineage_errors": 0,
+    "model_calls": 0,
+    "network_calls": 0,
+    "scoped_memories_lost": 0,
+    "second_mutation_paths": 0,
+    "state_corruption": 0,
+    "superseded_leakage": 0,
+    "unauthorized_applications": 0,
+    "unrelated_memories_lost": 0
+  },
+  "schema_version": "1",
+  "systems": {
+    "experienceos_hybrid_full_v2_reference": {
+      "abstentions": 28,
+      "actions_applied": 0,
+      "cases": 28,
+      "classification": {
+        "correct": 0,
+        "rate": 0.0,
+        "total": 28
+      },
+      "diagnostics_complete": {
+        "correct": 0,
+        "rate": null,
+        "total": 0
+      },
+      "forget": {
+        "creation_false_positives": 0,
+        "directives": 4,
+        "preserved": 4,
+        "target_correct": 4
+      },
+      "lifecycle_actual": {
+        "created": 14,
+        "duplicate_pairs": 0,
+        "preservation": {
+          "correct": 28,
+          "rate": 1.0,
+          "total": 28
+        },
+        "stale_pairs": 6,
+        "targets_deactivated": {
+          "correct": 5,
+          "rate": 0.4545,
+          "total": 11
+        }
+      },
+      "lifecycle_projected": {
+        "available": 0,
+        "duplicate_pairs": 0,
+        "stale_pairs": 0
+      },
+      "macro_f1": 0.0,
+      "micro_f1": 0.0,
+      "per_label": {
+        "create_new": {
+          "f1": 0.0,
+          "fn": 5,
+          "fp": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 5,
+          "tp": 0
+        },
+        "duplicate_noop": {
+          "f1": 0.0,
+          "fn": 1,
+          "fp": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 1,
+          "tp": 0
+        },
+        "forget_existing": {
+          "f1": 0.0,
+          "fn": 4,
+          "fp": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 4,
+          "tp": 0
+        },
+        "reject_question": {
+          "f1": 0.0,
+          "fn": 4,
+          "fp": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 4,
+          "tp": 0
+        },
+        "reject_temporary": {
+          "f1": 0.0,
+          "fn": 1,
+          "fp": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 1,
+          "tp": 0
+        },
+        "reject_unsupported": {
+          "f1": 0.0,
+          "fn": 4,
+          "fp": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 4,
+          "tp": 0
+        },
+        "scoped_coexistence": {
+          "f1": 0.0,
+          "fn": 1,
+          "fp": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 1,
+          "tp": 0
+        },
+        "semantic_duplicate_noop": {
+          "f1": 0.0,
+          "fn": 1,
+          "fp": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 1,
+          "tp": 0
+        },
+        "supersede_existing": {
+          "f1": 0.0,
+          "fn": 7,
+          "fp": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 7,
+          "tp": 0
+        }
+      },
+      "proposals": 0,
+      "target": {
+        "correct": 0,
+        "rate": 0.0,
+        "spurious": 0,
+        "total": 11,
+        "wrong": 11
+      },
+      "verifier": {
+        "accepted": 0,
+        "evaluated": 0
+      }
+    },
+    "experienceos_transition_adopted_v1": {
+      "abstentions": 0,
+      "actions_applied": 14,
+      "cases": 28,
+      "classification": {
+        "correct": 28,
+        "rate": 1.0,
+        "total": 28
+      },
+      "diagnostics_complete": {
+        "correct": 28,
+        "rate": 1.0,
+        "total": 28
+      },
+      "forget": {
+        "creation_false_positives": 0,
+        "directives": 4,
+        "preserved": 4,
+        "target_correct": 4
+      },
+      "lifecycle_actual": {
+        "created": 25,
+        "duplicate_pairs": 10,
+        "preservation": {
+          "correct": 28,
+          "rate": 1.0,
+          "total": 28
+        },
+        "stale_pairs": 1,
+        "targets_deactivated": {
+          "correct": 10,
+          "rate": 0.9091,
+          "total": 11
+        }
+      },
+      "lifecycle_projected": {
+        "available": 0,
+        "duplicate_pairs": 0,
+        "stale_pairs": 0
+      },
+      "macro_f1": 1.0,
+      "micro_f1": 1.0,
+      "per_label": {
+        "create_new": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 5,
+          "tp": 5
+        },
+        "duplicate_noop": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "forget_existing": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4,
+          "tp": 4
+        },
+        "reject_question": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4,
+          "tp": 4
+        },
+        "reject_temporary": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "reject_unsupported": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4,
+          "tp": 4
+        },
+        "scoped_coexistence": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "semantic_duplicate_noop": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "supersede_existing": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 7,
+          "tp": 7
+        }
+      },
+      "proposals": 28,
+      "target": {
+        "correct": 11,
+        "rate": 1.0,
+        "spurious": 0,
+        "total": 11,
+        "wrong": 0
+      },
+      "verifier": {
+        "accepted": 28,
+        "evaluated": 28
+      }
+    },
+    "experienceos_transition_candidate_v1": {
+      "abstentions": 0,
+      "actions_applied": 0,
+      "cases": 28,
+      "classification": {
+        "correct": 28,
+        "rate": 1.0,
+        "total": 28
+      },
+      "diagnostics_complete": {
+        "correct": 28,
+        "rate": 1.0,
+        "total": 28
+      },
+      "forget": {
+        "creation_false_positives": 0,
+        "directives": 4,
+        "preserved": 4,
+        "target_correct": 4
+      },
+      "lifecycle_actual": {
+        "created": 14,
+        "duplicate_pairs": 0,
+        "preservation": {
+          "correct": 28,
+          "rate": 1.0,
+          "total": 28
+        },
+        "stale_pairs": 6,
+        "targets_deactivated": {
+          "correct": 5,
+          "rate": 0.4545,
+          "total": 11
+        }
+      },
+      "lifecycle_projected": {
+        "available": 28,
+        "duplicate_pairs": 0,
+        "stale_pairs": 0
+      },
+      "macro_f1": 1.0,
+      "micro_f1": 1.0,
+      "per_label": {
+        "create_new": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 5,
+          "tp": 5
+        },
+        "duplicate_noop": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "forget_existing": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4,
+          "tp": 4
+        },
+        "reject_question": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4,
+          "tp": 4
+        },
+        "reject_temporary": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "reject_unsupported": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4,
+          "tp": 4
+        },
+        "scoped_coexistence": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "semantic_duplicate_noop": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "supersede_existing": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 7,
+          "tp": 7
+        }
+      },
+      "proposals": 28,
+      "target": {
+        "correct": 11,
+        "rate": 1.0,
+        "spurious": 0,
+        "total": 11,
+        "wrong": 0
+      },
+      "verifier": {
+        "accepted": 28,
+        "evaluated": 28
+      }
+    },
+    "experienceos_transition_rules_v1": {
+      "abstentions": 0,
+      "actions_applied": 0,
+      "cases": 28,
+      "classification": {
+        "correct": 28,
+        "rate": 1.0,
+        "total": 28
+      },
+      "diagnostics_complete": {
+        "correct": 28,
+        "rate": 1.0,
+        "total": 28
+      },
+      "forget": {
+        "creation_false_positives": 0,
+        "directives": 4,
+        "preserved": 4,
+        "target_correct": 0
+      },
+      "lifecycle_actual": {
+        "created": 0,
+        "duplicate_pairs": 0,
+        "preservation": {
+          "correct": 28,
+          "rate": 1.0,
+          "total": 28
+        },
+        "stale_pairs": 0,
+        "targets_deactivated": {
+          "correct": 0,
+          "rate": 0.0,
+          "total": 11
+        }
+      },
+      "lifecycle_projected": {
+        "available": 28,
+        "duplicate_pairs": 0,
+        "stale_pairs": 0
+      },
+      "macro_f1": 1.0,
+      "micro_f1": 1.0,
+      "per_label": {
+        "create_new": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 5,
+          "tp": 5
+        },
+        "duplicate_noop": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "forget_existing": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4,
+          "tp": 4
+        },
+        "reject_question": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4,
+          "tp": 4
+        },
+        "reject_temporary": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "reject_unsupported": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4,
+          "tp": 4
+        },
+        "scoped_coexistence": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "semantic_duplicate_noop": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "supersede_existing": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 7,
+          "tp": 7
+        }
+      },
+      "proposals": 28,
+      "target": {
+        "correct": 11,
+        "rate": 1.0,
+        "spurious": 0,
+        "total": 11,
+        "wrong": 0
+      },
+      "verifier": {
+        "accepted": 28,
+        "evaluated": 28
+      }
+    },
+    "experienceos_transition_shadow_v1": {
+      "abstentions": 0,
+      "actions_applied": 0,
+      "cases": 28,
+      "classification": {
+        "correct": 28,
+        "rate": 1.0,
+        "total": 28
+      },
+      "diagnostics_complete": {
+        "correct": 28,
+        "rate": 1.0,
+        "total": 28
+      },
+      "forget": {
+        "creation_false_positives": 0,
+        "directives": 4,
+        "preserved": 4,
+        "target_correct": 4
+      },
+      "lifecycle_actual": {
+        "created": 14,
+        "duplicate_pairs": 0,
+        "preservation": {
+          "correct": 28,
+          "rate": 1.0,
+          "total": 28
+        },
+        "stale_pairs": 6,
+        "targets_deactivated": {
+          "correct": 5,
+          "rate": 0.4545,
+          "total": 11
+        }
+      },
+      "lifecycle_projected": {
+        "available": 28,
+        "duplicate_pairs": 0,
+        "stale_pairs": 0
+      },
+      "macro_f1": 1.0,
+      "micro_f1": 1.0,
+      "per_label": {
+        "create_new": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 5,
+          "tp": 5
+        },
+        "duplicate_noop": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "forget_existing": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4,
+          "tp": 4
+        },
+        "reject_question": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4,
+          "tp": 4
+        },
+        "reject_temporary": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "reject_unsupported": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4,
+          "tp": 4
+        },
+        "scoped_coexistence": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "semantic_duplicate_noop": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "supersede_existing": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 7,
+          "tp": 7
+        }
+      },
+      "proposals": 28,
+      "target": {
+        "correct": 11,
+        "rate": 1.0,
+        "spurious": 0,
+        "total": 11,
+        "wrong": 0
+      },
+      "verifier": {
+        "accepted": 28,
+        "evaluated": 28
+      }
+    }
+  }
+}
+

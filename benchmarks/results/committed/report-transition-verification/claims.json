@@ -1,0 +1,107 @@
+{
+  "supported": [
+    {
+      "backing": "historical",
+      "claim": "deterministic transition proposal exists and is verified",
+      "detail": "28/28 transition classifications correct; every proposal verified",
+      "evidence": [
+        "benchmarks/results/committed/transition-verification/per-case.jsonl"
+      ],
+      "partition": "historical_scored"
+    },
+    {
+      "backing": "historical",
+      "claim": "safe update-target resolution improves on supported cases",
+      "detail": "11/11 targets resolved with 0 wrong; the reference resolves no transition targets",
+      "evidence": [
+        "benchmarks/results/committed/transition-verification/per-case.jsonl"
+      ],
+      "partition": "historical_scored"
+    },
+    {
+      "backing": "historical",
+      "claim": "stale active-memory leakage decreases materially",
+      "detail": "stale active pairs 6 → 1",
+      "evidence": [
+        "benchmarks/results/committed/transition-verification/per-case.jsonl"
+      ],
+      "partition": "historical_scored"
+    },
+    {
+      "backing": "historical",
+      "claim": "scoped and unrelated memories remain preserved",
+      "detail": "0 scoped and 0 unrelated memories lost",
+      "evidence": [
+        "benchmarks/results/committed/transition-verification/per-case.jsonl"
+      ],
+      "partition": "historical_scored"
+    },
+    {
+      "backing": "historical+fixture",
+      "claim": "ambiguous targets fail closed",
+      "detail": "0 ambiguous cases guessed into a mutation",
+      "evidence": [
+        "benchmarks/results/committed/transition-verification/per-case.jsonl"
+      ],
+      "partition": "both"
+    },
+    {
+      "backing": "infrastructure",
+      "claim": "exact authorization gates adopted effects",
+      "detail": "20/20 bound-field mismatches fail closed",
+      "evidence": [
+        "benchmarks/results/committed/transition-ablation/safety.json"
+      ],
+      "partition": "infrastructure"
+    },
+    {
+      "backing": "historical+fixture",
+      "claim": "the transition path is CPU-feasible and offline",
+      "detail": "well under the 5 ms mean ceiling; measured values in latency.json, which is excluded from content digests",
+      "evidence": [
+        "benchmarks/results/committed/transition-verification/aggregate.json"
+      ],
+      "partition": "both"
+    }
+  ],
+  "unsupported": [
+    {
+      "claim": "open-domain transition intelligence solved"
+    },
+    {
+      "claim": "production-grade update understanding"
+    },
+    {
+      "claim": "production-grade forget understanding"
+    },
+    {
+      "claim": "autonomous memory management"
+    },
+    {
+      "claim": "learned transition reasoning"
+    },
+    {
+      "claim": "multilingual generalization"
+    },
+    {
+      "claim": "canonical adoption"
+    },
+    {
+      "claim": "improved final answer quality"
+    },
+    {
+      "claim": "broad forget support"
+    },
+    {
+      "claim": "complete duplicate elimination"
+    },
+    {
+      "claim": "complete update-target resolution"
+    },
+    {
+      "claim": "semantic duplicate prevention improves the applied lifecycle outcome",
+      "reason": "measured and refuted: adopted mode adds its replacement create alongside the canonical planner's create, so duplicate pairs rise from 0 to 10; gate 1 fails"
+    }
+  ]
+}
+

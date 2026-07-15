@@ -1,0 +1,42 @@
+{
+  "note": "measured wall-clock; excluded from committed deterministic content and from every content digest",
+  "systems": {
+    "experienceos_hybrid_full_v2_reference": {
+      "count": 28,
+      "max_ms": 0.5991,
+      "mean_ms": 0.2264,
+      "median_ms": 0.1901,
+      "p95_ms": 0.3952
+    },
+    "experienceos_transition_adopted_v1": {
+      "count": 28,
+      "max_ms": 1.2779,
+      "mean_ms": 0.5964,
+      "median_ms": 0.5481,
+      "p95_ms": 0.9043
+    },
+    "experienceos_transition_candidate_v1": {
+      "count": 28,
+      "max_ms": 1.1136,
+      "mean_ms": 0.5468,
+      "median_ms": 0.5099,
+      "p95_ms": 0.81
+    },
+    "experienceos_transition_rules_v1": {
+      "count": 28,
+      "max_ms": 0.5366,
+      "mean_ms": 0.2701,
+      "median_ms": 0.2317,
+      "p95_ms": 0.509
+    },
+    "experienceos_transition_shadow_v1": {
+      "count": 28,
+      "max_ms": 6.4225,
+      "mean_ms": 0.9124,
+      "median_ms": 0.521,
+      "p95_ms": 4.8755
+    }
+  },
+  "total_seconds": 0.454
+}
+

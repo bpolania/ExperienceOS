@@ -1,0 +1,331 @@
+{
+  "classification": "TRANSITION_PATH_CANDIDATE_ONLY",
+  "failed": 1,
+  "gates": [
+    {
+      "absolute_delta": 10,
+      "blocking": false,
+      "candidate": "10",
+      "decision": "fail",
+      "evidence": [
+        "benchmarks/results/committed/transition-verification/per-case.jsonl"
+      ],
+      "gate": 1,
+      "justification": "Reference leaves 0 semantic-duplicate active pair(s); the adopted path leaves 10. The adopted path is not strictly fewer, so the gate fails. The candidate's projected state would reach 0, but a projection is not what adoption applies: adopted mode adds its replacement create alongside the canonical planner's create, so both persist and form a duplicate. Scoped memories lost: 0.",
+      "name": "Semantic duplicate active-memory count decreases materially",
+      "reference": "0",
+      "relative_delta": null,
+      "role": "gate",
+      "threshold": "strictly fewer than reference; 0 for the strongest claim"
+    },
+    {
+      "absolute_delta": -5,
+      "blocking": false,
+      "candidate": "stale=1, supersessions=10/11",
+      "decision": "pass",
+      "evidence": [
+        "benchmarks/results/committed/transition-verification/per-case.jsonl"
+      ],
+      "gate": 2,
+      "justification": "Stale active pairs 6 → 1 (material=True); correct target deactivations 5/11 → 10/11 (material=True). At least one improved materially: True; no regression in the other: True.",
+      "name": "Supersession accuracy improves materially OR stale active-memory leakage decreases materially",
+      "reference": "stale=6, supersessions=5/11",
+      "relative_delta": -0.8333,
+      "role": "gate",
+      "threshold": ">=1 case or >=2% relative on one, with no regression in the other"
+    },
+    {
+      "absolute_delta": 11.0,
+      "blocking": false,
+      "candidate": "11/11",
+      "decision": "pass",
+      "evidence": [
+        "benchmarks/results/committed/transition-verification/per-case.jsonl"
+      ],
+      "gate": 3,
+      "justification": "Reference resolves 0/11 targets (the canonical planner emits no transition targets, so it resolves none); adopted resolves 11/11 with 0 wrong. No regression, and every wrong target count is 0.",
+      "name": "Update-target accuracy is defensible",
+      "reference": "0/11",
+      "relative_delta": null,
+      "role": "gate",
+      "threshold": "regresses by at most 1 case vs reference; every wrong target reviewed"
+    },
+    {
+      "absolute_delta": 0.0,
+      "blocking": true,
+      "candidate": "0",
+      "decision": "pass",
+      "evidence": [
+        "benchmarks/results/committed/transition-verification/per-case.jsonl"
+      ],
+      "gate": 4,
+      "justification": "0 scoped memories were wrongly deactivated across all transition systems.",
+      "name": "Scoped coexistence is preserved",
+      "reference": "0",
+      "relative_delta": null,
+      "role": "gate",
+      "threshold": "0 scoped memories wrongly deactivated/merged/replaced"
+    },
+    {
+      "absolute_delta": 0.0,
+      "blocking": true,
+      "candidate": "0",
+      "decision": "pass",
+      "evidence": [
+        "benchmarks/results/committed/transition-verification/per-case.jsonl"
+      ],
+      "gate": 5,
+      "justification": "0 unrelated memories were changed.",
+      "name": "Unrelated-memory preservation remains intact",
+      "reference": "0",
+      "relative_delta": null,
+      "role": "gate",
+      "threshold": "0 unrelated memories changed"
+    },
+    {
+      "absolute_delta": 0,
+      "blocking": false,
+      "candidate": "0",
+      "decision": "inconclusive",
+      "evidence": [
+        "benchmarks/results/committed/transition-verification/per-case.jsonl"
+      ],
+      "gate": 6,
+      "justification": "Reference creates 0 positive memories from forget directives; adopted creates 0. Adoption requires strictly lower and 0. Both are already 0 on this corpus, so there is no reduction to demonstrate — the gate cannot be passed on evidence of improvement and is recorded inconclusive rather than passed by intuition.",
+      "name": "Forget-directive creation false positives decrease",
+      "reference": "0",
+      "relative_delta": null,
+      "role": "gate",
+      "threshold": "strictly lower than reference and 0 for adoption"
+    },
+    {
+      "absolute_delta": null,
+      "blocking": false,
+      "candidate": "targets=4/4, preserved=4",
+      "decision": "pass",
+      "evidence": [
+        "benchmarks/results/committed/transition-verification/per-case.jsonl"
+      ],
+      "gate": 7,
+      "justification": "Forget target correctness 4 → 4 and preservation 4 → 4 across 4 affirmative directives.",
+      "name": "Correct forget behavior does not regress",
+      "reference": "targets=4/4, preserved=4",
+      "relative_delta": null,
+      "role": "gate",
+      "threshold": "detection, correct-target, and no-op accuracies do not regress"
+    },
+    {
+      "absolute_delta": 0.0,
+      "blocking": true,
+      "candidate": "0",
+      "decision": "pass",
+      "evidence": [
+        "benchmarks/results/committed/transition-verification/per-case.jsonl"
+      ],
+      "gate": 8,
+      "justification": "state_corruption measured 0 across every evaluated system and case.",
+      "name": "State corruption remains 0",
+      "reference": "0",
+      "relative_delta": null,
+      "role": "gate",
+      "threshold": "0"
+    },
+    {
+      "absolute_delta": 0.0,
+      "blocking": true,
+      "candidate": "0",
+      "decision": "pass",
+      "evidence": [
+        "benchmarks/results/committed/transition-verification/per-case.jsonl"
+      ],
+      "gate": 9,
+      "justification": "forgotten_leakage measured 0 across every evaluated system and case.",
+      "name": "Forgotten memories remain excluded",
+      "reference": "0",
+      "relative_delta": null,
+      "role": "gate",
+      "threshold": "0"
+    },
+    {
+      "absolute_delta": 0.0,
+      "blocking": true,
+      "candidate": "0",
+      "decision": "pass",
+      "evidence": [
+        "benchmarks/results/committed/transition-verification/per-case.jsonl"
+      ],
+      "gate": 10,
+      "justification": "superseded_leakage measured 0 across every evaluated system and case.",
+      "name": "Superseded current-mode memories remain excluded",
+      "reference": "0",
+      "relative_delta": null,
+      "role": "gate",
+      "threshold": "0"
+    },
+    {
+      "absolute_delta": 0.0,
+      "blocking": true,
+      "candidate": "0",
+      "decision": "pass",
+      "evidence": [
+        "benchmarks/results/committed/transition-verification/per-case.jsonl"
+      ],
+      "gate": 11,
+      "justification": "lineage_errors measured 0 across every evaluated system and case.",
+      "name": "Supersession lineage is preserved",
+      "reference": "0",
+      "relative_delta": null,
+      "role": "gate",
+      "threshold": "0"
+    },
+    {
+      "absolute_delta": 0.0,
+      "blocking": true,
+      "candidate": "0",
+      "decision": "pass",
+      "evidence": [
+        "benchmarks/results/committed/transition-verification/per-case.jsonl"
+      ],
+      "gate": 12,
+      "justification": "0 ambiguous cases were guessed into a mutation.",
+      "name": "Ambiguous transitions fail closed",
+      "reference": "0",
+      "relative_delta": null,
+      "role": "gate",
+      "threshold": "ambiguous rejection does not regress; no ambiguous target guessed"
+    },
+    {
+      "absolute_delta": 0.0,
+      "blocking": false,
+      "candidate": "1.0 rate",
+      "decision": "pass",
+      "evidence": [
+        "benchmarks/results/committed/transition-verification/downstream.json"
+      ],
+      "gate": 13,
+      "justification": "selection_rate 1.0 → 1.0 (absolute 0.0, relative 0.0); material=False, regression=False.",
+      "name": "Downstream retrieval and selection do not materially regress",
+      "reference": "1.0 rate",
+      "relative_delta": 0.0,
+      "role": "nonreg",
+      "threshold": "within materiality (>1 case or >2% relative)"
+    },
+    {
+      "absolute_delta": 0,
+      "blocking": false,
+      "candidate": "17 tokens",
+      "decision": "pass",
+      "evidence": [
+        "benchmarks/results/committed/transition-verification/downstream.json"
+      ],
+      "gate": 14,
+      "justification": "context_tokens 17 → 17 (absolute 0, relative 0.0); material=False, regression=False.",
+      "name": "Context token use does not materially regress",
+      "reference": "17 tokens",
+      "relative_delta": 0.0,
+      "role": "nonreg",
+      "threshold": "within materiality (>1 case or >2% relative)"
+    },
+    {
+      "absolute_delta": null,
+      "blocking": false,
+      "candidate": "measured; see latency.json",
+      "decision": "pass",
+      "evidence": [
+        "benchmarks/results/committed/transition-verification/latency.json"
+      ],
+      "gate": 15,
+      "justification": "Transition adds well under the 5 ms mean ceiling per interaction over the reference. Exact milliseconds are recorded in latency.json rather than here: they are not byte-reproducible, and embedding them would make the committed gate artifact nondeterministic.",
+      "name": "Latency remains acceptable for the demo",
+      "reference": "measured; see latency.json",
+      "relative_delta": null,
+      "role": "gate",
+      "threshold": "<= 5 ms mean added per interaction over the reference"
+    },
+    {
+      "absolute_delta": null,
+      "blocking": false,
+      "candidate": "28/28",
+      "decision": "pass",
+      "evidence": [
+        "benchmarks/results/committed/transition-verification/per-case.jsonl"
+      ],
+      "gate": 16,
+      "justification": "28/28 candidate proposals carry structured diagnostics.",
+      "name": "Diagnostics explain every transition decision",
+      "reference": "n/a",
+      "relative_delta": null,
+      "role": "gate",
+      "threshold": "before/after fields and a decision reason present per case"
+    },
+    {
+      "absolute_delta": null,
+      "blocking": false,
+      "candidate": "deterministic",
+      "decision": "pass",
+      "evidence": [
+        "benchmarks/results/committed/transition-verification/manifest.json"
+      ],
+      "gate": 17,
+      "justification": "Two independent runs produced identical deterministic content (1 runs compared); the benchmark uses the mock provider and no network.",
+      "name": "Default tests remain offline and deterministic",
+      "reference": "n/a",
+      "relative_delta": null,
+      "role": "gate",
+      "threshold": "fixed"
+    },
+    {
+      "absolute_delta": null,
+      "blocking": false,
+      "candidate": "2 optional systems reported unavailable",
+      "decision": "pass",
+      "evidence": [
+        "benchmarks/results/committed/transition-verification/systems.json"
+      ],
+      "gate": 18,
+      "justification": "Both optional systems report unavailable with a reason and receive no synthetic score.",
+      "name": "Optional learned paths skip cleanly when unavailable",
+      "reference": "n/a",
+      "relative_delta": null,
+      "role": "gate",
+      "threshold": "fixed"
+    },
+    {
+      "absolute_delta": null,
+      "blocking": true,
+      "candidate": "20/20 mismatches rejected",
+      "decision": "pass",
+      "evidence": [
+        "benchmarks/results/committed/transition-ablation/safety.json"
+      ],
+      "gate": 19,
+      "justification": "20 of 20 bound-field mismatches failed closed; unauthorized applications: 0.",
+      "name": "Authorization matches the exact controller, mode, source, transition type, and verified proposal",
+      "reference": "n/a",
+      "relative_delta": null,
+      "role": "gate",
+      "threshold": "mismatch fails closed"
+    },
+    {
+      "absolute_delta": 0.0,
+      "blocking": true,
+      "candidate": "0",
+      "decision": "pass",
+      "evidence": [
+        "benchmarks/results/committed/transition-ablation/safety.json"
+      ],
+      "gate": 20,
+      "justification": "0 second mutation paths; every applied action passed through the engine's existing admission and application path.",
+      "name": "No second durable mutation path exists",
+      "reference": "0",
+      "relative_delta": null,
+      "role": "gate",
+      "threshold": "adopted actions flow through valid_actions + _apply_memory_actions"
+    }
+  ],
+  "inconclusive": 1,
+  "passed": 18,
+  "rationale": "every blocking safety gate passes, but one or more quality gates fail: gate 1 (Semantic duplicate active-memory count decreases materially). Candidate mode remains non-mutating, so the path may keep running for diagnostics and candidate translation without affecting canonical state.",
+  "unavailable": 0
+}
+

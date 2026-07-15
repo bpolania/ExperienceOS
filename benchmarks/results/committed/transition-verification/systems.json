@@ -1,0 +1,68 @@
+{
+  "systems": [
+    {
+      "available": true,
+      "description": "canonical hybrid_full_v2 planner stack through the real manager, engine, and an isolated store; transition integration disabled",
+      "kind": "reference",
+      "mode": "disabled",
+      "reference_level": "full_composition",
+      "system_id": "experienceos_hybrid_full_v2_reference",
+      "unavailable_reason": ""
+    },
+    {
+      "available": true,
+      "description": "canonical composition plus transition shadow: controller and verifier run, canonical actions untouched",
+      "kind": "transition",
+      "mode": "shadow",
+      "reference_level": "full_composition",
+      "system_id": "experienceos_transition_shadow_v1",
+      "unavailable_reason": ""
+    },
+    {
+      "available": true,
+      "description": "canonical composition plus transition candidate: full path including inert translation, nothing inserted",
+      "kind": "transition",
+      "mode": "candidate",
+      "reference_level": "full_composition",
+      "system_id": "experienceos_transition_candidate_v1",
+      "unavailable_reason": ""
+    },
+    {
+      "available": true,
+      "description": "deterministic update controller with forget routing; proposal quality only, no canonical application",
+      "kind": "controller",
+      "mode": "shadow",
+      "reference_level": "proposal_only",
+      "system_id": "experienceos_transition_rules_v1",
+      "unavailable_reason": ""
+    },
+    {
+      "available": true,
+      "description": "isolated adopted infrastructure: exact authorization required; never a default and never canonical",
+      "kind": "transition",
+      "mode": "adopted",
+      "reference_level": "full_composition",
+      "system_id": "experienceos_transition_adopted_v1",
+      "unavailable_reason": ""
+    },
+    {
+      "available": false,
+      "description": "optional learned transition verifier, shadow-only",
+      "kind": "optional",
+      "mode": "shadow",
+      "reference_level": "unavailable",
+      "system_id": "experienceos_transition_learned_shadow_v1",
+      "unavailable_reason": "no learned transition controller exists in this repository"
+    },
+    {
+      "available": false,
+      "description": "optional live-Qwen ceiling, credential-gated",
+      "kind": "optional",
+      "mode": "shadow",
+      "reference_level": "unavailable",
+      "system_id": "experienceos_transition_qwen_ceiling_v1",
+      "unavailable_reason": "no credentials configured; live-Qwen path is credential-gated"
+    }
+  ]
+}
+

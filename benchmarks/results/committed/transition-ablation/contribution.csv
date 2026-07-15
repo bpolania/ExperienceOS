@@ -1,0 +1,11 @@
+ablation_id,disabled_component,applicable_cases,classification_correct,safety_failures,runtime_eligible,action_applied
+full_transition_stack,nothing,55,55,0,False,False
+exact_text_duplicate_only,semantic value canonicalization,55,52,0,False,False
+no_scope_awareness,scope comparison,55,52,0,False,False
+no_identity_layer,semantic memory identity,55,26,0,False,False
+proposal_without_verifier,transition verifier,55,,0,False,False
+verifier_with_oracle_proposals,controller proposal generation,55,,0,False,False
+update_only,forget controller,55,48,0,False,False
+forget_only,update controller,55,,0,False,False
+no_exact_authorization,exact authorization,5,,0,False,False
+reference_planner_component,manager, engine, and application,55,,0,False,False

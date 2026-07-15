@@ -1,0 +1,22 @@
+{
+  "ablation_count": 10,
+  "benchmark_version": "1",
+  "code_commit": "56672f60bbab8097f4acff7c4b11ca9b917cb9f4",
+  "content_digest": "ed5338c29db08f2f7beea33441e0af7a38ef2a035848dd87cc77a672d632e25a",
+  "contract_commit": "938cbd097635a62af21dd555da33f586234bdfef",
+  "corpus_commit": "dba85ec8ff88d792c7e15da0b4720d77b895b774",
+  "environment": "offline; mock provider; no model, credentials, or network",
+  "file_digests": {
+    "README.md": "e74431779b159f62163b3dc51d60b19de59c78eab008cc7f673d0fffe8d12730",
+    "ablations.json": "88614fb29259f9a4bdd3466038ef1d0872b71ef6c8bb666fa6dfa86ef4867dda",
+    "aggregate.json": "9fcdfb3c06229b4fe3020e3989ac6c82975d59d650514404199f62606259587d",
+    "contribution.csv": "a8f9162abd085589b1e4d69c3346dcbea0ad0a8c3c4e3089d416d2d7d5dc162a",
+    "contribution.md": "bcb90ea96d5726e0d42d8aa56fec66ae70da000ca97e1e75b4b452dff11c17a3",
+    "per-case.jsonl": "0eb1db5220f4137aa81b952ccf0b9a7e3d1ba424ddab6cb945672b96fdfb9ba9",
+    "safety.json": "24755512ca2ad37ec1259d03ab67516c5d8ab8799f4aea1b8c830d198b7e829d"
+  },
+  "regeneration_command": "./scripts/run_benchmarks.sh transition-ablation",
+  "schema_version": "1",
+  "verification_command": "./scripts/run_benchmarks.sh transition-ablation-verify"
+}
+

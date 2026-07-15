@@ -1,0 +1,1123 @@
+{
+  "ablations": [
+    {
+      "ablation_id": "full_transition_stack",
+      "action_applied": false,
+      "applicable_cases": 55,
+      "baseline": "self",
+      "description": "identity + controllers + verifier + integration + exact authorization",
+      "disabled_component": "nothing",
+      "metrics": {
+        "cases": 55,
+        "classification_correct": 55,
+        "projected_duplicate_pairs": 0,
+        "projected_stale_pairs": 0
+      },
+      "runtime_eligible": false,
+      "safety_failures": 0
+    },
+    {
+      "ablation_id": "exact_text_duplicate_only",
+      "action_applied": false,
+      "applicable_cases": 55,
+      "baseline": "full_transition_stack",
+      "description": "semantic duplicate equivalence disabled; exact normalization kept",
+      "disabled_component": "semantic value canonicalization",
+      "metrics": {
+        "cases": 55,
+        "classification_correct": 52,
+        "projected_duplicate_pairs": 0,
+        "projected_stale_pairs": 0
+      },
+      "runtime_eligible": false,
+      "safety_failures": 0
+    },
+    {
+      "ablation_id": "no_scope_awareness",
+      "action_applied": false,
+      "applicable_cases": 55,
+      "baseline": "full_transition_stack",
+      "description": "scope treated as unavailable in the benchmark adapter",
+      "disabled_component": "scope comparison",
+      "metrics": {
+        "cases": 55,
+        "classification_correct": 52,
+        "projected_duplicate_pairs": 0,
+        "projected_stale_pairs": 0
+      },
+      "runtime_eligible": false,
+      "safety_failures": 0
+    },
+    {
+      "ablation_id": "no_identity_layer",
+      "action_applied": false,
+      "applicable_cases": 55,
+      "baseline": "full_transition_stack",
+      "description": "structured identity matching removed",
+      "disabled_component": "semantic memory identity",
+      "metrics": {
+        "cases": 55,
+        "classification_correct": 26,
+        "projected_duplicate_pairs": 0,
+        "projected_stale_pairs": 0
+      },
+      "runtime_eligible": false,
+      "safety_failures": 0
+    },
+    {
+      "ablation_id": "proposal_without_verifier",
+      "action_applied": false,
+      "applicable_cases": 55,
+      "baseline": "full_transition_stack",
+      "description": "controller proposals evaluated before verification; diagnostics only",
+      "disabled_component": "transition verifier",
+      "metrics": {
+        "proposals": 48,
+        "rejection_causes": {},
+        "would_be_rejected": 0
+      },
+      "runtime_eligible": false,
+      "safety_failures": 0
+    },
+    {
+      "ablation_id": "verifier_with_oracle_proposals",
+      "action_applied": false,
+      "applicable_cases": 55,
+      "baseline": "oracle",
+      "description": "verifier evaluated on oracle-derived proposals; an upper bound on verifier correctness, not controller precision or recall",
+      "disabled_component": "controller proposal generation",
+      "metrics": {
+        "adversarial_rejected": 121,
+        "development_accepted": 27,
+        "development_cases": 27,
+        "historical_accepted": 28,
+        "historical_cases": 28
+      },
+      "runtime_eligible": false,
+      "safety_failures": 0
+    },
+    {
+      "ablation_id": "update_only",
+      "action_applied": false,
+      "applicable_cases": 55,
+      "baseline": "full_transition_stack",
+      "description": "update intelligence without formal forget routing",
+      "disabled_component": "forget controller",
+      "metrics": {
+        "cases": 55,
+        "classification_correct": 48,
+        "creations_from_forget_directives": 0,
+        "forget_cases": 5
+      },
+      "runtime_eligible": false,
+      "safety_failures": 0
+    },
+    {
+      "ablation_id": "forget_only",
+      "action_applied": false,
+      "applicable_cases": 55,
+      "baseline": "full_transition_stack",
+      "description": "forget intelligence only; abstains on non-forget sources",
+      "disabled_component": "update controller",
+      "metrics": {
+        "forget_cases": 5,
+        "forget_targets_correct": 5,
+        "non_forget_sources_claimed": 0
+      },
+      "runtime_eligible": false,
+      "safety_failures": 0
+    },
+    {
+      "ablation_id": "no_exact_authorization",
+      "action_applied": false,
+      "applicable_cases": 5,
+      "baseline": "full_transition_stack",
+      "description": "adopted mode with an intentionally mismatched authorization set",
+      "disabled_component": "exact authorization",
+      "metrics": {
+        "attempted": 5,
+        "rejected": 5
+      },
+      "runtime_eligible": false,
+      "safety_failures": 0
+    },
+    {
+      "ablation_id": "reference_planner_component",
+      "action_applied": false,
+      "applicable_cases": 55,
+      "baseline": "component_only",
+      "description": "canonical planner component evaluated standalone; component-only, not the full canonical composition",
+      "disabled_component": "manager, engine, and application",
+      "metrics": {
+        "cases": 55,
+        "lifecycle_effect_matches_oracle": 32
+      },
+      "runtime_eligible": false,
+      "safety_failures": 0
+    }
+  ],
+  "authorization": {
+    "bound_fields": 20,
+    "exact_match_accepted": true,
+    "mismatches_rejected": 20,
+    "mismatches_tested": 20,
+    "unauthorized_applications": 0
+  },
+  "classification": "TRANSITION_PATH_CANDIDATE_ONLY",
+  "downstream": {
+    "adopted": {
+      "active_memories": 2,
+      "candidates": 2,
+      "context_tokens": 17,
+      "inactive_retrieved": 0,
+      "inactive_selected": 0,
+      "mrr": null,
+      "recall_at_1": null,
+      "recall_at_3": null,
+      "selected_memories": 2,
+      "selection_rate": 1.0,
+      "skipped_memories": 0,
+      "unavailable_reason": "the transition corpus supplies no relevance judgements; Recall@K and MRR have no defensible denominator here and are not synthesized"
+    },
+    "cases": 1,
+    "note": "candidate mode is non-mutating, so downstream state equals the reference; this measures that transition diagnostics do not disturb retrieval or the context budget",
+    "query": "What are my travel preferences?",
+    "reference": {
+      "active_memories": 2,
+      "candidates": 2,
+      "context_tokens": 17,
+      "inactive_retrieved": 0,
+      "inactive_selected": 0,
+      "mrr": null,
+      "recall_at_1": null,
+      "recall_at_3": null,
+      "selected_memories": 2,
+      "selection_rate": 1.0,
+      "skipped_memories": 0,
+      "unavailable_reason": "the transition corpus supplies no relevance judgements; Recall@K and MRR have no defensible denominator here and are not synthesized"
+    }
+  },
+  "lifecycle": {
+    "chains": 1,
+    "note": "candidate mode is non-mutating by design, so its lifecycle state matches the reference exactly; the difference it would make is reported as projected state in the per-case results, not here",
+    "systems": {
+      "experienceos_hybrid_full_v2_reference": {
+        "final": {
+          "active": 2,
+          "duplicate_pairs": 0,
+          "forgotten": 0,
+          "stale_pairs": 1,
+          "superseded": 2
+        },
+        "system_id": "experienceos_hybrid_full_v2_reference",
+        "turns": [
+          {
+            "active": 1,
+            "duplicate_pairs": 0,
+            "forgotten": 0,
+            "stale_pairs": 0,
+            "statement": "I prefer aisle seats for short work trips.",
+            "superseded": 0,
+            "turn": "create"
+          },
+          {
+            "active": 1,
+            "duplicate_pairs": 0,
+            "forgotten": 0,
+            "stale_pairs": 0,
+            "statement": "I prefer aisle seats for short work trips.",
+            "superseded": 0,
+            "turn": "exact_restatement"
+          },
+          {
+            "active": 1,
+            "duplicate_pairs": 0,
+            "forgotten": 0,
+            "stale_pairs": 0,
+            "statement": "For short business trips, aisle seats are my usual choice.",
+            "superseded": 0,
+            "turn": "semantic_restatement"
+          },
+          {
+            "active": 1,
+            "duplicate_pairs": 0,
+            "forgotten": 0,
+            "stale_pairs": 0,
+            "statement": "I now prefer window seats for short work trips.",
+            "superseded": 1,
+            "turn": "current_update"
+          },
+          {
+            "active": 1,
+            "duplicate_pairs": 0,
+            "forgotten": 0,
+            "stale_pairs": 0,
+            "statement": "Actually, back to aisle for short work trips.",
+            "superseded": 1,
+            "turn": "second_correction"
+          },
+          {
+            "active": 2,
+            "duplicate_pairs": 1,
+            "forgotten": 0,
+            "stale_pairs": 0,
+            "statement": "For long international flights, I prefer window seats.",
+            "superseded": 1,
+            "turn": "scoped_addition"
+          },
+          {
+            "active": 2,
+            "duplicate_pairs": 1,
+            "forgotten": 0,
+            "stale_pairs": 0,
+            "statement": "I am allergic to shellfish.",
+            "superseded": 1,
+            "turn": "unrelated_addition"
+          },
+          {
+            "active": 2,
+            "duplicate_pairs": 1,
+            "forgotten": 0,
+            "stale_pairs": 0,
+            "statement": "Forget that I prefer aisle seats.",
+            "superseded": 1,
+            "turn": "affirmative_forget"
+          },
+          {
+            "active": 2,
+            "duplicate_pairs": 0,
+            "forgotten": 0,
+            "stale_pairs": 1,
+            "statement": "I prefer aisle seats for short work trips.",
+            "superseded": 2,
+            "turn": "restatement_after_forget"
+          },
+          {
+            "active": 2,
+            "duplicate_pairs": 0,
+            "forgotten": 0,
+            "stale_pairs": 1,
+            "statement": "What are my travel preferences?",
+            "superseded": 2,
+            "turn": "retrieval"
+          }
+        ]
+      },
+      "experienceos_transition_candidate_v1": {
+        "final": {
+          "active": 2,
+          "duplicate_pairs": 0,
+          "forgotten": 0,
+          "stale_pairs": 1,
+          "superseded": 2
+        },
+        "system_id": "experienceos_transition_candidate_v1",
+        "turns": [
+          {
+            "active": 1,
+            "duplicate_pairs": 0,
+            "forgotten": 0,
+            "stale_pairs": 0,
+            "statement": "I prefer aisle seats for short work trips.",
+            "superseded": 0,
+            "turn": "create"
+          },
+          {
+            "active": 1,
+            "duplicate_pairs": 0,
+            "forgotten": 0,
+            "stale_pairs": 0,
+            "statement": "I prefer aisle seats for short work trips.",
+            "superseded": 0,
+            "turn": "exact_restatement"
+          },
+          {
+            "active": 1,
+            "duplicate_pairs": 0,
+            "forgotten": 0,
+            "stale_pairs": 0,
+            "statement": "For short business trips, aisle seats are my usual choice.",
+            "superseded": 0,
+            "turn": "semantic_restatement"
+          },
+          {
+            "active": 1,
+            "duplicate_pairs": 0,
+            "forgotten": 0,
+            "stale_pairs": 0,
+            "statement": "I now prefer window seats for short work trips.",
+            "superseded": 1,
+            "turn": "current_update"
+          },
+          {
+            "active": 1,
+            "duplicate_pairs": 0,
+            "forgotten": 0,
+            "stale_pairs": 0,
+            "statement": "Actually, back to aisle for short work trips.",
+            "superseded": 1,
+            "turn": "second_correction"
+          },
+          {
+            "active": 2,
+            "duplicate_pairs": 1,
+            "forgotten": 0,
+            "stale_pairs": 0,
+            "statement": "For long international flights, I prefer window seats.",
+            "superseded": 1,
+            "turn": "scoped_addition"
+          },
+          {
+            "active": 2,
+            "duplicate_pairs": 1,
+            "forgotten": 0,
+            "stale_pairs": 0,
+            "statement": "I am allergic to shellfish.",
+            "superseded": 1,
+            "turn": "unrelated_addition"
+          },
+          {
+            "active": 2,
+            "duplicate_pairs": 1,
+            "forgotten": 0,
+            "stale_pairs": 0,
+            "statement": "Forget that I prefer aisle seats.",
+            "superseded": 1,
+            "turn": "affirmative_forget"
+          },
+          {
+            "active": 2,
+            "duplicate_pairs": 0,
+            "forgotten": 0,
+            "stale_pairs": 1,
+            "statement": "I prefer aisle seats for short work trips.",
+            "superseded": 2,
+            "turn": "restatement_after_forget"
+          },
+          {
+            "active": 2,
+            "duplicate_pairs": 0,
+            "forgotten": 0,
+            "stale_pairs": 1,
+            "statement": "What are my travel preferences?",
+            "superseded": 2,
+            "turn": "retrieval"
+          }
+        ]
+      }
+    },
+    "turns": 10
+  },
+  "partitions": {
+    "development_fixtures": 27,
+    "historical_scored": 28
+  },
+  "rationale": "every blocking safety gate passes, but one or more quality gates fail: gate 1 (Semantic duplicate active-memory count decreases materially). Candidate mode remains non-mutating, so the path may keep running for diagnostics and candidate translation without affecting canonical state.",
+  "safety": {
+    "ambiguous_targets_guessed": 0,
+    "direct_mutation_violations": 0,
+    "forgotten_leakage": 0,
+    "lineage_errors": 0,
+    "model_calls": 0,
+    "network_calls": 0,
+    "scoped_memories_lost": 0,
+    "second_mutation_paths": 0,
+    "state_corruption": 0,
+    "superseded_leakage": 0,
+    "unauthorized_applications": 0,
+    "unrelated_memories_lost": 0
+  },
+  "systems": {
+    "experienceos_hybrid_full_v2_reference": {
+      "abstentions": 28,
+      "actions_applied": 0,
+      "cases": 28,
+      "classification": {
+        "correct": 0,
+        "rate": 0.0,
+        "total": 28
+      },
+      "diagnostics_complete": {
+        "correct": 0,
+        "rate": null,
+        "total": 0
+      },
+      "forget": {
+        "creation_false_positives": 0,
+        "directives": 4,
+        "preserved": 4,
+        "target_correct": 4
+      },
+      "lifecycle_actual": {
+        "created": 14,
+        "duplicate_pairs": 0,
+        "preservation": {
+          "correct": 28,
+          "rate": 1.0,
+          "total": 28
+        },
+        "stale_pairs": 6,
+        "targets_deactivated": {
+          "correct": 5,
+          "rate": 0.4545,
+          "total": 11
+        }
+      },
+      "lifecycle_projected": {
+        "available": 0,
+        "duplicate_pairs": 0,
+        "stale_pairs": 0
+      },
+      "macro_f1": 0.0,
+      "micro_f1": 0.0,
+      "per_label": {
+        "create_new": {
+          "f1": 0.0,
+          "fn": 5,
+          "fp": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 5,
+          "tp": 0
+        },
+        "duplicate_noop": {
+          "f1": 0.0,
+          "fn": 1,
+          "fp": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 1,
+          "tp": 0
+        },
+        "forget_existing": {
+          "f1": 0.0,
+          "fn": 4,
+          "fp": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 4,
+          "tp": 0
+        },
+        "reject_question": {
+          "f1": 0.0,
+          "fn": 4,
+          "fp": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 4,
+          "tp": 0
+        },
+        "reject_temporary": {
+          "f1": 0.0,
+          "fn": 1,
+          "fp": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 1,
+          "tp": 0
+        },
+        "reject_unsupported": {
+          "f1": 0.0,
+          "fn": 4,
+          "fp": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 4,
+          "tp": 0
+        },
+        "scoped_coexistence": {
+          "f1": 0.0,
+          "fn": 1,
+          "fp": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 1,
+          "tp": 0
+        },
+        "semantic_duplicate_noop": {
+          "f1": 0.0,
+          "fn": 1,
+          "fp": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 1,
+          "tp": 0
+        },
+        "supersede_existing": {
+          "f1": 0.0,
+          "fn": 7,
+          "fp": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 7,
+          "tp": 0
+        }
+      },
+      "proposals": 0,
+      "target": {
+        "correct": 0,
+        "rate": 0.0,
+        "spurious": 0,
+        "total": 11,
+        "wrong": 11
+      },
+      "verifier": {
+        "accepted": 0,
+        "evaluated": 0
+      }
+    },
+    "experienceos_transition_adopted_v1": {
+      "abstentions": 0,
+      "actions_applied": 14,
+      "cases": 28,
+      "classification": {
+        "correct": 28,
+        "rate": 1.0,
+        "total": 28
+      },
+      "diagnostics_complete": {
+        "correct": 28,
+        "rate": 1.0,
+        "total": 28
+      },
+      "forget": {
+        "creation_false_positives": 0,
+        "directives": 4,
+        "preserved": 4,
+        "target_correct": 4
+      },
+      "lifecycle_actual": {
+        "created": 25,
+        "duplicate_pairs": 10,
+        "preservation": {
+          "correct": 28,
+          "rate": 1.0,
+          "total": 28
+        },
+        "stale_pairs": 1,
+        "targets_deactivated": {
+          "correct": 10,
+          "rate": 0.9091,
+          "total": 11
+        }
+      },
+      "lifecycle_projected": {
+        "available": 0,
+        "duplicate_pairs": 0,
+        "stale_pairs": 0
+      },
+      "macro_f1": 1.0,
+      "micro_f1": 1.0,
+      "per_label": {
+        "create_new": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 5,
+          "tp": 5
+        },
+        "duplicate_noop": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "forget_existing": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4,
+          "tp": 4
+        },
+        "reject_question": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4,
+          "tp": 4
+        },
+        "reject_temporary": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "reject_unsupported": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4,
+          "tp": 4
+        },
+        "scoped_coexistence": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "semantic_duplicate_noop": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "supersede_existing": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 7,
+          "tp": 7
+        }
+      },
+      "proposals": 28,
+      "target": {
+        "correct": 11,
+        "rate": 1.0,
+        "spurious": 0,
+        "total": 11,
+        "wrong": 0
+      },
+      "verifier": {
+        "accepted": 28,
+        "evaluated": 28
+      }
+    },
+    "experienceos_transition_candidate_v1": {
+      "abstentions": 0,
+      "actions_applied": 0,
+      "cases": 28,
+      "classification": {
+        "correct": 28,
+        "rate": 1.0,
+        "total": 28
+      },
+      "diagnostics_complete": {
+        "correct": 28,
+        "rate": 1.0,
+        "total": 28
+      },
+      "forget": {
+        "creation_false_positives": 0,
+        "directives": 4,
+        "preserved": 4,
+        "target_correct": 4
+      },
+      "lifecycle_actual": {
+        "created": 14,
+        "duplicate_pairs": 0,
+        "preservation": {
+          "correct": 28,
+          "rate": 1.0,
+          "total": 28
+        },
+        "stale_pairs": 6,
+        "targets_deactivated": {
+          "correct": 5,
+          "rate": 0.4545,
+          "total": 11
+        }
+      },
+      "lifecycle_projected": {
+        "available": 28,
+        "duplicate_pairs": 0,
+        "stale_pairs": 0
+      },
+      "macro_f1": 1.0,
+      "micro_f1": 1.0,
+      "per_label": {
+        "create_new": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 5,
+          "tp": 5
+        },
+        "duplicate_noop": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "forget_existing": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4,
+          "tp": 4
+        },
+        "reject_question": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4,
+          "tp": 4
+        },
+        "reject_temporary": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "reject_unsupported": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4,
+          "tp": 4
+        },
+        "scoped_coexistence": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "semantic_duplicate_noop": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "supersede_existing": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 7,
+          "tp": 7
+        }
+      },
+      "proposals": 28,
+      "target": {
+        "correct": 11,
+        "rate": 1.0,
+        "spurious": 0,
+        "total": 11,
+        "wrong": 0
+      },
+      "verifier": {
+        "accepted": 28,
+        "evaluated": 28
+      }
+    },
+    "experienceos_transition_rules_v1": {
+      "abstentions": 0,
+      "actions_applied": 0,
+      "cases": 28,
+      "classification": {
+        "correct": 28,
+        "rate": 1.0,
+        "total": 28
+      },
+      "diagnostics_complete": {
+        "correct": 28,
+        "rate": 1.0,
+        "total": 28
+      },
+      "forget": {
+        "creation_false_positives": 0,
+        "directives": 4,
+        "preserved": 4,
+        "target_correct": 0
+      },
+      "lifecycle_actual": {
+        "created": 0,
+        "duplicate_pairs": 0,
+        "preservation": {
+          "correct": 28,
+          "rate": 1.0,
+          "total": 28
+        },
+        "stale_pairs": 0,
+        "targets_deactivated": {
+          "correct": 0,
+          "rate": 0.0,
+          "total": 11
+        }
+      },
+      "lifecycle_projected": {
+        "available": 28,
+        "duplicate_pairs": 0,
+        "stale_pairs": 0
+      },
+      "macro_f1": 1.0,
+      "micro_f1": 1.0,
+      "per_label": {
+        "create_new": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 5,
+          "tp": 5
+        },
+        "duplicate_noop": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "forget_existing": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4,
+          "tp": 4
+        },
+        "reject_question": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4,
+          "tp": 4
+        },
+        "reject_temporary": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "reject_unsupported": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4,
+          "tp": 4
+        },
+        "scoped_coexistence": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "semantic_duplicate_noop": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "supersede_existing": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 7,
+          "tp": 7
+        }
+      },
+      "proposals": 28,
+      "target": {
+        "correct": 11,
+        "rate": 1.0,
+        "spurious": 0,
+        "total": 11,
+        "wrong": 0
+      },
+      "verifier": {
+        "accepted": 28,
+        "evaluated": 28
+      }
+    },
+    "experienceos_transition_shadow_v1": {
+      "abstentions": 0,
+      "actions_applied": 0,
+      "cases": 28,
+      "classification": {
+        "correct": 28,
+        "rate": 1.0,
+        "total": 28
+      },
+      "diagnostics_complete": {
+        "correct": 28,
+        "rate": 1.0,
+        "total": 28
+      },
+      "forget": {
+        "creation_false_positives": 0,
+        "directives": 4,
+        "preserved": 4,
+        "target_correct": 4
+      },
+      "lifecycle_actual": {
+        "created": 14,
+        "duplicate_pairs": 0,
+        "preservation": {
+          "correct": 28,
+          "rate": 1.0,
+          "total": 28
+        },
+        "stale_pairs": 6,
+        "targets_deactivated": {
+          "correct": 5,
+          "rate": 0.4545,
+          "total": 11
+        }
+      },
+      "lifecycle_projected": {
+        "available": 28,
+        "duplicate_pairs": 0,
+        "stale_pairs": 0
+      },
+      "macro_f1": 1.0,
+      "micro_f1": 1.0,
+      "per_label": {
+        "create_new": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 5,
+          "tp": 5
+        },
+        "duplicate_noop": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "forget_existing": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4,
+          "tp": 4
+        },
+        "reject_question": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4,
+          "tp": 4
+        },
+        "reject_temporary": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "reject_unsupported": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 4,
+          "tp": 4
+        },
+        "scoped_coexistence": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "semantic_duplicate_noop": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 1,
+          "tp": 1
+        },
+        "supersede_existing": {
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 7,
+          "tp": 7
+        }
+      },
+      "proposals": 28,
+      "target": {
+        "correct": 11,
+        "rate": 1.0,
+        "spurious": 0,
+        "total": 11,
+        "wrong": 0
+      },
+      "verifier": {
+        "accepted": 28,
+        "evaluated": 28
+      }
+    }
+  }
+}
+

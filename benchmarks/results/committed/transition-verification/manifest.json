@@ -1,0 +1,59 @@
+{
+  "benchmark_version": "1",
+  "case_count": 275,
+  "code_commit": "56672f60bbab8097f4acff7c4b11ca9b917cb9f4",
+  "content_digest": "d7c2946117e64f1c3dbea12982b8a38b4a7be77fc4ade3bb6769736924882ce3",
+  "contract_commit": "938cbd097635a62af21dd555da33f586234bdfef",
+  "corpus_commit": "dba85ec8ff88d792c7e15da0b4720d77b895b774",
+  "environment": "offline; mock provider; no model, credentials, or network",
+  "file_digests": {
+    "README.md": "14981df788055f680c5c004bc9b827e705a0248c8a54e9938576a7fb5ec0a6e1",
+    "adoption-gates.json": "79924ed526ac90d88326c12172ae03ad533bbf52a40d3d58273dda99ed64b36e",
+    "aggregate.json": "0a7150779092baa24a4fbded3bf9563ec227d0f988fb49339d19327e75c0b206",
+    "comparison.csv": "a8809494bef2f4f595e841f544c9a9cb6b9703f54d203ce98b733004772a3b75",
+    "comparison.md": "98b39fa0b0d97a15144db0de72579343ce02937f0c0c2cc8f3a2c48697688788",
+    "downstream.json": "1d41d84b3c69f628f9165990114f5b628620f77a6fd230685a3dbac2b79c3452",
+    "lifecycle-chains.jsonl": "34e78d4da2f6ea34457ac02fba190f42d7bf023ddd497b8f6b6b1fda61b422dd",
+    "per-case.jsonl": "8e2dd340bc919787bf65dad1787975785630db3e806cd019fddb6f88cbe4e9bf",
+    "systems.json": "e7f984e2310a754e6104138740c1aba0141713b96c094313087ecf59006d72c0"
+  },
+  "latency_excluded_from_digest": true,
+  "nondeterministic_files": [
+    "latency.json"
+  ],
+  "optional_systems": [
+    {
+      "available": false,
+      "description": "optional learned transition verifier, shadow-only",
+      "kind": "optional",
+      "mode": "shadow",
+      "reference_level": "unavailable",
+      "system_id": "experienceos_transition_learned_shadow_v1",
+      "unavailable_reason": "no learned transition controller exists in this repository"
+    },
+    {
+      "available": false,
+      "description": "optional live-Qwen ceiling, credential-gated",
+      "kind": "optional",
+      "mode": "shadow",
+      "reference_level": "unavailable",
+      "system_id": "experienceos_transition_qwen_ceiling_v1",
+      "unavailable_reason": "no credentials configured; live-Qwen path is credential-gated"
+    }
+  ],
+  "partition_counts": {
+    "development_fixtures": 27,
+    "historical_scored": 28
+  },
+  "regeneration_command": "./scripts/run_benchmarks.sh transition-benchmark",
+  "schema_version": "1",
+  "system_ids": [
+    "experienceos_hybrid_full_v2_reference",
+    "experienceos_transition_adopted_v1",
+    "experienceos_transition_candidate_v1",
+    "experienceos_transition_rules_v1",
+    "experienceos_transition_shadow_v1"
+  ],
+  "verification_command": "./scripts/run_benchmarks.sh transition-benchmark-verify"
+}
+
