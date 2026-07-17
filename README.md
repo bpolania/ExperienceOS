@@ -527,14 +527,18 @@ What exists now:
 - **a deterministic controller** (`grounded_rules-1`) that proposes
   exactly one grounded candidate or abstains — the explicit alternate
   implementation used offline, in tests, and for comparison benchmarks
-- **a Qwen extraction controller** that is **canonical whenever Qwen
-  Cloud is configured** (selected in composition by
+- **a Qwen extraction controller** that is **canonical for the hackathon
+  demo whenever Qwen Cloud is configured** (selected in composition by
   `demo.support.build_canonical_extraction_config`, so the core stays
-  provider-neutral). It only proposes: every candidate still passes the
-  unchanged grounded validator and the same lifecycle authority, and it
-  holds no mutation authority. One temperature-0 call per message, with
-  no fallback and no retries — a failed call is an explicit
-  non-candidate result, never a deterministic proposal in disguise
+  provider-neutral; the SDK default outside the demo is unchanged). It
+  only proposes: every candidate still passes the unchanged grounded
+  validator and the same lifecycle authority, and it holds no mutation
+  authority. One temperature-0 call per message, with no fallback and no
+  retries — a failed call is an explicit non-candidate result, never a
+  deterministic proposal in disguise. A Qwen update-intelligence
+  controller was also implemented and evaluated but remains experimental
+  and not canonical. Decisions and limitations:
+  [docs/qwen_adoption_closure.md](docs/qwen_adoption_closure.md)
 - **an optional learned-controller foundation** — narrow runner protocol,
   strict structured output, untrusted-output handling, exact-span
   verification, explicit deterministic fallback, and optional lazy local
