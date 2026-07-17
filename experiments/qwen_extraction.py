@@ -21,6 +21,7 @@ experiment is removable by deleting the ``experiments/`` directory.
 
 from __future__ import annotations
 
+import json
 import time
 from dataclasses import replace
 
@@ -30,7 +31,7 @@ from experienceos.controllers.extraction import (
 )
 from experienceos.memory.extraction import VALID_CANDIDATE_KINDS
 from experienceos.memory.learned_extraction import (
-    FALLBACK_ON_UNAVAILABLE,
+    FALLBACK_NONE,
     RUNNER_ERROR,
     RUNNER_OK,
     RUNNER_UNAVAILABLE,
@@ -41,7 +42,13 @@ from experienceos.memory.learned_extraction import (
 
 QWEN_EXTRACTION_RUNNER_ID = "qwen_extraction_runner-1"
 QWEN_EXTRACTION_CONTROLLER_ID = "grounded_qwen_shadow-1"
-QWEN_EXTRACTION_VERSION = "1"
+# v2: the first live run showed the model returns the correct verbatim
+# evidence_text but miscounts character offsets, so every candidate was
+# rejected on the offset check. Fix (parsing at the experimental
+# boundary): recompute offsets from the model's own evidence_text when it
+# is a genuine substring of the message — no evidence search, no repair
+# of content the model did not supply.
+QWEN_EXTRACTION_VERSION = "2"
 
 #: One bounded inference; no chains of thought, no retries.
 DEFAULT_TIMEOUT_MS = 8000
@@ -83,6 +90,36 @@ def build_extraction_messages(source_text: str, allowed_kinds=None) -> list:
         {"role": "system", "content": system},
         {"role": "user", "content": source_text},
     ]
+
+
+def _normalize_candidate_offsets(raw: str, source_text: str) -> str:
+    """Recompute a candidate's offsets from its own evidence_text.
+
+    Language models return the correct verbatim evidence but miscount
+    character offsets. When ``evidence_text`` is a genuine substring of
+    the message, replace the model's offsets with its true position; the
+    downstream strict validator still re-verifies the substring at the
+    new offsets. Any parse issue leaves ``raw`` untouched so the strict
+    parser rejects it. This searches for nothing the model did not
+    supply and never edits the message or the evidence text.
+    """
+    if not isinstance(raw, str):
+        return raw
+    try:
+        data = json.loads(raw)
+    except (ValueError, TypeError):
+        return raw
+    if not isinstance(data, dict) or data.get("action") != "candidate":
+        return raw
+    evidence = data.get("evidence_text")
+    if not isinstance(evidence, str) or not evidence:
+        return raw
+    index = source_text.find(evidence)
+    if index < 0:
+        return raw  # not a genuine substring: let the validator reject it
+    data["start_offset"] = index
+    data["end_offset"] = index + len(evidence)
+    return json.dumps(data)
 
 
 class QwenExtractionRunner:
@@ -134,6 +171,9 @@ class QwenExtractionRunner:
                 elapsed_ms=(time.perf_counter() - started) * 1000.0,
                 error_class=type(exc).__name__,
             )
+        # Boundary correction: fix the model's miscounted offsets from its
+        # own verbatim evidence before strict validation.
+        raw = _normalize_candidate_offsets(raw, request.source_text)
         return LearnedExtractionRunnerResult(
             raw_output=raw,
             runner_id=self.runner_id,
@@ -148,12 +188,17 @@ class QwenExtractionController:
     """Qwen-backed extraction controller behind the existing interface.
 
     Returns the exact ``ExtractionProposal`` the pipeline already accepts.
-    Delegates to the learned controller (strict parse + grounded
-    validation) and stamps the proposal with this controller's id so
-    shadow comparison can attribute it to the Qwen path. Proposal-only:
-    it persists nothing and holds no mutation authority. The provider is
-    injected; inject a temperature-0, bounded-timeout provider for
-    determinism.
+    Delegates to the learned pipeline for strict parse + grounded
+    validation, then stamps the proposal with this controller's id.
+
+    **No deterministic fallback.** The experiment measures Qwen against
+    the deterministic baseline, so Qwen must speak for itself: an
+    unavailable provider, an error, a timeout, or malformed output all
+    produce an explicit non-candidate Qwen result (recorded in
+    diagnostics as ``runner_status``/``outcome``) — never a deterministic
+    proposal substituted on Qwen's behalf. Proposal-only: it persists
+    nothing and holds no mutation authority. Inject a temperature-0,
+    bounded-timeout provider for determinism.
     """
 
     controller_id = QWEN_EXTRACTION_CONTROLLER_ID
@@ -163,27 +208,25 @@ class QwenExtractionController:
         provider,
         *,
         timeout_ms: int = DEFAULT_TIMEOUT_MS,
-        fallback_mode: str = FALLBACK_ON_UNAVAILABLE,
     ):
         self._runner = QwenExtractionRunner(provider, timeout_ms=timeout_ms)
+        # FALLBACK_NONE: the learned pipeline never constructs or defers to
+        # the deterministic controller, so every result here is genuinely
+        # Qwen's own — candidate, model-none, or an explicit failure.
         self._inner = LearnedGroundedExtractionController(
-            self._runner, fallback_mode=fallback_mode
+            self._runner, fallback_mode=FALLBACK_NONE
         )
 
     def extract(self, evidence: ExtractionEvidence) -> ExtractionProposal:
         proposal = self._inner.extract(evidence)
-        diagnostics = {
-            **proposal.diagnostics,
-            "runner_id": QWEN_EXTRACTION_RUNNER_ID,
-            "provider": "qwen_cloud",
-        }
-        # A deterministic fallback proposal is NOT a Qwen proposal: keep
-        # the fallback controller's attribution so shadow comparison never
-        # over-credits the Qwen path.
-        if proposal.diagnostics.get("fallback_used"):
-            return replace(proposal, diagnostics=diagnostics)
         return replace(
-            proposal, controller_id=self.controller_id, diagnostics=diagnostics
+            proposal,
+            controller_id=self.controller_id,
+            diagnostics={
+                **proposal.diagnostics,
+                "runner_id": QWEN_EXTRACTION_RUNNER_ID,
+                "provider": "qwen_cloud",
+            },
         )
 
 
@@ -192,14 +235,13 @@ def build_qwen_extraction_controller(
     api_key: str | None = None,
     model: str | None = None,
     timeout_ms: int = DEFAULT_TIMEOUT_MS,
-    fallback_mode: str = FALLBACK_ON_UNAVAILABLE,
 ) -> QwenExtractionController:
     """Construct a controller backed by a temperature-0 Qwen provider.
 
     Determinism is enforced at construction: temperature 0 and a bounded
     timeout. Requires credentials only when actually invoked; without
-    them the runner reports unavailable and the controller falls back to
-    the deterministic extractor.
+    them the runner reports unavailable and the controller returns an
+    explicit non-candidate result (no deterministic substitution).
     """
     from experienceos.providers.qwen_cloud import QwenCloudProvider
 
@@ -209,6 +251,4 @@ def build_qwen_extraction_controller(
         timeout=timeout_ms / 1000.0,
         temperature=0.0,
     )
-    return QwenExtractionController(
-        provider, timeout_ms=timeout_ms, fallback_mode=fallback_mode
-    )
+    return QwenExtractionController(provider, timeout_ms=timeout_ms)

@@ -3,8 +3,9 @@
 Offline only: a stub provider returns canned JSON; no network, no
 credentials, no live Qwen call. Verifies the controller returns the
 existing proposal type, does exactly one temperature-0 inference with no
-retries, treats model output as untrusted, and falls back to the
-deterministic extractor when the provider is unavailable.
+retries, treats model output as untrusted, and — with no deterministic
+fallback — reports an explicit non-candidate result when the provider is
+unavailable or fails, never substituting a deterministic proposal.
 """
 
 from __future__ import annotations
@@ -17,7 +18,6 @@ from experienceos.controllers.extraction import (
     ExtractionEvidence,
     ExtractionProposal,
 )
-from experienceos.memory.learned_extraction import FALLBACK_NONE
 from experiments.qwen_extraction import (
     QWEN_EXTRACTION_CONTROLLER_ID,
     QWEN_EXTRACTION_RUNNER_ID,
@@ -62,10 +62,8 @@ def _none_json():
     })
 
 
-def _controller(output, *, configured=True, fallback_mode=FALLBACK_NONE):
-    return QwenExtractionController(
-        _StubProvider(output, configured=configured), fallback_mode=fallback_mode
-    )
+def _controller(output, *, configured=True):
+    return QwenExtractionController(_StubProvider(output, configured=configured))
 
 
 # --- proposal type and candidate --------------------------------------------
@@ -127,7 +125,7 @@ def test_fabricated_evidence_is_rejected_by_the_validator() -> None:
 
 def test_exactly_one_inference_and_no_retry() -> None:
     stub = _StubProvider(_candidate_json())
-    QwenExtractionController(stub, fallback_mode=FALLBACK_NONE).extract(
+    QwenExtractionController(stub).extract(
         ExtractionEvidence(user_text=MSG)
     )
     assert stub.calls == 1
@@ -142,12 +140,13 @@ def test_prompt_is_deterministic_and_json_only() -> None:
     assert a[1] == {"role": "user", "content": MSG}
 
 
-# --- availability, fallback, error containment ------------------------------
+# --- availability, no fallback, error containment ---------------------------
 
 
-def test_unavailable_provider_falls_back_to_deterministic() -> None:
-    # Default fallback mode defers to the deterministic extractor; the
-    # proposal must NOT be credited to the Qwen path.
+def test_unavailable_provider_is_explicit_none_never_deterministic() -> None:
+    # No deterministic fallback: an unavailable provider yields an explicit
+    # non-candidate Qwen result, still attributed to the Qwen path, and the
+    # provider is never invoked.
     class _Unconfigured:
         is_configured = False
 
@@ -157,8 +156,28 @@ def test_unavailable_provider_falls_back_to_deterministic() -> None:
     proposal = QwenExtractionController(_Unconfigured()).extract(
         ExtractionEvidence(user_text=MSG)
     )
-    assert proposal.controller_id != QWEN_EXTRACTION_CONTROLLER_ID
-    assert proposal.diagnostics.get("fallback_used") is True
+    assert proposal.recommendation == "none"
+    assert proposal.candidate is None
+    assert proposal.controller_id == QWEN_EXTRACTION_CONTROLLER_ID
+    assert proposal.diagnostics.get("fallback_used") is not True
+    assert proposal.diagnostics.get("runner_status") == "runner_unavailable"
+
+
+def test_failure_never_returns_a_deterministic_proposal() -> None:
+    # A provider error yields a non-candidate Qwen result, not the
+    # deterministic extractor's proposal for the same durable message.
+    class _Boom:
+        is_configured = True
+
+        def complete(self, messages):
+            raise RuntimeError("boom")
+
+    proposal = QwenExtractionController(_Boom()).extract(
+        ExtractionEvidence(user_text=MSG)
+    )
+    assert proposal.recommendation == "none"  # not the deterministic candidate
+    assert proposal.controller_id == QWEN_EXTRACTION_CONTROLLER_ID
+    assert proposal.diagnostics.get("runner_status") == "runner_error"
 
 
 def test_provider_error_is_contained() -> None:
@@ -169,7 +188,7 @@ def test_provider_error_is_contained() -> None:
             raise RuntimeError("network down")
 
     proposal = _controller_error = QwenExtractionController(
-        _Boom(), fallback_mode=FALLBACK_NONE
+        _Boom()
     ).extract(ExtractionEvidence(user_text=MSG))
     assert proposal.recommendation == "none"  # no crash, contained
 
@@ -194,7 +213,7 @@ def test_injected_qwen_provider_is_called_once_with_temperature_zero() -> None:
         return {"choices": [{"message": {"content": _candidate_json()}}]}
 
     provider._post = _fake_post  # no network
-    proposal = QwenExtractionController(provider, fallback_mode=FALLBACK_NONE).extract(
+    proposal = QwenExtractionController(provider).extract(
         ExtractionEvidence(user_text=MSG)
     )
     assert proposal.recommendation == "candidate"
