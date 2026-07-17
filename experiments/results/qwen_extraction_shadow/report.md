@@ -23,3 +23,19 @@ Prompt version 3 · model `qwen-plus` · temperature 0 · one inference, no retr
 - Qwen unique wins: 8 · deterministic unique wins: 0
 - False positives — shared 1, Qwen-only 0, deterministic-only 0
 - Average Qwen latency: 2816.9 ms
+
+## Reading these numbers
+
+Three distinct things are reported and never conflated: a **proposal** is what a controller asserted; **accepted** is what the unchanged `GroundedCandidateValidator` allowed through (asserted-but-rejected shows as grounding-rejected); and **oracle-correct** is whether that accepted result matches the corpus `candidate_expected` label. An accepted candidate is not automatically correct.
+
+The quality result rests on **one** creation-scorable corpus (lifecycle, 39 messages / 15 expected). The external corpus is unscorable for extraction, so cross-corpus generalization is **unconfirmed**. Qwen adds ~2.8 s/message latency and a live provider dependency; a failed call is a visible failed record, never a deterministic substitution.
+
+## Reproduce
+
+```
+PYTHONPATH=. .venv/bin/python -m experiments.qwen_extraction_shadow run --subset lifecycle
+PYTHONPATH=. .venv/bin/python -m experiments.qwen_extraction_shadow run --subset external
+PYTHONPATH=. .venv/bin/python -m experiments.qwen_extraction_shadow combine
+```
+
+Requires `QWEN_API_KEY` in the environment or `.env`.

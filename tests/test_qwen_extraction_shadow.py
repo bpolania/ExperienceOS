@@ -11,7 +11,6 @@ from __future__ import annotations
 
 import json
 
-from experienceos.controllers.extraction import ExtractionEvidence
 from experienceos.memory.grounded_extraction import (
     DeterministicGroundedExtractionController,
 )
