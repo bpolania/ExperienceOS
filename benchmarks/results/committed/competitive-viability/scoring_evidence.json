@@ -1,0 +1,3976 @@
+{
+  "aggregate_by_system": {
+    "append_only": {
+      "abstention_accuracy": {
+        "denominator": 1,
+        "numerator": 1,
+        "percentage": 100.0
+      },
+      "current_information_accuracy": {
+        "denominator": 15,
+        "numerator": 11,
+        "percentage": 73.33
+      },
+      "excluded_records": 1,
+      "final_answer_accuracy": {
+        "denominator": 37,
+        "numerator": 27,
+        "percentage": 72.97
+      },
+      "preference_adherence_accuracy": {
+        "denominator": 15,
+        "numerator": 13,
+        "percentage": 86.67
+      },
+      "scored_records": 37,
+      "stale_information_use_rate": {
+        "denominator": 15,
+        "numerator": 6,
+        "percentage": 40.0
+      },
+      "unsupported_claim_rate": {
+        "denominator": 37,
+        "numerator": 5,
+        "percentage": 13.51
+      }
+    },
+    "canonical_experienceos_qwen": {
+      "abstention_accuracy": {
+        "denominator": 1,
+        "numerator": 1,
+        "percentage": 100.0
+      },
+      "current_information_accuracy": {
+        "denominator": 17,
+        "numerator": 13,
+        "percentage": 76.47
+      },
+      "excluded_records": 0,
+      "final_answer_accuracy": {
+        "denominator": 38,
+        "numerator": 27,
+        "percentage": 71.05
+      },
+      "preference_adherence_accuracy": {
+        "denominator": 15,
+        "numerator": 14,
+        "percentage": 93.33
+      },
+      "scored_records": 38,
+      "stale_information_use_rate": {
+        "denominator": 18,
+        "numerator": 9,
+        "percentage": 50.0
+      },
+      "unsupported_claim_rate": {
+        "denominator": 38,
+        "numerator": 7,
+        "percentage": 18.42
+      }
+    },
+    "deterministic_experienceos": {
+      "abstention_accuracy": {
+        "denominator": 2,
+        "numerator": 1,
+        "percentage": 50.0
+      },
+      "current_information_accuracy": {
+        "denominator": 17,
+        "numerator": 14,
+        "percentage": 82.35
+      },
+      "excluded_records": 0,
+      "final_answer_accuracy": {
+        "denominator": 38,
+        "numerator": 27,
+        "percentage": 71.05
+      },
+      "preference_adherence_accuracy": {
+        "denominator": 18,
+        "numerator": 15,
+        "percentage": 83.33
+      },
+      "scored_records": 38,
+      "stale_information_use_rate": {
+        "denominator": 18,
+        "numerator": 9,
+        "percentage": 50.0
+      },
+      "unsupported_claim_rate": {
+        "denominator": 38,
+        "numerator": 6,
+        "percentage": 15.79
+      }
+    },
+    "full_history": {
+      "abstention_accuracy": {
+        "denominator": 2,
+        "numerator": 2,
+        "percentage": 100.0
+      },
+      "current_information_accuracy": {
+        "denominator": 16,
+        "numerator": 14,
+        "percentage": 87.5
+      },
+      "excluded_records": 0,
+      "final_answer_accuracy": {
+        "denominator": 38,
+        "numerator": 30,
+        "percentage": 78.95
+      },
+      "preference_adherence_accuracy": {
+        "denominator": 17,
+        "numerator": 16,
+        "percentage": 94.12
+      },
+      "scored_records": 38,
+      "stale_information_use_rate": {
+        "denominator": 17,
+        "numerator": 5,
+        "percentage": 29.41
+      },
+      "unsupported_claim_rate": {
+        "denominator": 38,
+        "numerator": 5,
+        "percentage": 13.16
+      }
+    },
+    "naive_top_k": {
+      "abstention_accuracy": {
+        "denominator": 2,
+        "numerator": 1,
+        "percentage": 50.0
+      },
+      "current_information_accuracy": {
+        "denominator": 15,
+        "numerator": 12,
+        "percentage": 80.0
+      },
+      "excluded_records": 0,
+      "final_answer_accuracy": {
+        "denominator": 38,
+        "numerator": 29,
+        "percentage": 76.32
+      },
+      "preference_adherence_accuracy": {
+        "denominator": 15,
+        "numerator": 14,
+        "percentage": 93.33
+      },
+      "scored_records": 38,
+      "stale_information_use_rate": {
+        "denominator": 16,
+        "numerator": 6,
+        "percentage": 37.5
+      },
+      "unsupported_claim_rate": {
+        "denominator": 38,
+        "numerator": 4,
+        "percentage": 10.53
+      }
+    },
+    "stateless": {
+      "abstention_accuracy": {
+        "denominator": 2,
+        "numerator": 2,
+        "percentage": 100.0
+      },
+      "current_information_accuracy": {
+        "denominator": 16,
+        "numerator": 11,
+        "percentage": 68.75
+      },
+      "excluded_records": 0,
+      "final_answer_accuracy": {
+        "denominator": 38,
+        "numerator": 30,
+        "percentage": 78.95
+      },
+      "preference_adherence_accuracy": {
+        "denominator": 15,
+        "numerator": 10,
+        "percentage": 66.67
+      },
+      "scored_records": 38,
+      "stale_information_use_rate": {
+        "denominator": 16,
+        "numerator": 1,
+        "percentage": 6.25
+      },
+      "unsupported_claim_rate": {
+        "denominator": 38,
+        "numerator": 1,
+        "percentage": 2.63
+      }
+    }
+  },
+  "artifact_hashes": {
+    "aggregate_json": "45e8c9170f75c01e0a2ff7ae6fde3d6a422f0281244b2d4cd8925f154a9f5526",
+    "freeze_manifest_json": "3db0d6161bb784d520b55d3a23ed782f92bf84b84c2afcc885374fce848e86b0",
+    "judge_tasks_jsonl": "ded4e7e0916b46c5627eb057e44a14e44ed836000f12b3bf8c852bc7829c9e00",
+    "score_records_jsonl": "f013734ecb09224a8aa6df03181dcc8a0a829ad4d85128473f8adb8e07814559"
+  },
+  "category_answer_accuracy": {
+    "abstention": {
+      "denominator": 12,
+      "numerator": 8,
+      "percentage": 66.67
+    },
+    "current_vs_stale": {
+      "denominator": 66,
+      "numerator": 45,
+      "percentage": 68.18
+    },
+    "personalized_response": {
+      "denominator": 113,
+      "numerator": 84,
+      "percentage": 74.34
+    },
+    "personalized_retrieval": {
+      "denominator": 36,
+      "numerator": 33,
+      "percentage": 91.67
+    }
+  },
+  "evaluator_version": "1",
+  "git_commit": "a0c0641194a0bfbebe44a009b45ad8534e8123fd",
+  "judge_prompt_version": "1",
+  "judge_system_prompt": "You evaluate a single assistant answer for correctness and grounding. Judge only the answer against the supplied conversation evidence and criteria. Ignore writing style unless it makes the answer wrong. Do not rewrite the answer. Never mention or guess which system produced it.\n\nReply with ONE JSON object and nothing else \u2014 no prose, no markdown.\nKeys (exact): correct, uses_current_information, uses_stale_information, follows_user_preferences, unsupported_claim, abstention_correct, reason_codes.\nEach verdict field is true, false, or null. Use null only when the field genuinely does not apply to this case (e.g. no preference is involved, or abstention is not required). Do not use null to avoid a judgment.\n\nDefinitions:\n- correct: the answer is responsive and consistent with the conversation evidence and criteria.\n- uses_current_information: the answer reflects the current value(s) when the case has one; null if none applies.\n- uses_stale_information: the answer surfaces a superseded value; null if none could apply.\n- follows_user_preferences: the answer respects an applicable stated preference/instruction; null if none applies.\n- unsupported_claim: the answer asserts a specific fact not supported by the evidence.\n- abstention_correct: for insufficient-evidence cases, true if the answer appropriately declines/says it lacks the information; null if abstention is not required.\n- reason_codes: a short list from the allowed set only.\nAllowed reason_codes: ['ANSWER_NONRESPONSIVE', 'CORRECT_ABSTENTION', 'CURRENT_VALUE_USED', 'EXPECTED_VALUE_MISSING', 'EXPECTED_VALUE_PRESENT', 'FORGOTTEN_VALUE_USED', 'INCORRECT_ABSTENTION', 'INSUFFICIENT_EVIDENCE_TO_JUDGE', 'PREFERENCE_FOLLOWED', 'PREFERENCE_VIOLATED', 'STALE_VALUE_USED', 'SUPPORTED_CLAIM', 'UNSUPPORTED_CLAIM'].\n",
+  "judge_usage": {
+    "judge_failures": 1,
+    "judge_ok": 143,
+    "judge_records": 144,
+    "malformed": 1,
+    "total_retries": 4
+  },
+  "method_assignment": {
+    "counts": {
+      "blinded_judge": 24,
+      "deterministic": 14
+    },
+    "per_case": {
+      "containment_001_duplicate_create_contained": "blinded_judge",
+      "containment_002_supersede_inactive_target": "blinded_judge",
+      "containment_003_forget_nonexistent_target": "blinded_judge",
+      "containment_004_malformed_proposal_fallback": "blinded_judge",
+      "context_001_budget_exceeded": "blinded_judge",
+      "context_002_cross_domain_relevance": "blinded_judge",
+      "context_003_redundant_compression": "blinded_judge",
+      "context_004_instruction_priority": "blinded_judge",
+      "context_005_active_and_inactive_versions": "deterministic",
+      "context_006_minimal_context_sufficient": "deterministic",
+      "creation_001_explicit_scoped_preference": "blinded_judge",
+      "creation_002_durable_user_fact": "blinded_judge",
+      "creation_003_durable_instruction": "blinded_judge",
+      "creation_004_non_durable_statement": "blinded_judge",
+      "creation_005_exact_duplicate_restatement": "blinded_judge",
+      "creation_006_paraphrased_duplicate": "blinded_judge",
+      "forgetting_001_exact_forget": "blinded_judge",
+      "forgetting_002_paraphrased_forget": "blinded_judge",
+      "forgetting_003_forget_one_of_several": "blinded_judge",
+      "forgetting_004_forget_after_supersession": "blinded_judge",
+      "forgetting_005_forgotten_leakage_check": "blinded_judge",
+      "forgetting_006_restatement_not_resurrection": "blinded_judge",
+      "retrieval_001_one_relevant_among_many": "deterministic",
+      "retrieval_002_multiple_relevant": "blinded_judge",
+      "retrieval_003_lexical_mismatch": "deterministic",
+      "retrieval_004_wrong_domain_similar_wording": "blinded_judge",
+      "retrieval_005_old_relevant_vs_recent_irrelevant": "deterministic",
+      "retrieval_006_no_memory_needed": "deterministic",
+      "retrieval_007_correct_abstention": "blinded_judge",
+      "retrieval_008_stale_would_mislead": "deterministic",
+      "updates_001_preference_replacement_cross_session": "deterministic",
+      "updates_002_fact_correction": "deterministic",
+      "updates_003_instruction_replacement": "deterministic",
+      "updates_004_now_prefer_wording": "deterministic",
+      "updates_005_instead_of_wording": "deterministic",
+      "updates_006_scoped_preferences_coexist": "blinded_judge",
+      "updates_007_correction_with_distractors": "deterministic",
+      "updates_008_repeated_correction_chain": "deterministic"
+    }
+  },
+  "method_distribution": {
+    "blinded_judge": 144,
+    "deterministic": 84
+  },
+  "note": "answer-quality evidence only; no competitive profile, ranking, or go/no-go decision",
+  "per_case_verdicts": [
+    {
+      "case_id": "updates_001_preference_replacement_cross_session",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "9704bd8bc5e42e86",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "updates_002_fact_correction",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "bb415b503dc59ed0",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_003_instruction_replacement",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "e4a7a48aa2f2a907",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "updates_004_now_prefer_wording",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "87dded6a5f7c082f",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_005_instead_of_wording",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "26bd72bfab8f40e0",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_007_correction_with_distractors",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "c8753c4a7e8c42fb",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_008_repeated_correction_chain",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "e782a7d3060a85f8",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "retrieval_001_one_relevant_among_many",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "f859a626750b89ea",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_003_lexical_mismatch",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "a0559982c89e77bf",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "retrieval_005_old_relevant_vs_recent_irrelevant",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "4a8aac8016ba7427",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_006_no_memory_needed",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "a0019e72e4077eeb",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_008_stale_would_mislead",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "d9f95878c9bcfc92",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": true,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "context_005_active_and_inactive_versions",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "0456dae3cc581281",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": true,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "context_006_minimal_context_sufficient",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "690b15a419748957",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "updates_001_preference_replacement_cross_session",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "d37070ecc05a8835",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "updates_002_fact_correction",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "5f1cab238f4912ed",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_003_instruction_replacement",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "d531d3f90f3001b6",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "updates_004_now_prefer_wording",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "602dc385acb57c77",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_005_instead_of_wording",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "7c862ec7913c5ee5",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_007_correction_with_distractors",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "49495918e63ae142",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_008_repeated_correction_chain",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "8c3f79bba20ab00a",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "retrieval_001_one_relevant_among_many",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "004bc16cc49f4d2c",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_003_lexical_mismatch",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "a1b38e2cf9560ecf",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "retrieval_005_old_relevant_vs_recent_irrelevant",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "b42d8971e07a9a1d",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_006_no_memory_needed",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "837b2ab53deccb1d",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_008_stale_would_mislead",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "a5db11cccd93d52c",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": true,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "context_005_active_and_inactive_versions",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "09e8239d93b0799f",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": true,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "context_006_minimal_context_sufficient",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "d27d4ab1997ff9f8",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "updates_001_preference_replacement_cross_session",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "d7c34cabb9c604c9",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_002_fact_correction",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "bb129a77c9252990",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_003_instruction_replacement",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "324b811f940ed6af",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_004_now_prefer_wording",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "637ef8d82b30e1d8",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_005_instead_of_wording",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "8df7225e0580b99b",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_007_correction_with_distractors",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "a4f0d86ea845ae84",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_008_repeated_correction_chain",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "95972f472e4e0940",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "retrieval_001_one_relevant_among_many",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "c1fbd0d79d9dc280",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_003_lexical_mismatch",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "9c02fa7b852d8f95",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "retrieval_005_old_relevant_vs_recent_irrelevant",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "a82c294c276b9714",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_006_no_memory_needed",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "1e57c3858ad50e29",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_008_stale_would_mislead",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "8b46c9c40a02032a",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": false,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "context_005_active_and_inactive_versions",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "555ab811f0e51e12",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": true,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "context_006_minimal_context_sufficient",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "ca137cfbfacfca63",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_001_preference_replacement_cross_session",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "5652faa739120df3",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_002_fact_correction",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "1c291bad6416e37f",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_003_instruction_replacement",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "d90cdf30c9951cca",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_004_now_prefer_wording",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "69105863364f6a53",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_005_instead_of_wording",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "9e93390b25220f45",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_007_correction_with_distractors",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "6896ba776073c1a5",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "updates_008_repeated_correction_chain",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "a3e6e6ffa5c219ef",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "retrieval_001_one_relevant_among_many",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "d3362f8756be7957",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_003_lexical_mismatch",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "db91b21f87f1772b",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "retrieval_005_old_relevant_vs_recent_irrelevant",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "ae811c52b87c630f",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_006_no_memory_needed",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "95717c5178cf532e",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_008_stale_would_mislead",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "57584357900f4c25",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": false,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "context_005_active_and_inactive_versions",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "e329e0d094dcadd4",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "context_006_minimal_context_sufficient",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "3eca028f44456b88",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "updates_001_preference_replacement_cross_session",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "4dac8fb4ad5db5d6",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_002_fact_correction",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "97da506ebe7b4191",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_003_instruction_replacement",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "11ab1163d0ca8c83",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_004_now_prefer_wording",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "c6a92d18b2db17a9",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_005_instead_of_wording",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "3356463302f30dd2",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_007_correction_with_distractors",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "a59d431853f1ea04",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "updates_008_repeated_correction_chain",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "ce2c723e01e50d96",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "retrieval_001_one_relevant_among_many",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "1488097cecb52b5e",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_003_lexical_mismatch",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "1afd9dac54e6f404",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "retrieval_005_old_relevant_vs_recent_irrelevant",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "40e62087f16e8e2f",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_006_no_memory_needed",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "75f50191c62d527d",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_008_stale_would_mislead",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "c904315f16ba2a62",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": true,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "context_005_active_and_inactive_versions",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "fa127e0a115355c7",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": true,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "context_006_minimal_context_sufficient",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "15f1341d89c8aec1",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "updates_001_preference_replacement_cross_session",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "8b8fc8e369aefd33",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_002_fact_correction",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "aa134301c447af70",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_003_instruction_replacement",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "d7dde482ab29bd4e",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_004_now_prefer_wording",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "68ff2eec5dbee2fd",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_005_instead_of_wording",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "d20882e4451369ad",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "updates_007_correction_with_distractors",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "3d73442eb42b7a56",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "updates_008_repeated_correction_chain",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "149de932f3099a53",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "retrieval_001_one_relevant_among_many",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "438896496eaa5505",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_003_lexical_mismatch",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "85f7f0536af50d82",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "retrieval_005_old_relevant_vs_recent_irrelevant",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "2882ae2b3e07473f",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_006_no_memory_needed",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "7baf1685a3db7165",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_008_stale_would_mislead",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "d8fda2ca5b510db5",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": false,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "context_005_active_and_inactive_versions",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "87afe25a0dfed5bc",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": false,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "context_006_minimal_context_sufficient",
+      "exclusion_reason": null,
+      "judge_output_status": null,
+      "method": "deterministic",
+      "source_record_hash": "382c13eba3dabc1f",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "containment_001_duplicate_create_contained",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "6a3b36ea54431a16",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_004_wrong_domain_similar_wording",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "b0a6cb2767229bfe",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_001_explicit_scoped_preference",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "0b099ee278102b18",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "context_002_cross_domain_relevance",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "ab891dc68d21ec56",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_006_paraphrased_duplicate",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "d8c1548a9be00fc3",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "context_001_budget_exceeded",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "b2c793cea1fc6db0",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": false,
+        "unsupported_claim": true,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "updates_006_scoped_preferences_coexist",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "b2a2d19890aad8ed",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "forgetting_003_forget_one_of_several",
+      "exclusion_reason": "judge_failure",
+      "judge_output_status": "malformed",
+      "method": "blinded_judge",
+      "source_record_hash": "947bbf131e773657",
+      "system_id": "append_only",
+      "verdict": null
+    },
+    {
+      "case_id": "context_004_instruction_priority",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "cda3cd5d9e3edc97",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_006_paraphrased_duplicate",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "d3b734e1f5743c72",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "containment_002_supersede_inactive_target",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "d3453d410bfbc8ea",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": null,
+        "uses_current_information": false,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "updates_006_scoped_preferences_coexist",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "e1d8bc34951542c9",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_003_durable_instruction",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "57095e66d5ec1ef6",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_004_non_durable_statement",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "c78a7345c300b6de",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "containment_002_supersede_inactive_target",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "ac7bf054df15f27f",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "forgetting_005_forgotten_leakage_check",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "c8886dbb2f2652ff",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": null,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "forgetting_005_forgotten_leakage_check",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "5642cc116018b9be",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": null,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "forgetting_004_forget_after_supersession",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "a019d97c3302f9e2",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "forgetting_004_forget_after_supersession",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "2bb2f8baeeaf52f7",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "creation_003_durable_instruction",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "4ada55584d48366c",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_002_durable_user_fact",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "f6e4aa29f87fdc81",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_006_paraphrased_duplicate",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "982d1b0ba18b089f",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_003_durable_instruction",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "d9184a373593ac52",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_002_multiple_relevant",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "2259772748a75292",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_002_durable_user_fact",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "caa344054bfb23eb",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "context_002_cross_domain_relevance",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "0ba2d84d89852dd4",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": false,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "containment_003_forget_nonexistent_target",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "80cd7282416a6873",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": null,
+        "uses_current_information": false,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "updates_006_scoped_preferences_coexist",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "109a26a0c0e8e30a",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "forgetting_006_restatement_not_resurrection",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "5836569264fd61aa",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": false,
+        "unsupported_claim": false,
+        "uses_current_information": false,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "creation_005_exact_duplicate_restatement",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "011496cc36426cb2",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "forgetting_001_exact_forget",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "dd9f7b8ad1dcc255",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": null,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_001_explicit_scoped_preference",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "40809d86abebabd7",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_001_explicit_scoped_preference",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "9ca35815ab790831",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "context_001_budget_exceeded",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "968bf8da7df90f76",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "containment_004_malformed_proposal_fallback",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "9415f141c0e68fa3",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_002_multiple_relevant",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "419a9ba402cb353c",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_002_multiple_relevant",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "7dbb1a01ad24aa3f",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "context_002_cross_domain_relevance",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "27a831555f83fd0f",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "context_002_cross_domain_relevance",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "2da24bec314f798d",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "forgetting_005_forgotten_leakage_check",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "9bebc17c57fcb66e",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": true,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "context_001_budget_exceeded",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "dd3dfb0248b62109",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "updates_006_scoped_preferences_coexist",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "f86f3a5df5ca113f",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_004_non_durable_statement",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "24df22c3e33fa038",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "updates_006_scoped_preferences_coexist",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "e1d0bb879381332b",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "containment_003_forget_nonexistent_target",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "eb32e1c3322ca4ab",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": null,
+        "uses_current_information": false,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_003_durable_instruction",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "539989e04e088a47",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "context_003_redundant_compression",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "0f6298b1bf934d86",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "containment_003_forget_nonexistent_target",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "6e794ac41c2f16b7",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": null,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "forgetting_006_restatement_not_resurrection",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "67fe1af409a3d6e7",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": false,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "context_001_budget_exceeded",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "063a16c28d3b4199",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "forgetting_001_exact_forget",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "e0d9569e1ddbfac5",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "forgetting_003_forget_one_of_several",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "ae2a6243a4b14136",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "forgetting_004_forget_after_supersession",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "4c86fc000baae6e9",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "context_003_redundant_compression",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "ba5d7726c3f31741",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "forgetting_005_forgotten_leakage_check",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "633ace788894616c",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": false,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": null,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "retrieval_007_correct_abstention",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "0d3dd7aea2c41b10",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": true,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "forgetting_004_forget_after_supersession",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "0ee560a424a6b963",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "creation_004_non_durable_statement",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "e22f9dc9cdf22ca3",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "forgetting_002_paraphrased_forget",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "2e9529e2fcdc1170",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": null,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "forgetting_003_forget_one_of_several",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "a21240889e804855",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "forgetting_001_exact_forget",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "08d23544eb4e1edd",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "creation_005_exact_duplicate_restatement",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "1f97dcd5d4cc9626",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "context_001_budget_exceeded",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "6b99358bd9898d93",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_002_multiple_relevant",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "c7fd8fd5462e5b68",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_002_durable_user_fact",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "2232468ecde1709d",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "context_003_redundant_compression",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "054b0af8f8e5f3ec",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": false,
+        "unsupported_claim": null,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_002_durable_user_fact",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "8a23bdc9cbaf71dd",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "forgetting_002_paraphrased_forget",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "4a5afaaf8ef7cf97",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "forgetting_005_forgotten_leakage_check",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "ba87f691d03cbdd5",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": false,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": null,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "context_004_instruction_priority",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "ab179ed994e02cef",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "forgetting_004_forget_after_supersession",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "d02c6acedd90c152",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "retrieval_004_wrong_domain_similar_wording",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "238f45d848bf1d70",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_006_paraphrased_duplicate",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "7774029b1945f5f3",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "containment_001_duplicate_create_contained",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "e78a9f24e16a758d",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "context_003_redundant_compression",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "40cf0e05950aebb7",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "context_001_budget_exceeded",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "1ca9ac5430e039ea",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "context_004_instruction_priority",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "164db4ec639f9bbf",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "forgetting_001_exact_forget",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "7b5025d059454fdf",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": null,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "forgetting_006_restatement_not_resurrection",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "f1ffd7ba0d7b486d",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": false,
+        "unsupported_claim": null,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_002_durable_user_fact",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "f8960e47a64e1a5f",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_002_multiple_relevant",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "f9bc0f08e0d0c46b",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "forgetting_003_forget_one_of_several",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "d5489cb7c7d0989f",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "containment_002_supersede_inactive_target",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "95ab8659713c2047",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": false,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "forgetting_002_paraphrased_forget",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "56c68e5806ca2018",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "containment_004_malformed_proposal_fallback",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "c14d22554b12f4fd",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "context_002_cross_domain_relevance",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "2b63bb5139fabce7",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "containment_001_duplicate_create_contained",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "82f11a47c1a8b9c0",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_006_paraphrased_duplicate",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "26a1a1d807020c09",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "context_004_instruction_priority",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "469d884140254a1b",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_001_explicit_scoped_preference",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "68893288379bfe07",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "forgetting_006_restatement_not_resurrection",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "d640089eafff2753",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": false,
+        "unsupported_claim": null,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_007_correct_abstention",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "9969b215577db184",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": true,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "containment_004_malformed_proposal_fallback",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "1239759cd527ae89",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_004_non_durable_statement",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "b3aea4395f38b341",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "forgetting_006_restatement_not_resurrection",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "daf3446dcc2593e4",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": false,
+        "unsupported_claim": null,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_004_wrong_domain_similar_wording",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "e161281b4d1db46a",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_005_exact_duplicate_restatement",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "ef2c080509aa9fb4",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_005_exact_duplicate_restatement",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "d58f6f51bcde6726",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_001_explicit_scoped_preference",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "035ab18aeef98962",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "containment_002_supersede_inactive_target",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "1e134274886fc2d8",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": null,
+        "uses_current_information": true,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "retrieval_004_wrong_domain_similar_wording",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "e8b01fc3fbc87eaf",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "containment_004_malformed_proposal_fallback",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "b82547d1fafb9c17",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "containment_002_supersede_inactive_target",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "0ce1e76193d1c12b",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": false,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "creation_003_durable_instruction",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "ca87b67fa746abfc",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_007_correct_abstention",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "fe309692ba361709",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": true,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "containment_001_duplicate_create_contained",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "c82f41d18684d1d7",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_005_exact_duplicate_restatement",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "25dc88a8f1135a10",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "forgetting_002_paraphrased_forget",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "c20ac4fb5c78995a",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "containment_004_malformed_proposal_fallback",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "1b005c462e6252f2",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_004_non_durable_statement",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "537f6f75828774e6",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_004_wrong_domain_similar_wording",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "5f254867c181cb57",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": false,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "containment_003_forget_nonexistent_target",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "bf0e2caef13ee074",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "forgetting_006_restatement_not_resurrection",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "c99a9a26355007b5",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": false,
+        "unsupported_claim": false,
+        "uses_current_information": false,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "context_004_instruction_priority",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "1f007d2fd4bed386",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "context_002_cross_domain_relevance",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "17cca3115547b99e",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "containment_004_malformed_proposal_fallback",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "ba476e06324df709",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_007_correct_abstention",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "661ba85f6e690ed4",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": true,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_003_durable_instruction",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "ddbd9c7dc87f4584",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "containment_001_duplicate_create_contained",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "ebc64a3609aae245",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": false,
+        "unsupported_claim": null,
+        "uses_current_information": false,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "context_004_instruction_priority",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "845f6aa73a27ee89",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "containment_002_supersede_inactive_target",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "1649154a02e17d8b",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": null,
+        "uses_current_information": false,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "retrieval_002_multiple_relevant",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "6461c834589c11b2",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "forgetting_003_forget_one_of_several",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "e22bb8cb6ed9719f",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "containment_003_forget_nonexistent_target",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "bcc3070fccd91fe0",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": null,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "context_003_redundant_compression",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "3482c1604a3942b0",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_007_correct_abstention",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "654b8ee75a9a8695",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": true,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_006_paraphrased_duplicate",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "97cb6aaef09f82c9",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "containment_001_duplicate_create_contained",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "dd735be0e0c0537b",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "forgetting_002_paraphrased_forget",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "488327afcd8c269a",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": null,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      }
+    },
+    {
+      "case_id": "retrieval_007_correct_abstention",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "8789dae9c7921465",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": true,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_001_explicit_scoped_preference",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "9c868ba4e097500d",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "forgetting_005_forgotten_leakage_check",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "2737076ee81c1986",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": true,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "forgetting_001_exact_forget",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "d84e81c96fd361bf",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": null,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "updates_006_scoped_preferences_coexist",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "c95881a796bd4ddc",
+      "system_id": "canonical_experienceos_qwen",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_004_non_durable_statement",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "237e6e47ac82b815",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "retrieval_004_wrong_domain_similar_wording",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "f76f1787d43975c6",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "forgetting_003_forget_one_of_several",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "66d524820355eacb",
+      "system_id": "naive_top_k",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "creation_005_exact_duplicate_restatement",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "dbc2788433fa0eb9",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "forgetting_004_forget_after_supersession",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "50a6f613cfa3a16c",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "forgetting_001_exact_forget",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "310c4d0ffd06a2ea",
+      "system_id": "stateless",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": false,
+        "unsupported_claim": null,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "forgetting_002_paraphrased_forget",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "cf879e36e9f23a59",
+      "system_id": "append_only",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": false
+      }
+    },
+    {
+      "case_id": "containment_003_forget_nonexistent_target",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "279806ee7bc089b6",
+      "system_id": "deterministic_experienceos",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "creation_002_durable_user_fact",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "12301998796ab2a7",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": null,
+        "unsupported_claim": false,
+        "uses_current_information": true,
+        "uses_stale_information": null
+      }
+    },
+    {
+      "case_id": "context_003_redundant_compression",
+      "exclusion_reason": null,
+      "judge_output_status": "ok",
+      "method": "blinded_judge",
+      "source_record_hash": "5c880d95bbef60de",
+      "system_id": "full_history",
+      "verdict": {
+        "abstention_correct": null,
+        "correct": true,
+        "follows_user_preferences": true,
+        "unsupported_claim": false,
+        "uses_current_information": null,
+        "uses_stale_information": null
+      }
+    }
+  ],
+  "score_counts": {
+    "excluded": 1,
+    "exclusion_counts": {
+      "judge_failure": 1
+    },
+    "scored": 227,
+    "total_score_records": 228
+  },
+  "scoring_config": {
+    "aggregation_formulas": "campaign.aggregate_by_system",
+    "evaluator_version": "1",
+    "exclusion_rules": [
+      "not_applicable_execution",
+      "judge_failure",
+      "case_not_scorable"
+    ],
+    "judge_model": "qwen-plus",
+    "judge_parameters": {
+      "temperature": 0.0
+    },
+    "judge_prompt_version": "1",
+    "judge_task_ordering_seed": 20260717,
+    "normalization_rules": "casefold + whitespace-collapse; substring match",
+    "raw_records_hash": "bb9c136247dab368751e5a9440835e49303de1846b8c46684b872b6172f5f57d",
+    "rule_definitions": "criteria.deterministic_verdict",
+    "viability_manifest_hash": "9c7f3009dd92307c84abb72643367cc1b17e8cb11b9bdecbc94de28a74fdb51c"
+  },
+  "verdict_fields": [
+    "correct",
+    "uses_current_information",
+    "uses_stale_information",
+    "follows_user_preferences",
+    "unsupported_claim",
+    "abstention_correct"
+  ]
+}

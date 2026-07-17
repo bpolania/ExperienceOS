@@ -17,6 +17,19 @@ Committed, reproducible evidence for the competitive viability evaluation
 - `execution_summary.json` — curated per-system execution completeness and
   fairness summary for the live run (counts and statuses only; **no raw
   answers, no provider payloads, no secrets**).
+- `scoring_evidence.json` — curated final-answer scoring evidence: the
+  frozen scoring configuration, the judge system prompt and rubric,
+  method assignment, per-system answer-quality metrics (with numerators,
+  denominators, and percentages), category-level accuracy, judge-usage
+  and exclusion counts, bounded per-case structured verdicts, and
+  artifact hashes. It carries **structured verdicts and hashes only — no
+  raw answer text, no provider payloads, no secrets** — and **no
+  competitive profile, ranking, or go/no-go decision** (that is later
+  work). Deterministic scoring covers cases with response
+  inclusion/exclusion criteria; a blinded Qwen judge scores abstention
+  and no-response-criteria cases. Raw score records, blinded judge
+  requests, and judge responses stay in the gitignored local scoring
+  tree.
 
 ## What is not committed here
 
