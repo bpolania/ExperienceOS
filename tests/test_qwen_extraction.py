@@ -140,6 +140,40 @@ def test_prompt_is_deterministic_and_json_only() -> None:
     assert a[1] == {"role": "user", "content": MSG}
 
 
+def test_prompt_discourages_third_person_normalization() -> None:
+    system = build_extraction_messages(MSG)[0]["content"]
+    assert "first-person" in system.lower()
+    assert "The user" in system  # explicitly names the pattern to avoid
+
+
+def test_first_person_normalized_text_is_accepted() -> None:
+    text = "I am based in the Denver office."
+    raw = json.dumps({
+        "action": "candidate", "kind": "fact", "normalized_text": text,
+        "evidence_text": text, "start_offset": 0, "end_offset": 7,
+        "confidence": 0.9, "reason": "fact",
+    })
+    proposal = _controller(raw).extract(
+        ExtractionEvidence(user_text=text, metadata={"source_id": "x"})
+    )
+    assert proposal.recommendation == "candidate"
+
+
+def test_third_person_paraphrase_is_still_rejected_by_unchanged_validator() -> None:
+    text = "I am based in the Denver office."
+    raw = json.dumps({
+        "action": "candidate", "kind": "fact",
+        "normalized_text": "The user is based in the Denver office.",
+        "evidence_text": text, "start_offset": 0, "end_offset": 7,
+        "confidence": 0.9, "reason": "fact",
+    })
+    proposal = _controller(raw).extract(
+        ExtractionEvidence(user_text=text, metadata={"source_id": "x"})
+    )
+    assert proposal.recommendation == "none"
+    assert proposal.diagnostics.get("validation_status") == "indeterminate_support"
+
+
 # --- availability, no fallback, error containment ---------------------------
 
 

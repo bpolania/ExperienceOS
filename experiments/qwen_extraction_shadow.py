@@ -125,63 +125,72 @@ def run_comparison(qwen_provider, records) -> dict:
             "summary": aggregate(rows)}
 
 
+def _rate(num, den):
+    return round(num / den, 4) if den else None
+
+
+def _confusion(rows, accept_key):
+    """(TP, FP, FN, TN) of one controller against the oracle over rows."""
+    tp = sum(1 for r in rows if r["candidate_expected"] and r[accept_key])
+    fp = sum(1 for r in rows if not r["candidate_expected"] and r[accept_key])
+    fn = sum(1 for r in rows if r["candidate_expected"] and not r[accept_key])
+    tn = sum(1 for r in rows if not r["candidate_expected"] and not r[accept_key])
+    return tp, fp, fn, tn
+
+
+def _controller_metrics(rows, accept_key, prefix):
+    tp, fp, fn, tn = _confusion(rows, accept_key)
+    n = len(rows)
+    return {
+        f"{prefix}_true_positives": tp,
+        f"{prefix}_false_positives": fp,
+        f"{prefix}_false_negatives": fn,
+        f"{prefix}_accepted": tp + fp,
+        f"{prefix}_recall": _rate(tp, tp + fn),
+        f"{prefix}_precision": _rate(tp, tp + fp),
+        f"{prefix}_over_extraction": _rate(fp, fp + tn),
+        f"{prefix}_correct": _rate(tp + tn, n),
+    }
+
+
 def aggregate(rows: list) -> dict:
     n = len(rows)
+    # Both controllers are scored on the messages where Qwen actually
+    # answered, so a provider failure is never counted as a comparison and
+    # both share the same denominator.
     success = [r for r in rows if r["qwen_success"]]
-    # Correctness is scored only where Qwen actually answered, so a
-    # provider failure is never counted as a valid Qwen comparison.
-    expected = [r for r in success if r["candidate_expected"]]
-    not_expected = [r for r in success if not r["candidate_expected"]]
-
-    def rate(num, den):
-        return round(num / den, 4) if den else None
-
-    det_accepted = sum(r["det_accepted"] for r in rows)
-    qwen_accepted = sum(r["qwen_accepted"] for r in success)
     agreements = sum(1 for r in success if r["agreement"])
-    latencies = [r["qwen_latency_ms"] for r in success]
+    latencies = sorted(r["qwen_latency_ms"] for r in success)
 
-    return {
+    def pct(vals, p):
+        if not vals:
+            return None
+        return round(vals[min(len(vals) - 1, int(p * len(vals)))], 1)
+
+    summary = {
         "messages_processed": n,
+        "scorable_records": n,
         "qwen_success": len(success),
         "qwen_failed": n - len(success),
-        "det_proposals": det_accepted,
-        "qwen_proposals": qwen_accepted,
-        "det_accepted": det_accepted,
-        "det_rejected": 0,  # deterministic controller returns grounded results only
-        "qwen_accepted": qwen_accepted,
+        "expected_candidates": sum(1 for r in success if r["candidate_expected"]),
+        "not_expected_candidates": sum(
+            1 for r in success if not r["candidate_expected"]
+        ),
+        "det_proposals": sum(r["det_accepted"] for r in success),
+        "qwen_proposals": sum(r["qwen_accepted"] for r in success),
+        "det_rejected": 0,  # deterministic returns grounded results only
         "qwen_rejected": sum(r["qwen_rejected"] for r in success),
-        "agreement_pct": rate(agreements, len(success)),
-        "disagreement_pct": rate(len(success) - agreements, len(success)),
+        "agreement_pct": _rate(agreements, len(success)),
+        "disagreement_pct": _rate(len(success) - agreements, len(success)),
         "avg_qwen_latency_ms": (
             round(sum(latencies) / len(latencies), 1) if latencies else None
         ),
-        # Oracle quality (scored on successful Qwen messages only).
-        "expected_candidates": len(expected),
-        "not_expected_candidates": len(not_expected),
-        "det_recall": rate(
-            sum(r["det_accepted"] for r in expected), len(expected)
-        ),
-        "qwen_recall": rate(
-            sum(r["qwen_accepted"] for r in expected), len(expected)
-        ),
-        "det_over_extraction": rate(
-            sum(r["det_accepted"] for r in not_expected), len(not_expected)
-        ),
-        "qwen_over_extraction": rate(
-            sum(r["qwen_accepted"] for r in not_expected), len(not_expected)
-        ),
-        "det_correct": rate(
-            sum(1 for r in success
-                if r["det_accepted"] == int(r["candidate_expected"])),
-            len(success),
-        ),
-        "qwen_correct": rate(
-            sum(1 for r in success
-                if r["qwen_accepted"] == int(r["candidate_expected"])),
-            len(success),
-        ),
+        "median_qwen_latency_ms": pct(latencies, 0.5),
+        "max_qwen_latency_ms": latencies[-1] if latencies else None,
     }
+    summary.update(_controller_metrics(success, "det_accepted", "det"))
+    summary.update(_controller_metrics(success, "qwen_accepted", "qwen"))
+    return summary
 
 
 # --- artifacts ---------------------------------------------------------------
@@ -222,13 +231,144 @@ def _report_md(data: dict, meta: dict) -> str:
     return "\n".join(lines)
 
 
-def write_artifacts(data: dict, meta: dict) -> Path:
-    RESULT_DIR.mkdir(parents=True, exist_ok=True)
-    (RESULT_DIR / "results.json").write_text(
+def write_artifacts(data: dict, meta: dict, subset: str) -> Path:
+    out = RESULT_DIR / subset
+    out.mkdir(parents=True, exist_ok=True)
+    (out / "results.json").write_text(
         json.dumps({"meta": meta, **data}, indent=1, sort_keys=True) + "\n"
     )
-    (RESULT_DIR / "report.md").write_text(_report_md(data, meta))
-    return RESULT_DIR
+    (out / "report.md").write_text(_report_md(data, meta))
+    return out
+
+
+def _combined_metrics(all_rows: list) -> dict:
+    """Combined confusion + unique-win accounting across both corpora."""
+    success = [r for r in all_rows if r["qwen_success"]]
+    det = _controller_metrics(success, "det_accepted", "det")
+    qwen = _controller_metrics(success, "qwen_accepted", "qwen")
+    qwen_wins = [
+        r for r in success
+        if r["candidate_expected"] and r["qwen_accepted"] and not r["det_accepted"]
+    ]
+    det_wins = [
+        r for r in success
+        if r["candidate_expected"] and r["det_accepted"] and not r["qwen_accepted"]
+    ]
+    shared_fp = [
+        r for r in success
+        if not r["candidate_expected"] and r["qwen_accepted"] and r["det_accepted"]
+    ]
+    qwen_only_fp = [
+        r for r in success
+        if not r["candidate_expected"] and r["qwen_accepted"] and not r["det_accepted"]
+    ]
+    det_only_fp = [
+        r for r in success
+        if not r["candidate_expected"] and r["det_accepted"] and not r["qwen_accepted"]
+    ]
+    latencies = [r["qwen_latency_ms"] for r in success]
+    combined = {
+        "total_scorable": len(all_rows),
+        "qwen_success": len(success),
+        "qwen_failed": len(all_rows) - len(success),
+        "expected_candidates": sum(1 for r in success if r["candidate_expected"]),
+        "qwen_unique_wins": [r["case_id"] for r in qwen_wins],
+        "deterministic_unique_wins": [r["case_id"] for r in det_wins],
+        "shared_false_positives": [r["case_id"] for r in shared_fp],
+        "qwen_only_false_positives": [r["case_id"] for r in qwen_only_fp],
+        "deterministic_only_false_positives": [r["case_id"] for r in det_only_fp],
+        "avg_qwen_latency_ms": (
+            round(sum(latencies) / len(latencies), 1) if latencies else None
+        ),
+    }
+    combined.update(det)
+    combined.update(qwen)
+    return combined
+
+
+def combine() -> Path:
+    """Merge per-corpus results into combined evidence + a final report."""
+    subsets = {}
+    all_rows = []
+    for subset in ("lifecycle", "external"):
+        path = RESULT_DIR / subset / "results.json"
+        if not path.exists():
+            raise SystemExit(f"missing {path}; run --subset {subset} first")
+        data = json.loads(path.read_text())
+        subsets[subset] = data
+        all_rows.extend(data["cases"])
+    combined = _combined_metrics(all_rows)
+    payload = {
+        "prompt_version": subsets["lifecycle"]["prompt_version"],
+        "per_corpus": {k: v["summary"] for k, v in subsets.items()},
+        "combined": combined,
+    }
+    (RESULT_DIR / "combined.json").write_text(
+        json.dumps(payload, indent=1, sort_keys=True) + "\n"
+    )
+    (RESULT_DIR / "report.md").write_text(_final_report_md(subsets, combined))
+    return RESULT_DIR / "combined.json"
+
+
+def _final_report_md(subsets: dict, c: dict) -> str:
+    def block(name, s):
+        if s["scorable_records"] == 0:
+            return [
+                f"### {name} (0 scorable)",
+                "- Unscorable for durable-memory extraction — see "
+                f"`{name}/UNSCORABLE.md`. The corpus has no per-message "
+                "source text or creation oracle; excluded from scoring.",
+                "",
+            ]
+        return [
+            f"### {name} ({s['scorable_records']} scorable, "
+            f"{s['expected_candidates']} expected)",
+            f"- Recall — deterministic **{s['det_recall']}**, "
+            f"Qwen **{s['qwen_recall']}**",
+            f"- Precision — deterministic {s['det_precision']}, "
+            f"Qwen {s['qwen_precision']}",
+            f"- Over-extraction — deterministic {s['det_over_extraction']}, "
+            f"Qwen {s['qwen_over_extraction']}",
+            f"- Overall correctness — deterministic **{s['det_correct']}**, "
+            f"Qwen **{s['qwen_correct']}**",
+            f"- False positives — deterministic {s['det_false_positives']}, "
+            f"Qwen {s['qwen_false_positives']}",
+            f"- Qwen: {s['qwen_success']} ok / {s['qwen_failed']} failed · "
+            f"grounding-rejected {s['qwen_rejected']} · agreement "
+            f"{s['agreement_pct']} · latency avg {s['avg_qwen_latency_ms']} ms "
+            f"(median {s['median_qwen_latency_ms']}, max {s['max_qwen_latency_ms']})",
+            "",
+        ]
+    lines = [
+        "# Qwen vs Deterministic Grounded Extraction — Final Comparison",
+        "",
+        f"Prompt version {subsets['lifecycle']['prompt_version']} · model "
+        f"`{subsets['lifecycle']['meta']['model']}` · temperature 0 · one "
+        "inference, no retries · shadow only, no memory mutation.",
+        "",
+        "## Per corpus",
+        "",
+    ]
+    lines += block("lifecycle", subsets["lifecycle"]["summary"])
+    lines += block("external", subsets["external"]["summary"])
+    lines += [
+        "## Combined",
+        f"- Scorable {c['total_scorable']} · expected candidates "
+        f"{c['expected_candidates']} · Qwen ok {c['qwen_success']} / failed "
+        f"{c['qwen_failed']}",
+        f"- Recall — deterministic **{c['det_recall']}**, Qwen **{c['qwen_recall']}**",
+        f"- Precision — deterministic {c['det_precision']}, Qwen {c['qwen_precision']}",
+        f"- Overall correctness — deterministic **{c['det_correct']}**, "
+        f"Qwen **{c['qwen_correct']}**",
+        f"- Qwen unique wins: {len(c['qwen_unique_wins'])} · deterministic "
+        f"unique wins: {len(c['deterministic_unique_wins'])}",
+        f"- False positives — shared {len(c['shared_false_positives'])}, "
+        f"Qwen-only {len(c['qwen_only_false_positives'])}, deterministic-only "
+        f"{len(c['deterministic_only_false_positives'])}",
+        f"- Average Qwen latency: {c['avg_qwen_latency_ms']} ms",
+        "",
+    ]
+    return "\n".join(lines)
 
 
 # --- CLI ---------------------------------------------------------------------
@@ -236,11 +376,17 @@ def write_artifacts(data: dict, meta: dict) -> Path:
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(prog="qwen_extraction_shadow")
-    parser.add_argument("command", choices=["run"])
+    parser.add_argument("command", choices=["run", "combine"])
     parser.add_argument("--subset", default="lifecycle", choices=list(CORPUS))
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--timeout-ms", type=int, default=30000)
     args = parser.parse_args(argv)
+
+    if args.command == "combine":
+        path = combine()
+        print(f"wrote {path}")
+        print((RESULT_DIR / "report.md").read_text())
+        return 0
 
     from demo.env import load_local_env
     from experienceos.providers.qwen_cloud import QwenCloudProvider
@@ -270,7 +416,7 @@ def main(argv=None) -> int:
             f"qwen_extraction_shadow run --subset {args.subset}"
         ),
     }
-    path = write_artifacts(data, meta)
+    path = write_artifacts(data, meta, args.subset)
     s = data["summary"]
     print(f"wrote {path}")
     print(json.dumps(s, indent=1))

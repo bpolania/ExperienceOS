@@ -21,6 +21,7 @@ from experiments.qwen_extraction import (
     _normalize_candidate_offsets,
 )
 from experiments.qwen_extraction_shadow import (
+    _combined_metrics,
     aggregate,
     agree,
     evaluate_message,
@@ -150,6 +151,26 @@ def test_agreement_definition_is_deterministic() -> None:
     a = run_comparison(provider, [rec])["summary"]["agreement_pct"]
     b = run_comparison(provider, [rec])["summary"]["agreement_pct"]
     assert a == b
+
+
+def test_combined_metrics_equal_sum_of_per_corpus_records() -> None:
+    provider = _StubProvider({DURABLE: _candidate_for(DURABLE), "weather": _NONE})
+    life = run_comparison(provider, [
+        _record("l1", DURABLE, True), _record("l2", "the weather", False),
+    ])
+    ext = run_comparison(provider, [
+        _record("e1", DURABLE, True), _record("e2", "the weather", False),
+    ])
+    combined = _combined_metrics(life["cases"] + ext["cases"])
+    assert combined["total_scorable"] == 4
+    # Combined true positives == sum of per-corpus true positives.
+    life_tp = life["summary"]["qwen_true_positives"]
+    ext_tp = ext["summary"]["qwen_true_positives"]
+    assert combined["qwen_true_positives"] == life_tp + ext_tp
+    assert combined["expected_candidates"] == (
+        life["summary"]["expected_candidates"]
+        + ext["summary"]["expected_candidates"]
+    )
 
 
 # --- state safety -----------------------------------------------------------

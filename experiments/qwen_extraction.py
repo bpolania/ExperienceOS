@@ -48,7 +48,13 @@ QWEN_EXTRACTION_CONTROLLER_ID = "grounded_qwen_shadow-1"
 # boundary): recompute offsets from the model's own evidence_text when it
 # is a genuine substring of the message — no evidence search, no repair
 # of content the model did not supply.
-QWEN_EXTRACTION_VERSION = "2"
+# v3: the second live run showed the model paraphrased first-person
+# statements into third person ("The user is based in ..."), which the
+# unchanged grounding validator could not confirm was supported by the
+# first-person evidence (indeterminate_support). Fix: instruct the model
+# to keep normalized_text first-person and close to the source wording.
+# The validator is not changed.
+QWEN_EXTRACTION_VERSION = "3"
 
 #: One bounded inference; no chains of thought, no retries.
 DEFAULT_TIMEOUT_MS = 8000
@@ -73,10 +79,20 @@ _SYSTEM_INSTRUCTION = (
     "- If nothing durable is present, return action \"none\" with every "
     "other field null and a short reason.\n"
     "- If one durable memory is present, return action \"candidate\" with: "
-    "kind; normalized_text (a concise canonical statement); evidence_text "
-    "(the VERBATIM substring of the user message that grounds it); "
-    "start_offset and end_offset (character offsets of evidence_text within "
-    "the user message); confidence in [0,1]; a short reason.\n"
+    "kind; normalized_text; evidence_text (the VERBATIM substring of the "
+    "user message that grounds it); start_offset and end_offset (character "
+    "offsets of evidence_text within the user message); confidence in "
+    "[0,1]; a short reason.\n"
+    "- normalized_text must keep the user's own wording and first-person "
+    "perspective. Do NOT rewrite \"I ...\" as \"The user ...\". Do NOT add "
+    "any subject, name, location, identity, motivation, or context the "
+    "message does not state. Only drop conversational filler (greetings, "
+    "\"actually\", \"now\", \"quick note\") when the remaining clause is "
+    "still directly supported by the evidence. Prefer a short "
+    "source-grounded clause over an abstract paraphrase.\n"
+    "  Example: \"I work from the Denver office.\" -> normalized_text \"I "
+    "work from the Denver office.\" (NOT \"The user is based in the Denver "
+    "office.\").\n"
     "- Never invent evidence: evidence_text must appear exactly in the "
     "message. Never emit more than one candidate.\n"
 )
