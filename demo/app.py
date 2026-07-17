@@ -113,6 +113,14 @@ from demo.transition_diagnostics import (
     status_summary,
     system_rows,
     transition_trace,
+    replacement_available,
+    replacement_summary,
+    replacement_gate_rows,
+    replacement_gate_detail,
+    replacement_conditions,
+    pure_create_residual_rows,
+    replacement_systems,
+    historical_replacement_example,
 )
 from demo.extraction_diagnostics import (
     MODE_CHOICES,
@@ -1207,4 +1215,211 @@ else:
         "`benchmarks/results/committed/transition-verification`, "
         "`transition-ablation`, and `report-transition-verification`. The "
         "dashboard reads these; it does not recompute them."
+    )
+
+
+# --- Action replacement (read-only evidence) ----------------------------------
+
+st.subheader("Action replacement")
+st.caption(
+    "Governed replacement suppresses the uniquely matched conflicting planner "
+    "create and inserts the verified transition sequence in its place — under "
+    "exact authorization, through the same manager admission and the single "
+    "engine mutation boundary. Everything below is read from committed "
+    "evidence; the dashboard applies no replacement."
+)
+
+if not replacement_available():
+    st.info(
+        "Committed action-replacement evidence is unavailable. No metrics are "
+        "shown and none are inferred."
+    )
+else:
+    _repl = replacement_summary()
+
+    # Classification, prominent and unflattering.
+    st.markdown(f"**Classification: `{_repl['classification']}`**")
+    st.caption(
+        f"Runtime default: **{_repl['runtime_default']}** · canonical "
+        f"controller: **{_repl['canonical_controller']}** · adopted "
+        "infrastructure is benchmark/test-only, never canonical runtime."
+    )
+    st.markdown(
+        "The implementation succeeded for the supersede-bearing class, but the "
+        "frozen overall duplicate gate (Gate 1) still failed because "
+        f"**{_repl['pure_create_residual']} pure-create duplicates remain**. "
+        "ExperienceOS therefore refused canonical adoption."
+    )
+
+    # Benchmark comparison: 0 -> 10 -> 4, supersede-bearing 6 -> 0.
+    with st.expander("Benchmark evidence: append vs governed replacement", expanded=True):
+        st.dataframe(
+            [
+                {"Metric": "Semantic duplicate pairs (overall)",
+                 "Reference": _repl["reference_duplicates"],
+                 "Append (defect)": _repl["append_duplicates"],
+                 "Governed replacement": _repl["replacement_duplicates"]},
+                {"Metric": "Supersede-bearing duplicate pairs",
+                 "Reference": 0,
+                 "Append (defect)": _repl["supersede_bearing_append"],
+                 "Governed replacement": _repl["supersede_bearing_replacement"]},
+                {"Metric": "Pure-create residual (out of scope)",
+                 "Reference": 0,
+                 "Append (defect)": _repl["pure_create_residual"],
+                 "Governed replacement": _repl["pure_create_residual"]},
+                {"Metric": "Stale active pairs",
+                 "Reference": _repl["stale_reference"],
+                 "Append (defect)": _repl["stale_replacement"],
+                 "Governed replacement": _repl["stale_replacement"]},
+            ],
+            width="stretch", hide_index=True,
+        )
+        st.caption(
+            f"Replacements applied: {_repl['replacements_applied']} · lineage "
+            f"correct {_repl['lineage_correct']}/"
+            f"{_repl['lineage_correct'] + _repl['lineage_broken']} · scoped and "
+            f"unrelated memories lost: {_repl['seeded_memories_lost']} · every "
+            "applied replacement reported ACTION_REPLACED, suppressed exactly "
+            "the conflicting planner create, and inserted the transition create "
+            "exactly once."
+        )
+
+    # A genuine historical before/after.
+    _ex = historical_replacement_example()
+    if _ex.get("available"):
+        with st.expander("Historical case: append failure vs governed replacement"):
+            st.markdown(
+                "**Old append path (historical benchmark behavior):** planner "
+                "creates the new value, the transition supersedes the old and "
+                "creates the new value, both persist — duplicate pairs "
+                f"**{_ex['append_duplicate_pairs']}**."
+            )
+            st.markdown(
+                "**Governed replacement path:** the planner create is matched "
+                "and suppressed, the transition supersede + create are inserted "
+                "once, the old value is superseded, lineage is "
+                f"{'intact' if _ex['lineage_ok'] else 'broken'} — duplicate "
+                f"pairs **{_ex['replacement_duplicate_pairs']}** "
+                f"(effect: {_ex['canonical_effect']})."
+            )
+            st.caption(
+                "The old path is historical benchmark behavior, shown from "
+                "committed evidence; it is not executed to render this example."
+            )
+
+    # The frozen twenty-gate table, replacement-enabled.
+    with st.expander("Adoption gates (all twenty, replacement-enabled)"):
+        st.dataframe(
+            [
+                {"Gate": g["gate"], "Name": g["name"],
+                 "Blocking": "yes" if g["blocking"] else "no",
+                 "Committed": g["committed_decision"],
+                 "Replacement": g["replacement_decision"]}
+                for g in replacement_gate_rows()
+            ],
+            width="stretch", hide_index=True,
+        )
+        _tally = _repl["tally"]
+        st.caption(
+            f"Tally: {_tally['passed']} pass / {_tally['failed']} fail / "
+            f"{_tally['inconclusive']} inconclusive. Blocking gates "
+            f"{_repl['blocking_gate_numbers']}: all pass = "
+            f"{_repl['blocking_all_pass']}."
+        )
+        _detail = replacement_gate_detail()
+        if _detail.get("available"):
+            _g1 = _detail["gate1"]
+            st.warning(
+                f"Gate 1 — **{_g1.get('replacement_decision', '').upper()}**: "
+                f"replacement leaves {_g1.get('replacement')} duplicate pair(s) "
+                f"vs reference {_g1.get('reference')} (threshold: "
+                f"{_g1.get('threshold')}). The supersede-bearing class is "
+                "eliminated (6 → 0) and shown as supplementary evidence, but "
+                "the overall gate remains failed."
+            )
+            st.info(
+                "Gate 6 — **INCONCLUSIVE** (non-blocking): both reference and "
+                "adopted create 0 forget-directive memories, so no reduction "
+                "can be demonstrated; not rounded up to pass."
+            )
+
+    # Supplementary acceptance conditions, kept separate from the gates.
+    _conditions = replacement_conditions()
+    if _conditions:
+        _passed = sum(1 for v in _conditions.values() if v == "pass")
+        with st.expander(
+            f"Additional replacement conditions ({_passed}/{len(_conditions)} PASS)"
+        ):
+            st.caption(
+                "Supplementary action-replacement acceptance conditions; not "
+                "part of the frozen twenty-gate framework."
+            )
+            st.dataframe(
+                [
+                    {"Condition": k.replace("_", " "), "Result": v.upper()}
+                    for k, v in _conditions.items()
+                ],
+                width="stretch", hide_index=True,
+            )
+
+    # The pure-create residual, shown honestly.
+    _residuals = pure_create_residual_rows()
+    if _residuals:
+        with st.expander(f"Pure-create residual duplicates ({len(_residuals)})"):
+            st.caption(
+                "Pure-create redundant duplicates: no supersede-bearing "
+                "transition exists, so replacement does not apply. Canonical "
+                "action replacement is not generic create deduplication, and "
+                "this phase intentionally did not solve them."
+            )
+            st.dataframe(
+                [
+                    {"Case": r["case_id"].split(":")[-2],
+                     "Append duplicates": r["append_duplicate_pairs"],
+                     "Replacement duplicates": r["replacement_duplicate_pairs"],
+                     "Why unresolved": r["reason"]}
+                    for r in _residuals
+                ],
+                width="stretch", hide_index=True,
+            )
+
+    # The authority chain and the live replacement record.
+    with st.expander("Governance: authority chain and live replacement record"):
+        st.markdown(
+            "controller proposes → verifier verifies → matcher matches → plan "
+            "builder projects → authorization permits → manager admits → "
+            "**engine applies (sole durable mutation boundary)**. The matcher, "
+            "plan builder, and authorization mutate nothing; a failed "
+            "replacement falls back to the canonical planner list — never "
+            "append-both, never a partial replacement."
+        )
+        _live = transition_trace(st.session_state.agent.events, limit=1)
+        _record = _live[-1].get("replacement") if _live else None
+        if not _record or not _record.get("available"):
+            st.caption(
+                "No live replacement record yet (older events and disabled "
+                "mode carry none). This renders as unavailable, never a crash."
+            )
+        else:
+            st.json({
+                "attempted": _record["attempted"],
+                "applied": _record["applied"],
+                "matcher_decision": _record["matcher_decision"],
+                "plan_status": _record["plan_status"],
+                "canonical_effect": _record["canonical_effect"],
+                "authorization_status": _record["authorization_status"],
+                "authorization_mismatched_fields": _record[
+                    "authorization_mismatched_fields"
+                ],
+                "fallback_used": _record["fallback_used"],
+                "fallback_reason": _record["fallback_reason"],
+                "suppressed_occurrence_index": _record["suppressed_occurrence_index"],
+                "plan_digest": _record["plan_digest"],
+            })
+
+    st.caption(
+        "Committed evidence: `docs/action_replacement_adoption_report.md` · "
+        "artifacts under `benchmarks/results/committed/action-replacement`, "
+        "`action-replacement-adoption`, and their reports. The dashboard reads "
+        "these; it does not recompute or apply them."
     )

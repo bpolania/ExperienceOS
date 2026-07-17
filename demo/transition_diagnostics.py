@@ -39,6 +39,13 @@ ABLATION_DIR = REPO_ROOT / "benchmarks/results/committed/transition-ablation"
 REPORT_DIR = REPO_ROOT / "benchmarks/results/committed/report-transition-verification"
 REPORT_DOC = "docs/transition_verification_report.md"
 
+# Action-replacement evidence families (applied-state verification and
+# the adoption gate re-evaluation). Read-only, like every artifact here.
+REPLACEMENT_DIR = REPO_ROOT / "benchmarks/results/committed/action-replacement"
+REPLACEMENT_ADOPTION_DIR = (
+    REPO_ROOT / "benchmarks/results/committed/action-replacement-adoption"
+)
+
 _MAX_TEXT = 240
 _MAX_CANDIDATES = 6
 _UNAVAILABLE = "Unavailable"
@@ -196,6 +203,7 @@ def reload_artifacts() -> None:
     """Drop cached artifact reads so the next call re-reads from disk."""
     _report_bundle.cache_clear()
     _cases.cache_clear()
+    _replacement_bundle.cache_clear()
 
 
 def benchmark_available() -> bool:
@@ -619,6 +627,8 @@ def normalize_transition_event(payload) -> dict:
                 for d in (payload.get("diagnostics") or [])
                 if isinstance(d, dict)
             ],
+            # Additive; absent on older events, then rendered unavailable.
+            "replacement": replacement_record(payload.get("replacement")),
         }
     except (AttributeError, TypeError, ValueError) as exc:
         return {"malformed": True, "reason": type(exc).__name__}
@@ -863,3 +873,255 @@ def lineage_rows(cards) -> list:
                 }
             )
     return rows
+
+
+# --- Action-replacement evidence (read-only) ---------------------------------
+
+# Non-canonical plan-effect labels, distinct from the canonical effects.
+PLAN_EFFECT_LABELS = {
+    "action_none": "No replacement",
+    "action_replacement_candidate": "Replacement candidate (projected, not applied)",
+    "action_replacement_shadow": "Replacement shadow (observed, not applied)",
+    "action_replacement_rejected": "Replacement rejected (planner fallback)",
+    "action_replaced": "Canonical action replaced (applied)",
+}
+
+# The four measured pure-create residual cases (not solved by replacement).
+PURE_CREATE_RESIDUAL_IDS = (
+    "creation_001",
+    "creation_002",
+    "creation_003",
+    "updates_006",
+)
+
+
+@lru_cache(maxsize=1)
+def _replacement_bundle() -> dict | None:
+    """Every committed action-replacement artifact, or None when absent.
+
+    Read-only and cached for the process, exactly like the transition
+    report bundle. Nothing here recomputes a metric or a gate decision.
+    """
+    summary = _load(REPLACEMENT_DIR / "summary.json")
+    results = _load(REPLACEMENT_DIR / "results.json")
+    classification = _load(REPLACEMENT_ADOPTION_DIR / "classification.json")
+    gate_evaluation = _load(REPLACEMENT_ADOPTION_DIR / "gate_evaluation.json")
+    systems = _load(REPLACEMENT_ADOPTION_DIR / "systems.json")
+    if not all((summary, results, classification, gate_evaluation)):
+        return None
+    return {
+        "summary": summary,
+        "cases": (results or {}).get("cases", []),
+        "classification": classification,
+        "gate_evaluation": gate_evaluation,
+        "systems": (systems or {}).get("systems", []),
+    }
+
+
+def replacement_available() -> bool:
+    return _replacement_bundle() is not None
+
+
+def replacement_summary() -> dict:
+    """Judge-facing headline for the replacement evidence, or unavailable."""
+    bundle = _replacement_bundle()
+    if bundle is None:
+        return {"available": False}
+    summary = bundle["summary"]
+    classification = bundle["classification"]
+    metrics = classification.get("duplicate_metrics", {})
+    stale = classification.get("stale_pairs", {})
+    blocking = bundle["gate_evaluation"].get("blocking_gates", {})
+    tally = bundle["gate_evaluation"].get("tally", {})
+    conditions = bundle["gate_evaluation"].get("additional_conditions", {})
+    conditions_pass = sum(1 for v in conditions.values() if v == "pass")
+    return {
+        "available": True,
+        "classification": classification.get("classification"),
+        "runtime_default": classification.get("runtime_default"),
+        "canonical_controller": classification.get("canonical_controller"),
+        "reference_duplicates": metrics.get("reference"),
+        "append_duplicates": metrics.get("append"),
+        "replacement_duplicates": metrics.get("replacement"),
+        "supersede_bearing_append": metrics.get("supersede_bearing_append"),
+        "supersede_bearing_replacement": metrics.get("supersede_bearing_replacement"),
+        "pure_create_residual": metrics.get("pure_create_residual"),
+        "stale_reference": stale.get("reference"),
+        "stale_replacement": stale.get("replacement"),
+        "replacements_applied": summary.get("replacements_applied"),
+        "lineage_correct": summary.get("applied_lineage_correct"),
+        "lineage_broken": summary.get("applied_lineage_broken"),
+        "seeded_memories_lost": summary.get("applied_seeded_memories_lost"),
+        "tally": {
+            "passed": tally.get("passed"),
+            "failed": tally.get("failed"),
+            "inconclusive": tally.get("inconclusive"),
+        },
+        "blocking_gate_numbers": list(blocking.get("numbers") or []),
+        "blocking_all_pass": bool(blocking.get("all_pass")),
+        "conditions_pass": conditions_pass,
+        "conditions_total": len(conditions),
+    }
+
+
+def replacement_gate_rows() -> list:
+    """All twenty frozen gates with their replacement-enabled decision.
+
+    Numbering, names, and blocking flags come straight from the committed
+    adoption evaluation; nothing is reordered or relabeled.
+    """
+    bundle = _replacement_bundle()
+    if bundle is None:
+        return []
+    rows = []
+    for g in bundle["gate_evaluation"].get("gates", []):
+        rows.append({
+            "gate": g.get("gate"),
+            "name": g.get("name"),
+            "blocking": bool(g.get("blocking")),
+            "committed_decision": g.get("committed_decision"),
+            "replacement_decision": g.get("replacement_decision"),
+        })
+    return rows
+
+
+def replacement_gate_detail() -> dict:
+    """Gate 1 and Gate 6 detail, read from the committed adoption report."""
+    bundle = _replacement_bundle()
+    if bundle is None:
+        return {"available": False}
+    ge = bundle["gate_evaluation"]
+    return {
+        "available": True,
+        "gate1": ge.get("gate1", {}),
+        "gate6": ge.get("gate6", {}),
+    }
+
+
+def replacement_conditions() -> dict:
+    """The supplementary action-replacement acceptance conditions."""
+    bundle = _replacement_bundle()
+    if bundle is None:
+        return {}
+    return dict(bundle["gate_evaluation"].get("additional_conditions", {}))
+
+
+def pure_create_residual_rows() -> list:
+    """The four residual pure-create cases, read from committed evidence."""
+    bundle = _replacement_bundle()
+    if bundle is None:
+        return []
+    rows = []
+    for case in bundle["cases"]:
+        if case.get("transition_class") != "pure_create":
+            continue
+        if case.get("replacement_duplicate_pairs", 0) <= 0:
+            continue
+        rows.append({
+            "case_id": case.get("case_id"),
+            "transition_class": case.get("transition_class"),
+            "append_duplicate_pairs": case.get("append_duplicate_pairs"),
+            "replacement_duplicate_pairs": case.get("replacement_duplicate_pairs"),
+            "reason": (
+                "no supersede-bearing transition exists; planner and "
+                "transition each create the same new memory, so replacement "
+                "does not apply"
+            ),
+        })
+    return rows
+
+
+def replacement_systems() -> list:
+    """Benchmark systems and modes, read-only, with infrastructure labels."""
+    bundle = _replacement_bundle()
+    if bundle is None:
+        return []
+    return [
+        {
+            "system_id": s.get("system_id"),
+            "mode": s.get("mode"),
+            "applied_duplicate_pairs": s.get("applied_duplicate_pairs"),
+            "note": _bounded(s.get("note", ""), 200),
+        }
+        for s in bundle["systems"]
+    ]
+
+
+def historical_replacement_example(case_id: str = None) -> dict:
+    """One genuine before/after case (default `updates_001`), read-only.
+
+    Sourced from the committed verification results; nothing is executed
+    to render it.
+    """
+    bundle = _replacement_bundle()
+    if bundle is None:
+        return {"available": False}
+    needle = case_id or "updates_001"
+    case = next(
+        (c for c in bundle["cases"] if needle in (c.get("case_id") or "")), None
+    )
+    if case is None:
+        return {"available": False}
+    return {
+        "available": True,
+        "case_id": case.get("case_id"),
+        "transition_class": case.get("transition_class"),
+        "append_duplicate_pairs": case.get("append_duplicate_pairs"),
+        "replacement_duplicate_pairs": case.get("replacement_duplicate_pairs"),
+        "canonical_effect": case.get("canonical_effect"),
+        "planner_suppressed": bool(case.get("planner_suppressed")),
+        "transition_create_count": case.get("transition_create_count"),
+        "lineage_ok": bool(case.get("lineage_ok")),
+        "superseded_count": case.get("superseded_count"),
+    }
+
+
+def replacement_record(payload) -> dict:
+    """Bounded, defensive view of one runtime replacement sub-record.
+
+    Older events carry no replacement data; those render as unavailable,
+    never a crash. No token, digest secret, or path is exposed — only the
+    bounded governance fields the engine already publishes.
+    """
+    if not isinstance(payload, dict):
+        return {"available": False}
+    authorization = payload.get("authorization_status")
+    mismatched = []
+    auth_status = None
+    if isinstance(authorization, dict):
+        auth_status = (
+            "accepted" if authorization.get("authorized") else "rejected"
+        )
+        mismatched = list(authorization.get("mismatched_fields") or [])
+    elif isinstance(authorization, str):
+        auth_status = authorization
+    try:
+        return {
+            "available": True,
+            "attempted": bool(payload.get("attempted")),
+            "applied": bool(payload.get("applied")),
+            "matcher_decision": payload.get("matcher_decision"),
+            "plan_status": payload.get("plan_status"),
+            "canonical_effect": payload.get("canonical_effect"),
+            "plan_digest": _short_digest(payload.get("plan_digest")),
+            "original_action_list_digest": _short_digest(
+                payload.get("original_action_list_digest")
+            ),
+            "projected_action_list_digest": _short_digest(
+                payload.get("projected_action_list_digest")
+            ),
+            "suppressed_occurrence_index": payload.get("suppressed_occurrence_index"),
+            "final_action_count": payload.get("final_action_count"),
+            "authorization_status": auth_status,
+            "authorization_mismatched_fields": mismatched,
+            "fallback_used": bool(payload.get("fallback_used")),
+            "fallback_reason": payload.get("fallback_reason"),
+        }
+    except (AttributeError, TypeError, ValueError):
+        return {"available": False}
+
+
+def _short_digest(value) -> str | None:
+    if not isinstance(value, str) or not value:
+        return None
+    return value[:12] + "…" if len(value) > 12 else value
