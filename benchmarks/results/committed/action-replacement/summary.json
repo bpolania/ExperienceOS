@@ -1,0 +1,23 @@
+{
+  "append_duplicate_pairs_total": 10,
+  "applied_lineage_broken": 0,
+  "applied_lineage_correct": 6,
+  "applied_seeded_memories_lost": 0,
+  "applied_transition_create_present_once": 6,
+  "canonical_effects": [
+    "action_replaced",
+    "authorization_denied"
+  ],
+  "case_count": 28,
+  "duplicate_reduction": 6,
+  "no_transition": 15,
+  "planner_creates_suppressed": 6,
+  "pure_create": 6,
+  "pure_create_residual_duplicates": 4,
+  "replacement_duplicate_pairs_total": 4,
+  "replacements_applied": 6,
+  "supersede_bearing": 7,
+  "supersede_bearing_append_duplicates": 6,
+  "supersede_bearing_replacement_duplicates": 0
+}
+

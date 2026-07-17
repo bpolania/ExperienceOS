@@ -1,0 +1,16 @@
+{
+  "benchmark_version": "1",
+  "code_commit": "588ef47fc512f1b648cb738d34a95fc59f282767",
+  "content_digest": "3955646a57edb2843a4bec28d552b2854849a9908bc400e79790457f9eb044d1",
+  "contract_commit": "740ff40df70c37f3e12f912550a04f3ce60d827e",
+  "corpus_commit": "dba85ec8ff88d792c7e15da0b4720d77b895b774",
+  "environment": "offline; mock provider; no model, credentials, or network",
+  "file_digests": {
+    "results.json": "e91c228a43545b0e91c1816985ab53325bb875bcf7574cab40b109620adf3685",
+    "summary.json": "693f47be70787c1c906894d64da2829e63034d1bf634f8cb7590a144c27097a4"
+  },
+  "regeneration_command": "./scripts/run_benchmarks.sh run-action-replacement",
+  "schema_version": "1",
+  "verification_command": "./scripts/run_benchmarks.sh validate-action-replacement"
+}
+

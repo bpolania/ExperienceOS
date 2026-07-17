@@ -102,10 +102,16 @@ def test_contract_states_the_artifact_blocking_gate_count() -> None:
     assert f"{len(blocking)} blocking" in _prose()
 
 
-def test_reserved_output_directories_are_not_yet_populated() -> None:
-    for name in RESERVED_DIRS:
+def test_reserved_output_directories_follow_the_artifact_policy() -> None:
+    # The verification step populates the action-replacement families with
+    # digest-locked artifacts; the deduplicated-transition family remains
+    # reserved and unpopulated. A populated family must carry a manifest.
+    populated = ("action-replacement", "report-action-replacement")
+    for name in populated:
         d = COMMITTED / name
-        assert not d.exists(), f"{name} was populated prematurely"
+        if d.exists():
+            assert (d / "manifest.json").is_file(), f"{name} lacks a manifest"
+    assert not (COMMITTED / "deduplicated-transition").exists()
 
 
 def test_contract_locates_the_engine_seam() -> None:

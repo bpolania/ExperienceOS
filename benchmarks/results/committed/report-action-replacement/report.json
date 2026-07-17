@@ -1,0 +1,117 @@
+{
+  "comparison": [
+    {
+      "append_duplicate_pairs": 1,
+      "canonical_effect": null,
+      "case_id": "transition:lifecycle:creation_001_explicit_scoped_preference:create_new",
+      "lineage_ok": true,
+      "planner_suppressed": false,
+      "replacement_duplicate_pairs": 1,
+      "transition_class": "pure_create"
+    },
+    {
+      "append_duplicate_pairs": 1,
+      "canonical_effect": null,
+      "case_id": "transition:lifecycle:creation_002_durable_user_fact:create_new",
+      "lineage_ok": true,
+      "planner_suppressed": false,
+      "replacement_duplicate_pairs": 1,
+      "transition_class": "pure_create"
+    },
+    {
+      "append_duplicate_pairs": 1,
+      "canonical_effect": null,
+      "case_id": "transition:lifecycle:creation_003_durable_instruction:create_new",
+      "lineage_ok": true,
+      "planner_suppressed": false,
+      "replacement_duplicate_pairs": 1,
+      "transition_class": "pure_create"
+    },
+    {
+      "append_duplicate_pairs": 1,
+      "canonical_effect": "action_replaced",
+      "case_id": "transition:lifecycle:updates_001_preference_replacement_cross_session:supersede_existing",
+      "lineage_ok": true,
+      "planner_suppressed": true,
+      "replacement_duplicate_pairs": 0,
+      "transition_class": "supersede_bearing"
+    },
+    {
+      "append_duplicate_pairs": 1,
+      "canonical_effect": "action_replaced",
+      "case_id": "transition:lifecycle:updates_002_fact_correction:supersede_existing",
+      "lineage_ok": true,
+      "planner_suppressed": true,
+      "replacement_duplicate_pairs": 0,
+      "transition_class": "supersede_bearing"
+    },
+    {
+      "append_duplicate_pairs": 1,
+      "canonical_effect": "action_replaced",
+      "case_id": "transition:lifecycle:updates_003_instruction_replacement:supersede_existing",
+      "lineage_ok": true,
+      "planner_suppressed": true,
+      "replacement_duplicate_pairs": 0,
+      "transition_class": "supersede_bearing"
+    },
+    {
+      "append_duplicate_pairs": 1,
+      "canonical_effect": "action_replaced",
+      "case_id": "transition:lifecycle:updates_004_now_prefer_wording:supersede_existing",
+      "lineage_ok": true,
+      "planner_suppressed": true,
+      "replacement_duplicate_pairs": 0,
+      "transition_class": "supersede_bearing"
+    },
+    {
+      "append_duplicate_pairs": 1,
+      "canonical_effect": "action_replaced",
+      "case_id": "transition:lifecycle:updates_005_instead_of_wording:supersede_existing",
+      "lineage_ok": true,
+      "planner_suppressed": true,
+      "replacement_duplicate_pairs": 0,
+      "transition_class": "supersede_bearing"
+    },
+    {
+      "append_duplicate_pairs": 1,
+      "canonical_effect": null,
+      "case_id": "transition:lifecycle:updates_006_scoped_preferences_coexist:scoped_coexistence",
+      "lineage_ok": true,
+      "planner_suppressed": false,
+      "replacement_duplicate_pairs": 1,
+      "transition_class": "pure_create"
+    },
+    {
+      "append_duplicate_pairs": 1,
+      "canonical_effect": "action_replaced",
+      "case_id": "transition:lifecycle:updates_007_correction_with_distractors:supersede_existing",
+      "lineage_ok": true,
+      "planner_suppressed": true,
+      "replacement_duplicate_pairs": 0,
+      "transition_class": "supersede_bearing"
+    }
+  ],
+  "headline": {
+    "append_duplicate_pairs_total": 10,
+    "applied_lineage_broken": 0,
+    "applied_lineage_correct": 6,
+    "applied_seeded_memories_lost": 0,
+    "applied_transition_create_present_once": 6,
+    "canonical_effects": [
+      "action_replaced",
+      "authorization_denied"
+    ],
+    "case_count": 28,
+    "duplicate_reduction": 6,
+    "no_transition": 15,
+    "planner_creates_suppressed": 6,
+    "pure_create": 6,
+    "pure_create_residual_duplicates": 4,
+    "replacement_duplicate_pairs_total": 4,
+    "replacements_applied": 6,
+    "supersede_bearing": 7,
+    "supersede_bearing_append_duplicates": 6,
+    "supersede_bearing_replacement_duplicates": 0
+  }
+}
+
