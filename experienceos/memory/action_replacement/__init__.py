@@ -76,6 +76,15 @@ from experienceos.memory.action_replacement.plan import (
     ReplacementPlanBuilder,
     ReplacementPlanDiagnostic,
 )
+from experienceos.memory.action_replacement.authorization import (
+    REPLACEMENT_AUTHORIZATION_VERSION,
+    ReplacementAuthorization,
+    ReplacementAuthorizationDecision,
+    authorization_from_binding,
+    authorization_from_plan,
+    authorize_replacement,
+)
+from experienceos.memory.action_replacement.integration import build_replacement
 
 __all__ = [
     "ACTION_IDENTITY_VERSION",
@@ -141,4 +150,12 @@ __all__ = [
     "EFFECT_REJECTED",
     "CONTEXT_CANDIDATE",
     "CONTEXT_SHADOW",
+    # authorization
+    "ReplacementAuthorization",
+    "ReplacementAuthorizationDecision",
+    "authorization_from_binding",
+    "authorization_from_plan",
+    "authorize_replacement",
+    "REPLACEMENT_AUTHORIZATION_VERSION",
+    "build_replacement",
 ]

@@ -165,6 +165,11 @@ class ExperienceEngine:
                 rejected_actions.append((action, reason))
             else:
                 valid_actions.append(action)
+        # Structural planner origin (seam audit): the admitted planner
+        # actions, captured before any extraction or transition append,
+        # are the only replacement candidates. Provenance is kept by this
+        # snapshot, never inferred from the mixed list later.
+        admitted_planner_actions = tuple(valid_actions)
 
         # Grounded-extraction integration: runs after the canonical
         # plan is validated and before the sole mutation boundary. In
@@ -194,7 +199,7 @@ class ExperienceEngine:
         ):
             transition_event = self._evaluate_transition(
                 user_id, session_id, message, memories, active_ids,
-                retired_ids, valid_actions,
+                retired_ids, valid_actions, admitted_planner_actions,
             )
 
         planned = []
@@ -379,15 +384,18 @@ class ExperienceEngine:
 
     def _evaluate_transition(
         self, user_id, session_id, message, memories, active_ids,
-        retired_ids, valid_actions,
+        retired_ids, valid_actions, planner_actions,
     ) -> dict:
         """Run the transition coordinator and interpret its decision.
 
         Disabled never reaches here. Shadow, candidate, and verify-only
-        never touch ``valid_actions``. Only an authorized adopted action
-        is appended — to the same list applied by the sole mutation
-        boundary, after the same admission check every controller-derived
-        action already faces. Returns the integration event payload.
+        never touch ``valid_actions`` (they may compute a non-mutating
+        replacement projection for diagnostics). In adopted mode, when a
+        matching replacement authorization is present, the uniquely
+        matched planner create is suppressed and the transition sequence
+        replaces it (governed action replacement); otherwise the existing
+        append path runs unchanged. Every mutation still goes through the
+        same admission check and the sole application boundary.
         """
         from experienceos.memory.transition_integration import (
             CanonicalActionEffect,
@@ -419,44 +427,279 @@ class ExperienceEngine:
         )
         result = self.transition_coordinator.evaluate(request)
         payload = result.to_record()
+        payload["action_applied"] = False
+        payload["replacement"] = {"attempted": False}
 
-        # Only adopted mode can reach the canonical list, and only with
-        # an authorization bound to this exact verified proposal.
-        if (
+        is_adopted_add = (
             result.effective_mode == TransitionIntegrationMode.ADOPTED
             and result.canonical_action_effect == CanonicalActionEffect.ACTION_ADDED
-            and result.generated_actions
+            and bool(result.generated_actions)
+        )
+
+        # Shadow / candidate: a non-mutating replacement projection, for
+        # diagnostics only. Never touches valid_actions.
+        if result.effective_mode in (
+            TransitionIntegrationMode.SHADOW,
+            TransitionIntegrationMode.CANDIDATE,
         ):
-            rejections = []
-            for action in result.generated_actions:
-                reason = self._extraction_reject_reason(
-                    action, memories, active_ids, retired_ids, valid_actions
-                )
-                if reason is not None:
-                    rejections.append(reason)
-            if rejections:
-                payload["canonical_action_effect"] = (
-                    CanonicalActionEffect.LIFECYCLE_REJECTED
-                )
-                payload["canonical_effect_status"] = (
-                    CanonicalEffectStatus.AUTHORIZED_NOT_APPLIED
-                )
-                payload["lifecycle_rejection_reason"] = rejections[0]
-                payload["manager_admitted"] = False
-                payload["action_applied"] = False
-            else:
-                # Supersession is two linked actions; both enter the same
-                # canonical list together or neither does.
-                for action in result.generated_actions:
-                    valid_actions.append(action)
-                payload["canonical_action_effect"] = CanonicalActionEffect.APPLIED
-                payload["canonical_effect_status"] = CanonicalEffectStatus.APPLIED
-                payload["lifecycle_rejection_reason"] = None
-                payload["manager_admitted"] = True
-                payload["action_applied"] = True
-        else:
-            payload["action_applied"] = False
+            payload["replacement"] = self._replacement_projection(
+                planner_actions, result, request, message,
+            )
+            return payload
+
+        if not is_adopted_add:
+            return payload
+
+        repl_auths = getattr(
+            getattr(self.transition_coordinator, "config", None),
+            "replacement_authorizations",
+            (),
+        )
+        sequence = tuple(result.generated_actions)
+        supersede_bearing = any(
+            a.action == SUPERSEDE for a in sequence
+        ) and any(a.action == CREATE for a in sequence)
+
+        # Governed replacement is attempted only when a replacement
+        # authorization exists and the transition is supersede-bearing.
+        if repl_auths and supersede_bearing:
+            handled = self._governed_replacement(
+                planner_actions, valid_actions, sequence, result, request,
+                message, memories, active_ids, retired_ids, repl_auths, payload,
+            )
+            if handled:
+                return payload
+            # Not a replacement scenario (matcher said none needed) — fall
+            # through to the existing append path.
+
+        self._transition_append(
+            sequence, valid_actions, memories, active_ids, retired_ids, payload,
+        )
         return payload
+
+    def _transition_append(
+        self, sequence, valid_actions, memories, active_ids, retired_ids, payload,
+    ) -> None:
+        """The existing add-not-replace behavior, factored unchanged.
+
+        The linked supersede + create enter the canonical list together or
+        neither does, after the same admission check every controller
+        action already faces.
+        """
+        from experienceos.memory.transition_integration import (
+            CanonicalActionEffect,
+            CanonicalEffectStatus,
+        )
+
+        rejections = []
+        for action in sequence:
+            reason = self._extraction_reject_reason(
+                action, memories, active_ids, retired_ids, valid_actions
+            )
+            if reason is not None:
+                rejections.append(reason)
+        if rejections:
+            payload["canonical_action_effect"] = (
+                CanonicalActionEffect.LIFECYCLE_REJECTED
+            )
+            payload["canonical_effect_status"] = (
+                CanonicalEffectStatus.AUTHORIZED_NOT_APPLIED
+            )
+            payload["lifecycle_rejection_reason"] = rejections[0]
+            payload["manager_admitted"] = False
+            payload["action_applied"] = False
+        else:
+            for action in sequence:
+                valid_actions.append(action)
+            payload["canonical_action_effect"] = CanonicalActionEffect.APPLIED
+            payload["canonical_effect_status"] = CanonicalEffectStatus.APPLIED
+            payload["lifecycle_rejection_reason"] = None
+            payload["manager_admitted"] = True
+            payload["action_applied"] = True
+
+    def _replacement_projection(
+        self, planner_actions, result, request, message,
+    ) -> dict:
+        """Non-mutating replacement projection for shadow/candidate.
+
+        Uses the pure translation to obtain the sequence a supersession
+        would need, then the pure matcher and plan builder. Nothing is
+        applied and valid_actions is never touched.
+        """
+        from experienceos.memory.action_replacement import (
+            CONTEXT_CANDIDATE, CONTEXT_SHADOW, build_replacement,
+        )
+        from experienceos.memory.transition_integration import (
+            TransitionIntegrationMode, translate_transition,
+        )
+
+        verification = result.verification
+        proposal = result.proposal
+        if (
+            proposal is None
+            or verification is None
+            or not getattr(verification, "accepted", False)
+        ):
+            return {"attempted": False, "reason": "no_verified_proposal"}
+        # Source the sequence a supersession would need: generated actions
+        # if present, else the coordinator's own translation, else a fresh
+        # pure translation. Shadow re-translates; candidate reuses its.
+        sequence = tuple(getattr(result, "generated_actions", ()) or ())
+        if not sequence:
+            translation = getattr(result, "translation", None)
+            if translation is not None and getattr(translation, "succeeded", False):
+                sequence = tuple(getattr(translation, "actions", ()) or ())
+        if not sequence:
+            translation = translate_transition(
+                proposal, verification, request.before_state
+            )
+            sequence = tuple(translation.actions) if translation.succeeded else ()
+        if not sequence:
+            return {"attempted": False, "reason": "no_translation"}
+        context = (
+            CONTEXT_SHADOW
+            if result.effective_mode == TransitionIntegrationMode.SHADOW
+            else CONTEXT_CANDIDATE
+        )
+        decision, plan = build_replacement(
+            planner_actions, sequence,
+            verification_accepted=True,
+            transition_type=result.transition_type or "",
+            source_digest=request.source_digest(),
+            before_state_digest=request.before_state.digest(),
+            verified_transition_id=str(
+                getattr(proposal, "proposal_id", "") or ""
+            ),
+            context=context,
+        )
+        return {
+            "attempted": True,
+            "applied": False,
+            "matcher_decision": decision.decision,
+            "plan_status": plan.status,
+            "plan_digest": plan.plan_digest,
+            "canonical_effect": plan.canonical_effect,
+            "projected_action_list_digest": plan.projected_action_list_digest,
+            "original_action_list_digest": plan.original_action_list_digest,
+        }
+
+    def _governed_replacement(
+        self, planner_actions, valid_actions, sequence, result, request,
+        message, memories, active_ids, retired_ids, repl_auths, payload,
+    ) -> bool:
+        """Attempt an authorized replacement in adopted mode.
+
+        Returns True when the replacement path handled the outcome
+        (applied, or failed-closed to planner fallback), and False when it
+        is not a replacement scenario (the caller then appends as before).
+        Never appends both creates: a failed replacement leaves the
+        canonical planner list untouched.
+        """
+        from experienceos.memory.transition_integration import (
+            CanonicalActionEffect, CanonicalEffectStatus,
+        )
+        from experienceos.memory.action_replacement import (
+            CONTEXT_CANDIDATE, NO_REPLACEMENT_NEEDED, PLAN_READY,
+            authorize_replacement, build_replacement,
+        )
+
+        proposal = result.proposal
+        before_digest = request.before_state.digest()
+        transition_id = str(getattr(proposal, "proposal_id", "") or "")
+        decision, plan = build_replacement(
+            planner_actions, sequence,
+            verification_accepted=bool(
+                getattr(result.verification, "accepted", False)
+            ),
+            transition_type=result.transition_type or "",
+            source_digest=request.source_digest(),
+            before_state_digest=before_digest,
+            verified_transition_id=transition_id,
+            context=CONTEXT_CANDIDATE,
+        )
+
+        repl = {
+            "attempted": True,
+            "applied": False,
+            "matcher_decision": decision.decision,
+            "plan_status": plan.status,
+            "plan_digest": plan.plan_digest,
+            "canonical_effect": plan.canonical_effect,
+            "original_action_list_digest": plan.original_action_list_digest,
+            "projected_action_list_digest": plan.projected_action_list_digest,
+            "authorization_status": None,
+            "fallback_used": False,
+            "fallback_reason": None,
+        }
+
+        # Not a replacement scenario (e.g. a pure create): let the caller
+        # append as before. This leaves the residual pure-create class.
+        if decision.decision == NO_REPLACEMENT_NEEDED:
+            payload["replacement"] = {**repl, "attempted": False,
+                                      "reason": "no_replacement_needed"}
+            return False
+
+        def fallback(reason: str, *, effect=CanonicalActionEffect.AUTHORIZATION_DENIED):
+            # Planner-only fallback: never append the transition sequence,
+            # never suppress a planner action.
+            payload["canonical_action_effect"] = effect
+            payload["canonical_effect_status"] = (
+                CanonicalEffectStatus.ELIGIBLE_NOT_AUTHORIZED
+            )
+            payload["manager_admitted"] = False
+            payload["action_applied"] = False
+            payload["replacement"] = {
+                **repl, "applied": False, "fallback_used": True,
+                "fallback_reason": reason,
+            }
+
+        if plan.status != PLAN_READY or plan.binding() is None:
+            fallback(f"plan_{plan.status}",
+                     effect=CanonicalActionEffect.LIFECYCLE_REJECTED)
+            return True
+
+        auth = authorize_replacement(plan, repl_auths)
+        repl["authorization_status"] = auth.to_record()
+        if not auth.authorized:
+            fallback(auth.reason)
+            return True
+
+        # Authorized. Admit the inserted sequence atomically against the
+        # surviving actions (the matched create removed), then rewrite.
+        matched_index = plan.matched_occurrence.occurrence_index
+        extraction_part = list(valid_actions[len(planner_actions):])
+        survivors = [
+            a for i, a in enumerate(planner_actions) if i != matched_index
+        ] + extraction_part
+        rejections = [
+            reason
+            for action in sequence
+            if (
+                reason := self._extraction_reject_reason(
+                    action, memories, active_ids, retired_ids, survivors
+                )
+            )
+            is not None
+        ]
+        if rejections:
+            fallback(rejections[0], effect=CanonicalActionEffect.LIFECYCLE_REJECTED)
+            payload["lifecycle_rejection_reason"] = rejections[0]
+            return True
+
+        rewritten = list(plan.projected_actions) + extraction_part
+        valid_actions[:] = rewritten
+        payload["canonical_action_effect"] = CanonicalActionEffect.ACTION_REPLACED
+        payload["canonical_effect_status"] = CanonicalEffectStatus.APPLIED
+        payload["manager_admitted"] = True
+        payload["action_applied"] = True
+        payload["lifecycle_rejection_reason"] = None
+        payload["replacement"] = {
+            **repl, "applied": True,
+            "authorization_status": auth.to_record(),
+            "suppressed_occurrence_index": matched_index,
+            "final_action_count": len(rewritten),
+        }
+        return True
 
     @staticmethod
     def _describe_action(action: MemoryAction) -> dict:

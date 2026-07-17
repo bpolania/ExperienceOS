@@ -267,6 +267,11 @@ class TransitionIntegrationConfig:
     forget_controller: object | None = None
     verifier: object | None = None
     authorizations: tuple = ()
+    # Exact permissions for governed action replacement. Empty (the
+    # default) preserves the existing append behavior in adopted mode; a
+    # matching ReplacementAuthorization is what lets the engine replace a
+    # conflicting planner create instead of appending beside it.
+    replacement_authorizations: tuple = ()
     max_diagnostics: int = 12
 
     def __post_init__(self):
@@ -280,6 +285,17 @@ class TransitionIntegrationConfig:
                 raise TransitionIntegrationError(
                     "authorizations must be TransitionAuthorization values"
                 )
+        if self.replacement_authorizations:
+            from experienceos.memory.action_replacement.authorization import (
+                ReplacementAuthorization,
+            )
+
+            for authorization in self.replacement_authorizations:
+                if not isinstance(authorization, ReplacementAuthorization):
+                    raise TransitionIntegrationError(
+                        "replacement_authorizations must be "
+                        "ReplacementAuthorization values"
+                    )
 
     @property
     def enabled(self) -> bool:
