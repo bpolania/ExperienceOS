@@ -7,6 +7,7 @@ and event display logic stay testable without the demo extra installed.
 from __future__ import annotations
 
 from demo.demo_config import DEMO_USER_ID
+from demo.extraction_diagnostics import build_extraction_config
 from experienceos import ExperienceOS
 from experienceos.context import ContextBuilder, ExperienceCompressor
 from experienceos.context.builder import MEMORY_HEADER
@@ -44,6 +45,54 @@ def provider_status(provider: ModelProvider) -> str:
     if isinstance(provider, QwenCloudProvider):
         return "Configured" if provider.is_configured else "Missing credentials"
     return "Offline demo mode"
+
+
+# -- canonical extraction controller selection -----------------------------
+
+def qwen_extraction_configured(provider: ModelProvider) -> bool:
+    """True when Qwen Cloud is present and holds credentials."""
+    return isinstance(provider, QwenCloudProvider) and provider.is_configured
+
+
+def build_canonical_extraction_config(mode: str, provider: ModelProvider):
+    """Extraction config for a mode, using the canonical controller.
+
+    Qwen extraction is canonical whenever Qwen Cloud is configured; the
+    deterministic controller is the alternate implementation used
+    offline, in tests, and for comparison benchmarks. Selection happens
+    here, in composition, so the core package stays provider-neutral and
+    the choice is made once against the same provider the agent uses.
+
+    Qwen only proposes: the config flows through the existing
+    integration seam, so the unchanged GroundedCandidateValidator and
+    the engine's existing authority still decide everything downstream.
+    There is no fallback and no retry — an unavailable or failing Qwen
+    call is reported as an explicit non-candidate result, never silently
+    swapped for a deterministic proposal.
+
+    Extraction reuses the chat provider's credentials, endpoint, and
+    model, but gets its own temperature-0, bounded-timeout provider: the
+    validated extraction path must not inherit chat sampling settings.
+    """
+    # Reuse the mode guard so adopted mode stays unreachable from here.
+    base = build_extraction_config(mode)
+    if base is None or not qwen_extraction_configured(provider):
+        return base
+    from experienceos.memory.extraction_integration import (
+        CONTROLLER_LEARNED,
+        ExtractionIntegrationConfig,
+    )
+    from experiments.qwen_extraction import build_qwen_extraction_controller
+
+    return ExtractionIntegrationConfig(
+        effect_mode=base.effect_mode,
+        controller_type=CONTROLLER_LEARNED,
+        learned_controller=build_qwen_extraction_controller(
+            api_key=provider.api_key,
+            base_url=provider.base_url,
+            model=provider.model,
+        ),
+    )
 
 
 def make_memory_store(

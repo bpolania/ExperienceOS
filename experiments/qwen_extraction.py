@@ -1,4 +1,10 @@
-"""Qwen-backed grounded extraction controller (experimental, shadow-only).
+"""Qwen-backed grounded extraction controller.
+
+Canonical when Qwen Cloud is configured: the demo composition layer
+selects this controller over the deterministic one whenever credentials
+are present (see ``demo.support.build_canonical_extraction_config``).
+The deterministic controller remains the alternate implementation for
+offline runs, tests, and comparison benchmarks.
 
 A thin adapter that asks the same narrow question as the deterministic
 extractor — *does this interaction contain one durable, user-grounded
@@ -9,14 +15,16 @@ treats it as untrusted, strictly parses it, and only returns a candidate
 if the existing ``GroundedCandidateValidator`` accepts it.
 
 This adds no new schema, no new lifecycle, no new storage, and no new
-mutation authority. The deterministic controller remains canonical and
-the fallback; the Qwen path is optional, non-canonical, and does exactly
-one temperature-0 inference with no retries and a bounded timeout. It is
-not wired into memory creation here.
+mutation authority. It proposes only: every candidate must still pass
+the unchanged ``GroundedCandidateValidator`` and the engine's existing
+authority. It does exactly one temperature-0 inference with no retries
+and a bounded timeout, and there is no fallback — an unavailable or
+failing call is an explicit non-candidate result, never a deterministic
+proposal substituted on Qwen's behalf.
 
 It lives outside ``experienceos/`` on purpose: the core package stays
-provider-neutral and free of learned-path references, and this whole
-experiment is removable by deleting the ``experiments/`` directory.
+provider-neutral and free of learned-path references, so the choice of
+controller is made in composition rather than in the kernel.
 """
 
 from __future__ import annotations
@@ -249,20 +257,25 @@ class QwenExtractionController:
 def build_qwen_extraction_controller(
     *,
     api_key: str | None = None,
+    base_url: str | None = None,
     model: str | None = None,
     timeout_ms: int = DEFAULT_TIMEOUT_MS,
 ) -> QwenExtractionController:
     """Construct a controller backed by a temperature-0 Qwen provider.
 
     Determinism is enforced at construction: temperature 0 and a bounded
-    timeout. Requires credentials only when actually invoked; without
-    them the runner reports unavailable and the controller returns an
-    explicit non-candidate result (no deterministic substitution).
+    timeout. Extraction therefore never inherits a chat provider's
+    sampling settings — a caller passes connection settings (credentials,
+    endpoint, model), not a provider instance. Requires credentials only
+    when actually invoked; without them the runner reports unavailable
+    and the controller returns an explicit non-candidate result (no
+    deterministic substitution).
     """
     from experienceos.providers.qwen_cloud import QwenCloudProvider
 
     provider = QwenCloudProvider(
         api_key=api_key,
+        base_url=base_url,
         model=model,
         timeout=timeout_ms / 1000.0,
         temperature=0.0,

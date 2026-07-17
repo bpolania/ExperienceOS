@@ -48,6 +48,7 @@ from demo.support import (
     STORAGE_CHOICES,
     STORAGE_IN_MEMORY,
     active_memory_rows,
+    build_canonical_extraction_config,
     compressed_summaries,
     compression_totals,
     create_agent,
@@ -126,7 +127,6 @@ from demo.extraction_diagnostics import (
     MODE_CHOICES,
     MODE_DISABLED,
     MODE_LABELS,
-    build_extraction_config,
     canonical_effect_label,
     classification_label,
     configured_extraction_mode,
@@ -154,11 +154,12 @@ def rebuild_agent(
     is only ever disabled, shadow, or candidate — all non-mutating; the
     dashboard never builds adopted mode.
     """
+    provider = make_provider(provider_choice)
     st.session_state.agent = create_agent(
-        make_provider(provider_choice),
+        provider,
         make_memory_store(storage_choice),
         make_memory_policy(policy_choice),
-        extraction=build_extraction_config(extraction_mode),
+        extraction=build_canonical_extraction_config(extraction_mode, provider),
         transition=build_transition_config(transition_mode),
     )
     st.session_state.agent_provider = provider_choice

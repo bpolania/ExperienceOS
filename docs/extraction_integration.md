@@ -69,6 +69,30 @@ instance is supplied. The learned controller must be supplied
 explicitly; requesting `learned` without an instance is a configuration
 error, not a silent fallback.
 
+### Canonical selection
+
+Qwen extraction is **canonical whenever Qwen Cloud is configured**. The
+deterministic controller remains an explicit alternate implementation,
+used offline, in tests, and for comparison benchmarks.
+
+The choice is made in composition, not in the core: the config layer
+stays provider-neutral (`controller_type` never names a provider), and
+`demo.support.build_canonical_extraction_config(mode, provider)` selects
+`QwenExtractionController` through the `learned` seam above when the
+provider holds credentials, and the deterministic controller otherwise.
+Extraction reuses the chat provider's credentials, endpoint, and model
+but gets its own temperature-0, bounded-timeout provider, so it never
+inherits chat sampling settings.
+
+This changes only *who proposes*. Deterministic governance remains
+authoritative: every Qwen candidate still passes the unchanged
+`GroundedCandidateValidator` and the same integration checks, and Qwen
+holds no mutation authority — it cannot create, update, supersede, or
+forget a memory. No fallback chain and no retries were added: an
+unavailable, failing, or malformed Qwen call is an explicit
+non-candidate result, never a deterministic proposal substituted on
+Qwen's behalf.
+
 ## 5. Coordinator contract
 
 `ExtractionIntegrationCoordinator.evaluate(evidence, source_id,

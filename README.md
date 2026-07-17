@@ -508,7 +508,7 @@ leakage stayed zero for every system. Full evidence:
 architecture:
 [docs/controller_architecture.md](docs/controller_architecture.md).
 
-## Grounded experience extraction (evaluated, shadow-only)
+## Grounded experience extraction
 
 ExperienceOS can accept memory proposals from deterministic or learned
 components, but a component earns durable-write access only by citing
@@ -525,7 +525,16 @@ What exists now:
   one-off requests, unsupported third-party ownership, and unsupported
   normalization — proposal-only, non-mutating
 - **a deterministic controller** (`grounded_rules-1`) that proposes
-  exactly one grounded candidate or abstains — **non-canonical**
+  exactly one grounded candidate or abstains — the explicit alternate
+  implementation used offline, in tests, and for comparison benchmarks
+- **a Qwen extraction controller** that is **canonical whenever Qwen
+  Cloud is configured** (selected in composition by
+  `demo.support.build_canonical_extraction_config`, so the core stays
+  provider-neutral). It only proposes: every candidate still passes the
+  unchanged grounded validator and the same lifecycle authority, and it
+  holds no mutation authority. One temperature-0 call per message, with
+  no fallback and no retries — a failed call is an explicit
+  non-candidate result, never a deterministic proposal in disguise
 - **an optional learned-controller foundation** — narrow runner protocol,
   strict structured output, untrusted-output handling, exact-span
   verification, explicit deterministic fallback, and optional lazy local
