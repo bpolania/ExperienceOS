@@ -1,0 +1,257 @@
+{
+  "additional_conditions": {
+    "before_state_digest_reused": "pass",
+    "default_tests_offline": "pass",
+    "deterministic_artifacts_reproduced": "pass",
+    "diagnostics_explain_every_decision": "pass",
+    "engine_sole_mutation_boundary": "pass",
+    "every_bound_field_mismatch_rejects": "pass",
+    "exact_replacement_authorization_enforced": "pass",
+    "exactly_one_occurrence_suppressed_per_applied": "pass",
+    "fallback_never_appends_both": "pass",
+    "lineage_preserved": "pass",
+    "manager_authoritative": "pass",
+    "missing_authorization_rejects": "pass",
+    "no_direct_store_mutation": "pass",
+    "no_extraction_action_suppressed": "pass",
+    "no_scoped_action_suppressed": "pass",
+    "no_second_mutation_path": "pass",
+    "no_unrelated_action_suppressed": "pass",
+    "original_action_list_digest_bound": "pass",
+    "planner_occurrence_uniquely_identified": "pass",
+    "projected_action_list_digest_bound": "pass",
+    "replacement_sequence_inserted_once": "pass",
+    "runtime_default_remains_disabled": "pass"
+  },
+  "blocking_gates": {
+    "all_pass": true,
+    "any_inconclusive": false,
+    "numbers": [
+      4,
+      5,
+      8,
+      9,
+      10,
+      11,
+      12,
+      19,
+      20
+    ]
+  },
+  "gate1": {
+    "baseline_adopted": 10,
+    "blocking": false,
+    "committed_decision": "fail",
+    "gate": 1,
+    "name": "Semantic duplicate active-memory count decreases materially",
+    "pure_create_residual": 4,
+    "reference": 0,
+    "replacement": 4,
+    "replacement_decision": "fail",
+    "rule_applied": "replacement leaves 4 duplicate pair(s); the reference leaves 0. 4 is not strictly fewer than 0, so the gate fails on the frozen overall metric even though the supersede-bearing class reaches 0 and the overall count improves from 10 to 4.",
+    "supersede_bearing": {
+      "append": 6,
+      "eliminated_for_class": true,
+      "replacement": 0
+    },
+    "threshold": "strictly fewer than reference; 0 for the strongest claim"
+  },
+  "gate6": {
+    "adopted": 0,
+    "blocking": false,
+    "gate": 6,
+    "name": "Forget-directive creation false positives decrease",
+    "reason": "replacement is supersede-only and does not affect forget-directive creation; reference and adopted both create 0, so there is no reduction to demonstrate. Non-blocking; recorded inconclusive, not rounded up to pass.",
+    "reference": 0,
+    "replacement_decision": "inconclusive",
+    "threshold": "strictly lower than reference and 0 for adoption"
+  },
+  "gates": [
+    {
+      "blocking": false,
+      "committed_decision": "fail",
+      "evidence": "action-replacement/summary.json",
+      "evidence_changed_by_replacement": true,
+      "gate": 1,
+      "name": "Semantic duplicate active-memory count decreases materially",
+      "replacement_decision": "fail"
+    },
+    {
+      "blocking": false,
+      "committed_decision": "pass",
+      "evidence": "report-transition-verification/gate_summary.json",
+      "evidence_changed_by_replacement": false,
+      "gate": 2,
+      "name": "Supersession accuracy improves materially OR stale active-memory leakage decreases materially",
+      "replacement_decision": "pass"
+    },
+    {
+      "blocking": false,
+      "committed_decision": "pass",
+      "evidence": "report-transition-verification/gate_summary.json",
+      "evidence_changed_by_replacement": false,
+      "gate": 3,
+      "name": "Update-target accuracy is defensible",
+      "replacement_decision": "pass"
+    },
+    {
+      "blocking": true,
+      "committed_decision": "pass",
+      "evidence": "report-transition-verification/gate_summary.json",
+      "evidence_changed_by_replacement": false,
+      "gate": 4,
+      "name": "Scoped coexistence is preserved",
+      "replacement_decision": "pass"
+    },
+    {
+      "blocking": true,
+      "committed_decision": "pass",
+      "evidence": "report-transition-verification/gate_summary.json",
+      "evidence_changed_by_replacement": false,
+      "gate": 5,
+      "name": "Unrelated-memory preservation remains intact",
+      "replacement_decision": "pass"
+    },
+    {
+      "blocking": false,
+      "committed_decision": "inconclusive",
+      "evidence": "report-transition-verification/gate_summary.json",
+      "evidence_changed_by_replacement": false,
+      "gate": 6,
+      "name": "Forget-directive creation false positives decrease",
+      "replacement_decision": "inconclusive"
+    },
+    {
+      "blocking": false,
+      "committed_decision": "pass",
+      "evidence": "report-transition-verification/gate_summary.json",
+      "evidence_changed_by_replacement": false,
+      "gate": 7,
+      "name": "Correct forget behavior does not regress",
+      "replacement_decision": "pass"
+    },
+    {
+      "blocking": true,
+      "committed_decision": "pass",
+      "evidence": "report-transition-verification/gate_summary.json",
+      "evidence_changed_by_replacement": false,
+      "gate": 8,
+      "name": "State corruption remains 0",
+      "replacement_decision": "pass"
+    },
+    {
+      "blocking": true,
+      "committed_decision": "pass",
+      "evidence": "report-transition-verification/gate_summary.json",
+      "evidence_changed_by_replacement": false,
+      "gate": 9,
+      "name": "Forgotten memories remain excluded",
+      "replacement_decision": "pass"
+    },
+    {
+      "blocking": true,
+      "committed_decision": "pass",
+      "evidence": "report-transition-verification/gate_summary.json",
+      "evidence_changed_by_replacement": false,
+      "gate": 10,
+      "name": "Superseded current-mode memories remain excluded",
+      "replacement_decision": "pass"
+    },
+    {
+      "blocking": true,
+      "committed_decision": "pass",
+      "evidence": "report-transition-verification/gate_summary.json",
+      "evidence_changed_by_replacement": false,
+      "gate": 11,
+      "name": "Supersession lineage is preserved",
+      "replacement_decision": "pass"
+    },
+    {
+      "blocking": true,
+      "committed_decision": "pass",
+      "evidence": "report-transition-verification/gate_summary.json",
+      "evidence_changed_by_replacement": false,
+      "gate": 12,
+      "name": "Ambiguous transitions fail closed",
+      "replacement_decision": "pass"
+    },
+    {
+      "blocking": false,
+      "committed_decision": "pass",
+      "evidence": "report-transition-verification/gate_summary.json",
+      "evidence_changed_by_replacement": false,
+      "gate": 13,
+      "name": "Downstream retrieval and selection do not materially regress",
+      "replacement_decision": "pass"
+    },
+    {
+      "blocking": false,
+      "committed_decision": "pass",
+      "evidence": "report-transition-verification/gate_summary.json",
+      "evidence_changed_by_replacement": false,
+      "gate": 14,
+      "name": "Context token use does not materially regress",
+      "replacement_decision": "pass"
+    },
+    {
+      "blocking": false,
+      "committed_decision": "pass",
+      "evidence": "report-transition-verification/gate_summary.json",
+      "evidence_changed_by_replacement": false,
+      "gate": 15,
+      "name": "Latency remains acceptable for the demo",
+      "replacement_decision": "pass"
+    },
+    {
+      "blocking": false,
+      "committed_decision": "pass",
+      "evidence": "report-transition-verification/gate_summary.json",
+      "evidence_changed_by_replacement": false,
+      "gate": 16,
+      "name": "Diagnostics explain every transition decision",
+      "replacement_decision": "pass"
+    },
+    {
+      "blocking": false,
+      "committed_decision": "pass",
+      "evidence": "report-transition-verification/gate_summary.json",
+      "evidence_changed_by_replacement": false,
+      "gate": 17,
+      "name": "Default tests remain offline and deterministic",
+      "replacement_decision": "pass"
+    },
+    {
+      "blocking": false,
+      "committed_decision": "pass",
+      "evidence": "report-transition-verification/gate_summary.json",
+      "evidence_changed_by_replacement": false,
+      "gate": 18,
+      "name": "Optional learned paths skip cleanly when unavailable",
+      "replacement_decision": "pass"
+    },
+    {
+      "blocking": true,
+      "committed_decision": "pass",
+      "evidence": "report-transition-verification/gate_summary.json",
+      "evidence_changed_by_replacement": false,
+      "gate": 19,
+      "name": "Authorization matches the exact controller, mode, source, transition type, and verified proposal",
+      "replacement_decision": "pass"
+    },
+    {
+      "blocking": true,
+      "committed_decision": "pass",
+      "evidence": "report-transition-verification/gate_summary.json",
+      "evidence_changed_by_replacement": false,
+      "gate": 20,
+      "name": "No second durable mutation path exists",
+      "replacement_decision": "pass"
+    }
+  ],
+  "tally": {
+    "failed": 1,
+    "inconclusive": 1,
+    "passed": 18
+  }
+}
+

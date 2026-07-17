@@ -16,13 +16,22 @@ from pathlib import Path
 from benchmarks.contract.serialization import canonical_json, stable_dump
 from benchmarks.action_replacement import BENCHMARK_VERSION, SCHEMA_VERSION
 from benchmarks.action_replacement.verification import verify_all
+from benchmarks.action_replacement import adoption as adoption_eval
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 RESULT_DIR = REPO_ROOT / "benchmarks/results/committed/action-replacement"
 REPORT_DIR = REPO_ROOT / "benchmarks/results/committed/report-action-replacement"
+ADOPTION_DIR = REPO_ROOT / "benchmarks/results/committed/action-replacement-adoption"
+ADOPTION_REPORT_DIR = (
+    REPO_ROOT / "benchmarks/results/committed/report-action-replacement-adoption"
+)
 
 CONTRACT = REPO_ROOT / "docs/action_replacement_contract.md"
 CORPUS_ROOT = REPO_ROOT / "benchmarks/annotations/transition-verification"
+FROZEN_GATE_SUMMARY = (
+    REPO_ROOT
+    / "benchmarks/results/committed/report-transition-verification/gate_summary.json"
+)
 
 
 def _digest(value) -> str:
@@ -159,21 +168,155 @@ def write(data: dict | None = None) -> tuple[Path, Path]:
     return RESULT_DIR, REPORT_DIR
 
 
+# --- adoption gate re-evaluation --------------------------------------------
+
+
+def _adoption_report(evaluation: dict) -> dict:
+    return {
+        "classification": evaluation["classification"],
+        "classification_rationale": evaluation["classification_rationale"],
+        "duplicate_metrics": evaluation["duplicate_metrics"],
+        "stale_pairs": evaluation["stale_pairs"],
+        "gate1": evaluation["gate1"],
+        "gate6": evaluation["gate6"],
+        "tally": evaluation["tally"],
+        "blocking_gates": evaluation["blocking_gates"],
+        "additional_conditions_all_pass": evaluation[
+            "additional_conditions_all_pass"
+        ],
+        "canonical_controller": evaluation["canonical_controller"],
+        "runtime_default": evaluation["runtime_default"],
+    }
+
+
+def _adoption_readme(evaluation: dict) -> str:
+    m = evaluation["duplicate_metrics"]
+    t = evaluation["tally"]
+    g1 = evaluation["gate1"]
+    lines = [
+        "# Action Replacement — Adoption Gate Re-Evaluation",
+        "",
+        f"## Classification: **{evaluation['classification']}**",
+        "",
+        evaluation["classification_rationale"],
+        "",
+        f"- Duplicate pairs: reference **{m['reference']}**, append "
+        f"**{m['append']}**, replacement **{m['replacement']}**",
+        f"- Supersede-bearing class: **{m['supersede_bearing_append']} → "
+        f"{m['supersede_bearing_replacement']}**",
+        f"- Pure-create residual (out of scope): **{m['pure_create_residual']}**",
+        f"- Gates: **{t['passed']} pass / {t['failed']} fail / "
+        f"{t['inconclusive']} inconclusive** (unchanged framework)",
+        f"- Blocking gates {evaluation['blocking_gates']['numbers']}: "
+        f"all pass = **{evaluation['blocking_gates']['all_pass']}**",
+        f"- Gate 1: **{g1['replacement_decision'].upper()}** "
+        f"(threshold: {g1['threshold']}); the class is eliminated but 4 "
+        f"residual pairs vs reference 0 keep the overall gate failed",
+        f"- Gate 6: **{evaluation['gate6']['replacement_decision'].upper()}** "
+        f"(non-blocking)",
+        f"- Canonical controller: **{evaluation['canonical_controller']}**; "
+        f"runtime default: **{evaluation['runtime_default']}**",
+        "",
+        "The transition path is **not adopted**: a failed quality gate (Gate 1) "
+        "blocks adoption even though every blocking safety gate passes. Gate "
+        "definitions, thresholds, and frozen evidence are unchanged; the "
+        "overall frozen metric is reported alongside the supersede-bearing "
+        "class metric and is not split to hide the residual.",
+        "",
+        "Regenerate: `./scripts/run_benchmarks.sh run-action-replacement-adoption`  ",
+        "Verify: `./scripts/run_benchmarks.sh validate-action-replacement-adoption`",
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def _frozen_references() -> dict:
+    return {
+        "frozen_gate_summary_digest": _file_digest(FROZEN_GATE_SUMMARY),
+        "transition_contract_commit": _commit(
+            REPO_ROOT / "docs/transition_verification_contract.md"
+        ),
+        "action_replacement_contract_commit": _commit(CONTRACT),
+        "corpus_commit": _commit(CORPUS_ROOT),
+    }
+
+
+def _adoption_manifest(directory: Path, content_digest: str) -> dict:
+    base = _manifest(
+        directory, content_digest,
+        "./scripts/run_benchmarks.sh run-action-replacement-adoption",
+        "./scripts/run_benchmarks.sh validate-action-replacement-adoption",
+    )
+    base["frozen_references"] = _frozen_references()
+    return base
+
+
+def write_adoption(evaluation: dict | None = None) -> tuple[Path, Path]:
+    evaluation = evaluation if evaluation is not None else adoption_eval.evaluate()
+    verification = json.loads((RESULT_DIR / "summary.json").read_text())
+    headline = json.loads(
+        (REPO_ROOT / "benchmarks/results/committed/report-transition-verification"
+         / "headline_metrics.json").read_text()
+    )
+    systems = adoption_eval.systems(headline, verification)
+
+    _write(ADOPTION_DIR / "systems.json", {"systems": systems})
+    _write(ADOPTION_DIR / "gate_evaluation.json", {
+        "gates": evaluation["gates"],
+        "tally": evaluation["tally"],
+        "blocking_gates": evaluation["blocking_gates"],
+        "gate1": evaluation["gate1"],
+        "gate6": evaluation["gate6"],
+        "additional_conditions": evaluation["additional_conditions"],
+    })
+    _write(ADOPTION_DIR / "classification.json", {
+        "classification": evaluation["classification"],
+        "classification_rationale": evaluation["classification_rationale"],
+        "classification_inputs": evaluation["classification_inputs"],
+        "canonical_controller": evaluation["canonical_controller"],
+        "runtime_default": evaluation["runtime_default"],
+        "duplicate_metrics": evaluation["duplicate_metrics"],
+        "stale_pairs": evaluation["stale_pairs"],
+        "downstream_context": evaluation["downstream_context"],
+        "latency": evaluation["latency"],
+    })
+    _write(
+        ADOPTION_DIR / "manifest.json",
+        _adoption_manifest(ADOPTION_DIR, _digest(evaluation)),
+    )
+
+    report = _adoption_report(evaluation)
+    _write(ADOPTION_REPORT_DIR / "report.json", report)
+    ADOPTION_REPORT_DIR.mkdir(parents=True, exist_ok=True)
+    (ADOPTION_REPORT_DIR / "README.md").write_text(
+        _adoption_readme(evaluation), encoding="utf-8"
+    )
+    _write(
+        ADOPTION_REPORT_DIR / "manifest.json",
+        _adoption_manifest(ADOPTION_REPORT_DIR, _digest(report)),
+    )
+    return ADOPTION_DIR, ADOPTION_REPORT_DIR
+
+
 def validate(directory: Path) -> bool:
     """Re-verify a committed directory's file digests, then confirm the
-    live verification still reproduces the committed content digest."""
+    live evaluation still reproduces the committed content digest."""
     directory = Path(directory)
     manifest = json.loads((directory / "manifest.json").read_text())
     for name, digest in manifest["file_digests"].items():
         actual = _file_digest(directory / name)
         if actual != digest:
             raise ValueError(f"file digest mismatch for {name} in {directory}")
-    # Reproduce the content digest from a fresh run.
-    data = verify_all()
     if directory == RESULT_DIR:
-        recomputed = _digest(data)
+        recomputed = _digest(verify_all())
+    elif directory == REPORT_DIR:
+        recomputed = _digest(_report(verify_all()))
+    elif directory == ADOPTION_DIR:
+        recomputed = _digest(adoption_eval.evaluate())
+    elif directory == ADOPTION_REPORT_DIR:
+        recomputed = _digest(_adoption_report(adoption_eval.evaluate()))
     else:
-        recomputed = _digest(_report(data))
+        raise ValueError(f"unknown artifact directory {directory}")
     if recomputed != manifest["content_digest"]:
         raise ValueError(f"content digest not reproduced for {directory}")
     return True

@@ -1,0 +1,69 @@
+{
+  "additional_conditions_all_pass": true,
+  "blocking_gates": {
+    "all_pass": true,
+    "any_inconclusive": false,
+    "numbers": [
+      4,
+      5,
+      8,
+      9,
+      10,
+      11,
+      12,
+      19,
+      20
+    ]
+  },
+  "canonical_controller": "none",
+  "classification": "TRANSITION_PATH_CANDIDATE_ONLY",
+  "classification_rationale": "Every blocking safety gate passes and every additional replacement condition passes; the supersede-bearing duplicate class is fully eliminated (6 -> 0) and overall duplicate pairs improve from 10 to 4. Gate 1 nonetheless fails on its frozen overall definition, because 4 pure-create residual duplicate pairs remain and the reference leaves 0. A failed quality gate blocks adoption, so the path stays candidate-only, default-disabled, with no canonical controller.",
+  "duplicate_metrics": {
+    "append": 10,
+    "pure_create_residual": 4,
+    "reference": 0,
+    "replacement": 4,
+    "supersede_bearing_append": 6,
+    "supersede_bearing_replacement": 0
+  },
+  "gate1": {
+    "baseline_adopted": 10,
+    "blocking": false,
+    "committed_decision": "fail",
+    "gate": 1,
+    "name": "Semantic duplicate active-memory count decreases materially",
+    "pure_create_residual": 4,
+    "reference": 0,
+    "replacement": 4,
+    "replacement_decision": "fail",
+    "rule_applied": "replacement leaves 4 duplicate pair(s); the reference leaves 0. 4 is not strictly fewer than 0, so the gate fails on the frozen overall metric even though the supersede-bearing class reaches 0 and the overall count improves from 10 to 4.",
+    "supersede_bearing": {
+      "append": 6,
+      "eliminated_for_class": true,
+      "replacement": 0
+    },
+    "threshold": "strictly fewer than reference; 0 for the strongest claim"
+  },
+  "gate6": {
+    "adopted": 0,
+    "blocking": false,
+    "gate": 6,
+    "name": "Forget-directive creation false positives decrease",
+    "reason": "replacement is supersede-only and does not affect forget-directive creation; reference and adopted both create 0, so there is no reduction to demonstrate. Non-blocking; recorded inconclusive, not rounded up to pass.",
+    "reference": 0,
+    "replacement_decision": "inconclusive",
+    "threshold": "strictly lower than reference and 0 for adoption"
+  },
+  "runtime_default": "disabled",
+  "stale_pairs": {
+    "append": 1,
+    "reference": 6,
+    "replacement": 1
+  },
+  "tally": {
+    "failed": 1,
+    "inconclusive": 1,
+    "passed": 18
+  }
+}
+

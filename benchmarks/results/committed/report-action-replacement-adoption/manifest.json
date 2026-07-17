@@ -1,0 +1,22 @@
+{
+  "benchmark_version": "1",
+  "code_commit": "fd6529b8a7ad655d2e8687aaa0410a50e691c3d5",
+  "content_digest": "f0b82a92e007de5c85146b06a1916b24b0ca56a870999200687f66ce4de5508e",
+  "contract_commit": "740ff40df70c37f3e12f912550a04f3ce60d827e",
+  "corpus_commit": "dba85ec8ff88d792c7e15da0b4720d77b895b774",
+  "environment": "offline; mock provider; no model, credentials, or network",
+  "file_digests": {
+    "README.md": "1ecb3dd63aff78e2318939b2fc870d140cb18d3ebce3421dea9213e0714dc26c",
+    "report.json": "53cba7f033a318f024a48802de8d31205c7ca2ed911b89638fdf2e1d6e002f73"
+  },
+  "frozen_references": {
+    "action_replacement_contract_commit": "740ff40df70c37f3e12f912550a04f3ce60d827e",
+    "corpus_commit": "dba85ec8ff88d792c7e15da0b4720d77b895b774",
+    "frozen_gate_summary_digest": "79924ed526ac90d88326c12172ae03ad533bbf52a40d3d58273dda99ed64b36e",
+    "transition_contract_commit": "938cbd097635a62af21dd555da33f586234bdfef"
+  },
+  "regeneration_command": "./scripts/run_benchmarks.sh run-action-replacement-adoption",
+  "schema_version": "1",
+  "verification_command": "./scripts/run_benchmarks.sh validate-action-replacement-adoption"
+}
+

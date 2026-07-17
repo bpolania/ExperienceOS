@@ -1,0 +1,62 @@
+{
+  "systems": [
+    {
+      "applied_duplicate_pairs": 0,
+      "kind": "reference",
+      "mode": "disabled",
+      "note": "canonical full composition; frozen evidence",
+      "system_id": "experienceos_hybrid_full_v2_reference"
+    },
+    {
+      "applied_duplicate_pairs": 0,
+      "kind": "transition",
+      "mode": "candidate",
+      "note": "non-mutating; applied state equals reference; frozen",
+      "system_id": "experienceos_transition_candidate_v1"
+    },
+    {
+      "applied_duplicate_pairs": 10,
+      "kind": "ablation",
+      "mode": "adopted",
+      "note": "append baseline: reproduces the add-not-replace defect",
+      "system_id": "experienceos_action_replacement_ablation_no_replacement_v1"
+    },
+    {
+      "applied_duplicate_pairs": 0,
+      "kind": "replacement",
+      "mode": "shadow",
+      "note": "matcher/plan diagnostics only; applied state unchanged",
+      "system_id": "experienceos_action_replacement_shadow_v1"
+    },
+    {
+      "applied_duplicate_pairs": 0,
+      "kind": "replacement",
+      "mode": "candidate",
+      "note": "projected rewrite exposed; no durable replacement",
+      "system_id": "experienceos_action_replacement_candidate_v1"
+    },
+    {
+      "applied_duplicate_pairs": 0,
+      "kind": "replacement",
+      "mode": "verify_only",
+      "note": "no rewrite; verification only",
+      "system_id": "experienceos_action_replacement_verify_only_v1"
+    },
+    {
+      "applied_duplicate_pairs": 4,
+      "kind": "replacement",
+      "mode": "adopted",
+      "note": "adopted INFRASTRUCTURE (benchmark/test only); not canonical runtime; exact authorization required",
+      "system_id": "experienceos_action_replacement_adopted_v1"
+    },
+    {
+      "applied_duplicate_pairs": null,
+      "available": false,
+      "kind": "ablation",
+      "mode": "adopted",
+      "note": "negative control; not run; non-adoptable by construction; never used to support adoption",
+      "system_id": "experienceos_action_replacement_ablation_replace_all_v1"
+    }
+  ]
+}
+

@@ -1,0 +1,34 @@
+{
+  "canonical_controller": "none",
+  "classification": "TRANSITION_PATH_CANDIDATE_ONLY",
+  "classification_inputs": {
+    "all_blocking_pass": true,
+    "all_conditions_pass": true,
+    "blocking_inconclusive": false,
+    "evidence_trusted": true,
+    "gate1_pass": false,
+    "safety_regression": false
+  },
+  "classification_rationale": "Every blocking safety gate passes and every additional replacement condition passes; the supersede-bearing duplicate class is fully eliminated (6 -> 0) and overall duplicate pairs improve from 10 to 4. Gate 1 nonetheless fails on its frozen overall definition, because 4 pure-create residual duplicate pairs remain and the reference leaves 0. A failed quality gate blocks adoption, so the path stays candidate-only, default-disabled, with no canonical controller.",
+  "downstream_context": {
+    "note": "replacement removes one duplicate active memory in each of the 6 applied cases, so active-memory count does not increase and context-token use does not regress; downstream selection is not made worse. Gates 13/14 remain pass."
+  },
+  "duplicate_metrics": {
+    "append": 10,
+    "pure_create_residual": 4,
+    "reference": 0,
+    "replacement": 4,
+    "supersede_bearing_append": 6,
+    "supersede_bearing_replacement": 0
+  },
+  "latency": {
+    "note": "replacement adds bounded, deterministic matcher + plan + authorization work per supersede-bearing interaction; no frozen latency threshold beyond gate 15 (acceptable for the demo), which remains pass. Timing is excluded from artifact digests."
+  },
+  "runtime_default": "disabled",
+  "stale_pairs": {
+    "append": 1,
+    "reference": 6,
+    "replacement": 1
+  }
+}
+
