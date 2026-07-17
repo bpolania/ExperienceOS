@@ -1,0 +1,86 @@
+{
+  "completeness": {
+    "all_systems_ran_same_case_count": true,
+    "completed_per_system": {
+      "append_only": 38,
+      "canonical_experienceos_qwen": 38,
+      "deterministic_experienceos": 38,
+      "full_history": 38,
+      "naive_top_k": 38,
+      "stateless": 38
+    }
+  },
+  "development_only": null,
+  "distinct_cases": 40,
+  "execution_mode": "live",
+  "fairness": {
+    "distinct_response_models": [
+      "qwen-plus"
+    ],
+    "identical_case_set_per_system": true,
+    "single_response_model": true
+  },
+  "git_commit": "dc2b0fa66ffc5f170b6c0cd91cb8c480fae24eea",
+  "note": "execution evidence only; no scores, rankings, or competitive conclusions",
+  "per_system_status": {
+    "append_only": {
+      "completed": 38,
+      "failed": 0,
+      "not_applicable": 2,
+      "total": 40,
+      "unavailable": 0,
+      "unscorable": 0
+    },
+    "canonical_experienceos_qwen": {
+      "completed": 38,
+      "failed": 0,
+      "not_applicable": 2,
+      "total": 40,
+      "unavailable": 0,
+      "unscorable": 0
+    },
+    "deterministic_experienceos": {
+      "completed": 38,
+      "failed": 0,
+      "not_applicable": 2,
+      "total": 40,
+      "unavailable": 0,
+      "unscorable": 0
+    },
+    "full_history": {
+      "completed": 38,
+      "failed": 0,
+      "not_applicable": 2,
+      "total": 40,
+      "unavailable": 0,
+      "unscorable": 0
+    },
+    "naive_top_k": {
+      "completed": 38,
+      "failed": 0,
+      "not_applicable": 2,
+      "total": 40,
+      "unavailable": 0,
+      "unscorable": 0
+    },
+    "stateless": {
+      "completed": 38,
+      "failed": 0,
+      "not_applicable": 2,
+      "total": 40,
+      "unavailable": 0,
+      "unscorable": 0
+    }
+  },
+  "provider_failures": 0,
+  "run_id": "cv-live-1",
+  "systems_run": [
+    "append_only",
+    "canonical_experienceos_qwen",
+    "deterministic_experienceos",
+    "full_history",
+    "naive_top_k",
+    "stateless"
+  ],
+  "viability_manifest_hash": "9c7f3009dd92307c84abb72643367cc1b17e8cb11b9bdecbc94de28a74fdb51c"
+}
