@@ -1,0 +1,967 @@
+{
+  "case_count": 48,
+  "class_support": {
+    "COEXIST": 3,
+    "DUPLICATE": 5,
+    "IGNORE": 17,
+    "NEW": 6,
+    "UPDATE": 17
+  },
+  "comparison_version": "1",
+  "corpus": "transition_verification_frozen",
+  "deterministic": {
+    "cases": 48,
+    "false_update": 0,
+    "latency": {
+      "count": 48,
+      "max_ms": 7.6223,
+      "median_ms": 1.667,
+      "p95_ms": 4.4556,
+      "total_ms": 90.989
+    },
+    "missed_update": 0,
+    "overall_accuracy": {
+      "correct": 48,
+      "total": 48,
+      "value": 1.0
+    },
+    "per_class": {
+      "COEXIST": {
+        "correct": 3,
+        "precision": 1.0,
+        "predicted": 3,
+        "recall": 1.0,
+        "support": 3
+      },
+      "DUPLICATE": {
+        "correct": 5,
+        "precision": 1.0,
+        "predicted": 5,
+        "recall": 1.0,
+        "support": 5
+      },
+      "IGNORE": {
+        "correct": 17,
+        "precision": 1.0,
+        "predicted": 17,
+        "recall": 1.0,
+        "support": 17
+      },
+      "NEW": {
+        "correct": 6,
+        "precision": 1.0,
+        "predicted": 6,
+        "recall": 1.0,
+        "support": 6
+      },
+      "UPDATE": {
+        "correct": 17,
+        "precision": 1.0,
+        "predicted": 17,
+        "recall": 1.0,
+        "support": 17
+      }
+    },
+    "scored": 48,
+    "update_target": {
+      "correct_target": 17,
+      "update_cases": 17,
+      "wrong_target": 0
+    }
+  },
+  "qwen": {
+    "cases": 48,
+    "false_update": 6,
+    "latency": {
+      "count": 48,
+      "max_ms": 2571.6712,
+      "median_ms": 1693.0366,
+      "p95_ms": 2422.6879,
+      "total_ms": 84379.0069
+    },
+    "missed_update": 1,
+    "overall_accuracy": {
+      "correct": 32,
+      "total": 48,
+      "value": 0.6667
+    },
+    "per_class": {
+      "COEXIST": {
+        "correct": 0,
+        "precision": 0.0,
+        "predicted": 1,
+        "recall": 0.0,
+        "support": 3
+      },
+      "DUPLICATE": {
+        "correct": 4,
+        "precision": 1.0,
+        "predicted": 4,
+        "recall": 0.8,
+        "support": 5
+      },
+      "IGNORE": {
+        "correct": 6,
+        "precision": 1.0,
+        "predicted": 6,
+        "recall": 0.3529,
+        "support": 17
+      },
+      "NEW": {
+        "correct": 6,
+        "precision": 0.4,
+        "predicted": 15,
+        "recall": 1.0,
+        "support": 6
+      },
+      "UPDATE": {
+        "correct": 16,
+        "precision": 0.7273,
+        "predicted": 22,
+        "recall": 0.9412,
+        "support": 17
+      }
+    },
+    "scored": 48,
+    "update_target": {
+      "correct_target": 16,
+      "update_cases": 16,
+      "wrong_target": 0
+    }
+  },
+  "qwen_config": {
+    "controller_id": "qwen_update-1",
+    "inference_count_per_case": 1,
+    "model": "qwen-plus",
+    "prompt_version": "1",
+    "temperature": 0.0,
+    "timeout_s": 8.0
+  },
+  "qwen_safety": {
+    "fabricated_target_rejected": 0,
+    "invalid_reasons": {},
+    "provider_failures": 0,
+    "rejected_reaching_mutation_authority": 0,
+    "unsafe_proposals": 0,
+    "validator_accepted": 48,
+    "validator_rejected": 0
+  },
+  "rows": [
+    {
+      "case_id": "transition:lifecycle:containment_001_duplicate_create_contained:reject_unsupported",
+      "deterministic": {
+        "classification": "IGNORE",
+        "target": null,
+        "transition_type": "reject_unsupported"
+      },
+      "expected_class": "IGNORE",
+      "expected_target": null,
+      "partition": "historical_scored",
+      "qwen": {
+        "classification": "NEW",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:lifecycle:containment_002_supersede_inactive_target:reject_unsupported",
+      "deterministic": {
+        "classification": "IGNORE",
+        "target": null,
+        "transition_type": "reject_unsupported"
+      },
+      "expected_class": "IGNORE",
+      "expected_target": null,
+      "partition": "historical_scored",
+      "qwen": {
+        "classification": "IGNORE",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:lifecycle:containment_003_forget_nonexistent_target:reject_unsupported",
+      "deterministic": {
+        "classification": "IGNORE",
+        "target": null,
+        "transition_type": "reject_unsupported"
+      },
+      "expected_class": "IGNORE",
+      "expected_target": null,
+      "partition": "historical_scored",
+      "qwen": {
+        "classification": "IGNORE",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:lifecycle:containment_004_malformed_proposal_fallback:create_new",
+      "deterministic": {
+        "classification": "NEW",
+        "target": null,
+        "transition_type": "create_new"
+      },
+      "expected_class": "NEW",
+      "expected_target": null,
+      "partition": "historical_scored",
+      "qwen": {
+        "classification": "NEW",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:lifecycle:context_005_active_and_inactive_versions:reject_unsupported",
+      "deterministic": {
+        "classification": "IGNORE",
+        "target": null,
+        "transition_type": "reject_unsupported"
+      },
+      "expected_class": "IGNORE",
+      "expected_target": null,
+      "partition": "historical_scored",
+      "qwen": {
+        "classification": "NEW",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:lifecycle:creation_001_explicit_scoped_preference:create_new",
+      "deterministic": {
+        "classification": "NEW",
+        "target": null,
+        "transition_type": "create_new"
+      },
+      "expected_class": "NEW",
+      "expected_target": null,
+      "partition": "historical_scored",
+      "qwen": {
+        "classification": "NEW",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:lifecycle:creation_002_durable_user_fact:create_new",
+      "deterministic": {
+        "classification": "NEW",
+        "target": null,
+        "transition_type": "create_new"
+      },
+      "expected_class": "NEW",
+      "expected_target": null,
+      "partition": "historical_scored",
+      "qwen": {
+        "classification": "NEW",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:lifecycle:creation_003_durable_instruction:create_new",
+      "deterministic": {
+        "classification": "NEW",
+        "target": null,
+        "transition_type": "create_new"
+      },
+      "expected_class": "NEW",
+      "expected_target": null,
+      "partition": "historical_scored",
+      "qwen": {
+        "classification": "NEW",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:lifecycle:creation_004_non_durable_statement:reject_temporary",
+      "deterministic": {
+        "classification": "IGNORE",
+        "target": null,
+        "transition_type": "reject_temporary"
+      },
+      "expected_class": "IGNORE",
+      "expected_target": null,
+      "partition": "historical_scored",
+      "qwen": {
+        "classification": "NEW",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:lifecycle:creation_005_exact_duplicate_restatement:duplicate_noop",
+      "deterministic": {
+        "classification": "DUPLICATE",
+        "target": null,
+        "transition_type": "duplicate_noop"
+      },
+      "expected_class": "DUPLICATE",
+      "expected_target": null,
+      "partition": "historical_scored",
+      "qwen": {
+        "classification": "DUPLICATE",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:lifecycle:creation_006_paraphrased_duplicate:semantic_duplicate_noop",
+      "deterministic": {
+        "classification": "DUPLICATE",
+        "target": null,
+        "transition_type": "semantic_duplicate_noop"
+      },
+      "expected_class": "DUPLICATE",
+      "expected_target": null,
+      "partition": "historical_scored",
+      "qwen": {
+        "classification": "DUPLICATE",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:lifecycle:forgetting_005_forgotten_leakage_check:reject_question",
+      "deterministic": {
+        "classification": "IGNORE",
+        "target": null,
+        "transition_type": "reject_question"
+      },
+      "expected_class": "IGNORE",
+      "expected_target": null,
+      "partition": "historical_scored",
+      "qwen": {
+        "classification": "NEW",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:lifecycle:forgetting_006_restatement_not_resurrection:create_new",
+      "deterministic": {
+        "classification": "NEW",
+        "target": null,
+        "transition_type": "create_new"
+      },
+      "expected_class": "NEW",
+      "expected_target": null,
+      "partition": "historical_scored",
+      "qwen": {
+        "classification": "NEW",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:lifecycle:retrieval_006_no_memory_needed:reject_question",
+      "deterministic": {
+        "classification": "IGNORE",
+        "target": null,
+        "transition_type": "reject_question"
+      },
+      "expected_class": "IGNORE",
+      "expected_target": null,
+      "partition": "historical_scored",
+      "qwen": {
+        "classification": "IGNORE",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:lifecycle:retrieval_007_correct_abstention:reject_question",
+      "deterministic": {
+        "classification": "IGNORE",
+        "target": null,
+        "transition_type": "reject_question"
+      },
+      "expected_class": "IGNORE",
+      "expected_target": null,
+      "partition": "historical_scored",
+      "qwen": {
+        "classification": "IGNORE",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:lifecycle:retrieval_008_stale_would_mislead:reject_question",
+      "deterministic": {
+        "classification": "IGNORE",
+        "target": null,
+        "transition_type": "reject_question"
+      },
+      "expected_class": "IGNORE",
+      "expected_target": null,
+      "partition": "historical_scored",
+      "qwen": {
+        "classification": "IGNORE",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:lifecycle:updates_001_preference_replacement_cross_session:supersede_existing",
+      "deterministic": {
+        "classification": "UPDATE",
+        "target": "food.morning_drink",
+        "transition_type": "supersede_existing"
+      },
+      "expected_class": "UPDATE",
+      "expected_target": "food.morning_drink",
+      "partition": "historical_scored",
+      "qwen": {
+        "classification": "UPDATE",
+        "reason": null,
+        "status": "ok",
+        "target": "food.morning_drink"
+      }
+    },
+    {
+      "case_id": "transition:lifecycle:updates_002_fact_correction:supersede_existing",
+      "deterministic": {
+        "classification": "UPDATE",
+        "target": "work.base_office",
+        "transition_type": "supersede_existing"
+      },
+      "expected_class": "UPDATE",
+      "expected_target": "work.base_office",
+      "partition": "historical_scored",
+      "qwen": {
+        "classification": "UPDATE",
+        "reason": null,
+        "status": "ok",
+        "target": "work.base_office"
+      }
+    },
+    {
+      "case_id": "transition:lifecycle:updates_003_instruction_replacement:supersede_existing",
+      "deterministic": {
+        "classification": "UPDATE",
+        "target": "work.daily_status_channel",
+        "transition_type": "supersede_existing"
+      },
+      "expected_class": "UPDATE",
+      "expected_target": "work.daily_status_channel",
+      "partition": "historical_scored",
+      "qwen": {
+        "classification": "UPDATE",
+        "reason": null,
+        "status": "ok",
+        "target": "work.daily_status_channel"
+      }
+    },
+    {
+      "case_id": "transition:lifecycle:updates_004_now_prefer_wording:supersede_existing",
+      "deterministic": {
+        "classification": "UPDATE",
+        "target": "study.time_of_day",
+        "transition_type": "supersede_existing"
+      },
+      "expected_class": "UPDATE",
+      "expected_target": "study.time_of_day",
+      "partition": "historical_scored",
+      "qwen": {
+        "classification": "UPDATE",
+        "reason": null,
+        "status": "ok",
+        "target": "study.time_of_day"
+      }
+    },
+    {
+      "case_id": "transition:lifecycle:updates_005_instead_of_wording:supersede_existing",
+      "deterministic": {
+        "classification": "UPDATE",
+        "target": "travel.seat.work_trip",
+        "transition_type": "supersede_existing"
+      },
+      "expected_class": "UPDATE",
+      "expected_target": "travel.seat.work_trip",
+      "partition": "historical_scored",
+      "qwen": {
+        "classification": "UPDATE",
+        "reason": null,
+        "status": "ok",
+        "target": "travel.seat.work_trip"
+      }
+    },
+    {
+      "case_id": "transition:lifecycle:updates_006_scoped_preferences_coexist:scoped_coexistence",
+      "deterministic": {
+        "classification": "COEXIST",
+        "target": null,
+        "transition_type": "scoped_coexistence"
+      },
+      "expected_class": "COEXIST",
+      "expected_target": null,
+      "partition": "historical_scored",
+      "qwen": {
+        "classification": "NEW",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:lifecycle:updates_007_correction_with_distractors:supersede_existing",
+      "deterministic": {
+        "classification": "UPDATE",
+        "target": "family.soccer_practice_day",
+        "transition_type": "supersede_existing"
+      },
+      "expected_class": "UPDATE",
+      "expected_target": "family.soccer_practice_day",
+      "partition": "historical_scored",
+      "qwen": {
+        "classification": "UPDATE",
+        "reason": null,
+        "status": "ok",
+        "target": "family.soccer_practice_day"
+      }
+    },
+    {
+      "case_id": "transition:lifecycle:updates_008_repeated_correction_chain:supersede_existing",
+      "deterministic": {
+        "classification": "UPDATE",
+        "target": "work.daily_status_channel.v2",
+        "transition_type": "supersede_existing"
+      },
+      "expected_class": "UPDATE",
+      "expected_target": "work.daily_status_channel.v2",
+      "partition": "historical_scored",
+      "qwen": {
+        "classification": "UPDATE",
+        "reason": null,
+        "status": "ok",
+        "target": "work.daily_status_channel.v2"
+      }
+    },
+    {
+      "case_id": "transition:development:ambiguous_transition:01",
+      "deterministic": {
+        "classification": "IGNORE",
+        "target": null,
+        "transition_type": "reject_ambiguous"
+      },
+      "expected_class": "IGNORE",
+      "expected_target": null,
+      "partition": "development_fixtures",
+      "qwen": {
+        "classification": "UPDATE",
+        "reason": null,
+        "status": "ok",
+        "target": "fx.travel.seat.short_work_trip"
+      }
+    },
+    {
+      "case_id": "transition:development:correction:01",
+      "deterministic": {
+        "classification": "UPDATE",
+        "target": "fx.travel.seat.short_work_trip",
+        "transition_type": "supersede_existing"
+      },
+      "expected_class": "UPDATE",
+      "expected_target": "fx.travel.seat.short_work_trip",
+      "partition": "development_fixtures",
+      "qwen": {
+        "classification": "NEW",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:development:correction:02",
+      "deterministic": {
+        "classification": "UPDATE",
+        "target": "fx.travel.work_flight_airport",
+        "transition_type": "supersede_existing"
+      },
+      "expected_class": "UPDATE",
+      "expected_target": "fx.travel.work_flight_airport",
+      "partition": "development_fixtures",
+      "qwen": {
+        "classification": "UPDATE",
+        "reason": null,
+        "status": "ok",
+        "target": "fx.travel.work_flight_airport"
+      }
+    },
+    {
+      "case_id": "transition:development:current_state_replacement:01",
+      "deterministic": {
+        "classification": "UPDATE",
+        "target": "fx.devices.phone_model",
+        "transition_type": "supersede_existing"
+      },
+      "expected_class": "UPDATE",
+      "expected_target": "fx.devices.phone_model",
+      "partition": "development_fixtures",
+      "qwen": {
+        "classification": "UPDATE",
+        "reason": null,
+        "status": "ok",
+        "target": "fx.devices.phone_model"
+      }
+    },
+    {
+      "case_id": "transition:development:current_state_replacement:02",
+      "deterministic": {
+        "classification": "UPDATE",
+        "target": "fx.travel.home_airport",
+        "transition_type": "supersede_existing"
+      },
+      "expected_class": "UPDATE",
+      "expected_target": "fx.travel.home_airport",
+      "partition": "development_fixtures",
+      "qwen": {
+        "classification": "UPDATE",
+        "reason": null,
+        "status": "ok",
+        "target": "fx.travel.home_airport"
+      }
+    },
+    {
+      "case_id": "transition:development:direct_replacement:01",
+      "deterministic": {
+        "classification": "UPDATE",
+        "target": "fx.travel.seat.short_work_trip",
+        "transition_type": "supersede_existing"
+      },
+      "expected_class": "UPDATE",
+      "expected_target": "fx.travel.seat.short_work_trip",
+      "partition": "development_fixtures",
+      "qwen": {
+        "classification": "UPDATE",
+        "reason": null,
+        "status": "ok",
+        "target": "fx.travel.seat.short_work_trip"
+      }
+    },
+    {
+      "case_id": "transition:development:exact_duplicate:01",
+      "deterministic": {
+        "classification": "DUPLICATE",
+        "target": null,
+        "transition_type": "duplicate_noop"
+      },
+      "expected_class": "DUPLICATE",
+      "expected_target": null,
+      "partition": "development_fixtures",
+      "qwen": {
+        "classification": "DUPLICATE",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:development:forget_question:01",
+      "deterministic": {
+        "classification": "IGNORE",
+        "target": null,
+        "transition_type": "reject_question"
+      },
+      "expected_class": "IGNORE",
+      "expected_target": null,
+      "partition": "development_fixtures",
+      "qwen": {
+        "classification": "UPDATE",
+        "reason": null,
+        "status": "ok",
+        "target": "fx.travel.seat.short_work_trip"
+      }
+    },
+    {
+      "case_id": "transition:development:historical_current_state_conflict:01",
+      "deterministic": {
+        "classification": "IGNORE",
+        "target": null,
+        "transition_type": "reject_unsupported"
+      },
+      "expected_class": "IGNORE",
+      "expected_target": null,
+      "partition": "development_fixtures",
+      "qwen": {
+        "classification": "UPDATE",
+        "reason": null,
+        "status": "ok",
+        "target": "fx.work.base_office"
+      }
+    },
+    {
+      "case_id": "transition:development:historical_statement:01",
+      "deterministic": {
+        "classification": "IGNORE",
+        "target": null,
+        "transition_type": "reject_unsupported"
+      },
+      "expected_class": "IGNORE",
+      "expected_target": null,
+      "partition": "development_fixtures",
+      "qwen": {
+        "classification": "UPDATE",
+        "reason": null,
+        "status": "ok",
+        "target": "fx.travel.seat.general"
+      }
+    },
+    {
+      "case_id": "transition:development:hypothetical:01",
+      "deterministic": {
+        "classification": "IGNORE",
+        "target": null,
+        "transition_type": "reject_hypothetical"
+      },
+      "expected_class": "IGNORE",
+      "expected_target": null,
+      "partition": "development_fixtures",
+      "qwen": {
+        "classification": "NEW",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:development:instead_of_replacement:01",
+      "deterministic": {
+        "classification": "UPDATE",
+        "target": "fx.travel.work_flight_airport",
+        "transition_type": "supersede_existing"
+      },
+      "expected_class": "UPDATE",
+      "expected_target": "fx.travel.work_flight_airport",
+      "partition": "development_fixtures",
+      "qwen": {
+        "classification": "UPDATE",
+        "reason": null,
+        "status": "ok",
+        "target": "fx.travel.work_flight_airport"
+      }
+    },
+    {
+      "case_id": "transition:development:instruction_replacement:01",
+      "deterministic": {
+        "classification": "UPDATE",
+        "target": "fx.travel.ground_transport.work",
+        "transition_type": "supersede_existing"
+      },
+      "expected_class": "UPDATE",
+      "expected_target": "fx.travel.ground_transport.work",
+      "partition": "development_fixtures",
+      "qwen": {
+        "classification": "UPDATE",
+        "reason": null,
+        "status": "ok",
+        "target": "fx.travel.ground_transport.work"
+      }
+    },
+    {
+      "case_id": "transition:development:memory_inspection:01",
+      "deterministic": {
+        "classification": "IGNORE",
+        "target": null,
+        "transition_type": "reject_question"
+      },
+      "expected_class": "IGNORE",
+      "expected_target": null,
+      "partition": "development_fixtures",
+      "qwen": {
+        "classification": "IGNORE",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:development:negative_forget:01",
+      "deterministic": {
+        "classification": "DUPLICATE",
+        "target": null,
+        "transition_type": "semantic_duplicate_noop"
+      },
+      "expected_class": "DUPLICATE",
+      "expected_target": null,
+      "partition": "development_fixtures",
+      "qwen": {
+        "classification": "COEXIST",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:development:repeated_correction:01",
+      "deterministic": {
+        "classification": "UPDATE",
+        "target": "fx.travel.seat.short_work_trip.v2",
+        "transition_type": "supersede_existing"
+      },
+      "expected_class": "UPDATE",
+      "expected_target": "fx.travel.seat.short_work_trip.v2",
+      "partition": "development_fixtures",
+      "qwen": {
+        "classification": "UPDATE",
+        "reason": null,
+        "status": "ok",
+        "target": "fx.travel.seat.short_work_trip.v2"
+      }
+    },
+    {
+      "case_id": "transition:development:scoped_coexistence:01",
+      "deterministic": {
+        "classification": "COEXIST",
+        "target": null,
+        "transition_type": "scoped_coexistence"
+      },
+      "expected_class": "COEXIST",
+      "expected_target": null,
+      "partition": "development_fixtures",
+      "qwen": {
+        "classification": "NEW",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:development:semantic_duplicate:01",
+      "deterministic": {
+        "classification": "DUPLICATE",
+        "target": null,
+        "transition_type": "semantic_duplicate_noop"
+      },
+      "expected_class": "DUPLICATE",
+      "expected_target": null,
+      "partition": "development_fixtures",
+      "qwen": {
+        "classification": "DUPLICATE",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:development:similar_wording_different_scope:01",
+      "deterministic": {
+        "classification": "COEXIST",
+        "target": null,
+        "transition_type": "scoped_coexistence"
+      },
+      "expected_class": "COEXIST",
+      "expected_target": null,
+      "partition": "development_fixtures",
+      "qwen": {
+        "classification": "NEW",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:development:temporary_exception:01",
+      "deterministic": {
+        "classification": "IGNORE",
+        "target": null,
+        "transition_type": "reject_temporary"
+      },
+      "expected_class": "IGNORE",
+      "expected_target": null,
+      "partition": "development_fixtures",
+      "qwen": {
+        "classification": "UPDATE",
+        "reason": null,
+        "status": "ok",
+        "target": "fx.travel.seat.short_work_trip"
+      }
+    },
+    {
+      "case_id": "transition:development:unrelated_preservation:01",
+      "deterministic": {
+        "classification": "NEW",
+        "target": null,
+        "transition_type": "create_new"
+      },
+      "expected_class": "NEW",
+      "expected_target": null,
+      "partition": "development_fixtures",
+      "qwen": {
+        "classification": "NEW",
+        "reason": null,
+        "status": "ok",
+        "target": null
+      }
+    },
+    {
+      "case_id": "transition:development:unrelated_preservation:02",
+      "deterministic": {
+        "classification": "UPDATE",
+        "target": "fx.travel.seat.short_work_trip",
+        "transition_type": "supersede_existing"
+      },
+      "expected_class": "UPDATE",
+      "expected_target": "fx.travel.seat.short_work_trip",
+      "partition": "development_fixtures",
+      "qwen": {
+        "classification": "UPDATE",
+        "reason": null,
+        "status": "ok",
+        "target": "fx.travel.seat.short_work_trip"
+      }
+    },
+    {
+      "case_id": "transition:development:unsupported_transition:01",
+      "deterministic": {
+        "classification": "IGNORE",
+        "target": null,
+        "transition_type": "reject_unsupported"
+      },
+      "expected_class": "IGNORE",
+      "expected_target": null,
+      "partition": "development_fixtures",
+      "qwen": {
+        "classification": "UPDATE",
+        "reason": null,
+        "status": "ok",
+        "target": "fx.travel.home_airport"
+      }
+    },
+    {
+      "case_id": "transition:development:used_to_now_replacement:01",
+      "deterministic": {
+        "classification": "UPDATE",
+        "target": "fx.travel.seat.general",
+        "transition_type": "supersede_existing"
+      },
+      "expected_class": "UPDATE",
+      "expected_target": "fx.travel.seat.general",
+      "partition": "development_fixtures",
+      "qwen": {
+        "classification": "UPDATE",
+        "reason": null,
+        "status": "ok",
+        "target": "fx.travel.seat.general"
+      }
+    }
+  ]
+}
