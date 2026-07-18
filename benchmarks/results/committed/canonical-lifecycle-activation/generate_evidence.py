@@ -233,9 +233,12 @@ def deep_audit(records):
 
 
 def phase18_followup(records, leak):
-    genuine = set(leak["cross_case_summary"]["genuine_stale_answers"])
-    fps = set(leak["cross_case_summary"]["evaluator_false_positives"])
-    all_nine = list(genuine) + list(fps)
+    # Preserve the frozen list order (deterministic); sets are used only for
+    # membership below, never for iteration order.
+    genuine_list = list(leak["cross_case_summary"]["genuine_stale_answers"])
+    fps_list = list(leak["cross_case_summary"]["evaluator_false_positives"])
+    genuine = set(genuine_list)
+    all_nine = genuine_list + fps_list
     rows = []
     for cid in all_nine:
         r = records.get(cid, {})

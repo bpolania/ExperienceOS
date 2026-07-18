@@ -1,27 +1,6 @@
 {
  "cases": [
   {
-   "case_id": "forgetting_005_forgotten_leakage_check",
-   "phase18_classification": "genuine_stale_answer",
-   "phase18_primary_cause": "obsolete_memory_remained_active_upstream",
-   "phase20_context_state": [
-    "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
-    "Where should I send my daily status update?"
-   ],
-   "phase20_final_answer_state": "UNAVAILABLE_LIVE_JUDGE",
-   "phase20_lifecycle_state": {
-    "forgotten": [
-     "Send my daily status summary to the #eng-daily channel."
-    ],
-    "lifecycle_changed": true,
-    "superseded": []
-   },
-   "phase20_outcome_classification": "fixed_by_lifecycle_activation",
-   "phase20_retrieval_state": "obsolete_excluded",
-   "phase20_score": "UNAVAILABLE_LIVE_JUDGE",
-   "supporting_record": "complete_case_results.jsonl:forgetting_005_forgotten_leakage_check"
-  },
-  {
    "case_id": "context_005_active_and_inactive_versions",
    "phase18_classification": "genuine_stale_answer",
    "phase18_primary_cause": "obsolete_memory_remained_active_upstream",
@@ -88,26 +67,25 @@
    "supporting_record": "complete_case_results.jsonl:containment_002_supersede_inactive_target"
   },
   {
-   "case_id": "forgetting_002_paraphrased_forget",
-   "phase18_classification": "evaluator_false_positive",
-   "phase18_primary_cause": "evaluator_scoring_limitation_not_a_lifecycle_error",
+   "case_id": "forgetting_005_forgotten_leakage_check",
+   "phase18_classification": "genuine_stale_answer",
+   "phase18_primary_cause": "obsolete_memory_remained_active_upstream",
    "phase20_context_state": [
     "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
-    "ExperienceOS retrieved these active user experiences:\n\nPreferences:\n- Prefers studying in the evening.",
-    "I don't care about my study schedule preference anymore."
+    "Where should I send my daily status update?"
    ],
    "phase20_final_answer_state": "UNAVAILABLE_LIVE_JUDGE",
    "phase20_lifecycle_state": {
     "forgotten": [
-     "Prefers studying in the evening."
+     "Send my daily status summary to the #eng-daily channel."
     ],
     "lifecycle_changed": true,
     "superseded": []
    },
-   "phase20_outcome_classification": "evaluator_false_positive_remains",
+   "phase20_outcome_classification": "fixed_by_lifecycle_activation",
    "phase20_retrieval_state": "obsolete_excluded",
    "phase20_score": "UNAVAILABLE_LIVE_JUDGE",
-   "supporting_record": "complete_case_results.jsonl:forgetting_002_paraphrased_forget"
+   "supporting_record": "complete_case_results.jsonl:forgetting_005_forgotten_leakage_check"
   },
   {
    "case_id": "updates_001_preference_replacement_cross_session",
@@ -194,6 +172,28 @@
    "phase20_retrieval_state": "no_lifecycle_change_expected",
    "phase20_score": "UNAVAILABLE_LIVE_JUDGE",
    "supporting_record": "complete_case_results.jsonl:context_006_minimal_context_sufficient"
+  },
+  {
+   "case_id": "forgetting_002_paraphrased_forget",
+   "phase18_classification": "evaluator_false_positive",
+   "phase18_primary_cause": "evaluator_scoring_limitation_not_a_lifecycle_error",
+   "phase20_context_state": [
+    "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+    "ExperienceOS retrieved these active user experiences:\n\nPreferences:\n- Prefers studying in the evening.",
+    "I don't care about my study schedule preference anymore."
+   ],
+   "phase20_final_answer_state": "UNAVAILABLE_LIVE_JUDGE",
+   "phase20_lifecycle_state": {
+    "forgotten": [
+     "Prefers studying in the evening."
+    ],
+    "lifecycle_changed": true,
+    "superseded": []
+   },
+   "phase20_outcome_classification": "evaluator_false_positive_remains",
+   "phase20_retrieval_state": "obsolete_excluded",
+   "phase20_score": "UNAVAILABLE_LIVE_JUDGE",
+   "supporting_record": "complete_case_results.jsonl:forgetting_002_paraphrased_forget"
   }
  ]
 }

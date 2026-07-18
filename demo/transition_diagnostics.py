@@ -1117,6 +1117,9 @@ def replacement_record(payload) -> dict:
             "applied": bool(payload.get("applied")),
             "matcher_decision": payload.get("matcher_decision"),
             "plan_status": payload.get("plan_status"),
+            "runtime_replacement_receipt_issued": bool(
+                payload.get("runtime_replacement_receipt_issued")
+            ),
             "canonical_effect": payload.get("canonical_effect"),
             "plan_digest": _short_digest(payload.get("plan_digest")),
             "original_action_list_digest": _short_digest(

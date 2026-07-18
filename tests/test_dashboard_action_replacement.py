@@ -122,6 +122,7 @@ def test_applied_replacement_record_is_readable_and_safe() -> None:
         "attempted": True, "applied": True,
         "matcher_decision": "replacement_ready",
         "plan_status": "replacement_plan_ready",
+        "runtime_replacement_receipt_issued": True,
         "canonical_effect": "action_replacement_candidate",
         "plan_digest": "0123456789abcdef0123",
         "authorization_status": {"authorized": True},
@@ -130,8 +131,15 @@ def test_applied_replacement_record_is_readable_and_safe() -> None:
     assert record["available"] is True
     assert record["applied"] is True
     assert record["authorization_status"] == "accepted"
+    # The runtime replacement receipt issuance is surfaced (Phase 20 field).
+    assert record["runtime_replacement_receipt_issued"] is True
     # Digest is shortened, never the full value.
     assert record["plan_digest"] == "0123456789ab…"
+
+
+def test_replacement_record_defaults_receipt_issued_false_when_absent() -> None:
+    record = td.replacement_record({"attempted": True, "applied": False})
+    assert record["runtime_replacement_receipt_issued"] is False
 
 
 def test_rejected_replacement_record_shows_fallback() -> None:
