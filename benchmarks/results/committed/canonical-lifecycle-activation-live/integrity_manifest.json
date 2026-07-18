@@ -1,0 +1,29 @@
+{
+ "files": [
+  {
+   "path": "benchmarks/results/committed/competitive-viability/viability_manifest.json",
+   "sha256": "4fa020ce17403dd20cbd4c91d6ed1b0b4052da3a6fd32ce14243b6735e8353d3"
+  },
+  {
+   "path": "benchmarks/results/committed/competitive-viability/stale_failure_evidence.json",
+   "sha256": "209a64dc72e65e8729781d78405adb1d803a5c8aa8ca22fe814caee38631dc6e"
+  },
+  {
+   "path": "benchmarks/results/committed/competitive-viability/stale_leakage_classification.json",
+   "sha256": "034bd8e588336ed7598da9f3217a59e437865e3ca0c8377f837a9f4b122d0d94"
+  },
+  {
+   "path": "benchmarks/results/committed/competitive-viability/execution_summary.json",
+   "sha256": "963ed4de5acabc3249bff1a50ed3c7851125691ed46837952f15dfead10ad7e9"
+  },
+  {
+   "path": "benchmarks/results/committed/competitive-viability/scoring_evidence.json",
+   "sha256": "f8462c3005b27a01efe563191538d787545654f8603cb5af02688f7580a3a053"
+  },
+  {
+   "path": "benchmarks/results/committed/competitive-viability/README.md",
+   "sha256": "46b25f30a82bea1e11ee5a4597be820cea8e0811bf9569118ff5a83a71c5f8dd"
+  }
+ ],
+ "note": "frozen Phase 17/18 inputs, read-only; unchanged by the live run"
+}

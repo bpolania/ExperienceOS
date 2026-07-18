@@ -1,0 +1,206 @@
+{
+ "append_only": {
+  "abstention_accuracy": {
+   "denominator": 1,
+   "numerator": 1,
+   "percentage": 100.0
+  },
+  "current_information_accuracy": {
+   "denominator": 17,
+   "numerator": 12,
+   "percentage": 70.59
+  },
+  "excluded_records": 0,
+  "final_answer_accuracy": {
+   "denominator": 38,
+   "numerator": 28,
+   "percentage": 73.68
+  },
+  "preference_adherence_accuracy": {
+   "denominator": 15,
+   "numerator": 13,
+   "percentage": 86.67
+  },
+  "scored_records": 38,
+  "stale_information_use_rate": {
+   "denominator": 17,
+   "numerator": 6,
+   "percentage": 35.29
+  },
+  "unsupported_claim_rate": {
+   "denominator": 38,
+   "numerator": 5,
+   "percentage": 13.16
+  }
+ },
+ "canonical_experienceos_qwen": {
+  "abstention_accuracy": {
+   "denominator": 2,
+   "numerator": 2,
+   "percentage": 100.0
+  },
+  "current_information_accuracy": {
+   "denominator": 17,
+   "numerator": 15,
+   "percentage": 88.24
+  },
+  "excluded_records": 0,
+  "final_answer_accuracy": {
+   "denominator": 38,
+   "numerator": 30,
+   "percentage": 78.95
+  },
+  "preference_adherence_accuracy": {
+   "denominator": 18,
+   "numerator": 16,
+   "percentage": 88.89
+  },
+  "scored_records": 38,
+  "stale_information_use_rate": {
+   "denominator": 18,
+   "numerator": 5,
+   "percentage": 27.78
+  },
+  "unsupported_claim_rate": {
+   "denominator": 38,
+   "numerator": 5,
+   "percentage": 13.16
+  }
+ },
+ "deterministic_experienceos": {
+  "abstention_accuracy": {
+   "denominator": 1,
+   "numerator": 1,
+   "percentage": 100.0
+  },
+  "current_information_accuracy": {
+   "denominator": 16,
+   "numerator": 13,
+   "percentage": 81.25
+  },
+  "excluded_records": 0,
+  "final_answer_accuracy": {
+   "denominator": 38,
+   "numerator": 27,
+   "percentage": 71.05
+  },
+  "preference_adherence_accuracy": {
+   "denominator": 18,
+   "numerator": 15,
+   "percentage": 83.33
+  },
+  "scored_records": 38,
+  "stale_information_use_rate": {
+   "denominator": 17,
+   "numerator": 9,
+   "percentage": 52.94
+  },
+  "unsupported_claim_rate": {
+   "denominator": 38,
+   "numerator": 6,
+   "percentage": 15.79
+  }
+ },
+ "full_history": {
+  "abstention_accuracy": {
+   "denominator": 2,
+   "numerator": 2,
+   "percentage": 100.0
+  },
+  "current_information_accuracy": {
+   "denominator": 16,
+   "numerator": 14,
+   "percentage": 87.5
+  },
+  "excluded_records": 0,
+  "final_answer_accuracy": {
+   "denominator": 38,
+   "numerator": 28,
+   "percentage": 73.68
+  },
+  "preference_adherence_accuracy": {
+   "denominator": 16,
+   "numerator": 16,
+   "percentage": 100.0
+  },
+  "scored_records": 38,
+  "stale_information_use_rate": {
+   "denominator": 17,
+   "numerator": 8,
+   "percentage": 47.06
+  },
+  "unsupported_claim_rate": {
+   "denominator": 38,
+   "numerator": 8,
+   "percentage": 21.05
+  }
+ },
+ "naive_top_k": {
+  "abstention_accuracy": {
+   "denominator": 1,
+   "numerator": 1,
+   "percentage": 100.0
+  },
+  "current_information_accuracy": {
+   "denominator": 16,
+   "numerator": 12,
+   "percentage": 75.0
+  },
+  "excluded_records": 0,
+  "final_answer_accuracy": {
+   "denominator": 38,
+   "numerator": 29,
+   "percentage": 76.32
+  },
+  "preference_adherence_accuracy": {
+   "denominator": 16,
+   "numerator": 15,
+   "percentage": 93.75
+  },
+  "scored_records": 38,
+  "stale_information_use_rate": {
+   "denominator": 16,
+   "numerator": 6,
+   "percentage": 37.5
+  },
+  "unsupported_claim_rate": {
+   "denominator": 38,
+   "numerator": 4,
+   "percentage": 10.53
+  }
+ },
+ "stateless": {
+  "abstention_accuracy": {
+   "denominator": 2,
+   "numerator": 2,
+   "percentage": 100.0
+  },
+  "current_information_accuracy": {
+   "denominator": 17,
+   "numerator": 11,
+   "percentage": 64.71
+  },
+  "excluded_records": 0,
+  "final_answer_accuracy": {
+   "denominator": 38,
+   "numerator": 31,
+   "percentage": 81.58
+  },
+  "preference_adherence_accuracy": {
+   "denominator": 13,
+   "numerator": 10,
+   "percentage": 76.92
+  },
+  "scored_records": 38,
+  "stale_information_use_rate": {
+   "denominator": 17,
+   "numerator": 1,
+   "percentage": 5.88
+  },
+  "unsupported_claim_rate": {
+   "denominator": 38,
+   "numerator": 1,
+   "percentage": 2.63
+  }
+ }
+}

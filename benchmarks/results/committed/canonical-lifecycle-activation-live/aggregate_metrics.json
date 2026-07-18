@@ -1,0 +1,482 @@
+{
+ "append_only": {
+  "abstention_accuracy": {
+   "delta_points": 0.0,
+   "phase17": {
+    "denominator": 1,
+    "numerator": 1,
+    "percentage": 100.0
+   },
+   "phase20_live": {
+    "denominator": 1,
+    "numerator": 1,
+    "percentage": 100.0
+   }
+  },
+  "current_information_accuracy": {
+   "delta_points": -2.74,
+   "phase17": {
+    "denominator": 15,
+    "numerator": 11,
+    "percentage": 73.33
+   },
+   "phase20_live": {
+    "denominator": 17,
+    "numerator": 12,
+    "percentage": 70.59
+   }
+  },
+  "final_answer_accuracy": {
+   "delta_points": 0.71,
+   "phase17": {
+    "denominator": 37,
+    "numerator": 27,
+    "percentage": 72.97
+   },
+   "phase20_live": {
+    "denominator": 38,
+    "numerator": 28,
+    "percentage": 73.68
+   }
+  },
+  "preference_adherence_accuracy": {
+   "delta_points": 0.0,
+   "phase17": {
+    "denominator": 15,
+    "numerator": 13,
+    "percentage": 86.67
+   },
+   "phase20_live": {
+    "denominator": 15,
+    "numerator": 13,
+    "percentage": 86.67
+   }
+  },
+  "stale_information_use_rate": {
+   "delta_points": -4.71,
+   "phase17": {
+    "denominator": 15,
+    "numerator": 6,
+    "percentage": 40.0
+   },
+   "phase20_live": {
+    "denominator": 17,
+    "numerator": 6,
+    "percentage": 35.29
+   }
+  },
+  "unsupported_claim_rate": {
+   "delta_points": -0.35,
+   "phase17": {
+    "denominator": 37,
+    "numerator": 5,
+    "percentage": 13.51
+   },
+   "phase20_live": {
+    "denominator": 38,
+    "numerator": 5,
+    "percentage": 13.16
+   }
+  }
+ },
+ "canonical_experienceos_qwen": {
+  "abstention_accuracy": {
+   "delta_points": 0.0,
+   "phase17": {
+    "denominator": 1,
+    "numerator": 1,
+    "percentage": 100.0
+   },
+   "phase20_live": {
+    "denominator": 2,
+    "numerator": 2,
+    "percentage": 100.0
+   }
+  },
+  "current_information_accuracy": {
+   "delta_points": 11.77,
+   "phase17": {
+    "denominator": 17,
+    "numerator": 13,
+    "percentage": 76.47
+   },
+   "phase20_live": {
+    "denominator": 17,
+    "numerator": 15,
+    "percentage": 88.24
+   }
+  },
+  "final_answer_accuracy": {
+   "delta_points": 7.9,
+   "phase17": {
+    "denominator": 38,
+    "numerator": 27,
+    "percentage": 71.05
+   },
+   "phase20_live": {
+    "denominator": 38,
+    "numerator": 30,
+    "percentage": 78.95
+   }
+  },
+  "preference_adherence_accuracy": {
+   "delta_points": -4.44,
+   "phase17": {
+    "denominator": 15,
+    "numerator": 14,
+    "percentage": 93.33
+   },
+   "phase20_live": {
+    "denominator": 18,
+    "numerator": 16,
+    "percentage": 88.89
+   }
+  },
+  "stale_information_use_rate": {
+   "delta_points": -22.22,
+   "phase17": {
+    "denominator": 18,
+    "numerator": 9,
+    "percentage": 50.0
+   },
+   "phase20_live": {
+    "denominator": 18,
+    "numerator": 5,
+    "percentage": 27.78
+   }
+  },
+  "unsupported_claim_rate": {
+   "delta_points": -5.26,
+   "phase17": {
+    "denominator": 38,
+    "numerator": 7,
+    "percentage": 18.42
+   },
+   "phase20_live": {
+    "denominator": 38,
+    "numerator": 5,
+    "percentage": 13.16
+   }
+  }
+ },
+ "deterministic_experienceos": {
+  "abstention_accuracy": {
+   "delta_points": 50.0,
+   "phase17": {
+    "denominator": 2,
+    "numerator": 1,
+    "percentage": 50.0
+   },
+   "phase20_live": {
+    "denominator": 1,
+    "numerator": 1,
+    "percentage": 100.0
+   }
+  },
+  "current_information_accuracy": {
+   "delta_points": -1.1,
+   "phase17": {
+    "denominator": 17,
+    "numerator": 14,
+    "percentage": 82.35
+   },
+   "phase20_live": {
+    "denominator": 16,
+    "numerator": 13,
+    "percentage": 81.25
+   }
+  },
+  "final_answer_accuracy": {
+   "delta_points": 0.0,
+   "phase17": {
+    "denominator": 38,
+    "numerator": 27,
+    "percentage": 71.05
+   },
+   "phase20_live": {
+    "denominator": 38,
+    "numerator": 27,
+    "percentage": 71.05
+   }
+  },
+  "preference_adherence_accuracy": {
+   "delta_points": 0.0,
+   "phase17": {
+    "denominator": 18,
+    "numerator": 15,
+    "percentage": 83.33
+   },
+   "phase20_live": {
+    "denominator": 18,
+    "numerator": 15,
+    "percentage": 83.33
+   }
+  },
+  "stale_information_use_rate": {
+   "delta_points": 2.94,
+   "phase17": {
+    "denominator": 18,
+    "numerator": 9,
+    "percentage": 50.0
+   },
+   "phase20_live": {
+    "denominator": 17,
+    "numerator": 9,
+    "percentage": 52.94
+   }
+  },
+  "unsupported_claim_rate": {
+   "delta_points": 0.0,
+   "phase17": {
+    "denominator": 38,
+    "numerator": 6,
+    "percentage": 15.79
+   },
+   "phase20_live": {
+    "denominator": 38,
+    "numerator": 6,
+    "percentage": 15.79
+   }
+  }
+ },
+ "full_history": {
+  "abstention_accuracy": {
+   "delta_points": 0.0,
+   "phase17": {
+    "denominator": 2,
+    "numerator": 2,
+    "percentage": 100.0
+   },
+   "phase20_live": {
+    "denominator": 2,
+    "numerator": 2,
+    "percentage": 100.0
+   }
+  },
+  "current_information_accuracy": {
+   "delta_points": 0.0,
+   "phase17": {
+    "denominator": 16,
+    "numerator": 14,
+    "percentage": 87.5
+   },
+   "phase20_live": {
+    "denominator": 16,
+    "numerator": 14,
+    "percentage": 87.5
+   }
+  },
+  "final_answer_accuracy": {
+   "delta_points": -5.27,
+   "phase17": {
+    "denominator": 38,
+    "numerator": 30,
+    "percentage": 78.95
+   },
+   "phase20_live": {
+    "denominator": 38,
+    "numerator": 28,
+    "percentage": 73.68
+   }
+  },
+  "preference_adherence_accuracy": {
+   "delta_points": 5.88,
+   "phase17": {
+    "denominator": 17,
+    "numerator": 16,
+    "percentage": 94.12
+   },
+   "phase20_live": {
+    "denominator": 16,
+    "numerator": 16,
+    "percentage": 100.0
+   }
+  },
+  "stale_information_use_rate": {
+   "delta_points": 17.65,
+   "phase17": {
+    "denominator": 17,
+    "numerator": 5,
+    "percentage": 29.41
+   },
+   "phase20_live": {
+    "denominator": 17,
+    "numerator": 8,
+    "percentage": 47.06
+   }
+  },
+  "unsupported_claim_rate": {
+   "delta_points": 7.89,
+   "phase17": {
+    "denominator": 38,
+    "numerator": 5,
+    "percentage": 13.16
+   },
+   "phase20_live": {
+    "denominator": 38,
+    "numerator": 8,
+    "percentage": 21.05
+   }
+  }
+ },
+ "naive_top_k": {
+  "abstention_accuracy": {
+   "delta_points": 50.0,
+   "phase17": {
+    "denominator": 2,
+    "numerator": 1,
+    "percentage": 50.0
+   },
+   "phase20_live": {
+    "denominator": 1,
+    "numerator": 1,
+    "percentage": 100.0
+   }
+  },
+  "current_information_accuracy": {
+   "delta_points": -5.0,
+   "phase17": {
+    "denominator": 15,
+    "numerator": 12,
+    "percentage": 80.0
+   },
+   "phase20_live": {
+    "denominator": 16,
+    "numerator": 12,
+    "percentage": 75.0
+   }
+  },
+  "final_answer_accuracy": {
+   "delta_points": 0.0,
+   "phase17": {
+    "denominator": 38,
+    "numerator": 29,
+    "percentage": 76.32
+   },
+   "phase20_live": {
+    "denominator": 38,
+    "numerator": 29,
+    "percentage": 76.32
+   }
+  },
+  "preference_adherence_accuracy": {
+   "delta_points": 0.42,
+   "phase17": {
+    "denominator": 15,
+    "numerator": 14,
+    "percentage": 93.33
+   },
+   "phase20_live": {
+    "denominator": 16,
+    "numerator": 15,
+    "percentage": 93.75
+   }
+  },
+  "stale_information_use_rate": {
+   "delta_points": 0.0,
+   "phase17": {
+    "denominator": 16,
+    "numerator": 6,
+    "percentage": 37.5
+   },
+   "phase20_live": {
+    "denominator": 16,
+    "numerator": 6,
+    "percentage": 37.5
+   }
+  },
+  "unsupported_claim_rate": {
+   "delta_points": 0.0,
+   "phase17": {
+    "denominator": 38,
+    "numerator": 4,
+    "percentage": 10.53
+   },
+   "phase20_live": {
+    "denominator": 38,
+    "numerator": 4,
+    "percentage": 10.53
+   }
+  }
+ },
+ "stateless": {
+  "abstention_accuracy": {
+   "delta_points": 0.0,
+   "phase17": {
+    "denominator": 2,
+    "numerator": 2,
+    "percentage": 100.0
+   },
+   "phase20_live": {
+    "denominator": 2,
+    "numerator": 2,
+    "percentage": 100.0
+   }
+  },
+  "current_information_accuracy": {
+   "delta_points": -4.04,
+   "phase17": {
+    "denominator": 16,
+    "numerator": 11,
+    "percentage": 68.75
+   },
+   "phase20_live": {
+    "denominator": 17,
+    "numerator": 11,
+    "percentage": 64.71
+   }
+  },
+  "final_answer_accuracy": {
+   "delta_points": 2.63,
+   "phase17": {
+    "denominator": 38,
+    "numerator": 30,
+    "percentage": 78.95
+   },
+   "phase20_live": {
+    "denominator": 38,
+    "numerator": 31,
+    "percentage": 81.58
+   }
+  },
+  "preference_adherence_accuracy": {
+   "delta_points": 10.25,
+   "phase17": {
+    "denominator": 15,
+    "numerator": 10,
+    "percentage": 66.67
+   },
+   "phase20_live": {
+    "denominator": 13,
+    "numerator": 10,
+    "percentage": 76.92
+   }
+  },
+  "stale_information_use_rate": {
+   "delta_points": -0.37,
+   "phase17": {
+    "denominator": 16,
+    "numerator": 1,
+    "percentage": 6.25
+   },
+   "phase20_live": {
+    "denominator": 17,
+    "numerator": 1,
+    "percentage": 5.88
+   }
+  },
+  "unsupported_claim_rate": {
+   "delta_points": 0.0,
+   "phase17": {
+    "denominator": 38,
+    "numerator": 1,
+    "percentage": 2.63
+   },
+   "phase20_live": {
+    "denominator": 38,
+    "numerator": 1,
+    "percentage": 2.63
+   }
+  }
+ }
+}

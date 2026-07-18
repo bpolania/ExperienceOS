@@ -1,0 +1,20 @@
+{
+ "credential_present": true,
+ "elapsed_seconds": 3821.2,
+ "execution_mode": "live",
+ "git_head": "dcfd280a672e45dc078a85bafcdbaae83088fbab",
+ "judge_model": "qwen-plus",
+ "model": "qwen-plus",
+ "provider_name": "qwen-cloud",
+ "run_id": "cv-live-canonical-lifecycle-activation",
+ "single_response_model": true,
+ "systems": [
+  "canonical_experienceos_qwen",
+  "deterministic_experienceos",
+  "stateless",
+  "full_history",
+  "naive_top_k",
+  "append_only"
+ ],
+ "total_cases": 40
+}

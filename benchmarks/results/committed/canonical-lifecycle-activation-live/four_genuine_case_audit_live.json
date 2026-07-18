@@ -1,0 +1,52 @@
+{
+ "cases": [
+  {
+   "case_id": "context_005_active_and_inactive_versions",
+   "final_answer_excerpt": "Got it! Since you prefer **light mode** in your editor, I\u2019ll help you set that up right away \u2014 and we can go further based on your editor of choice (e.g., VS Code, Vim, Sublime, etc.).  \n\nCould you let me know:\n- \u2705 Which editor you\u2019re using?  \n- \u2705 Any other preferences you\u2019d like applied? (e.g., fon",
+   "final_forgotten": [],
+   "final_superseded": [
+    "Prefers dark mode in my code editor."
+   ],
+   "scoring_method": "deterministic",
+   "verdict_correct": true,
+   "verdict_uses_current": true,
+   "verdict_uses_stale": false
+  },
+  {
+   "case_id": "retrieval_008_stale_would_mislead",
+   "final_answer_excerpt": "Congrats on the Pixel 9 upgrade \u2014 great choice! \ud83c\udf89  \nThe Pixel 9 supports **up to 27W wired fast charging**, and Google recommends using a **USB-C PD (Power Delivery)** charger that supports **PPS (Programmable Power Supply)** for optimal speed and battery longevity.\n\nHere are top recommendations:\n\n\u2705",
+   "final_forgotten": [],
+   "final_superseded": [
+    "Phone is a Pixel 6."
+   ],
+   "scoring_method": "deterministic",
+   "verdict_correct": true,
+   "verdict_uses_current": true,
+   "verdict_uses_stale": false
+  },
+  {
+   "case_id": "containment_002_supersede_inactive_target",
+   "final_answer_excerpt": "Got it! Based on your earlier note, you prefer **coffee in the morning** \u2014 a classic, energizing choice. \ud83d\ude0a  \nWould you like help with anything related to that\u2014like brewing tips, healthy additions (e.g., oat milk, cinnamon), timing for optimal alertness, or even transitioning to decaf later in the da",
+   "final_forgotten": [],
+   "final_superseded": [
+    "Prefers tea in the morning."
+   ],
+   "scoring_method": "blinded_judge",
+   "verdict_correct": true,
+   "verdict_uses_current": true,
+   "verdict_uses_stale": false
+  },
+  {
+   "case_id": "forgetting_005_forgotten_leakage_check",
+   "final_answer_excerpt": "Great question! Your daily status update should be sent to your manager or team lead\u2014typically via the channel your team uses for stand-ups or check-ins (e.g., Slack in #daily-updates or a direct DM, Microsoft Teams, email, or your project management tool like Jira or Asana).\n\nIf you\u2019re unsure, here",
+   "final_forgotten": [
+    "Send my daily status summary to the #eng-daily channel."
+   ],
+   "final_superseded": [],
+   "scoring_method": "blinded_judge",
+   "verdict_correct": true,
+   "verdict_uses_current": null,
+   "verdict_uses_stale": false
+  }
+ ]
+}

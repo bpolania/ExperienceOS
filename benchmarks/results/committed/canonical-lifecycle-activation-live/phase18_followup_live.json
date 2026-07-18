@@ -1,0 +1,76 @@
+{
+ "cases": [
+  {
+   "case_id": "context_005_active_and_inactive_versions",
+   "phase18_classification": "genuine_stale_answer",
+   "phase20_live_correct": true,
+   "phase20_live_uses_stale": false,
+   "phase20_outcome_classification": "fixed_by_lifecycle_activation",
+   "phase20_scoring_method": "deterministic"
+  },
+  {
+   "case_id": "retrieval_008_stale_would_mislead",
+   "phase18_classification": "genuine_stale_answer",
+   "phase20_live_correct": true,
+   "phase20_live_uses_stale": false,
+   "phase20_outcome_classification": "fixed_by_lifecycle_activation",
+   "phase20_scoring_method": "deterministic"
+  },
+  {
+   "case_id": "containment_002_supersede_inactive_target",
+   "phase18_classification": "genuine_stale_answer",
+   "phase20_live_correct": true,
+   "phase20_live_uses_stale": false,
+   "phase20_outcome_classification": "fixed_by_lifecycle_activation",
+   "phase20_scoring_method": "blinded_judge"
+  },
+  {
+   "case_id": "forgetting_005_forgotten_leakage_check",
+   "phase18_classification": "genuine_stale_answer",
+   "phase20_live_correct": true,
+   "phase20_live_uses_stale": false,
+   "phase20_outcome_classification": "fixed_by_lifecycle_activation",
+   "phase20_scoring_method": "blinded_judge"
+  },
+  {
+   "case_id": "updates_001_preference_replacement_cross_session",
+   "phase18_classification": "evaluator_false_positive",
+   "phase20_live_correct": false,
+   "phase20_live_uses_stale": true,
+   "phase20_outcome_classification": "evaluator_false_positive_remains",
+   "phase20_scoring_method": "deterministic"
+  },
+  {
+   "case_id": "updates_003_instruction_replacement",
+   "phase18_classification": "evaluator_false_positive",
+   "phase20_live_correct": false,
+   "phase20_live_uses_stale": true,
+   "phase20_outcome_classification": "evaluator_false_positive_remains",
+   "phase20_scoring_method": "deterministic"
+  },
+  {
+   "case_id": "updates_008_repeated_correction_chain",
+   "phase18_classification": "evaluator_false_positive",
+   "phase20_live_correct": false,
+   "phase20_live_uses_stale": true,
+   "phase20_outcome_classification": "evaluator_false_positive_remains",
+   "phase20_scoring_method": "deterministic"
+  },
+  {
+   "case_id": "context_006_minimal_context_sufficient",
+   "phase18_classification": "evaluator_false_positive",
+   "phase20_live_correct": false,
+   "phase20_live_uses_stale": true,
+   "phase20_outcome_classification": "evaluator_false_positive_remains",
+   "phase20_scoring_method": "deterministic"
+  },
+  {
+   "case_id": "forgetting_002_paraphrased_forget",
+   "phase18_classification": "evaluator_false_positive",
+   "phase20_live_correct": false,
+   "phase20_live_uses_stale": true,
+   "phase20_outcome_classification": "evaluator_false_positive_remains",
+   "phase20_scoring_method": "blinded_judge"
+  }
+ ]
+}

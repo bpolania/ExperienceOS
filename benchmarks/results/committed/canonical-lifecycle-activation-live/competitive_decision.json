@@ -1,0 +1,20 @@
+{
+ "baselines_final_answer_accuracy_pct": {
+  "append_only": 73.68,
+  "deterministic_experienceos": 71.05,
+  "full_history": 73.68,
+  "naive_top_k": 76.32,
+  "stateless": 81.58
+ },
+ "canonical_final_answer_accuracy_pct": 78.95,
+ "competitive_decision": "COMPETITIVE_VIABILITY_COMPARABLE_WITH_NOTES",
+ "equals_or_exceeds_strongest": false,
+ "gap_points": 2.63,
+ "notes": [
+  "single live sample per system (as in frozen Phase 17); live model outputs are stochastic and not byte-reproducible",
+  "all six systems rerun in the same campaign under one shared response model (qwen-plus), so the comparison is internally aligned"
+ ],
+ "strongest_baseline": "stateless",
+ "strongest_baseline_pct": 81.58,
+ "within_five_point_comparability_heuristic": true
+}
