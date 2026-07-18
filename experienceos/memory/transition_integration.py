@@ -895,11 +895,22 @@ class TransitionIntegrationCoordinator:
             generated_type, generated_target, _ = infer_existing_transition(
                 translation.actions
             )
-            existing_type, existing_target, _ = infer_existing_transition(
-                request.existing_actions
+            existing_type, existing_target, existing_create = (
+                infer_existing_transition(request.existing_actions)
+            )
+            # Only defer to a WELL-FORMED planner transition for the exact
+            # same target. A supersede must carry lineage (a create that
+            # replaces the same target); a malformed planner batch (broken
+            # or absent lineage) must never suppress the verified runtime
+            # transition, which is correctly formed.
+            planner_well_formed = existing_type == "forget_existing" or (
+                existing_type == "supersede_existing"
+                and existing_create is not None
+                and existing_create.replaces == existing_target
             )
             if (
-                generated_type is not None
+                planner_well_formed
+                and generated_type is not None
                 and generated_type == existing_type
                 and generated_target is not None
                 and generated_target == existing_target
