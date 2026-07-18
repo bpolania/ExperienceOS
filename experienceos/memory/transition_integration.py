@@ -272,6 +272,12 @@ class TransitionIntegrationConfig:
     # matching ReplacementAuthorization is what lets the engine replace a
     # conflicting planner create instead of appending beside it.
     replacement_authorizations: tuple = ()
+    # Optional bounded runtime authority. When present in adopted mode it
+    # issues an exact TransitionAuthorization receipt for one eligible
+    # verified proposal; the receipt is still validated by the same exact
+    # ``_authorize`` comparison. None (the default) leaves behavior
+    # unchanged, and its presence never enables adopted mode on its own.
+    runtime_authority: object | None = None
     max_diagnostics: int = 12
 
     def __post_init__(self):
@@ -305,6 +311,7 @@ class TransitionIntegrationConfig:
         return {
             "mode": self.mode,
             "authorization_count": len(self.authorizations),
+            "runtime_authority_configured": self.runtime_authority is not None,
             "max_diagnostics": self.max_diagnostics,
         }
 
@@ -385,6 +392,9 @@ class TransitionIntegrationResult:
     controller_invoked: bool = False
     verifier_invoked: bool = False
     authorization_checked: bool = False
+    runtime_authority_checked: bool = False
+    runtime_authority_reason: str = ""
+    runtime_authorization_receipt_digest: str = ""
     translation_attempted: bool = False
     controller_result: object | None = None
     proposal: object | None = None
@@ -425,6 +435,11 @@ class TransitionIntegrationResult:
             "controller_invoked": self.controller_invoked,
             "verifier_invoked": self.verifier_invoked,
             "authorization_checked": self.authorization_checked,
+            "runtime_authority_checked": self.runtime_authority_checked,
+            "runtime_authority_reason": self.runtime_authority_reason,
+            "runtime_authorization_receipt_digest": (
+                self.runtime_authorization_receipt_digest
+            ),
             "translation_attempted": self.translation_attempted,
             "transition_type": self.transition_type,
             "proposal_id": getattr(self.proposal, "proposal_id", None),
@@ -857,8 +872,55 @@ class TransitionIntegrationCoordinator:
             )
 
         # -- adopted --------------------------------------------------
+        # Bounded runtime authority: after proposal + verification +
+        # translation exist, issue an exact receipt for one eligible
+        # proposal. The receipt is only an additional candidate; the exact
+        # ``_authorize`` comparison below still decides. A denial or a
+        # contained error just leaves no runtime candidate — planner
+        # fallback is preserved.
+        runtime_receipt = None
+        runtime_reason = ""
+        runtime_checked = False
+        authority = self.config.runtime_authority
+        if authority is not None:
+            runtime_checked = True
+            mark = time.perf_counter()
+            try:
+                runtime_decision = authority.authorize_transition(
+                    coordinator=self, request=request, proposal=proposal,
+                    verification=verification, translation=translation,
+                )
+                runtime_receipt = runtime_decision.receipt
+                runtime_reason = runtime_decision.reason
+                diag_kind = (
+                    "runtime_authority_receipt_issued"
+                    if runtime_receipt is not None
+                    else "runtime_authority_denied"
+                )
+            except Exception as exc:  # noqa: BLE001 — contained; type-name only
+                runtime_receipt = None
+                runtime_reason = type(exc).__name__
+                diag_kind = "runtime_authority_error"
+            stages["runtime_authority_ms"] = (time.perf_counter() - mark) * 1000.0
+            diagnostics.append(TransitionIntegrationDiagnostic(
+                diag_kind, "authorization", runtime_reason))
+        else:
+            diagnostics.append(TransitionIntegrationDiagnostic(
+                "runtime_authority_not_configured", "authorization", ""))
+        runtime_digest = (
+            runtime_receipt.digest() if runtime_receipt is not None else ""
+        )
+        runtime_fields = {
+            "runtime_authority_checked": runtime_checked,
+            "runtime_authority_reason": runtime_reason,
+            "runtime_authorization_receipt_digest": runtime_digest,
+        }
+
         mark = time.perf_counter()
-        decision = self._authorize(request, proposal, verification, translation)
+        decision = self._authorize(
+            request, proposal, verification, translation,
+            extra_candidate=runtime_receipt,
+        )
         stages["authorization_ms"] = (time.perf_counter() - mark) * 1000.0
         diagnostics.append(
             TransitionIntegrationDiagnostic(
@@ -876,7 +938,8 @@ class TransitionIntegrationCoordinator:
         )
         if not decision.authorized:
             return TransitionIntegrationResult(
-                **base, translation_attempted=True, translation=translation,
+                **base, **runtime_fields, translation_attempted=True,
+                translation=translation,
                 authorization_checked=True, authorization_decision=decision,
                 canonical_action_effect=CanonicalActionEffect.AUTHORIZATION_DENIED,
                 canonical_effect_status=(
@@ -893,7 +956,8 @@ class TransitionIntegrationCoordinator:
             )
         if not translation.succeeded:
             return TransitionIntegrationResult(
-                **base, translation_attempted=True, translation=translation,
+                **base, **runtime_fields, translation_attempted=True,
+                translation=translation,
                 authorization_checked=True, authorization_decision=decision,
                 canonical_action_effect=CanonicalActionEffect.TRANSLATION_FAILED,
                 canonical_effect_status=CanonicalEffectStatus.AUTHORIZED_NOT_APPLIED,
@@ -908,7 +972,8 @@ class TransitionIntegrationCoordinator:
         # Authorized and translated. The engine decides admission and
         # application; nothing is applied here.
         return TransitionIntegrationResult(
-            **base, translation_attempted=True, translation=translation,
+            **base, **runtime_fields, translation_attempted=True,
+            translation=translation,
             authorization_checked=True, authorization_decision=decision,
             generated_actions=translation.actions,
             canonical_action_effect=CanonicalActionEffect.ACTION_ADDED,
@@ -973,8 +1038,14 @@ class TransitionIntegrationCoordinator:
             "expected_action_count": len(translation.actions),
         }
 
-    def _authorize(self, request, proposal, verification, translation):
-        """Exact-match authorization. Any difference fails closed."""
+    def _authorize(self, request, proposal, verification, translation,
+                   extra_candidate=None):
+        """Exact-match authorization. Any difference fails closed.
+
+        ``extra_candidate`` is an optional runtime-issued receipt; it is
+        an additional candidate only and never bypasses the exact
+        comparison below.
+        """
         # Authorization never substitutes for verification.
         if verification is None or not verification.accepted:
             return TransitionAuthorizationDecision(
@@ -987,6 +1058,8 @@ class TransitionIntegrationCoordinator:
         candidates = list(self.config.authorizations)
         if request.authorization is not None:
             candidates.append(request.authorization)
+        if extra_candidate is not None:
+            candidates.append(extra_candidate)
         if not candidates:
             return TransitionAuthorizationDecision(
                 False, "authorization_missing", checked=True

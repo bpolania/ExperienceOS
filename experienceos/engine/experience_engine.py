@@ -450,19 +450,19 @@ class ExperienceEngine:
         if not is_adopted_add:
             return payload
 
-        repl_auths = getattr(
-            getattr(self.transition_coordinator, "config", None),
-            "replacement_authorizations",
-            (),
-        )
+        config = getattr(self.transition_coordinator, "config", None)
+        repl_auths = getattr(config, "replacement_authorizations", ())
+        runtime_authority = getattr(config, "runtime_authority", None)
         sequence = tuple(result.generated_actions)
         supersede_bearing = any(
             a.action == SUPERSEDE for a in sequence
         ) and any(a.action == CREATE for a in sequence)
 
-        # Governed replacement is attempted only when a replacement
-        # authorization exists and the transition is supersede-bearing.
-        if repl_auths and supersede_bearing:
+        # Governed replacement is attempted for a supersede-bearing
+        # transition when a replacement authority exists: either a static
+        # replacement authorization, or a bounded runtime authority that
+        # can issue the plan-bound receipt inside _governed_replacement.
+        if (repl_auths or runtime_authority is not None) and supersede_bearing:
             handled = self._governed_replacement(
                 planner_actions, valid_actions, sequence, result, request,
                 message, memories, active_ids, retired_ids, repl_auths, payload,
@@ -658,7 +658,29 @@ class ExperienceEngine:
                      effect=CanonicalActionEffect.LIFECYCLE_REJECTED)
             return True
 
-        auth = authorize_replacement(plan, repl_auths)
+        # Runtime replacement receipt: this path runs only for an
+        # already-authorized adopted supersede (is_adopted_add,
+        # supersede-bearing), and the plan is built from that exact
+        # transition sequence, so a configured bounded authority may issue
+        # the plan-bound receipt. It is only an additional candidate; the
+        # existing exact ``authorize_replacement`` validator still decides.
+        runtime_authority = getattr(
+            getattr(self.transition_coordinator, "config", None),
+            "runtime_authority", None,
+        )
+        candidates = list(repl_auths)
+        runtime_repl_issued = False
+        if runtime_authority is not None:
+            try:
+                runtime_repl = runtime_authority.authorize_replacement(plan)
+            except Exception:  # noqa: BLE001 — contained; fall back to static
+                runtime_repl = None
+            if runtime_repl is not None:
+                candidates.append(runtime_repl)
+                runtime_repl_issued = True
+        repl["runtime_replacement_receipt_issued"] = runtime_repl_issued
+
+        auth = authorize_replacement(plan, tuple(candidates))
         repl["authorization_status"] = auth.to_record()
         if not auth.authorized:
             fallback(auth.reason)
