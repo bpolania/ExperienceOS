@@ -1,0 +1,25 @@
+{
+ "applicable_cases": 38,
+ "context_token_economy": {
+  "canonical_avg_context_tokens": 58.05,
+  "canonical_total_context_tokens_sum": 2206,
+  "full_history_comparison": "requires live full_history rerun; frozen Phase 17 reported ~87% reduction vs full history (referenced, not recomputed here)"
+ },
+ "deterministic_lifecycle_retrieval_context": {
+  "failed": 0,
+  "note": "deterministic scenario constraint evaluation (lifecycle + retrieval + context); provider-independent",
+  "passed": 38
+ },
+ "execution_mode": "offline_recorded_response_provider",
+ "final_answer_metrics": "UNAVAILABLE_LIVE_JUDGE",
+ "lifecycle_activity": {
+  "cases_with_any_supersede_or_forget": 16,
+  "cases_with_forget": 6,
+  "cases_with_supersede": 11,
+  "phase17_cases_with_any_supersede_or_forget": 0,
+  "phase17_note": "frozen stale_leakage_classification cross_case_summary recorded any_memory_superseded_or_forgotten=false"
+ },
+ "skipped_cases": 2,
+ "system": "canonical_experienceos_qwen",
+ "total_cases": 40
+}

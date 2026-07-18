@@ -1,0 +1,199 @@
+{
+ "cases": [
+  {
+   "case_id": "forgetting_005_forgotten_leakage_check",
+   "phase18_classification": "genuine_stale_answer",
+   "phase18_primary_cause": "obsolete_memory_remained_active_upstream",
+   "phase20_context_state": [
+    "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+    "Where should I send my daily status update?"
+   ],
+   "phase20_final_answer_state": "UNAVAILABLE_LIVE_JUDGE",
+   "phase20_lifecycle_state": {
+    "forgotten": [
+     "Send my daily status summary to the #eng-daily channel."
+    ],
+    "lifecycle_changed": true,
+    "superseded": []
+   },
+   "phase20_outcome_classification": "fixed_by_lifecycle_activation",
+   "phase20_retrieval_state": "obsolete_excluded",
+   "phase20_score": "UNAVAILABLE_LIVE_JUDGE",
+   "supporting_record": "complete_case_results.jsonl:forgetting_005_forgotten_leakage_check"
+  },
+  {
+   "case_id": "context_005_active_and_inactive_versions",
+   "phase18_classification": "genuine_stale_answer",
+   "phase18_primary_cause": "obsolete_memory_remained_active_upstream",
+   "phase20_context_state": [
+    "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+    "ExperienceOS retrieved these active user experiences:\n\nPreferences:\n- Switch that \u2014 I prefer light mode in my editor now.",
+    "Set up the editor on my new laptop the way I like it."
+   ],
+   "phase20_final_answer_state": "UNAVAILABLE_LIVE_JUDGE",
+   "phase20_lifecycle_state": {
+    "forgotten": [],
+    "lifecycle_changed": true,
+    "superseded": [
+     "Prefers dark mode in my code editor."
+    ]
+   },
+   "phase20_outcome_classification": "fixed_by_lifecycle_activation",
+   "phase20_retrieval_state": "obsolete_excluded",
+   "phase20_score": "UNAVAILABLE_LIVE_JUDGE",
+   "supporting_record": "complete_case_results.jsonl:context_005_active_and_inactive_versions"
+  },
+  {
+   "case_id": "retrieval_008_stale_would_mislead",
+   "phase18_classification": "genuine_stale_answer",
+   "phase18_primary_cause": "obsolete_memory_remained_active_upstream",
+   "phase20_context_state": [
+    "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+    "ExperienceOS retrieved these active user experiences:\n\nFacts:\n- I upgraded \u2014 my phone is a Pixel 9 now.",
+    "Which fast charger should I buy for my phone?"
+   ],
+   "phase20_final_answer_state": "UNAVAILABLE_LIVE_JUDGE",
+   "phase20_lifecycle_state": {
+    "forgotten": [],
+    "lifecycle_changed": true,
+    "superseded": [
+     "Phone is a Pixel 6."
+    ]
+   },
+   "phase20_outcome_classification": "fixed_by_lifecycle_activation",
+   "phase20_retrieval_state": "obsolete_excluded",
+   "phase20_score": "UNAVAILABLE_LIVE_JUDGE",
+   "supporting_record": "complete_case_results.jsonl:retrieval_008_stale_would_mislead"
+  },
+  {
+   "case_id": "containment_002_supersede_inactive_target",
+   "phase18_classification": "genuine_stale_answer",
+   "phase18_primary_cause": "obsolete_memory_remained_active_upstream",
+   "phase20_context_state": [
+    "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+    "ExperienceOS retrieved these active user experiences:\n\nPreferences:\n- Actually, I prefer coffee in the morning.",
+    "Let's review my drink preferences."
+   ],
+   "phase20_final_answer_state": "UNAVAILABLE_LIVE_JUDGE",
+   "phase20_lifecycle_state": {
+    "forgotten": [],
+    "lifecycle_changed": true,
+    "superseded": [
+     "Prefers tea in the morning."
+    ]
+   },
+   "phase20_outcome_classification": "fixed_by_lifecycle_activation",
+   "phase20_retrieval_state": "obsolete_excluded",
+   "phase20_score": "UNAVAILABLE_LIVE_JUDGE",
+   "supporting_record": "complete_case_results.jsonl:containment_002_supersede_inactive_target"
+  },
+  {
+   "case_id": "forgetting_002_paraphrased_forget",
+   "phase18_classification": "evaluator_false_positive",
+   "phase18_primary_cause": "evaluator_scoring_limitation_not_a_lifecycle_error",
+   "phase20_context_state": [
+    "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+    "ExperienceOS retrieved these active user experiences:\n\nPreferences:\n- Prefers studying in the evening.",
+    "I don't care about my study schedule preference anymore."
+   ],
+   "phase20_final_answer_state": "UNAVAILABLE_LIVE_JUDGE",
+   "phase20_lifecycle_state": {
+    "forgotten": [
+     "Prefers studying in the evening."
+    ],
+    "lifecycle_changed": true,
+    "superseded": []
+   },
+   "phase20_outcome_classification": "evaluator_false_positive_remains",
+   "phase20_retrieval_state": "obsolete_excluded",
+   "phase20_score": "UNAVAILABLE_LIVE_JUDGE",
+   "supporting_record": "complete_case_results.jsonl:forgetting_002_paraphrased_forget"
+  },
+  {
+   "case_id": "updates_001_preference_replacement_cross_session",
+   "phase18_classification": "evaluator_false_positive",
+   "phase18_primary_cause": "evaluator_scoring_limitation_not_a_lifecycle_error",
+   "phase20_context_state": [
+    "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+    "ExperienceOS retrieved these active user experiences:\n\nPreferences:\n- Prefers tea in the morning.",
+    "Actually, I prefer coffee in the morning."
+   ],
+   "phase20_final_answer_state": "UNAVAILABLE_LIVE_JUDGE",
+   "phase20_lifecycle_state": {
+    "forgotten": [],
+    "lifecycle_changed": true,
+    "superseded": [
+     "Prefers tea in the morning."
+    ]
+   },
+   "phase20_outcome_classification": "evaluator_false_positive_remains",
+   "phase20_retrieval_state": "obsolete_excluded",
+   "phase20_score": "UNAVAILABLE_LIVE_JUDGE",
+   "supporting_record": "complete_case_results.jsonl:updates_001_preference_replacement_cross_session"
+  },
+  {
+   "case_id": "updates_003_instruction_replacement",
+   "phase18_classification": "evaluator_false_positive",
+   "phase18_primary_cause": "evaluator_scoring_limitation_not_a_lifecycle_error",
+   "phase20_context_state": [
+    "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+    "ExperienceOS retrieved these active user experiences:\n\nInstructions:\n- Send my daily status summary to the #eng-daily channel.",
+    "From now on, send my daily status summary to the #eng-standup channel instead."
+   ],
+   "phase20_final_answer_state": "UNAVAILABLE_LIVE_JUDGE",
+   "phase20_lifecycle_state": {
+    "forgotten": [],
+    "lifecycle_changed": true,
+    "superseded": [
+     "Send my daily status summary to the #eng-daily channel."
+    ]
+   },
+   "phase20_outcome_classification": "evaluator_false_positive_remains",
+   "phase20_retrieval_state": "obsolete_excluded",
+   "phase20_score": "UNAVAILABLE_LIVE_JUDGE",
+   "supporting_record": "complete_case_results.jsonl:updates_003_instruction_replacement"
+  },
+  {
+   "case_id": "updates_008_repeated_correction_chain",
+   "phase18_classification": "evaluator_false_positive",
+   "phase18_primary_cause": "evaluator_scoring_limitation_not_a_lifecycle_error",
+   "phase20_context_state": [
+    "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+    "ExperienceOS retrieved these active user experiences:\n\nInstructions:\n- From now on, send my daily status summary to the #eng-standup channel.",
+    "One more change \u2014 my daily status summary goes to #team-updates now."
+   ],
+   "phase20_final_answer_state": "UNAVAILABLE_LIVE_JUDGE",
+   "phase20_lifecycle_state": {
+    "forgotten": [],
+    "lifecycle_changed": true,
+    "superseded": [
+     "Send my daily status summary to the #eng-daily channel."
+    ]
+   },
+   "phase20_outcome_classification": "evaluator_false_positive_remains",
+   "phase20_retrieval_state": "obsolete_excluded",
+   "phase20_score": "UNAVAILABLE_LIVE_JUDGE",
+   "supporting_record": "complete_case_results.jsonl:updates_008_repeated_correction_chain"
+  },
+  {
+   "case_id": "context_006_minimal_context_sufficient",
+   "phase18_classification": "evaluator_false_positive",
+   "phase18_primary_cause": "evaluator_scoring_limitation_not_a_lifecycle_error",
+   "phase20_context_state": [
+    "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+    "ExperienceOS retrieved these active user experiences:\n\nPreferences:\n- Dislikes peanuts \u2014 never include them in my food.",
+    "Suggest a cake recipe for my son's birthday party."
+   ],
+   "phase20_final_answer_state": "UNAVAILABLE_LIVE_JUDGE",
+   "phase20_lifecycle_state": {
+    "forgotten": [],
+    "lifecycle_changed": false,
+    "superseded": []
+   },
+   "phase20_outcome_classification": "evaluator_false_positive_remains",
+   "phase20_retrieval_state": "no_lifecycle_change_expected",
+   "phase20_score": "UNAVAILABLE_LIVE_JUDGE",
+   "supporting_record": "complete_case_results.jsonl:context_006_minimal_context_sufficient"
+  }
+ ]
+}

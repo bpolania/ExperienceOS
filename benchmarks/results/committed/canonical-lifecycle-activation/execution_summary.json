@@ -1,0 +1,13 @@
+{
+ "competitive_final_answer": "LIVE_COMPETITIVE_RESULT_UNAVAILABLE",
+ "note": "offline canonical rerun under activated lifecycle path; final-answer competitive scoring unavailable (no live provider)",
+ "provider_failures": {
+  "qwen_cloud": "unavailable_no_credentials_configured"
+ },
+ "run_id": "cv-p20-canonical-lifecycle-activation",
+ "status_distribution": {
+  "passed": 38,
+  "skipped": 2
+ },
+ "total_cases": 40
+}

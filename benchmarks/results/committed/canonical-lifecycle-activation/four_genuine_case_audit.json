@@ -1,0 +1,169 @@
+{
+ "cases": [
+  {
+   "case_id": "context_005_active_and_inactive_versions",
+   "lifecycle_retrieval_context_outcome": "fixed_obsolete_superseded_or_forgotten_and_excluded_from_context",
+   "q01_obsolete_memory": [
+    "Prefers dark mode in my code editor."
+   ],
+   "q02_change_turn_message": "Switch that \u2014 I prefer light mode in my editor now.",
+   "q03_planner_proposals": [
+    {
+     "action": "create",
+     "text": "Prefers light mode in my editor."
+    }
+   ],
+   "q04_planner_precedence_applies": false,
+   "q05_06_applied_transition": [
+    {
+     "action": "supersede",
+     "text": "Prefers dark mode in my code editor."
+    },
+    {
+     "action": "create",
+     "text": "Switch that \u2014 I prefer light mode in my editor now."
+    }
+   ],
+   "q12_persisted_lifecycle_state": {
+    "active": [
+     "Switch that \u2014 I prefer light mode in my editor now.",
+     "Likes it."
+    ],
+    "forgotten": [],
+    "superseded": [
+     "Prefers dark mode in my code editor."
+    ]
+   },
+   "q13_retrieval_excluded_obsolete": [
+    "Prefers dark mode in my code editor."
+   ],
+   "q14_rendered_final_context": [
+    "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+    "ExperienceOS retrieved these active user experiences:\n\nPreferences:\n- Switch that \u2014 I prefer light mode in my editor now.",
+    "Set up the editor on my new laptop the way I like it."
+   ],
+   "q15_final_answer_provider": "mock (recorded) \u2014 live Qwen unavailable",
+   "q16_final_answer_frozen_criteria": "UNAVAILABLE_LIVE_JUDGE"
+  },
+  {
+   "case_id": "retrieval_008_stale_would_mislead",
+   "lifecycle_retrieval_context_outcome": "fixed_obsolete_superseded_or_forgotten_and_excluded_from_context",
+   "q01_obsolete_memory": [
+    "Phone is a Pixel 6."
+   ],
+   "q02_change_turn_message": "I upgraded \u2014 my phone is a Pixel 9 now.",
+   "q03_planner_proposals": [
+    {
+     "action": "create",
+     "text": "Phone is a Pixel 9."
+    }
+   ],
+   "q04_planner_precedence_applies": false,
+   "q05_06_applied_transition": [
+    {
+     "action": "supersede",
+     "text": "Phone is a Pixel 6."
+    },
+    {
+     "action": "create",
+     "text": "I upgraded \u2014 my phone is a Pixel 9 now."
+    }
+   ],
+   "q12_persisted_lifecycle_state": {
+    "active": [
+     "I upgraded \u2014 my phone is a Pixel 9 now."
+    ],
+    "forgotten": [],
+    "superseded": [
+     "Phone is a Pixel 6."
+    ]
+   },
+   "q13_retrieval_excluded_obsolete": [
+    "Phone is a Pixel 6."
+   ],
+   "q14_rendered_final_context": [
+    "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+    "ExperienceOS retrieved these active user experiences:\n\nFacts:\n- I upgraded \u2014 my phone is a Pixel 9 now.",
+    "Which fast charger should I buy for my phone?"
+   ],
+   "q15_final_answer_provider": "mock (recorded) \u2014 live Qwen unavailable",
+   "q16_final_answer_frozen_criteria": "UNAVAILABLE_LIVE_JUDGE"
+  },
+  {
+   "case_id": "containment_002_supersede_inactive_target",
+   "lifecycle_retrieval_context_outcome": "fixed_obsolete_superseded_or_forgotten_and_excluded_from_context",
+   "q01_obsolete_memory": [
+    "Prefers tea in the morning."
+   ],
+   "q02_change_turn_message": "Actually, I prefer coffee in the morning.",
+   "q03_planner_proposals": [
+    {
+     "action": "create",
+     "text": "Prefers coffee in the morning."
+    }
+   ],
+   "q04_planner_precedence_applies": false,
+   "q05_06_applied_transition": [
+    {
+     "action": "supersede",
+     "text": "Prefers tea in the morning."
+    },
+    {
+     "action": "create",
+     "text": "Actually, I prefer coffee in the morning."
+    }
+   ],
+   "q12_persisted_lifecycle_state": {
+    "active": [
+     "Actually, I prefer coffee in the morning."
+    ],
+    "forgotten": [],
+    "superseded": [
+     "Prefers tea in the morning."
+    ]
+   },
+   "q13_retrieval_excluded_obsolete": [
+    "Prefers tea in the morning."
+   ],
+   "q14_rendered_final_context": [
+    "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+    "ExperienceOS retrieved these active user experiences:\n\nPreferences:\n- Actually, I prefer coffee in the morning.",
+    "Let's review my drink preferences."
+   ],
+   "q15_final_answer_provider": "mock (recorded) \u2014 live Qwen unavailable",
+   "q16_final_answer_frozen_criteria": "UNAVAILABLE_LIVE_JUDGE"
+  },
+  {
+   "case_id": "forgetting_005_forgotten_leakage_check",
+   "lifecycle_retrieval_context_outcome": "fixed_obsolete_superseded_or_forgotten_and_excluded_from_context",
+   "q01_obsolete_memory": [
+    "Send my daily status summary to the #eng-daily channel."
+   ],
+   "q02_change_turn_message": "Forget the instruction about my daily status channel.",
+   "q03_planner_proposals": [],
+   "q04_planner_precedence_applies": false,
+   "q05_06_applied_transition": [
+    {
+     "action": "forget",
+     "text": "Send my daily status summary to the #eng-daily channel."
+    }
+   ],
+   "q12_persisted_lifecycle_state": {
+    "active": [],
+    "forgotten": [
+     "Send my daily status summary to the #eng-daily channel."
+    ],
+    "superseded": []
+   },
+   "q13_retrieval_excluded_obsolete": [
+    "Send my daily status summary to the #eng-daily channel."
+   ],
+   "q14_rendered_final_context": [
+    "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+    "Where should I send my daily status update?"
+   ],
+   "q15_final_answer_provider": "mock (recorded) \u2014 live Qwen unavailable",
+   "q16_final_answer_frozen_criteria": "UNAVAILABLE_LIVE_JUDGE"
+  }
+ ]
+}

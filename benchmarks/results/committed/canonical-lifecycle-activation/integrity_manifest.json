@@ -1,0 +1,61 @@
+{
+ "files": [
+  {
+   "byte_size": 46931,
+   "git_blob": "81798944240ca5e30f39a697e66c57b00a77b3ec",
+   "kind": "input",
+   "path": "benchmarks/results/committed/competitive-viability/viability_manifest.json",
+   "role": "frozen viability subset manifest",
+   "sha256": "4fa020ce17403dd20cbd4c91d6ed1b0b4052da3a6fd32ce14243b6735e8353d3"
+  },
+  {
+   "byte_size": 76674,
+   "git_blob": "36e1826622dbcb2ce07b0422b47db3403fa0e8d2",
+   "kind": "historical_output",
+   "path": "benchmarks/results/committed/competitive-viability/stale_failure_evidence.json",
+   "role": "Phase 18 raw stale-failure inventory",
+   "sha256": "209a64dc72e65e8729781d78405adb1d803a5c8aa8ca22fe814caee38631dc6e"
+  },
+  {
+   "byte_size": 18845,
+   "git_blob": "a02f8a1a58a2c46e3ad881beca0bc481e3ad504a",
+   "kind": "historical_output",
+   "path": "benchmarks/results/committed/competitive-viability/stale_leakage_classification.json",
+   "role": "Phase 18 leakage classification",
+   "sha256": "034bd8e588336ed7598da9f3217a59e437865e3ca0c8377f837a9f4b122d0d94"
+  },
+  {
+   "byte_size": 2017,
+   "git_blob": "95ec8a107b7d764783bdac039bcd2a251820e326",
+   "kind": "historical_output",
+   "path": "benchmarks/results/committed/competitive-viability/execution_summary.json",
+   "role": "Phase 17 execution summary",
+   "sha256": "963ed4de5acabc3249bff1a50ed3c7851125691ed46837952f15dfead10ad7e9"
+  },
+  {
+   "byte_size": 126562,
+   "git_blob": "3ad9f1653ae32a7fb274b1b5a7adb06d92444883",
+   "kind": "historical_output",
+   "path": "benchmarks/results/committed/competitive-viability/scoring_evidence.json",
+   "role": "Phase 17 scoring evidence + judge config",
+   "sha256": "f8462c3005b27a01efe563191538d787545654f8603cb5af02688f7580a3a053"
+  },
+  {
+   "byte_size": 2691,
+   "git_blob": "178597082494e4e04029c499591f2c2a48911c1e",
+   "kind": "report",
+   "path": "benchmarks/results/committed/competitive-viability/README.md",
+   "role": "Phase 17/18 evidence readme",
+   "sha256": "46b25f30a82bea1e11ee5a4597be820cea8e0811bf9569118ff5a83a71c5f8dd"
+  }
+ ],
+ "internal_hashes": {
+  "viability_manifest_hash": "9c7f3009dd92307c84abb72643367cc1b17e8cb11b9bdecbc94de28a74fdb51c",
+  "viability_source_manifest_hash": "0481f41e03795ce66133e01929dea563f326d7ce790adc4ee0ab4d37f1cfd6eb"
+ },
+ "note": "frozen Phase 17/18 inputs, read-only; recompute after the rerun to prove exact preservation",
+ "previously_reported_hash_mapping": {
+  "raw_records bb9c1362...": "raw_records_hash field inside stale_failure_evidence.json",
+  "viability_manifest 9c7f3009...": "internal manifest_hash field of viability_manifest.json"
+ }
+}

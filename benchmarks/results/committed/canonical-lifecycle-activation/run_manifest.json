@@ -1,0 +1,41 @@
+{
+ "affected_case_ids": [
+  "updates_001_preference_replacement_cross_session",
+  "updates_002_fact_correction",
+  "updates_003_instruction_replacement",
+  "updates_004_now_prefer_wording",
+  "updates_005_instead_of_wording",
+  "updates_006_scoped_preferences_coexist",
+  "updates_007_correction_with_distractors",
+  "updates_008_repeated_correction_chain",
+  "forgetting_001_exact_forget",
+  "forgetting_002_paraphrased_forget",
+  "forgetting_003_forget_one_of_several",
+  "forgetting_004_forget_after_supersession",
+  "forgetting_005_forgotten_leakage_check",
+  "forgetting_006_restatement_not_resurrection",
+  "retrieval_005_old_relevant_vs_recent_irrelevant",
+  "retrieval_008_stale_would_mislead",
+  "context_005_active_and_inactive_versions",
+  "containment_001_duplicate_create_contained",
+  "containment_002_supersede_inactive_target",
+  "containment_003_forget_nonexistent_target",
+  "containment_004_malformed_proposal_fallback",
+  "containment_005_one_sentence_supersession_local",
+  "containment_006_vague_forget_safe"
+ ],
+ "affected_selection_rule": "lifecycle_category in {update, forgetting} OR final_answer_category == current_vs_stale OR case_id startswith 'containment'",
+ "baselines_status": "not_rerun_live_provider_unavailable",
+ "determinism": "latency/timestamp fields excluded from committed records",
+ "execution_mode": "offline_recorded_response_provider",
+ "frozen_manifest_hash": "9c7f3009dd92307c84abb72643367cc1b17e8cb11b9bdecbc94de28a74fdb51c",
+ "ordering_policy": "manifest order; deterministic; no post-run replacement",
+ "provider_available": false,
+ "response_provider": "MockProvider (recorded); Qwen Cloud not configured",
+ "run_id": "cv-p20-canonical-lifecycle-activation",
+ "system": "canonical_experienceos_qwen",
+ "systems_executed": [
+  "canonical_experienceos_qwen"
+ ],
+ "systems_reused": []
+}
