@@ -1,0 +1,1622 @@
+{
+  "cases": [
+    {
+      "applicable_scoring_dimensions": [
+        "correct",
+        "unsupported_claim",
+        "uses_stale_information"
+      ],
+      "benchmark_family": "updates",
+      "case_id": "updates_001_preference_replacement_cross_session",
+      "context_selection": {
+        "discarded": [],
+        "memory_context_tokens": 25,
+        "selected": [
+          {
+            "reason": "selected: matched morning, prefer; domains timing; preference priority; within budget",
+            "text": "Prefers tea in the morning."
+          }
+        ],
+        "total_context_tokens": 56
+      },
+      "conversation": {
+        "building_turns": [
+          {
+            "message": "I prefer tea in the morning.",
+            "session_id": "session-1",
+            "turn_index": 0
+          },
+          {
+            "message": "Actually, I prefer coffee in the morning.",
+            "session_id": "session-2",
+            "turn_index": 1
+          }
+        ],
+        "final_prompt_context_messages": [
+          "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+          "ExperienceOS retrieved these active user experiences:\n\nPreferences:\n- Prefers tea in the morning.",
+          "Actually, I prefer coffee in the morning."
+        ],
+        "note": "ExperienceOS supplies retrieved memory plus the current message; prior conversation turns are not re-sent as raw history in the final prompt"
+      },
+      "expected_current_answer_ref": {
+        "expected_active_memory": [
+          {
+            "logical_id": "food.morning_drink.updated",
+            "match_terms": [
+              "coffee"
+            ]
+          }
+        ],
+        "must_include_all": [],
+        "must_include_any": []
+      },
+      "final_answer": {
+        "approx_total_context_tokens": 56,
+        "latencies_ms": {
+          "end_to_end": 5055.6,
+          "memory_decision": 2816.6,
+          "response": 2238.8,
+          "retrieval": 0.2
+        },
+        "provider_request_count": 2,
+        "text": "Got it \u2014 coffee in the morning, not tea. I\u2019ll update your preference right away. \u2615  \nLet me know if there\u2019s anything else you\u2019d like to adjust or if you\u2019d like help with something today!",
+        "token_usage_note": "exact provider token usage was not recorded; approximation tokens shown from context accounting"
+      },
+      "final_answer_produced": "Got it \u2014 coffee in the morning, not tea. I\u2019ll update your preference right away. \u2615  \nLet me know if there\u2019s anything else you\u2019d like to adjust or if you\u2019d like help with something today!",
+      "final_prompt": {
+        "messages": [
+          "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+          "ExperienceOS retrieved these active user experiences:\n\nPreferences:\n- Prefers tea in the morning.",
+          "Actually, I prefer coffee in the morning."
+        ],
+        "note": "system instruction + rendered memory + current user message"
+      },
+      "initial_observations": [
+        "no memory in the store is in superseded state",
+        "no memory in the store is in forgotten state",
+        "a memory containing a stale/forbidden value is present and active in the store",
+        "a stale-valued memory was among the retrieval candidates",
+        "a stale-valued memory was selected into context",
+        "a stale/forbidden value appears in the rendered memory context",
+        "the frozen scoring verdict marks uses_stale_information=true for this answer",
+        "stale/forbidden value(s) ['tea'] appear in the final answer"
+      ],
+      "judge_decision": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      },
+      "judge_evidence": {
+        "judge_output_status": null,
+        "method": "deterministic",
+        "reason_codes": [
+          "EXPECTED_VALUE_PRESENT",
+          "STALE_VALUE_USED",
+          "UNSUPPORTED_CLAIM"
+        ]
+      },
+      "lifecycle_filtering": {
+        "eligible_after_filtering": [
+          "Prefers tea in the morning."
+        ],
+        "excluded_forgotten": [],
+        "excluded_superseded": []
+      },
+      "memory_store": {
+        "active": [
+          {
+            "kind": "preference",
+            "memory_id": "120d253d-402f-4909-8212-c7066b6dadb9",
+            "status": "active",
+            "text": "Prefers tea in the morning."
+          },
+          {
+            "kind": "preference",
+            "memory_id": "cc32e11d-6d73-4c49-9078-d9513a7f2b17",
+            "status": "active",
+            "text": "Prefers coffee in the morning."
+          }
+        ],
+        "forgotten": [],
+        "note": "scope, tags, and wall-clock creation time are not serialized in the execution record; creation is shown by turn_index in update_lineage",
+        "superseded": [],
+        "update_lineage": [
+          {
+            "action": "create",
+            "memory_id": "120d253d-402f-4909-8212-c7066b6dadb9",
+            "replaces": null,
+            "text": "Prefers tea in the morning.",
+            "turn_index": 0
+          },
+          {
+            "action": "create",
+            "memory_id": "cc32e11d-6d73-4c49-9078-d9513a7f2b17",
+            "replaces": null,
+            "text": "Prefers coffee in the morning.",
+            "turn_index": 1
+          }
+        ]
+      },
+      "rendered_memory_context": "ExperienceOS retrieved these active user experiences:\n\nPreferences:\n- Prefers tea in the morning.",
+      "retrieval": {
+        "candidates": [
+          {
+            "memory_id": "120d253d-402f-4909-8212-c7066b6dadb9",
+            "rank": 1,
+            "reason": "selected: matched morning, prefer; domains timing; preference priority; within budget",
+            "score": 2.0,
+            "selected": true,
+            "text": "Prefers tea in the morning."
+          }
+        ],
+        "ordering": [
+          "120d253d-402f-4909-8212-c7066b6dadb9"
+        ]
+      },
+      "stale_memory_involved": {
+        "expected_forgotten": [],
+        "expected_superseded": [
+          {
+            "logical_id": "food.morning_drink",
+            "match_terms": [
+              "tea"
+            ]
+          }
+        ],
+        "must_exclude_values": [
+          "tea"
+        ]
+      },
+      "user_query": "Actually, I prefer coffee in the morning."
+    },
+    {
+      "applicable_scoring_dimensions": [
+        "correct",
+        "unsupported_claim",
+        "uses_stale_information"
+      ],
+      "benchmark_family": "updates",
+      "case_id": "updates_003_instruction_replacement",
+      "context_selection": {
+        "discarded": [],
+        "memory_context_tokens": 32,
+        "selected": [
+          {
+            "reason": "selected: matched channel, daily, eng, send, statu, summary; instruction priority; within budget",
+            "text": "Send my daily status summary to the #eng-daily channel."
+          }
+        ],
+        "total_context_tokens": 72
+      },
+      "conversation": {
+        "building_turns": [
+          {
+            "message": "From now on, send my daily status summary to the #eng-daily channel.",
+            "session_id": "session-1",
+            "turn_index": 0
+          },
+          {
+            "message": "From now on, send my daily status summary to the #eng-standup channel instead.",
+            "session_id": "session-2",
+            "turn_index": 1
+          }
+        ],
+        "final_prompt_context_messages": [
+          "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+          "ExperienceOS retrieved these active user experiences:\n\nInstructions:\n- Send my daily status summary to the #eng-daily channel.",
+          "From now on, send my daily status summary to the #eng-standup channel instead."
+        ],
+        "note": "ExperienceOS supplies retrieved memory plus the current message; prior conversation turns are not re-sent as raw history in the final prompt"
+      },
+      "expected_current_answer_ref": {
+        "expected_active_memory": [
+          {
+            "logical_id": "work.daily_status_channel.updated",
+            "match_terms": [
+              "eng-standup"
+            ]
+          }
+        ],
+        "must_include_all": [],
+        "must_include_any": []
+      },
+      "final_answer": {
+        "approx_total_context_tokens": 72,
+        "latencies_ms": {
+          "end_to_end": 5587.0,
+          "memory_decision": 2999.6,
+          "response": 2587.3,
+          "retrieval": 0.2
+        },
+        "provider_request_count": 2,
+        "text": "Got it \u2014 I\u2019ll update your daily status summary delivery to the `#eng-standup` channel instead of `#eng-daily`. Let me know if you'd like me to confirm the change with a test message or adjust any other preferences! \ud83d\ude80",
+        "token_usage_note": "exact provider token usage was not recorded; approximation tokens shown from context accounting"
+      },
+      "final_answer_produced": "Got it \u2014 I\u2019ll update your daily status summary delivery to the `#eng-standup` channel instead of `#eng-daily`. Let me know if you'd like me to confirm the change with a test message or adjust any other preferences! \ud83d\ude80",
+      "final_prompt": {
+        "messages": [
+          "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+          "ExperienceOS retrieved these active user experiences:\n\nInstructions:\n- Send my daily status summary to the #eng-daily channel.",
+          "From now on, send my daily status summary to the #eng-standup channel instead."
+        ],
+        "note": "system instruction + rendered memory + current user message"
+      },
+      "initial_observations": [
+        "no memory in the store is in superseded state",
+        "no memory in the store is in forgotten state",
+        "a memory containing a stale/forbidden value is present and active in the store",
+        "a stale-valued memory was among the retrieval candidates",
+        "a stale-valued memory was selected into context",
+        "a stale/forbidden value appears in the rendered memory context",
+        "the frozen scoring verdict marks uses_stale_information=true for this answer",
+        "stale/forbidden value(s) ['eng-daily'] appear in the final answer"
+      ],
+      "judge_decision": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      },
+      "judge_evidence": {
+        "judge_output_status": null,
+        "method": "deterministic",
+        "reason_codes": [
+          "EXPECTED_VALUE_PRESENT",
+          "STALE_VALUE_USED",
+          "UNSUPPORTED_CLAIM"
+        ]
+      },
+      "lifecycle_filtering": {
+        "eligible_after_filtering": [
+          "Send my daily status summary to the #eng-daily channel."
+        ],
+        "excluded_forgotten": [],
+        "excluded_superseded": []
+      },
+      "memory_store": {
+        "active": [
+          {
+            "kind": "instruction",
+            "memory_id": "fc290378-983a-4de1-a742-18d398add9be",
+            "status": "active",
+            "text": "Send my daily status summary to the #eng-daily channel."
+          },
+          {
+            "kind": "instruction",
+            "memory_id": "d69f9e5f-3189-4cec-b614-b74fcb841daa",
+            "status": "active",
+            "text": "Send my daily status summary to the #eng-standup channel instead."
+          }
+        ],
+        "forgotten": [],
+        "note": "scope, tags, and wall-clock creation time are not serialized in the execution record; creation is shown by turn_index in update_lineage",
+        "superseded": [],
+        "update_lineage": [
+          {
+            "action": "create",
+            "memory_id": "fc290378-983a-4de1-a742-18d398add9be",
+            "replaces": null,
+            "text": "Send my daily status summary to the #eng-daily channel.",
+            "turn_index": 0
+          },
+          {
+            "action": "create",
+            "memory_id": "d69f9e5f-3189-4cec-b614-b74fcb841daa",
+            "replaces": null,
+            "text": "Send my daily status summary to the #eng-standup channel instead.",
+            "turn_index": 1
+          }
+        ]
+      },
+      "rendered_memory_context": "ExperienceOS retrieved these active user experiences:\n\nInstructions:\n- Send my daily status summary to the #eng-daily channel.",
+      "retrieval": {
+        "candidates": [
+          {
+            "memory_id": "fc290378-983a-4de1-a742-18d398add9be",
+            "rank": 1,
+            "reason": "selected: matched channel, daily, eng, send, statu, summary; instruction priority; within budget",
+            "score": 6.0,
+            "selected": true,
+            "text": "Send my daily status summary to the #eng-daily channel."
+          }
+        ],
+        "ordering": [
+          "fc290378-983a-4de1-a742-18d398add9be"
+        ]
+      },
+      "stale_memory_involved": {
+        "expected_forgotten": [],
+        "expected_superseded": [
+          {
+            "logical_id": "work.daily_status_channel",
+            "match_terms": [
+              "eng-daily"
+            ]
+          }
+        ],
+        "must_exclude_values": [
+          "eng-daily"
+        ]
+      },
+      "user_query": "From now on, send my daily status summary to the #eng-standup channel instead."
+    },
+    {
+      "applicable_scoring_dimensions": [
+        "correct",
+        "unsupported_claim",
+        "uses_stale_information"
+      ],
+      "benchmark_family": "updates",
+      "case_id": "updates_008_repeated_correction_chain",
+      "context_selection": {
+        "discarded": [],
+        "memory_context_tokens": 47,
+        "selected": [
+          {
+            "reason": "selected: matched daily, statu, summary; instruction priority; within budget",
+            "text": "Send my daily status summary to the #eng-standup channel."
+          },
+          {
+            "reason": "selected: matched daily, statu, summary; instruction priority; within budget",
+            "text": "Send my daily status summary to the #eng-daily channel."
+          }
+        ],
+        "total_context_tokens": 85
+      },
+      "conversation": {
+        "building_turns": [
+          {
+            "message": "From now on, send my daily status summary to the #eng-daily channel.",
+            "session_id": "session-1",
+            "turn_index": 0
+          },
+          {
+            "message": "From now on, send my daily status summary to the #eng-standup channel.",
+            "session_id": "session-2",
+            "turn_index": 1
+          },
+          {
+            "message": "One more change \u2014 my daily status summary goes to #team-updates now.",
+            "session_id": "session-3",
+            "turn_index": 2
+          }
+        ],
+        "final_prompt_context_messages": [
+          "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+          "ExperienceOS retrieved these active user experiences:\n\nInstructions:\n- Send my daily status summary to the #eng-standup channel.\n- Send my daily status summary to the #eng-daily channel.",
+          "One more change \u2014 my daily status summary goes to #team-updates now."
+        ],
+        "note": "ExperienceOS supplies retrieved memory plus the current message; prior conversation turns are not re-sent as raw history in the final prompt"
+      },
+      "expected_current_answer_ref": {
+        "expected_active_memory": [
+          {
+            "logical_id": "work.daily_status_channel.v3",
+            "match_terms": [
+              "team-updates"
+            ]
+          }
+        ],
+        "must_include_all": [],
+        "must_include_any": []
+      },
+      "final_answer": {
+        "approx_total_context_tokens": 85,
+        "latencies_ms": {
+          "end_to_end": 5581.4,
+          "memory_decision": 3018.3,
+          "response": 2562.9,
+          "retrieval": 0.1
+        },
+        "provider_request_count": 3,
+        "text": "Got it \u2014 your daily status summary will now be sent to **#team-updates** instead of #eng-standup and #eng-daily.\n\nI\u2019ve updated your ExperienceOS profile accordingly. Let me know if you'd like me to send today\u2019s summary right away! \ud83d\ude80",
+        "token_usage_note": "exact provider token usage was not recorded; approximation tokens shown from context accounting"
+      },
+      "final_answer_produced": "Got it \u2014 your daily status summary will now be sent to **#team-updates** instead of #eng-standup and #eng-daily.\n\nI\u2019ve updated your ExperienceOS profile accordingly. Let me know if you'd like me to send today\u2019s summary right away! \ud83d\ude80",
+      "final_prompt": {
+        "messages": [
+          "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+          "ExperienceOS retrieved these active user experiences:\n\nInstructions:\n- Send my daily status summary to the #eng-standup channel.\n- Send my daily status summary to the #eng-daily channel.",
+          "One more change \u2014 my daily status summary goes to #team-updates now."
+        ],
+        "note": "system instruction + rendered memory + current user message"
+      },
+      "initial_observations": [
+        "no memory in the store is in superseded state",
+        "no memory in the store is in forgotten state",
+        "a memory containing a stale/forbidden value is present and active in the store",
+        "a stale-valued memory was among the retrieval candidates",
+        "a stale-valued memory was selected into context",
+        "a stale/forbidden value appears in the rendered memory context",
+        "the frozen scoring verdict marks uses_stale_information=true for this answer",
+        "stale/forbidden value(s) ['eng-daily', 'eng-standup'] appear in the final answer"
+      ],
+      "judge_decision": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      },
+      "judge_evidence": {
+        "judge_output_status": null,
+        "method": "deterministic",
+        "reason_codes": [
+          "EXPECTED_VALUE_PRESENT",
+          "STALE_VALUE_USED",
+          "UNSUPPORTED_CLAIM"
+        ]
+      },
+      "lifecycle_filtering": {
+        "eligible_after_filtering": [
+          "Send my daily status summary to the #eng-standup channel.",
+          "Send my daily status summary to the #eng-daily channel."
+        ],
+        "excluded_forgotten": [],
+        "excluded_superseded": []
+      },
+      "memory_store": {
+        "active": [
+          {
+            "kind": "instruction",
+            "memory_id": "47e28144-f6f9-4e29-9dce-3c085ba5af2d",
+            "status": "active",
+            "text": "Send my daily status summary to the #eng-daily channel."
+          },
+          {
+            "kind": "instruction",
+            "memory_id": "81385e84-6399-421c-ab52-2552bb37aaed",
+            "status": "active",
+            "text": "Send my daily status summary to the #eng-standup channel."
+          }
+        ],
+        "forgotten": [],
+        "note": "scope, tags, and wall-clock creation time are not serialized in the execution record; creation is shown by turn_index in update_lineage",
+        "superseded": [],
+        "update_lineage": [
+          {
+            "action": "create",
+            "memory_id": "47e28144-f6f9-4e29-9dce-3c085ba5af2d",
+            "replaces": null,
+            "text": "Send my daily status summary to the #eng-daily channel.",
+            "turn_index": 0
+          },
+          {
+            "action": "create",
+            "memory_id": "81385e84-6399-421c-ab52-2552bb37aaed",
+            "replaces": null,
+            "text": "Send my daily status summary to the #eng-standup channel.",
+            "turn_index": 1
+          }
+        ]
+      },
+      "rendered_memory_context": "ExperienceOS retrieved these active user experiences:\n\nInstructions:\n- Send my daily status summary to the #eng-standup channel.\n- Send my daily status summary to the #eng-daily channel.",
+      "retrieval": {
+        "candidates": [
+          {
+            "memory_id": "81385e84-6399-421c-ab52-2552bb37aaed",
+            "rank": 1,
+            "reason": "selected: matched daily, statu, summary; instruction priority; within budget",
+            "score": 3.0,
+            "selected": true,
+            "text": "Send my daily status summary to the #eng-standup channel."
+          },
+          {
+            "memory_id": "47e28144-f6f9-4e29-9dce-3c085ba5af2d",
+            "rank": 2,
+            "reason": "selected: matched daily, statu, summary; instruction priority; within budget",
+            "score": 3.0,
+            "selected": true,
+            "text": "Send my daily status summary to the #eng-daily channel."
+          }
+        ],
+        "ordering": [
+          "81385e84-6399-421c-ab52-2552bb37aaed",
+          "47e28144-f6f9-4e29-9dce-3c085ba5af2d"
+        ]
+      },
+      "stale_memory_involved": {
+        "expected_forgotten": [],
+        "expected_superseded": [
+          {
+            "logical_id": "work.daily_status_channel.v1",
+            "match_terms": [
+              "eng-daily"
+            ]
+          },
+          {
+            "logical_id": "work.daily_status_channel.v2",
+            "match_terms": [
+              "eng-standup"
+            ]
+          }
+        ],
+        "must_exclude_values": [
+          "eng-daily",
+          "eng-standup"
+        ]
+      },
+      "user_query": "One more change \u2014 my daily status summary goes to #team-updates now."
+    },
+    {
+      "applicable_scoring_dimensions": [
+        "correct",
+        "unsupported_claim",
+        "uses_current_information",
+        "uses_stale_information"
+      ],
+      "benchmark_family": "context",
+      "case_id": "context_005_active_and_inactive_versions",
+      "context_selection": {
+        "discarded": [],
+        "memory_context_tokens": 36,
+        "selected": [
+          {
+            "reason": "selected: matched editor; preference priority; within budget",
+            "text": "Prefers light mode in my editor."
+          },
+          {
+            "reason": "selected: matched editor; preference priority; within budget",
+            "text": "Prefers dark mode in my code editor."
+          }
+        ],
+        "total_context_tokens": 70
+      },
+      "conversation": {
+        "building_turns": [
+          {
+            "message": "I prefer dark mode in my code editor.",
+            "session_id": "session-1",
+            "turn_index": 0
+          },
+          {
+            "message": "Switch that \u2014 I prefer light mode in my editor now.",
+            "session_id": "session-2",
+            "turn_index": 1
+          },
+          {
+            "message": "Set up the editor on my new laptop the way I like it.",
+            "session_id": "session-3",
+            "turn_index": 2
+          }
+        ],
+        "final_prompt_context_messages": [
+          "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+          "ExperienceOS retrieved these active user experiences:\n\nPreferences:\n- Prefers light mode in my editor.\n- Prefers dark mode in my code editor.",
+          "Set up the editor on my new laptop the way I like it."
+        ],
+        "note": "ExperienceOS supplies retrieved memory plus the current message; prior conversation turns are not re-sent as raw history in the final prompt"
+      },
+      "expected_current_answer_ref": {
+        "expected_active_memory": [
+          {
+            "logical_id": "dev.editor_theme.updated",
+            "match_terms": [
+              "light"
+            ]
+          }
+        ],
+        "must_include_all": [],
+        "must_include_any": [
+          "light"
+        ]
+      },
+      "final_answer": {
+        "approx_total_context_tokens": 70,
+        "latencies_ms": {
+          "end_to_end": 12064.2,
+          "memory_decision": 2898.8,
+          "response": 9165.1,
+          "retrieval": 0.2
+        },
+        "provider_request_count": 3,
+        "text": "Got it! Based on your preferences from ExperienceOS:\n\n\u2705 **Light mode** for your *editor* (e.g., general text/code editors like VS Code\u2019s UI, or system-wide editor themes \u2014 unless specified otherwise)  \n\ud83c\udf19 **Dark mode** for your *code editor* (e.g., VS Code\u2019s editor area, syntax highlighting theme, and terminal background)\n\nTo set this up cleanly on your new laptop (assuming you're using **VS Code**, the most common modern code editor), here's what I recommend:\n\n### \ud83d\udee0\ufe0f Quick Setup Steps:\n1. **Install VS Code** (if not already installed):  \n   \u2192 Download from [code.visualstudio.com](https://code.visualstudio.com/)\n\n2. **Enable Light Mode for the UI (outer shell)**:  \n   - `Ctrl/Cmd + Shift + P` \u2192 type *\u201cPreferences: Color Theme\u201d* \u2192 choose a **light UI theme**, e.g.,  \n     \u2192 `\"Light+ (default light)`\" *(for sidebar, tabs, title bar)*\n\n3. **Enable Dark Mode for the Editor Area & Terminal**:  \n   - Still in *\u201cPreferences: Color Theme\u201d*, pick a **dark editor theme**, e.g.,  \n     \u2192 `\"Dark+ (default dark)`\" or `\"One Dark Pro\"` (popular dark syntax theme)  \n   - \u2705 This keeps the *code editing surface*, *integrated terminal*, and *syntax highlighting* dark \u2014 while the *UI chrome* stays light.\n\n4. **(Optional but recommended)** Sync settings:  \n   - Sign into your Microsoft/VS Code account \u2192 enable Settings Sync to restore your preferred fonts, tab size, extensions (like Prettier, ESLint), etc.\n\nWould you like me to:\n- Generate a ready-to-run setup script (e.g., shell + VS Code `settings.json` snippet)?  \n- Help configure a different editor (e.g., Vim, Sublime, JetBrains IDE)?  \n- Suggest specific extensions or font pairings that complement light UI / dark editor?\n\nJust say the word \u2014 happy to tailor it further. \ud83d\udcbb\u2728",
+        "token_usage_note": "exact provider token usage was not recorded; approximation tokens shown from context accounting"
+      },
+      "final_answer_produced": "Got it! Based on your preferences from ExperienceOS:\n\n\u2705 **Light mode** for your *editor* (e.g., general text/code editors like VS Code\u2019s UI, or system-wide editor themes \u2014 unless specified otherwise)  \n\ud83c\udf19 **Dark mode** for your *code editor* (e.g., VS Code\u2019s editor area, syntax highlighting theme, and terminal background)\n\nTo set this up cleanly on your new laptop (assuming you're using **VS Code**, the most common modern code editor), here's what I recommend:\n\n### \ud83d\udee0\ufe0f Quick Setup Steps:\n1. **Install VS Code** (if not already installed):  \n   \u2192 Download from [code.visualstudio.com](https://code.visualstudio.com/)\n\n2. **Enable Light Mode for the UI (outer shell)**:  \n   - `Ctrl/Cmd + Shift + P` \u2192 type *\u201cPreferences: Color Theme\u201d* \u2192 choose a **light UI theme**, e.g.,  \n     \u2192 `\"Light+ (default light)`\" *(for sidebar, tabs, title bar)*\n\n3. **Enable Dark Mode for the Editor Area & Terminal**:  \n   - Still in *\u201cPreferences: Color Theme\u201d*, pick a **dark editor theme**, e.g.,  \n     \u2192 `\"Dark+ (default dark)`\" or `\"One Dark Pro\"` (popular dark syntax theme)  \n   - \u2705 This keeps the *code editing surface*, *integrated terminal*, and *syntax highlighting* dark \u2014 while the *UI chrome* stays light.\n\n4. **(Optional but recommended)** Sync settings:  \n   - Sign into your Microsoft/VS Code account \u2192 enable Settings Sync to restore your preferred fonts, tab size, extensions (like Prettier, ESLint), etc.\n\nWould you like me to:\n- Generate a ready-to-run setup script (e.g., shell + VS Code `settings.json` snippet)?  \n- Help configure a different editor (e.g., Vim, Sublime, JetBrains IDE)?  \n- Suggest specific extensions or font pairings that complement light UI / dark editor?\n\nJust say the word \u2014 happy to tailor it further. \ud83d\udcbb\u2728",
+      "final_prompt": {
+        "messages": [
+          "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+          "ExperienceOS retrieved these active user experiences:\n\nPreferences:\n- Prefers light mode in my editor.\n- Prefers dark mode in my code editor.",
+          "Set up the editor on my new laptop the way I like it."
+        ],
+        "note": "system instruction + rendered memory + current user message"
+      },
+      "initial_observations": [
+        "no memory in the store is in superseded state",
+        "no memory in the store is in forgotten state",
+        "a memory containing a stale/forbidden value is present and active in the store",
+        "a stale-valued memory was among the retrieval candidates",
+        "a stale-valued memory was selected into context",
+        "a stale/forbidden value appears in the rendered memory context",
+        "the frozen scoring verdict marks uses_stale_information=true for this answer",
+        "a current value appears in the rendered memory context",
+        "stale/forbidden value(s) ['dark'] appear in the final answer"
+      ],
+      "judge_decision": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": true,
+        "uses_stale_information": true
+      },
+      "judge_evidence": {
+        "judge_output_status": null,
+        "method": "deterministic",
+        "reason_codes": [
+          "EXPECTED_VALUE_PRESENT",
+          "CURRENT_VALUE_USED",
+          "STALE_VALUE_USED",
+          "UNSUPPORTED_CLAIM"
+        ]
+      },
+      "lifecycle_filtering": {
+        "eligible_after_filtering": [
+          "Prefers light mode in my editor.",
+          "Prefers dark mode in my code editor."
+        ],
+        "excluded_forgotten": [],
+        "excluded_superseded": []
+      },
+      "memory_store": {
+        "active": [
+          {
+            "kind": "preference",
+            "memory_id": "f360d0c0-b2b1-45db-9fce-0b129c4f13ef",
+            "status": "active",
+            "text": "Prefers dark mode in my code editor."
+          },
+          {
+            "kind": "preference",
+            "memory_id": "c6b6f5a5-d519-48d6-868a-71203f84d4ad",
+            "status": "active",
+            "text": "Prefers light mode in my editor."
+          },
+          {
+            "kind": "preference",
+            "memory_id": "10361220-6e5e-4b19-9150-09231cd396c9",
+            "status": "active",
+            "text": "Likes it."
+          }
+        ],
+        "forgotten": [],
+        "note": "scope, tags, and wall-clock creation time are not serialized in the execution record; creation is shown by turn_index in update_lineage",
+        "superseded": [],
+        "update_lineage": [
+          {
+            "action": "create",
+            "memory_id": "f360d0c0-b2b1-45db-9fce-0b129c4f13ef",
+            "replaces": null,
+            "text": "Prefers dark mode in my code editor.",
+            "turn_index": 0
+          },
+          {
+            "action": "create",
+            "memory_id": "c6b6f5a5-d519-48d6-868a-71203f84d4ad",
+            "replaces": null,
+            "text": "Prefers light mode in my editor.",
+            "turn_index": 1
+          },
+          {
+            "action": "create",
+            "memory_id": "10361220-6e5e-4b19-9150-09231cd396c9",
+            "replaces": null,
+            "text": "Likes it.",
+            "turn_index": 2
+          }
+        ]
+      },
+      "rendered_memory_context": "ExperienceOS retrieved these active user experiences:\n\nPreferences:\n- Prefers light mode in my editor.\n- Prefers dark mode in my code editor.",
+      "retrieval": {
+        "candidates": [
+          {
+            "memory_id": "c6b6f5a5-d519-48d6-868a-71203f84d4ad",
+            "rank": 1,
+            "reason": "selected: matched editor; preference priority; within budget",
+            "score": 1.0,
+            "selected": true,
+            "text": "Prefers light mode in my editor."
+          },
+          {
+            "memory_id": "f360d0c0-b2b1-45db-9fce-0b129c4f13ef",
+            "rank": 2,
+            "reason": "selected: matched editor; preference priority; within budget",
+            "score": 1.0,
+            "selected": true,
+            "text": "Prefers dark mode in my code editor."
+          }
+        ],
+        "ordering": [
+          "c6b6f5a5-d519-48d6-868a-71203f84d4ad",
+          "f360d0c0-b2b1-45db-9fce-0b129c4f13ef"
+        ]
+      },
+      "stale_memory_involved": {
+        "expected_forgotten": [],
+        "expected_superseded": [
+          {
+            "logical_id": "dev.editor_theme",
+            "match_terms": [
+              "dark"
+            ]
+          }
+        ],
+        "must_exclude_values": [
+          "dark"
+        ]
+      },
+      "user_query": "Set up the editor on my new laptop the way I like it."
+    },
+    {
+      "applicable_scoring_dimensions": [
+        "correct",
+        "unsupported_claim",
+        "uses_stale_information"
+      ],
+      "benchmark_family": "context",
+      "case_id": "context_006_minimal_context_sufficient",
+      "context_selection": {
+        "discarded": [],
+        "memory_context_tokens": 30,
+        "selected": [
+          {
+            "reason": "selected: no keyword match; preference priority; within budget",
+            "text": "Dislikes peanuts \u2014 never include them in my food."
+          }
+        ],
+        "total_context_tokens": 63
+      },
+      "conversation": {
+        "building_turns": [
+          {
+            "message": "I don't like peanuts \u2014 never include them in my food.",
+            "session_id": "session-1",
+            "turn_index": 0
+          },
+          {
+            "message": "It was so hot outside today.",
+            "session_id": "session-1",
+            "turn_index": 1
+          },
+          {
+            "message": "I watched a great movie last night.",
+            "session_id": "session-1",
+            "turn_index": 2
+          },
+          {
+            "message": "That meeting ran way too long.",
+            "session_id": "session-2",
+            "turn_index": 3
+          },
+          {
+            "message": "I'm thinking about repainting the hallway sometime.",
+            "session_id": "session-2",
+            "turn_index": 4
+          },
+          {
+            "message": "Suggest a cake recipe for my son's birthday party.",
+            "session_id": "session-3",
+            "turn_index": 5
+          }
+        ],
+        "final_prompt_context_messages": [
+          "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+          "ExperienceOS retrieved these active user experiences:\n\nPreferences:\n- Dislikes peanuts \u2014 never include them in my food.",
+          "Suggest a cake recipe for my son's birthday party."
+        ],
+        "note": "ExperienceOS supplies retrieved memory plus the current message; prior conversation turns are not re-sent as raw history in the final prompt"
+      },
+      "expected_current_answer_ref": {
+        "expected_active_memory": [],
+        "must_include_all": [],
+        "must_include_any": []
+      },
+      "final_answer": {
+        "approx_total_context_tokens": 63,
+        "latencies_ms": {
+          "end_to_end": 17136.5,
+          "memory_decision": 2485.3,
+          "response": 14650.9,
+          "retrieval": 0.2
+        },
+        "provider_request_count": 6,
+        "text": "Happy birthday to your son! \ud83c\udf82 Here's a fun, crowd-pleasing, and *peanut-free* cake recipe that\u2019s moist, flavorful, and easy to customize:\n\n**Vanilla Birthday Cake with Whipped Vanilla Buttercream (Peanut-Free & Kid-Approved!)**\n\n**Why it\u2019s great for a party:**\n\u2705 Naturally peanut-free (no peanut oil, flour, or cross-contamination risk \u2014 just double-check your vanilla extract & sprinkles)  \n\u2705 Light and fluffy \u2014 not overly sweet, so kids (and adults!) love it  \n\u2705 Holds up well under frosting and decorations  \n\u2705 Easily adaptable: add food coloring, swap in fun sprinkles, or top with fresh berries  \n\n---\n\n**Ingredients (Two 8-inch round layers):**  \n*Dry:*  \n- 2 \u00bd cups (315g) all-purpose flour (spooned & leveled)  \n- 2 \u00bd tsp baking powder  \n- \u00bd tsp salt  \n\n*Wet:*  \n- 1 cup (240ml) whole milk, room temperature  \n- 2 large eggs, room temperature  \n- 2 tsp pure vanilla extract (check label\u2014ensure it\u2019s peanut-free; most are, but some \u201cnatural flavors\u201d can be ambiguous)  \n- 1 cup (227g) unsalted butter, softened  \n- 1 \u00be cups (350g) granulated sugar  \n\n*Buttercream (makes enough for filling + frosting):*  \n- 1 cup (227g) unsalted butter, softened  \n- 4 cups (480g) powdered sugar, sifted  \n- 2\u20133 tbsp heavy cream or milk  \n- 2 tsp pure vanilla extract  \n- Pinch of salt  \n- Optional: A few drops of food coloring + fun sprinkles (peanut-free certified \u2014 e.g., Sweetapolita or Color Garden brands)\n\n---\n\n**Instructions (simple steps):**  \n1. **Prep:** Preheat oven to 350\u00b0F (175\u00b0C). Grease and line two 8-inch round cake pans with parchment.  \n2. **Mix dry:** Whisk flour, baking powder, and salt in a bowl. Set aside.  \n3. **Cream butter & sugar:** Beat butter and sugar on medium-high for 3\u20134 mins until light and fluffy.  \n4. **Add wet:** Beat in eggs one at a time, then vanilla.  \n5. **Alternate additions:** Add \u2153 dry mix \u2192 \u00bd milk \u2192 \u2153 dry \u2192 remaining milk \u2192 remaining dry. Mix *just until combined* after each addition (don\u2019t overmix!).  \n6. **Bake:** Divide batter evenly. Bake 25\u201330 mins, until a toothpick comes out clean. Cool in pans 10 mins, then transfer to wire racks to cool completely.  \n7. **Frost:** Whip buttercream until smooth and spreadable. Level cakes if needed, fill, stack, and frost. Decorate with sprinkles, candles, or a simple piped border!\n\n\ud83d\udca1 *Pro tip:* Make the cake a day ahead \u2014 wrap cooled layers tightly in plastic and refrigerate. Frost the morning of the party for best texture and freshness.\n\nWould you like:\n- A chocolate version (also peanut-free)?  \n- A gluten-free adaptation?  \n- Ideas for fun, no-bake toppings or themed decorations (e.g., space, dinosaurs, unicorns)?  \n- Or help planning portion sizes for a specific number of guests?\n\nLet me know \u2014 happy to personalize it further! \ud83c\udf88",
+        "token_usage_note": "exact provider token usage was not recorded; approximation tokens shown from context accounting"
+      },
+      "final_answer_produced": "Happy birthday to your son! \ud83c\udf82 Here's a fun, crowd-pleasing, and *peanut-free* cake recipe that\u2019s moist, flavorful, and easy to customize:\n\n**Vanilla Birthday Cake with Whipped Vanilla Buttercream (Peanut-Free & Kid-Approved!)**\n\n**Why it\u2019s great for a party:**\n\u2705 Naturally peanut-free (no peanut oil, flour, or cross-contamination risk \u2014 just double-check your vanilla extract & sprinkles)  \n\u2705 Light and fluffy \u2014 not overly sweet, so kids (and adults!) love it  \n\u2705 Holds up well under frosting and decorations  \n\u2705 Easily adaptable: add food coloring, swap in fun sprinkles, or top with fresh berries  \n\n---\n\n**Ingredients (Two 8-inch round layers):**  \n*Dry:*  \n- 2 \u00bd cups (315g) all-purpose flour (spooned & leveled)  \n- 2 \u00bd tsp baking powder  \n- \u00bd tsp salt  \n\n*Wet:*  \n- 1 cup (240ml) whole milk, room temperature  \n- 2 large eggs, room temperature  \n- 2 tsp pure vanilla extract (check label\u2014ensure it\u2019s peanut-free; most are, but some \u201cnatural flavors\u201d can be ambiguous)  \n- 1 cup (227g) unsalted butter, softened  \n- 1 \u00be cups (350g) granulated sugar  \n\n*Buttercream (makes enough for filling + frosting):*  \n- 1 cup (227g) unsalted butter, softened  \n- 4 cups (480g) powdered sugar, sifted  \n- 2\u20133 tbsp heavy cream or milk  \n- 2 tsp pure vanilla extract  \n- Pinch of salt  \n- Optional: A few drops of food coloring + fun sprinkles (peanut-free certified \u2014 e.g., Sweetapolita or Color Garden brands)\n\n---\n\n**Instructions (simple steps):**  \n1. **Prep:** Preheat oven to 350\u00b0F (175\u00b0C). Grease and line two 8-inch round cake pans with parchment.  \n2. **Mix dry:** Whisk flour, baking powder, and salt in a bowl. Set aside.  \n3. **Cream butter & sugar:** Beat butter and sugar on medium-high for 3\u20134 mins until light and fluffy.  \n4. **Add wet:** Beat in eggs one at a time, then vanilla.  \n5. **Alternate additions:** Add \u2153 dry mix \u2192 \u00bd milk \u2192 \u2153 dry \u2192 remaining milk \u2192 remaining dry. Mix *just until combined* after each addition (don\u2019t overmix!).  \n6. **Bake:** Divide batter evenly. Bake 25\u201330 mins, until a toothpick comes out clean. Cool in pans 10 mins, then transfer to wire racks to cool completely.  \n7. **Frost:** Whip buttercream until smooth and spreadable. Level cakes if needed, fill, stack, and frost. Decorate with sprinkles, candles, or a simple piped border!\n\n\ud83d\udca1 *Pro tip:* Make the cake a day ahead \u2014 wrap cooled layers tightly in plastic and refrigerate. Frost the morning of the party for best texture and freshness.\n\nWould you like:\n- A chocolate version (also peanut-free)?  \n- A gluten-free adaptation?  \n- Ideas for fun, no-bake toppings or themed decorations (e.g., space, dinosaurs, unicorns)?  \n- Or help planning portion sizes for a specific number of guests?\n\nLet me know \u2014 happy to personalize it further! \ud83c\udf88",
+      "final_prompt": {
+        "messages": [
+          "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+          "ExperienceOS retrieved these active user experiences:\n\nPreferences:\n- Dislikes peanuts \u2014 never include them in my food.",
+          "Suggest a cake recipe for my son's birthday party."
+        ],
+        "note": "system instruction + rendered memory + current user message"
+      },
+      "initial_observations": [
+        "no memory in the store is in superseded state",
+        "no memory in the store is in forgotten state",
+        "a memory containing a stale/forbidden value is present and active in the store",
+        "a stale-valued memory was among the retrieval candidates",
+        "a stale-valued memory was selected into context",
+        "a stale/forbidden value appears in the rendered memory context",
+        "the frozen scoring verdict marks uses_stale_information=true for this answer",
+        "stale/forbidden value(s) ['peanut'] appear in the final answer"
+      ],
+      "judge_decision": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      },
+      "judge_evidence": {
+        "judge_output_status": null,
+        "method": "deterministic",
+        "reason_codes": [
+          "EXPECTED_VALUE_PRESENT",
+          "STALE_VALUE_USED",
+          "UNSUPPORTED_CLAIM"
+        ]
+      },
+      "lifecycle_filtering": {
+        "eligible_after_filtering": [
+          "Dislikes peanuts \u2014 never include them in my food."
+        ],
+        "excluded_forgotten": [],
+        "excluded_superseded": []
+      },
+      "memory_store": {
+        "active": [
+          {
+            "kind": "preference",
+            "memory_id": "c3c5e25e-d74d-4af7-bda3-e62cebef535f",
+            "status": "active",
+            "text": "Dislikes peanuts \u2014 never include them in my food."
+          }
+        ],
+        "forgotten": [],
+        "note": "scope, tags, and wall-clock creation time are not serialized in the execution record; creation is shown by turn_index in update_lineage",
+        "superseded": [],
+        "update_lineage": [
+          {
+            "action": "create",
+            "memory_id": "c3c5e25e-d74d-4af7-bda3-e62cebef535f",
+            "replaces": null,
+            "text": "Dislikes peanuts \u2014 never include them in my food.",
+            "turn_index": 0
+          }
+        ]
+      },
+      "rendered_memory_context": "ExperienceOS retrieved these active user experiences:\n\nPreferences:\n- Dislikes peanuts \u2014 never include them in my food.",
+      "retrieval": {
+        "candidates": [
+          {
+            "memory_id": "c3c5e25e-d74d-4af7-bda3-e62cebef535f",
+            "rank": 1,
+            "reason": "selected: no keyword match; preference priority; within budget",
+            "score": 0.0,
+            "selected": true,
+            "text": "Dislikes peanuts \u2014 never include them in my food."
+          }
+        ],
+        "ordering": [
+          "c3c5e25e-d74d-4af7-bda3-e62cebef535f"
+        ]
+      },
+      "stale_memory_involved": {
+        "expected_forgotten": [],
+        "expected_superseded": [],
+        "must_exclude_values": [
+          "peanut"
+        ]
+      },
+      "user_query": "Suggest a cake recipe for my son's birthday party."
+    },
+    {
+      "applicable_scoring_dimensions": [
+        "correct",
+        "unsupported_claim",
+        "uses_current_information",
+        "uses_stale_information"
+      ],
+      "benchmark_family": "retrieval",
+      "case_id": "retrieval_008_stale_would_mislead",
+      "context_selection": {
+        "discarded": [],
+        "memory_context_tokens": 27,
+        "selected": [
+          {
+            "reason": "selected: matched phone; fact priority; within budget",
+            "text": "Phone is a Pixel 9."
+          },
+          {
+            "reason": "selected: matched phone; fact priority; within budget",
+            "text": "Phone is a Pixel 6."
+          }
+        ],
+        "total_context_tokens": 59
+      },
+      "conversation": {
+        "building_turns": [
+          {
+            "message": "My phone is a Pixel 6.",
+            "session_id": "session-1",
+            "turn_index": 0
+          },
+          {
+            "message": "I upgraded \u2014 my phone is a Pixel 9 now.",
+            "session_id": "session-2",
+            "turn_index": 1
+          },
+          {
+            "message": "Which fast charger should I buy for my phone?",
+            "session_id": "session-3",
+            "turn_index": 2
+          }
+        ],
+        "final_prompt_context_messages": [
+          "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+          "ExperienceOS retrieved these active user experiences:\n\nFacts:\n- Phone is a Pixel 9.\n- Phone is a Pixel 6.",
+          "Which fast charger should I buy for my phone?"
+        ],
+        "note": "ExperienceOS supplies retrieved memory plus the current message; prior conversation turns are not re-sent as raw history in the final prompt"
+      },
+      "expected_current_answer_ref": {
+        "expected_active_memory": [
+          {
+            "logical_id": "devices.phone_model.updated",
+            "match_terms": [
+              "Pixel 9"
+            ]
+          }
+        ],
+        "must_include_all": [],
+        "must_include_any": [
+          "Pixel 9"
+        ]
+      },
+      "final_answer": {
+        "approx_total_context_tokens": 59,
+        "latencies_ms": {
+          "end_to_end": 13076.0,
+          "memory_decision": 2419.2,
+          "response": 10656.5,
+          "retrieval": 0.1
+        },
+        "provider_request_count": 3,
+        "text": "You mentioned you have **both a Pixel 9 and a Pixel 6**, so let\u2019s optimize for both \u2014 especially since they have different charging capabilities:\n\n### \u2705 Key Facts:\n- **Pixel 6**: Supports up to **21W wired fast charging** (via USB-PD PPS). Google\u2019s official 21W charger works best, but many third-party USB-PD PPS chargers are compatible.\n- **Pixel 9**: Supports up to **27W wired fast charging** (also USB-PD PPS), and charges *slightly faster* with a high-quality 27W+ PPS charger.\n\n\ud83d\udca1 **Important**: Both phones require a **USB-PD PPS (Programmable Power Supply)** charger for true fast charging \u2014 not just any USB-C PD charger. PPS allows finer voltage/current control, which improves efficiency and thermal management.\n\n---\n\n### \ud83d\udd0c Recommended Chargers (PPS-compatible, reliable & compact):\n| Charger | Max Output | Why It\u2019s Great |\n|---------|------------|----------------|\n| **Google 30W USB-C Charger** (official) | 30W, PPS-enabled | Fully certified, optimized for Pixels, compact, reliable. Works excellently with both your Pixel 6 & 9. \u2705 Best overall pick. |\n| **Anker Nano II 30W** | 30W, PPS | Tiny, travel-friendly, Anker quality, widely tested with Pixels. Great value. |\n| **Samsung EP-T4510 (25W)** | 25W, PPS | Compact, affordable, verified to hit ~21\u201324W on Pixel 6/9. Slightly slower than 30W but still excellent. |\n\n\u26a0\ufe0f Avoid:  \n- Non-PPS USB-PD chargers (e.g., older 18W or generic \u201cfast\u201d chargers) \u2192 they\u2019ll charge, but *not at full speed*.  \n- Ultra-cheap/no-name PPS chargers \u2014 inconsistent performance or safety concerns.\n\n---\n\n### \ud83e\udde9 Bonus Tip:\nUse a **certified USB-C to USB-C cable** that supports **USB PD + PPS** (e.g., Google\u2019s own cable, Anker Powerline III, or Belkin Boost Charge). A weak cable can bottleneck charging \u2014 even with a great charger.\n\nLet me know if you\u2019d like links, budget options (<$20), or recommendations for wireless charging too! \ud83d\ude0a",
+        "token_usage_note": "exact provider token usage was not recorded; approximation tokens shown from context accounting"
+      },
+      "final_answer_produced": "You mentioned you have **both a Pixel 9 and a Pixel 6**, so let\u2019s optimize for both \u2014 especially since they have different charging capabilities:\n\n### \u2705 Key Facts:\n- **Pixel 6**: Supports up to **21W wired fast charging** (via USB-PD PPS). Google\u2019s official 21W charger works best, but many third-party USB-PD PPS chargers are compatible.\n- **Pixel 9**: Supports up to **27W wired fast charging** (also USB-PD PPS), and charges *slightly faster* with a high-quality 27W+ PPS charger.\n\n\ud83d\udca1 **Important**: Both phones require a **USB-PD PPS (Programmable Power Supply)** charger for true fast charging \u2014 not just any USB-C PD charger. PPS allows finer voltage/current control, which improves efficiency and thermal management.\n\n---\n\n### \ud83d\udd0c Recommended Chargers (PPS-compatible, reliable & compact):\n| Charger | Max Output | Why It\u2019s Great |\n|---------|------------|----------------|\n| **Google 30W USB-C Charger** (official) | 30W, PPS-enabled | Fully certified, optimized for Pixels, compact, reliable. Works excellently with both your Pixel 6 & 9. \u2705 Best overall pick. |\n| **Anker Nano II 30W** | 30W, PPS | Tiny, travel-friendly, Anker quality, widely tested with Pixels. Great value. |\n| **Samsung EP-T4510 (25W)** | 25W, PPS | Compact, affordable, verified to hit ~21\u201324W on Pixel 6/9. Slightly slower than 30W but still excellent. |\n\n\u26a0\ufe0f Avoid:  \n- Non-PPS USB-PD chargers (e.g., older 18W or generic \u201cfast\u201d chargers) \u2192 they\u2019ll charge, but *not at full speed*.  \n- Ultra-cheap/no-name PPS chargers \u2014 inconsistent performance or safety concerns.\n\n---\n\n### \ud83e\udde9 Bonus Tip:\nUse a **certified USB-C to USB-C cable** that supports **USB PD + PPS** (e.g., Google\u2019s own cable, Anker Powerline III, or Belkin Boost Charge). A weak cable can bottleneck charging \u2014 even with a great charger.\n\nLet me know if you\u2019d like links, budget options (<$20), or recommendations for wireless charging too! \ud83d\ude0a",
+      "final_prompt": {
+        "messages": [
+          "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+          "ExperienceOS retrieved these active user experiences:\n\nFacts:\n- Phone is a Pixel 9.\n- Phone is a Pixel 6.",
+          "Which fast charger should I buy for my phone?"
+        ],
+        "note": "system instruction + rendered memory + current user message"
+      },
+      "initial_observations": [
+        "no memory in the store is in superseded state",
+        "no memory in the store is in forgotten state",
+        "a memory containing a stale/forbidden value is present and active in the store",
+        "a stale-valued memory was among the retrieval candidates",
+        "a stale-valued memory was selected into context",
+        "a stale/forbidden value appears in the rendered memory context",
+        "the frozen scoring verdict marks uses_stale_information=true for this answer",
+        "a current value appears in the rendered memory context",
+        "stale/forbidden value(s) ['Pixel 6'] appear in the final answer"
+      ],
+      "judge_decision": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": true,
+        "uses_current_information": true,
+        "uses_stale_information": true
+      },
+      "judge_evidence": {
+        "judge_output_status": null,
+        "method": "deterministic",
+        "reason_codes": [
+          "EXPECTED_VALUE_PRESENT",
+          "CURRENT_VALUE_USED",
+          "STALE_VALUE_USED",
+          "UNSUPPORTED_CLAIM"
+        ]
+      },
+      "lifecycle_filtering": {
+        "eligible_after_filtering": [
+          "Phone is a Pixel 9.",
+          "Phone is a Pixel 6."
+        ],
+        "excluded_forgotten": [],
+        "excluded_superseded": []
+      },
+      "memory_store": {
+        "active": [
+          {
+            "kind": "fact",
+            "memory_id": "91aeaeb5-001b-410e-a4c8-189590d24ff5",
+            "status": "active",
+            "text": "Phone is a Pixel 6."
+          },
+          {
+            "kind": "fact",
+            "memory_id": "3c47949c-aef2-45a4-95ba-c8eae279a222",
+            "status": "active",
+            "text": "Phone is a Pixel 9."
+          }
+        ],
+        "forgotten": [],
+        "note": "scope, tags, and wall-clock creation time are not serialized in the execution record; creation is shown by turn_index in update_lineage",
+        "superseded": [],
+        "update_lineage": [
+          {
+            "action": "create",
+            "memory_id": "91aeaeb5-001b-410e-a4c8-189590d24ff5",
+            "replaces": null,
+            "text": "Phone is a Pixel 6.",
+            "turn_index": 0
+          },
+          {
+            "action": "create",
+            "memory_id": "3c47949c-aef2-45a4-95ba-c8eae279a222",
+            "replaces": null,
+            "text": "Phone is a Pixel 9.",
+            "turn_index": 1
+          }
+        ]
+      },
+      "rendered_memory_context": "ExperienceOS retrieved these active user experiences:\n\nFacts:\n- Phone is a Pixel 9.\n- Phone is a Pixel 6.",
+      "retrieval": {
+        "candidates": [
+          {
+            "memory_id": "3c47949c-aef2-45a4-95ba-c8eae279a222",
+            "rank": 1,
+            "reason": "selected: matched phone; fact priority; within budget",
+            "score": 1.0,
+            "selected": true,
+            "text": "Phone is a Pixel 9."
+          },
+          {
+            "memory_id": "91aeaeb5-001b-410e-a4c8-189590d24ff5",
+            "rank": 2,
+            "reason": "selected: matched phone; fact priority; within budget",
+            "score": 1.0,
+            "selected": true,
+            "text": "Phone is a Pixel 6."
+          }
+        ],
+        "ordering": [
+          "3c47949c-aef2-45a4-95ba-c8eae279a222",
+          "91aeaeb5-001b-410e-a4c8-189590d24ff5"
+        ]
+      },
+      "stale_memory_involved": {
+        "expected_forgotten": [],
+        "expected_superseded": [
+          {
+            "logical_id": "devices.phone_model",
+            "match_terms": [
+              "Pixel 6"
+            ]
+          }
+        ],
+        "must_exclude_values": [
+          "Pixel 6"
+        ]
+      },
+      "user_query": "Which fast charger should I buy for my phone?"
+    },
+    {
+      "applicable_scoring_dimensions": [
+        "correct",
+        "uses_current_information",
+        "uses_stale_information"
+      ],
+      "benchmark_family": "containment",
+      "case_id": "containment_002_supersede_inactive_target",
+      "context_selection": {
+        "discarded": [],
+        "memory_context_tokens": 33,
+        "selected": [
+          {
+            "reason": "selected: no keyword match; preference priority; within budget",
+            "text": "Prefers coffee in the morning."
+          },
+          {
+            "reason": "selected: no keyword match; preference priority; within budget",
+            "text": "Prefers tea in the morning."
+          }
+        ],
+        "total_context_tokens": 62
+      },
+      "conversation": {
+        "building_turns": [
+          {
+            "message": "I prefer tea in the morning.",
+            "session_id": "session-1",
+            "turn_index": 0
+          },
+          {
+            "message": "Actually, I prefer coffee in the morning.",
+            "session_id": "session-2",
+            "turn_index": 1
+          },
+          {
+            "message": "Let's review my drink preferences.",
+            "session_id": "session-3",
+            "turn_index": 2
+          }
+        ],
+        "final_prompt_context_messages": [
+          "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+          "ExperienceOS retrieved these active user experiences:\n\nPreferences:\n- Prefers coffee in the morning.\n- Prefers tea in the morning.",
+          "Let's review my drink preferences."
+        ],
+        "note": "ExperienceOS supplies retrieved memory plus the current message; prior conversation turns are not re-sent as raw history in the final prompt"
+      },
+      "expected_current_answer_ref": {
+        "expected_active_memory": [
+          {
+            "logical_id": "food.morning_drink.updated",
+            "match_terms": [
+              "coffee"
+            ]
+          }
+        ],
+        "must_include_all": [],
+        "must_include_any": []
+      },
+      "final_answer": {
+        "approx_total_context_tokens": 62,
+        "latencies_ms": {
+          "end_to_end": 5464.4,
+          "memory_decision": 2745.5,
+          "response": 2718.7,
+          "retrieval": 0.1
+        },
+        "provider_request_count": 3,
+        "text": "It looks like your drink preferences include both **coffee** and **tea in the morning** \u2014 an interesting and flexible combo! \ud83c\udf1e  \nWould you like help deciding between them on a given day (e.g., based on energy needs, caffeine sensitivity, or weather), or are you looking to refine or clarify your preferences? I\u2019m happy to help optimize your morning ritual! \u2615\ufe0f\ud83c\udf75",
+        "token_usage_note": "exact provider token usage was not recorded; approximation tokens shown from context accounting"
+      },
+      "final_answer_produced": "It looks like your drink preferences include both **coffee** and **tea in the morning** \u2014 an interesting and flexible combo! \ud83c\udf1e  \nWould you like help deciding between them on a given day (e.g., based on energy needs, caffeine sensitivity, or weather), or are you looking to refine or clarify your preferences? I\u2019m happy to help optimize your morning ritual! \u2615\ufe0f\ud83c\udf75",
+      "final_prompt": {
+        "messages": [
+          "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+          "ExperienceOS retrieved these active user experiences:\n\nPreferences:\n- Prefers coffee in the morning.\n- Prefers tea in the morning.",
+          "Let's review my drink preferences."
+        ],
+        "note": "system instruction + rendered memory + current user message"
+      },
+      "initial_observations": [
+        "no memory in the store is in superseded state",
+        "no memory in the store is in forgotten state",
+        "a memory containing a stale/forbidden value is present and active in the store",
+        "a stale-valued memory was among the retrieval candidates",
+        "a stale-valued memory was selected into context",
+        "a stale/forbidden value appears in the rendered memory context",
+        "the frozen scoring verdict marks uses_stale_information=true for this answer",
+        "a current value appears in the rendered memory context",
+        "stale/forbidden value(s) ['tea'] appear in the final answer"
+      ],
+      "judge_decision": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": null,
+        "uses_current_information": true,
+        "uses_stale_information": true
+      },
+      "judge_evidence": {
+        "judge_output_status": "ok",
+        "method": "blinded_judge",
+        "reason_codes": [
+          "STALE_VALUE_USED",
+          "EXPECTED_VALUE_PRESENT"
+        ]
+      },
+      "lifecycle_filtering": {
+        "eligible_after_filtering": [
+          "Prefers coffee in the morning.",
+          "Prefers tea in the morning."
+        ],
+        "excluded_forgotten": [],
+        "excluded_superseded": []
+      },
+      "memory_store": {
+        "active": [
+          {
+            "kind": "preference",
+            "memory_id": "a5c3d0ab-3244-473d-be1a-2f0fe9871706",
+            "status": "active",
+            "text": "Prefers tea in the morning."
+          },
+          {
+            "kind": "preference",
+            "memory_id": "bd2be237-2cbd-4b28-9240-0563d1159001",
+            "status": "active",
+            "text": "Prefers coffee in the morning."
+          }
+        ],
+        "forgotten": [],
+        "note": "scope, tags, and wall-clock creation time are not serialized in the execution record; creation is shown by turn_index in update_lineage",
+        "superseded": [],
+        "update_lineage": [
+          {
+            "action": "create",
+            "memory_id": "a5c3d0ab-3244-473d-be1a-2f0fe9871706",
+            "replaces": null,
+            "text": "Prefers tea in the morning.",
+            "turn_index": 0
+          },
+          {
+            "action": "create",
+            "memory_id": "bd2be237-2cbd-4b28-9240-0563d1159001",
+            "replaces": null,
+            "text": "Prefers coffee in the morning.",
+            "turn_index": 1
+          }
+        ]
+      },
+      "rendered_memory_context": "ExperienceOS retrieved these active user experiences:\n\nPreferences:\n- Prefers coffee in the morning.\n- Prefers tea in the morning.",
+      "retrieval": {
+        "candidates": [
+          {
+            "memory_id": "bd2be237-2cbd-4b28-9240-0563d1159001",
+            "rank": 1,
+            "reason": "selected: no keyword match; preference priority; within budget",
+            "score": 0.0,
+            "selected": true,
+            "text": "Prefers coffee in the morning."
+          },
+          {
+            "memory_id": "a5c3d0ab-3244-473d-be1a-2f0fe9871706",
+            "rank": 2,
+            "reason": "selected: no keyword match; preference priority; within budget",
+            "score": 0.0,
+            "selected": true,
+            "text": "Prefers tea in the morning."
+          }
+        ],
+        "ordering": [
+          "bd2be237-2cbd-4b28-9240-0563d1159001",
+          "a5c3d0ab-3244-473d-be1a-2f0fe9871706"
+        ]
+      },
+      "stale_memory_involved": {
+        "expected_forgotten": [],
+        "expected_superseded": [
+          {
+            "logical_id": "food.morning_drink",
+            "match_terms": [
+              "tea"
+            ]
+          }
+        ],
+        "must_exclude_values": []
+      },
+      "user_query": "Let's review my drink preferences."
+    },
+    {
+      "applicable_scoring_dimensions": [
+        "correct",
+        "uses_stale_information"
+      ],
+      "benchmark_family": "forgetting",
+      "case_id": "forgetting_002_paraphrased_forget",
+      "context_selection": {
+        "discarded": [],
+        "memory_context_tokens": 26,
+        "selected": [
+          {
+            "reason": "selected: no keyword match; preference priority; within budget",
+            "text": "Prefers studying in the evening."
+          }
+        ],
+        "total_context_tokens": 61
+      },
+      "conversation": {
+        "building_turns": [
+          {
+            "message": "I prefer studying in the evening.",
+            "session_id": "session-1",
+            "turn_index": 0
+          },
+          {
+            "message": "I don't care about my study schedule preference anymore.",
+            "session_id": "session-2",
+            "turn_index": 1
+          }
+        ],
+        "final_prompt_context_messages": [
+          "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+          "ExperienceOS retrieved these active user experiences:\n\nPreferences:\n- Prefers studying in the evening.",
+          "I don't care about my study schedule preference anymore."
+        ],
+        "note": "ExperienceOS supplies retrieved memory plus the current message; prior conversation turns are not re-sent as raw history in the final prompt"
+      },
+      "expected_current_answer_ref": {
+        "expected_active_memory": [],
+        "must_include_all": [],
+        "must_include_any": []
+      },
+      "final_answer": {
+        "approx_total_context_tokens": 61,
+        "latencies_ms": {
+          "end_to_end": 6146.4,
+          "memory_decision": 3381.0,
+          "response": 2765.3,
+          "retrieval": 0.1
+        },
+        "provider_request_count": 2,
+        "text": "Got it \u2014 your evening study preference is no longer in effect. I\u2019ll keep that updated in your profile and won\u2019t reference it going forward. Let me know how I can support you now \u2014 whether it\u2019s planning a new routine, tackling a specific subject, or something else entirely. \ud83d\ude0a",
+        "token_usage_note": "exact provider token usage was not recorded; approximation tokens shown from context accounting"
+      },
+      "final_answer_produced": "Got it \u2014 your evening study preference is no longer in effect. I\u2019ll keep that updated in your profile and won\u2019t reference it going forward. Let me know how I can support you now \u2014 whether it\u2019s planning a new routine, tackling a specific subject, or something else entirely. \ud83d\ude0a",
+      "final_prompt": {
+        "messages": [
+          "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+          "ExperienceOS retrieved these active user experiences:\n\nPreferences:\n- Prefers studying in the evening.",
+          "I don't care about my study schedule preference anymore."
+        ],
+        "note": "system instruction + rendered memory + current user message"
+      },
+      "initial_observations": [
+        "no memory in the store is in superseded state",
+        "no memory in the store is in forgotten state",
+        "a memory containing a stale/forbidden value is present and active in the store",
+        "a stale-valued memory was among the retrieval candidates",
+        "a stale-valued memory was selected into context",
+        "a stale/forbidden value appears in the rendered memory context",
+        "the frozen scoring verdict marks uses_stale_information=true for this answer",
+        "stale/forbidden value(s) ['evening'] appear in the final answer"
+      ],
+      "judge_decision": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": null,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      },
+      "judge_evidence": {
+        "judge_output_status": "ok",
+        "method": "blinded_judge",
+        "reason_codes": [
+          "STALE_VALUE_USED",
+          "FORGOTTEN_VALUE_USED"
+        ]
+      },
+      "lifecycle_filtering": {
+        "eligible_after_filtering": [
+          "Prefers studying in the evening."
+        ],
+        "excluded_forgotten": [],
+        "excluded_superseded": []
+      },
+      "memory_store": {
+        "active": [
+          {
+            "kind": "preference",
+            "memory_id": "973e8df3-d0e3-4bdc-8d4f-b3c4a88527d4",
+            "status": "active",
+            "text": "Prefers studying in the evening."
+          }
+        ],
+        "forgotten": [],
+        "note": "scope, tags, and wall-clock creation time are not serialized in the execution record; creation is shown by turn_index in update_lineage",
+        "superseded": [],
+        "update_lineage": [
+          {
+            "action": "create",
+            "memory_id": "973e8df3-d0e3-4bdc-8d4f-b3c4a88527d4",
+            "replaces": null,
+            "text": "Prefers studying in the evening.",
+            "turn_index": 0
+          }
+        ]
+      },
+      "rendered_memory_context": "ExperienceOS retrieved these active user experiences:\n\nPreferences:\n- Prefers studying in the evening.",
+      "retrieval": {
+        "candidates": [
+          {
+            "memory_id": "973e8df3-d0e3-4bdc-8d4f-b3c4a88527d4",
+            "rank": 1,
+            "reason": "selected: no keyword match; preference priority; within budget",
+            "score": 0.0,
+            "selected": true,
+            "text": "Prefers studying in the evening."
+          }
+        ],
+        "ordering": [
+          "973e8df3-d0e3-4bdc-8d4f-b3c4a88527d4"
+        ]
+      },
+      "stale_memory_involved": {
+        "expected_forgotten": [
+          {
+            "logical_id": "study.time_of_day",
+            "match_terms": [
+              "evening"
+            ]
+          }
+        ],
+        "expected_superseded": [],
+        "must_exclude_values": []
+      },
+      "user_query": "I don't care about my study schedule preference anymore."
+    },
+    {
+      "applicable_scoring_dimensions": [
+        "correct",
+        "uses_stale_information"
+      ],
+      "benchmark_family": "forgetting",
+      "case_id": "forgetting_005_forgotten_leakage_check",
+      "context_selection": {
+        "discarded": [],
+        "memory_context_tokens": 32,
+        "selected": [
+          {
+            "reason": "selected: matched daily, send, statu; instruction priority; within budget",
+            "text": "Send my daily status summary to the #eng-daily channel."
+          }
+        ],
+        "total_context_tokens": 63
+      },
+      "conversation": {
+        "building_turns": [
+          {
+            "message": "From now on, send my daily status summary to the #eng-daily channel.",
+            "session_id": "session-1",
+            "turn_index": 0
+          },
+          {
+            "message": "Forget the instruction about my daily status channel.",
+            "session_id": "session-2",
+            "turn_index": 1
+          },
+          {
+            "message": "Where should I send my daily status update?",
+            "session_id": "session-3",
+            "turn_index": 2
+          }
+        ],
+        "final_prompt_context_messages": [
+          "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+          "ExperienceOS retrieved these active user experiences:\n\nInstructions:\n- Send my daily status summary to the #eng-daily channel.",
+          "Where should I send my daily status update?"
+        ],
+        "note": "ExperienceOS supplies retrieved memory plus the current message; prior conversation turns are not re-sent as raw history in the final prompt"
+      },
+      "expected_current_answer_ref": {
+        "expected_active_memory": [],
+        "must_include_all": [],
+        "must_include_any": []
+      },
+      "final_answer": {
+        "approx_total_context_tokens": 63,
+        "latencies_ms": {
+          "end_to_end": 4350.0,
+          "memory_decision": 2481.3,
+          "response": 1868.6,
+          "retrieval": 0.1
+        },
+        "provider_request_count": 3,
+        "text": "You should send your daily status update to the **#eng-daily** channel. Let me know if you'd like help drafting it! \ud83d\ude80",
+        "token_usage_note": "exact provider token usage was not recorded; approximation tokens shown from context accounting"
+      },
+      "final_answer_produced": "You should send your daily status update to the **#eng-daily** channel. Let me know if you'd like help drafting it! \ud83d\ude80",
+      "final_prompt": {
+        "messages": [
+          "ExperienceOS is active. Use any retrieved user experience to personalize responses.",
+          "ExperienceOS retrieved these active user experiences:\n\nInstructions:\n- Send my daily status summary to the #eng-daily channel.",
+          "Where should I send my daily status update?"
+        ],
+        "note": "system instruction + rendered memory + current user message"
+      },
+      "initial_observations": [
+        "no memory in the store is in superseded state",
+        "no memory in the store is in forgotten state",
+        "a memory containing a stale/forbidden value is present and active in the store",
+        "a stale-valued memory was among the retrieval candidates",
+        "a stale-valued memory was selected into context",
+        "a stale/forbidden value appears in the rendered memory context",
+        "the frozen scoring verdict marks uses_stale_information=true for this answer",
+        "stale/forbidden value(s) ['eng-daily'] appear in the final answer"
+      ],
+      "judge_decision": {
+        "abstention_correct": null,
+        "correct": false,
+        "follows_user_preferences": null,
+        "unsupported_claim": null,
+        "uses_current_information": null,
+        "uses_stale_information": true
+      },
+      "judge_evidence": {
+        "judge_output_status": "ok",
+        "method": "blinded_judge",
+        "reason_codes": [
+          "STALE_VALUE_USED",
+          "FORGOTTEN_VALUE_USED"
+        ]
+      },
+      "lifecycle_filtering": {
+        "eligible_after_filtering": [
+          "Send my daily status summary to the #eng-daily channel."
+        ],
+        "excluded_forgotten": [],
+        "excluded_superseded": []
+      },
+      "memory_store": {
+        "active": [
+          {
+            "kind": "instruction",
+            "memory_id": "8da64c1c-eb66-4adc-ad2d-a735f8ce7561",
+            "status": "active",
+            "text": "Send my daily status summary to the #eng-daily channel."
+          }
+        ],
+        "forgotten": [],
+        "note": "scope, tags, and wall-clock creation time are not serialized in the execution record; creation is shown by turn_index in update_lineage",
+        "superseded": [],
+        "update_lineage": [
+          {
+            "action": "create",
+            "memory_id": "8da64c1c-eb66-4adc-ad2d-a735f8ce7561",
+            "replaces": null,
+            "text": "Send my daily status summary to the #eng-daily channel.",
+            "turn_index": 0
+          }
+        ]
+      },
+      "rendered_memory_context": "ExperienceOS retrieved these active user experiences:\n\nInstructions:\n- Send my daily status summary to the #eng-daily channel.",
+      "retrieval": {
+        "candidates": [
+          {
+            "memory_id": "8da64c1c-eb66-4adc-ad2d-a735f8ce7561",
+            "rank": 1,
+            "reason": "selected: matched daily, send, statu; instruction priority; within budget",
+            "score": 3.0,
+            "selected": true,
+            "text": "Send my daily status summary to the #eng-daily channel."
+          }
+        ],
+        "ordering": [
+          "8da64c1c-eb66-4adc-ad2d-a735f8ce7561"
+        ]
+      },
+      "stale_memory_involved": {
+        "expected_forgotten": [
+          {
+            "logical_id": "work.daily_status_channel",
+            "match_terms": [
+              "eng-daily"
+            ]
+          }
+        ],
+        "expected_superseded": [],
+        "must_exclude_values": [
+          "eng-daily"
+        ]
+      },
+      "user_query": "Where should I send my daily status update?"
+    }
+  ],
+  "note": "evidence collection only; factual observations, no cause inference or leakage classification",
+  "raw_records_hash": "bb9c136247dab368751e5a9440835e49303de1846b8c46684b872b6172f5f57d",
+  "source_run_id": "cv-live-1",
+  "stale_failure_count": 9,
+  "system": "canonical_experienceos_qwen"
+}
