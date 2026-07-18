@@ -35,7 +35,8 @@ from experienceos.memory.update_intelligence import DeterministicUpdateControlle
 def _agent(**kwargs):
     cfg = TransitionIntegrationConfig(
         mode=TransitionIntegrationMode.ADOPTED,
-        runtime_authority=BoundedRuntimeTransitionAuthority(), **kwargs)
+        runtime_authority=BoundedRuntimeTransitionAuthority(),
+        planner_precedence=True, **kwargs)
     return ExperienceOS(model=MockProvider(), transition=cfg)
 
 
@@ -74,10 +75,15 @@ def test_runtime_supersede_replaces_without_duplicate():
     assert any("tea" in t.lower() for t in _by_status(agent, uid, "superseded"))
 
 
-# -- 10.2 runtime forget -----------------------------------------------------
+# -- forget: planner precedence, no duplicate --------------------------------
 
 
-def test_runtime_forget_marks_target_forgotten():
+def test_runtime_forget_defers_to_planner_without_duplicate():
+    # The canonical planner already forgets a recognized preference. The
+    # transition forget would duplicate it, so the planner-precedence guard
+    # defers: the target is forgotten exactly once and nothing is active.
+    # (The runtime forget authority itself is proven directly in
+    # tests/test_transition_authority.py.)
     agent = _agent()
     uid = "u"
     agent.chat(user_id=uid, session_id="s1", message="I prefer tea in the morning.")
@@ -85,11 +91,14 @@ def test_runtime_forget_marks_target_forgotten():
     agent.chat(user_id=uid, session_id="s2",
                message="Forget that I prefer tea in the morning.")
     diag = _last_transition(agent, n)
-    assert diag["canonical_action_effect"] in ("action_added", "applied")
-    assert diag["generated_action_types"] == ["forget"]
-    assert diag["runtime_authorization_receipt_digest"]
+    assert diag["canonical_action_effect"] == "verified_existing_actions"
+    assert diag["generated_action_types"] == []
     assert _active(agent, uid) == []
-    assert any("tea" in t.lower() for t in _by_status(agent, uid, "forgotten"))
+    forgotten = _by_status(agent, uid, "forgotten")
+    assert [t for t in forgotten if "tea" in t.lower()]
+    # Exactly one forget was applied — the guard prevents a double forget.
+    forgets = [e for e in agent.events[n:] if e.type == "memory_forgotten"]
+    assert len(forgets) == 1
 
 
 # -- 10.3 authority denial preserves planner fallback ------------------------

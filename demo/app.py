@@ -86,6 +86,7 @@ from demo.support import (
 from demo.transition_diagnostics import (
     REPORT_DOC as REPORT_DOC_PATH,
     MODE_CHOICES as TRANSITION_MODE_CHOICES,
+    MODE_ADOPTED as TRANSITION_ADOPTED,
     MODE_DISABLED as TRANSITION_DISABLED,
     MODE_LABELS as TRANSITION_MODE_LABELS,
     TRANSITION_LABELS,
@@ -144,15 +145,15 @@ def rebuild_agent(
     storage_choice: str = STORAGE_IN_MEMORY,
     policy_choice: str = POLICY_RULE_BASED,
     extraction_mode: str = MODE_DISABLED,
-    transition_mode: str = TRANSITION_DISABLED,
+    transition_mode: str = TRANSITION_ADOPTED,
 ) -> None:
     """Recreate the agent and clear UI state.
 
     Persisted SQLite memories survive this — used at startup and when
     the provider, storage, policy, or extraction-mode selection changes,
-    so switching never loses accumulated experience. ``extraction_mode``
-    is only ever disabled, shadow, or candidate — all non-mutating; the
-    dashboard never builds adopted mode.
+    so switching never loses accumulated experience. ``transition_mode``
+    defaults to adopted: the canonical deterministic lifecycle path, whose
+    per-request authorization comes from the bounded runtime authority.
     """
     provider = make_provider(provider_choice)
     st.session_state.agent = create_agent(
@@ -177,7 +178,7 @@ def full_demo_reset(
     demo_user_id: str,
     policy_choice: str = POLICY_RULE_BASED,
     extraction_mode: str = MODE_DISABLED,
-    transition_mode: str = TRANSITION_DISABLED,
+    transition_mode: str = TRANSITION_ADOPTED,
 ) -> None:
     """Return the demo to a known clean state for the next run.
 
@@ -231,11 +232,11 @@ with st.sidebar:
     transition_label = st.selectbox(
         "Transition intelligence", TRANSITION_MODE_CHOICES, index=0,
         help=(
-            "Disabled is the default. Shadow, candidate, and verify-only "
-            "are non-mutating: the controller proposes and the verifier "
-            "checks, but durable memory never changes. Adopted mode is "
-            "not selectable — it requires an authorization bound to an "
-            "exact verified proposal."
+            "Adopted is the canonical default: the deterministic update and "
+            "forget controllers supersede or forget obsolete memory, with "
+            "each per-request authorization issued by the bounded runtime "
+            "authority. Shadow, candidate, and verify-only are non-mutating "
+            "diagnostics; disabled observes nothing."
         ),
     )
     transition_mode = TRANSITION_MODE_LABELS[transition_label]
@@ -246,7 +247,7 @@ with st.sidebar:
         or extraction_mode != st.session_state.get(
             "agent_extraction_mode", MODE_DISABLED)
         or transition_mode != st.session_state.get(
-            "agent_transition_mode", TRANSITION_DISABLED)
+            "agent_transition_mode", TRANSITION_ADOPTED)
     ):
         rebuild_agent(
             provider_choice, storage_choice, policy_choice, extraction_mode,

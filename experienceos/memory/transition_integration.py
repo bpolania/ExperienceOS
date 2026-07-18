@@ -278,6 +278,13 @@ class TransitionIntegrationConfig:
     # ``_authorize`` comparison. None (the default) leaves behavior
     # unchanged, and its presence never enables adopted mode on its own.
     runtime_authority: object | None = None
+    # Canonical-composition policy: when True, the coordinator defers to the
+    # canonical planner for any transition the planner already performs on
+    # the same target (same type and memory), rather than duplicating it.
+    # The default False preserves the raw mechanism — the append/governed-
+    # replacement path measured by the action-replacement benchmark — so
+    # only the canonical chat composition opts into precedence.
+    planner_precedence: bool = False
     max_diagnostics: int = 12
 
     def __post_init__(self):
@@ -312,6 +319,7 @@ class TransitionIntegrationConfig:
             "mode": self.mode,
             "authorization_count": len(self.authorizations),
             "runtime_authority_configured": self.runtime_authority is not None,
+            "planner_precedence": self.planner_precedence,
             "max_diagnostics": self.max_diagnostics,
         }
 
@@ -872,6 +880,48 @@ class TransitionIntegrationCoordinator:
             )
 
         # -- adopted --------------------------------------------------
+        # Planner-precedence guard: when the canonical planner already
+        # performs the same target lifecycle change this proposal
+        # represents (same transition type and target memory), the
+        # transition would only duplicate it — a second supersede/forget of
+        # the same memory, or a governed replacement that swaps the
+        # planner's normalized create text for the raw source statement.
+        # Defer to the planner: record the redundancy and leave its actions
+        # untouched. The transition's value is reserved for cases the
+        # planner does not already handle (e.g. a create-only conflict).
+        # Opt-in policy: the raw append/governed-replacement mechanism is
+        # preserved by default; only the canonical composition sets it.
+        if self.config.planner_precedence and translation.succeeded:
+            generated_type, generated_target, _ = infer_existing_transition(
+                translation.actions
+            )
+            existing_type, existing_target, _ = infer_existing_transition(
+                request.existing_actions
+            )
+            if (
+                generated_type is not None
+                and generated_type == existing_type
+                and generated_target is not None
+                and generated_target == existing_target
+            ):
+                diagnostics.append(
+                    TransitionIntegrationDiagnostic(
+                        "planner_already_performs_transition", "adopted",
+                        f"{generated_type}:{generated_target}",
+                    )
+                )
+                return TransitionIntegrationResult(
+                    **base, translation_attempted=True, translation=translation,
+                    generated_actions=(),
+                    canonical_action_effect=(
+                        CanonicalActionEffect.VERIFIED_EXISTING_ACTIONS
+                    ),
+                    canonical_effect_status=CanonicalEffectStatus.NONE,
+                    diagnostics=tuple(diagnostics),
+                    latency_ms=(time.perf_counter() - started) * 1000.0,
+                    stage_latency_ms=dict(stages),
+                )
+
         # Bounded runtime authority: after proposal + verification +
         # translation exist, issue an exact receipt for one eligible
         # proposal. The receipt is only an additional candidate; the exact

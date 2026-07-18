@@ -20,9 +20,10 @@ Safety boundaries this module keeps:
 
 - it constructs no provider, calls no model, and touches no network;
 - it never writes to a store and never mutates an artifact;
-- adopted mode is **not** offered as a selectable runtime mode — it needs
-  an authorization bound to an exact verified proposal, which no UI
-  control can supply.
+- adopted mode is offered as the canonical runtime mode: its per-request
+  authorization is supplied by the bounded runtime transition authority,
+  which issues one exact receipt bound to the verified proposal. The UI
+  selects the mode; it never fabricates the authorization.
 """
 
 from __future__ import annotations
@@ -50,16 +51,19 @@ _MAX_TEXT = 240
 _MAX_CANDIDATES = 6
 _UNAVAILABLE = "Unavailable"
 
-# Selectable runtime modes. Adopted is deliberately absent: it requires a
-# structured authorization bound to an exact verified proposal, so it can
-# never be reachable from a dropdown.
+# Selectable runtime modes. Adopted is the canonical mode: the bounded
+# runtime transition authority supplies its exact per-request
+# authorization, so selecting it never fabricates an authorization. The
+# other modes are observational (disabled) or non-mutating diagnostics.
 MODE_DISABLED = "disabled"
 MODE_SHADOW = "shadow"
 MODE_CANDIDATE = "candidate"
 MODE_VERIFY_ONLY = "verify_only"
+MODE_ADOPTED = "adopted"
 
 MODE_LABELS = {
-    "Disabled (default)": MODE_DISABLED,
+    "Adopted (canonical, deterministic lifecycle)": MODE_ADOPTED,
+    "Disabled (observe nothing)": MODE_DISABLED,
     "Shadow (observe, non-mutating)": MODE_SHADOW,
     "Candidate (full path, non-mutating)": MODE_CANDIDATE,
     "Verify-only (check planner actions)": MODE_VERIFY_ONLY,
@@ -124,18 +128,22 @@ FIXTURE_ONLY_CATEGORIES = (
 
 
 def build_transition_config(mode: str):
-    """A config for a selectable non-mutating mode, or None when disabled.
+    """A config for the selected transition mode, or None when disabled.
 
-    Adopted is rejected outright: a UI selection can never authorize a
-    canonical effect.
+    Adopted returns the canonical config: the deterministic update and
+    forget controllers, the shared verifier, and the bounded runtime
+    transition authority that supplies each per-request authorization. The
+    observational modes (shadow/candidate/verify_only) build a
+    non-mutating config with no runtime authority.
     """
     if mode == MODE_DISABLED:
         return None
+    if mode == MODE_ADOPTED:
+        from demo.support import build_canonical_transition_config
+
+        return build_canonical_transition_config()
     if mode not in (MODE_SHADOW, MODE_CANDIDATE, MODE_VERIFY_ONLY):
-        raise ValueError(
-            f"{mode!r} is not selectable; adopted mode requires an "
-            "authorization bound to an exact verified proposal"
-        )
+        raise ValueError(f"{mode!r} is not a known transition mode")
     from experienceos.memory.transition_integration import (
         TransitionIntegrationConfig,
     )
@@ -628,6 +636,13 @@ def normalize_transition_event(payload) -> dict:
                 if isinstance(d, dict)
             ],
             # Additive; absent on older events, then rendered unavailable.
+            "runtime_authority_checked": bool(
+                payload.get("runtime_authority_checked")
+            ),
+            "runtime_authority_reason": payload.get("runtime_authority_reason", ""),
+            "runtime_authorization_receipt_digest": payload.get(
+                "runtime_authorization_receipt_digest", ""
+            ),
             "replacement": replacement_record(payload.get("replacement")),
         }
     except (AttributeError, TypeError, ValueError) as exc:

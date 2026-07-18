@@ -14,8 +14,8 @@ extraction config. One bounded, documented deviation from
 `demo.support.create_agent`: the agent honors the benchmark's per-case
 memory budget instead of the demo's fixed budget, because the comparison
 requires every system to run under the same budget. Every other
-component — provider, store, compression, extraction selection — matches
-the demo composition.
+component — provider, store, compression, extraction selection, and the
+adopted deterministic transition path — matches the demo composition.
 """
 
 from __future__ import annotations
@@ -28,12 +28,15 @@ from experienceos.memory import InMemoryMemoryStore
 from experienceos.providers import MockProvider
 
 # Candidate mode: Qwen extraction runs as a lifecycle-evaluated,
-# non-mutating candidate overlay — the demo's non-adopted composition.
-# The durable lifecycle is driven by the unchanged deterministic policy;
-# Qwen supplies grounded extraction candidates. Adopted mode is never
-# reachable here, exactly as in the demo.
+# non-mutating candidate overlay for the extraction seam — Qwen supplies
+# grounded extraction candidates while the deterministic policy admits
+# them. The durable lifecycle transitions (supersede/forget) are driven by
+# the adopted deterministic transition path, exactly as in the demo.
 from demo.extraction_diagnostics import MODE_CANDIDATE
-from demo.support import build_canonical_extraction_config
+from demo.support import (
+    build_canonical_extraction_config,
+    build_canonical_transition_config,
+)
 
 CANONICAL_SYSTEM_ID = "canonical_experienceos_qwen"
 
@@ -64,6 +67,11 @@ class CanonicalQwenSystem(ExperienceOSAdapterBase):
         kwargs = {}
         if extraction is not None:
             kwargs["extraction"] = extraction
+        # The canonical lifecycle path: adopted deterministic transitions,
+        # so obsolete memory is superseded or forgotten rather than left
+        # active beside its replacement. Same config the demo builds.
+        transition = build_canonical_transition_config()
+        kwargs["transition"] = transition
         self.agent = ExperienceOS(
             model=self.provider,
             memory_store=InMemoryMemoryStore(),
@@ -78,6 +86,7 @@ class CanonicalQwenSystem(ExperienceOSAdapterBase):
         )
         self.diagnostics["extraction_mode"] = self.extraction_mode
         self.diagnostics["qwen_extraction_selected"] = extraction_backed
+        self.diagnostics["transition_mode"] = "adopted"
         self.config = SystemConfig(
             **{
                 **self.config.to_payload(),

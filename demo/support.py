@@ -111,9 +111,51 @@ def storage_status(store) -> tuple[str, str]:
     return "In-memory", "none"
 
 
+def build_canonical_transition_config():
+    """The canonical adopted deterministic transition configuration.
+
+    Fresh, immutable, provider-independent, and data-only: the two
+    deterministic lifecycle controllers, the canonical verifier, and the
+    bounded runtime authority — no store, no credentials, no user data, no
+    precomputed proposal or replacement authorization, and no path to the
+    experimental Qwen update controller. This is what makes the canonical
+    chat path supersede and forget instead of only creating.
+    """
+    from experienceos.memory.forget_intelligence import (
+        DeterministicForgetController,
+    )
+    from experienceos.memory.transition_authority import (
+        BoundedRuntimeTransitionAuthority,
+    )
+    from experienceos.memory.transition_integration import (
+        TransitionIntegrationConfig,
+        TransitionIntegrationMode,
+    )
+    from experienceos.memory.transition_verification import TransitionVerifier
+    from experienceos.memory.update_intelligence import (
+        DeterministicUpdateController,
+    )
+
+    verifier = TransitionVerifier()
+    return TransitionIntegrationConfig(
+        mode=TransitionIntegrationMode.ADOPTED,
+        update_controller=DeterministicUpdateController(verifier=verifier),
+        forget_controller=DeterministicForgetController(verifier=verifier),
+        verifier=verifier,
+        runtime_authority=BoundedRuntimeTransitionAuthority(),
+        planner_precedence=True,
+    )
+
+
+#: Sentinel: ``create_agent`` without an explicit ``transition`` argument
+#: gets the canonical adopted config; an explicit ``transition=None`` keeps
+#: transitions disabled (used by the dashboard's disabled selection).
+_CANONICAL_TRANSITION = object()
+
+
 def create_agent(
     provider: ModelProvider, memory_store=None, memory_policy=None,
-    extraction=None, transition=None,
+    extraction=None, transition=_CANONICAL_TRANSITION,
 ) -> ExperienceOS:
     """Agent with fresh event history; memory store optional (in-memory default).
 
@@ -124,15 +166,16 @@ def create_agent(
     fallback from the SDK. ``extraction`` is an optional grounded-extraction
     config (None keeps grounded extraction disabled — the default); it can
     only ever be shadow or candidate here, which are non-mutating.
-    ``transition`` is an optional transition-integration config (None
-    keeps transition integration disabled — the default); the dashboard
-    only ever supplies shadow, candidate, or verify-only, all of which
-    are non-mutating. Adopted mode needs an authorization bound to an
-    exact verified proposal and is never reachable from the UI.
+    ``transition`` defaults to the canonical adopted deterministic
+    transition config so the canonical demo updates and forgets across
+    sessions; an explicit config overrides it, and an explicit ``None``
+    disables transitions (the dashboard's disabled/observational modes).
     """
     kwargs = {"memory_policy": memory_policy} if memory_policy is not None else {}
     if extraction is not None:
         kwargs["extraction"] = extraction
+    if transition is _CANONICAL_TRANSITION:
+        transition = build_canonical_transition_config()
     if transition is not None:
         kwargs["transition"] = transition
     return ExperienceOS(

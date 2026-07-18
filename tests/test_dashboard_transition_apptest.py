@@ -1,9 +1,10 @@
 """Render-level tests for the transition dashboard.
 
 Proves the dashboard renders committed transition evidence honestly —
-candidate-only, gate 1 failed, gate 6 inconclusive, default disabled —
-that projected and applied state are never conflated, that adopted mode
-is not offered as a runtime control, and that rendering mutates nothing.
+candidate-only, gate 1 failed, gate 6 inconclusive — that projected and
+applied state are never conflated, that adopted is offered as the
+canonical default (its per-request authorization coming from the bounded
+runtime authority), and that rendering mutates nothing.
 """
 
 import json
@@ -19,6 +20,8 @@ from demo import transition_diagnostics as td  # noqa: E402
 REPO_ROOT = Path(__file__).resolve().parents[1]
 REPORT_DIR = REPO_ROOT / "benchmarks/results/committed/report-transition-verification"
 
+ADOPTED = "Adopted (canonical, deterministic lifecycle)"
+DISABLED = "Disabled (observe nothing)"
 SHADOW = "Shadow (observe, non-mutating)"
 CANDIDATE = "Candidate (full path, non-mutating)"
 VERIFY_ONLY = "Verify-only (check planner actions)"
@@ -61,23 +64,27 @@ def test_dashboard_starts_without_exception():
     assert not at.exception
 
 
-def test_transition_mode_defaults_to_disabled():
+def test_transition_mode_defaults_to_adopted():
     at = _app()
     selector = _selectbox(at, "Transition intelligence")
-    assert selector.value == "Disabled (default)"
-    assert at.session_state.agent.transition_coordinator is None
+    assert selector.value == ADOPTED
+    coordinator = at.session_state.agent.transition_coordinator
+    assert coordinator is not None
+    assert coordinator.mode == "adopted"
 
 
-def test_adopted_mode_is_not_offered_as_a_runtime_control():
+def test_adopted_mode_is_offered_as_the_canonical_control():
     at = _app()
     options = _selectbox(at, "Transition intelligence").options
-    assert len(options) == 4
-    assert not any("adopt" in option.lower() for option in options)
+    assert len(options) == 5
+    assert options[0] == ADOPTED
 
 
-def test_adopted_mode_cannot_be_built_from_the_presentation_layer():
-    with pytest.raises(ValueError):
-        td.build_transition_config("adopted")
+def test_adopted_mode_is_built_from_the_presentation_layer():
+    cfg = td.build_transition_config("adopted")
+    assert cfg.mode == "adopted"
+    assert cfg.runtime_authority is not None
+    assert cfg.planner_precedence is True
 
 
 def test_status_header_shows_the_committed_status():
@@ -340,9 +347,11 @@ def test_shadow_mode_does_not_change_memory_versus_disabled():
 
 def test_old_events_without_transition_annotations_render():
     at = _app()
+    # Select disabled so no transition annotation is emitted at all, then
+    # confirm the trace renderer handles annotation-free events.
+    _selectbox(at, "Transition intelligence").set_value(DISABLED).run()
     at.chat_input[0].set_value(DURABLE).run()
     assert not at.exception
-    # Disabled emits no transition annotation at all.
     assert td.transition_trace(at.session_state.agent.events) == []
 
 
