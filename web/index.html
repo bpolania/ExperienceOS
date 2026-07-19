@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ExperienceOS — the experience layer</title>
+<meta name="description" content="Durable experience for AI agents: remembered, updated, and forgotten on request — every change authorized by an exact receipt.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="topbar" id="topbar">
+  <div class="wordmark">
+    <span class="wordmark-name">ExperienceOS</span>
+    <span class="wordmark-tag">the experience layer</span>
+  </div>
+  <div class="topbar-actions">
+    <span class="session-chip" id="session-chip">Session 1</span>
+    <button class="icon-btn" id="btn-new-session" title="Start a new session" aria-label="Start a new session">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+    <button class="icon-btn" id="btn-engine" title="Engine room" aria-label="Open the engine room">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 4h4v12H4zM12 4h4v12h-4z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="icon-btn" id="btn-settings" title="Settings" aria-label="Open settings">
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+    </button>
+  </div>
+</header>
+
+<main class="stage">
+
+  <!-- Chat column -->
+  <section class="chat" aria-label="Conversation">
+    <div class="chat-log" id="chat-log" role="log" aria-live="polite">
+      <div class="hero" id="hero">
+        <h1 class="hero-title">Agents forget.<br><em>Yours keeps a&nbsp;ledger.</em></h1>
+        <p class="hero-sub">ExperienceOS gives your model durable experience — remembered,
+        updated, and forgotten on request. Every change is verified and
+        authorized by an exact receipt before it can touch memory.</p>
+        <div class="hero-chips" id="hero-chips">
+          <button class="chip" data-fill="I prefer aisle seats and morning flights.">I prefer aisle seats and morning flights.</button>
+          <button class="chip" data-fill="Actually, I prefer window seats now.">Actually, I prefer window seats now.</button>
+          <button class="chip" data-fill="Forget my morning-flight preference.">Forget my morning-flight preference.</button>
+          <button class="chip" data-fill="Plan a work trip for me.">Plan a work trip for me.</button>
+        </div>
+      </div>
+    </div>
+
+    <form class="composer" id="composer">
+      <input class="composer-input" id="composer-input" type="text"
+             placeholder="Tell it something worth remembering…"
+             autocomplete="off" aria-label="Message">
+      <button class="composer-send" id="composer-send" type="submit" aria-label="Send message">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 16V5M5.5 9.5 10 5l4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      </button>
+    </form>
+  </section>
+
+  <!-- The Ledger -->
+  <aside class="ledger" id="ledger" aria-label="Experience ledger">
+    <div class="ledger-head">
+      <h2 class="ledger-title">Experience</h2>
+      <span class="ledger-count" id="ledger-count">0 entries</span>
+    </div>
+    <div class="ledger-scroll" id="ledger-scroll">
+      <div class="ledger-empty" id="ledger-empty">
+        <p>Nothing remembered yet.<br>The first thing you say worth keeping will be entered here.</p>
+      </div>
+      <section class="ledger-section" id="sec-active" hidden>
+        <h3 class="ledger-label">Active</h3>
+        <ul class="ledger-list" id="list-active"></ul>
+      </section>
+      <section class="ledger-section" id="sec-superseded" hidden>
+        <h3 class="ledger-label">Superseded</h3>
+        <ul class="ledger-list" id="list-superseded"></ul>
+      </section>
+      <section class="ledger-section" id="sec-forgotten" hidden>
+        <h3 class="ledger-label">Forgotten</h3>
+        <ul class="ledger-list" id="list-forgotten"></ul>
+      </section>
+    </div>
+    <div class="ledger-foot">
+      <span class="provider-chip" id="provider-chip">
+        <span class="provider-dot" aria-hidden="true"></span>
+        <span id="provider-label">connecting…</span>
+      </span>
+    </div>
+  </aside>
+</main>
+
+<button class="ledger-fab" id="ledger-fab" aria-label="Open the experience ledger" hidden>
+  Ledger <span class="fab-count" id="fab-count">0</span>
+</button>
+
+<!-- Settings -->
+<dialog class="sheet" id="settings">
+  <div class="sheet-head">
+    <h2>Settings</h2>
+    <button class="icon-btn" data-close aria-label="Close settings">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+
+  <fieldset class="sheet-group">
+    <legend>Model</legend>
+    <label class="radio-row" id="row-qwen">
+      <input type="radio" name="provider" value="qwen">
+      <span class="radio-main">
+        <span class="radio-title">Qwen on Alibaba Cloud</span>
+        <span class="radio-sub" id="qwen-sub">qwen-plus · DashScope</span>
+      </span>
+    </label>
+    <label class="radio-row disabled" id="row-offline">
+      <input type="radio" name="provider" value="offline" disabled>
+      <span class="radio-main">
+        <span class="radio-title">Offline deterministic</span>
+        <span class="radio-sub">disabled for the live demo — replies come from Alibaba Cloud</span>
+      </span>
+    </label>
+  </fieldset>
+
+  <fieldset class="sheet-group">
+    <legend>Session</legend>
+    <button class="sheet-btn" id="settings-new-session">Start a new session</button>
+    <p class="sheet-note">Memory persists across sessions — that is the point.</p>
+  </fieldset>
+
+  <fieldset class="sheet-group">
+    <legend>Memory</legend>
+    <button class="sheet-btn danger" id="btn-reset">Erase all remembered experience</button>
+    <p class="sheet-note">Removes every entry for this demo user. Cannot be undone.</p>
+  </fieldset>
+
+  <p class="sheet-colophon">Backend: ExperienceOS SDK · lifecycle transitions adopted ·
+  every change authorized by an exact receipt.</p>
+</dialog>
+
+<!-- Engine room -->
+<dialog class="sheet wide" id="engine">
+  <div class="sheet-head">
+    <h2>Engine room</h2>
+    <button class="icon-btn" data-close aria-label="Close engine room">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <p class="sheet-note">Every turn's full trace: planning, transition intelligence,
+  runtime authorization, action replacement, and context selection.</p>
+  <div class="engine-list" id="engine-list">
+    <p class="sheet-note">No turns yet.</p>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>

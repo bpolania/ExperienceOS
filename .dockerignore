@@ -1,0 +1,18 @@
+# Keep the image lean and free of secrets / local state.
+.git
+.gitignore
+.venv
+.env
+.env.*
+.claude
+**/__pycache__
+**/*.pyc
+.pytest_cache
+tests
+benchmarks/results/local
+docs
+examples
+scripts
+*.sqlite3
+.experienceos
+node_modules
