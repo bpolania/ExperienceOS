@@ -255,6 +255,8 @@ class Handler(BaseHTTPRequestHandler):
                 self._json({"turns": STATE.turns})
         elif self.path.startswith("/api/"):
             self.send_error(404)
+        elif self.path == "/favicon.ico":
+            self._static("/favicon.svg")
         else:
             self._static(self.path.split("?")[0])
 
