@@ -1,3 +1,10 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="web/logo.svg">
+    <img src="web/logo-light.svg" width="88" alt="ExperienceOS — a seal containing three memory lines: active, superseded, forgotten">
+  </picture>
+</p>
+
 # ExperienceOS
 
 **The Experience Operating System for AI Agents.**

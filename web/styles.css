@@ -56,7 +56,9 @@ svg { display: block; }
   animation: rise 0.5s var(--ease-out) both;
 }
 
-.wordmark { display: flex; align-items: baseline; gap: 12px; }
+.wordmark { display: flex; align-items: center; gap: 11px; }
+.wordmark-mark { display: block; width: 26px; height: 26px; }
+.wordmark-text { display: flex; align-items: baseline; gap: 12px; }
 .wordmark-name {
   font-family: var(--font-display);
   font-weight: 600;
