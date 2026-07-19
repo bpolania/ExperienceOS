@@ -99,6 +99,37 @@ python-dotenv is installed (part of the `demo` extra). `.env` is
 gitignored; already-set environment variables always take precedence,
 and the SDK itself never reads files — only entry points load `.env`.
 
+## Runs on Alibaba Cloud
+
+ExperienceOS's inference backend runs on **Alibaba Cloud** via
+**DashScope / Model Studio (Bailian)** — Alibaba Cloud's managed LLM
+service that serves the **Qwen** models. All live generation and the
+blinded competitive judge use it.
+
+- **Code that uses the Alibaba Cloud service and API:**
+  [`experienceos/providers/qwen_cloud.py`](experienceos/providers/qwen_cloud.py).
+  It calls the DashScope OpenAI-compatible endpoint on the Alibaba Cloud
+  API domain `aliyuncs.com`:
+  - endpoint `https://dashscope-intl.aliyuncs.com/compatible-mode/v1`
+    (international) or `https://dashscope.aliyuncs.com/compatible-mode/v1`
+    (China region) — `qwen_cloud.py:25`;
+  - Alibaba Cloud `DASHSCOPE_API_KEY` credential — `qwen_cloud.py:66`;
+  - model `qwen-plus` — `qwen_cloud.py:21`;
+  - the live `POST … /chat/completions` with `Authorization: Bearer` —
+    `qwen_cloud.py:91`.
+- **Proof it actually ran on Alibaba Cloud:** the live six-system
+  competitive campaign — 240 executions plus blinded-judge scoring — was
+  served entirely by DashScope. See
+  [`benchmarks/results/committed/canonical-lifecycle-activation-live/run_manifest.json`](benchmarks/results/committed/canonical-lifecycle-activation-live/run_manifest.json)
+  (`provider_name: qwen-cloud`, `model: qwen-plus`, `judge_model:
+  qwen-plus`) and the runner
+  [`run_live_campaign.py`](benchmarks/results/committed/canonical-lifecycle-activation-live/run_live_campaign.py),
+  which constructs `QwenCloudProvider`.
+
+The application layer is provider-neutral (`ModelProvider`), so Alibaba
+Cloud is reached only through this one adapter; credentials are supplied
+via the git-ignored `.env` and are never committed.
+
 ## Dashboard
 
 Install the demo extra and launch:
