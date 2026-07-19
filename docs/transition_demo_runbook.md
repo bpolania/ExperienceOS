@@ -1,16 +1,25 @@
 # Transition Demo Runbook
 
+> **Current status (canonical activation).** Since this runbook was
+> written the canonical lifecycle path has been **activated**: adopted is
+> the default transition mode in the demo, it is offered in the dashboard
+> selector, and obsolete memories are superseded/forgotten by the bounded
+> runtime authority + governed replacement. The script below is preserved
+> as the original offline candidate-only walkthrough; for the current
+> lifecycle behavior and a judge walkthrough see
+> [canonical_lifecycle_transitions.md](canonical_lifecycle_transitions.md),
+> [bounded_runtime_transition_authority.md](bounded_runtime_transition_authority.md),
+> and the "Judge walkthrough" section of the main `README.md`.
+
 A presenter script for demonstrating ExperienceOS transition
 intelligence — how the system decides that a new statement *replaces*,
-*coexists with*, or *removes* an existing memory, and why it refuses to
-adopt that intelligence into the canonical path.
+*coexists with*, or *removes* an existing memory.
 
-Everything here runs **offline**: no Qwen credentials, no network, no
-model download. Budget 8–10 minutes.
-
-The honest headline, stated up front so nothing later reads as a
-reveal: **the transition path proposes correctly and is not adopted.**
-That refusal is the demonstration.
+The historical walkthrough below runs **offline**: no Qwen credentials, no
+network, no model download. Budget 8–10 minutes. It documents the
+pre-activation state in which the transition path proposed correctly but
+was classified candidate-only pending the governed-replacement fix that
+Phase 20 later delivered.
 
 ## 1. Preparation
 

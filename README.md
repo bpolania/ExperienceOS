@@ -573,17 +573,84 @@ refuses to let it affect durable memory until the evidence justifies it.
 Full evidence:
 [docs/grounded_extraction_report.md](docs/grounded_extraction_report.md).
 
-## Experience transition verification (evaluated, candidate-only)
+## Experience transitions: verification and canonical activation
 
 Accumulating experience is not just adding memories — it is knowing when
 a new statement *replaces* an old one, when it merely coexists with it,
 and when it asks to remove one. ExperienceOS treats that judgement as a
 **transition**: a proposal about how durable state should change, which
 must be verified against evidence and authorized before it can touch
-anything. Transition integration is `disabled` by default and **no
-transition controller is canonical**.
+anything.
 
-What exists now:
+**Current status (canonical activation).** The canonical chat path now
+runs the adopted deterministic lifecycle transitions: obsolete memories
+are **superseded** or **forgotten** instead of piling up beside their
+replacements. Each transition is authorized per request by a **bounded
+runtime transition authority** that issues one exact, single-target
+receipt, and a **governed action replacement** replaces the planner's
+conflicting create rather than appending beside it — which resolves the
+append-both duplicate that had held the path to candidate-only. The
+low-level `ExperienceOS(...)` SDK default remains transition-disabled;
+only the demo and evaluation factories activate it. See
+[docs/canonical_lifecycle_transitions.md](docs/canonical_lifecycle_transitions.md)
+and [docs/bounded_runtime_transition_authority.md](docs/bounded_runtime_transition_authority.md).
+
+**Live competitive result (single sample, `qwen-plus`, all six systems
+rerun in one campaign; committed evidence, not an official benchmark).**
+Canonical final-answer accuracy rose from **27/38 = 71.05%** to
+**30/38 = 78.95%** (+7.90 points); stale-information use fell from
+**9/18 = 50.00%** to **5/18 = 27.78%**; current-information accuracy rose
+**13/17 = 76.47% → 15/17 = 88.24%**; unsupported-claim rate fell
+**7/38 = 18.42% → 5/38 = 13.16%**. Canonical sits **2.63 points** behind
+the strongest live baseline (stateless, **31/38 = 81.58%**), within the
+frozen ~5-point comparability heuristic — **comparable with notes, not
+superior**. The four genuine stale failures are fixed at the final-answer
+level; the five residual stale flags are the same known Phase 18 evaluator
+false positives under the unchanged frozen scoring contract. Context stays
+compact: canonical averages **58.05** context tokens/case versus
+full-history's **454.45** (an **87.23%** reduction, live Phase 20). Full
+evidence:
+[benchmarks/results/committed/canonical-lifecycle-activation-live/](benchmarks/results/committed/canonical-lifecycle-activation-live/)
+(live) and
+[benchmarks/results/committed/canonical-lifecycle-activation/](benchmarks/results/committed/canonical-lifecycle-activation/)
+(offline, deterministic). Claims and their evidence are itemized in
+[docs/canonical_lifecycle_claims_matrix.md](docs/canonical_lifecycle_claims_matrix.md).
+
+### Judge walkthrough (dashboard)
+
+A four-session lifecycle a judge can run live:
+
+```
+Session 1:  I prefer aisle seats.
+            I prefer morning flights.
+Session 2:  I prefer window seats now.
+Session 3:  Forget my morning-flight preference.
+Session 4:  Plan a work trip for me.
+```
+
+Expected durable state: **window-seat preference active**, **aisle-seat
+preference superseded**, **morning-flight preference forgotten**. In the
+dashboard, watch the transition trace expose: the **created** memory, the
+**superseded** and **forgotten** rows, the **runtime authorization** result
+and **receipt digest**, the **replacement** decision, the **selected** and
+**skipped** memories with reasons, the **context budget**, and the final
+answer — which uses the window-seat preference and never the obsolete
+values.
+
+**Credentials for live Qwen.** The demo runs offline with the deterministic
+provider and needs no credentials. For live Qwen, set `QWEN_API_KEY` in a
+git-ignored `.env`. Note that `.env` is **not** auto-loaded by a bare
+Python subprocess — use the approved launcher/shell export
+(`export QWEN_API_KEY=...`) so the process environment actually carries it;
+credential-presence checks print only a boolean, never the value.
+
+### How this was reached (evaluation history)
+
+The following describes the mechanism and the evaluation that classified
+the path candidate-only *before* activation; the append-both cause it
+documents is the defect Phase 20's governed replacement resolved.
+
+What the mechanism provides:
 
 - **semantic memory identity** (`experienceos/memory/identity.py`):
   projects a statement into subject, attribute, value, and scope, then

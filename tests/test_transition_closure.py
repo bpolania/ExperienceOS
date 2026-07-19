@@ -133,17 +133,15 @@ def test_documents_carry_the_committed_classification(gate_summary: dict) -> Non
 
 
 def test_documents_state_that_no_transition_controller_is_adopted() -> None:
-    """Stated positively: a negative substring sweep over prose is noise.
-
-    The README legitimately says "no controller is adopted" about
-    grounded extraction, so scanning for the absence of an
-    adoption-shaped phrase flags correct sentences. Assert the refusal
-    is present instead.
+    """The historical Phase 15/16 closure preserves its original
+    candidate-only conclusion; the README has since moved on to document
+    the canonical activation that superseded it (Phase 20).
     """
-    readme = _prose(README)
-    assert "no transition controller is canonical" in readme
     closure = _prose(CLOSURE)
     assert "no transition controller is canonical" in closure
+    readme = _prose(README)
+    # The current README documents activation, not the pre-activation refusal.
+    assert "canonical activation" in readme
 
 
 # --- headline metrics ----------------------------------------------------
