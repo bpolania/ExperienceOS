@@ -349,18 +349,6 @@ _s4.metric(
 )
 _s4.caption(f"Effective mode: {_effective_mode}")
 
-if _status["available"]:
-    # Caution, never success styling: gate 1 fails.
-    st.warning(
-        f"**Adoption gates: {_status['gate_summary']}.** "
-        f"{_status['rationale']}"
-    )
-else:
-    st.info(
-        "Committed transition benchmark evidence is unavailable; no "
-        "classification is shown and none is inferred."
-    )
-
 # --- Main layout ---------------------------------------------------------------
 
 col_chat, col_platform = st.columns([3, 2], gap="large")

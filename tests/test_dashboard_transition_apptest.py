@@ -96,11 +96,14 @@ def test_status_header_shows_the_committed_status():
     assert metrics["Latest applied controller action"] == "No"
 
 
-def test_gate_summary_is_visible_and_not_styled_as_success():
+def test_deprecated_gate_summary_warning_is_removed():
+    # The pre-activation adoption-gates warning ("18 passed, 1 failed, 1
+    # inconclusive") described the candidate-only state and was removed now
+    # that the canonical lifecycle path is active. It must not reappear, and
+    # candidate-only must never be styled as success.
     at = _app()
     warnings = " ".join(str(w.value) for w in at.warning)
-    assert "18 passed, 1 failed, 1 inconclusive" in warnings
-    # Candidate-only must never read as success while gate 1 fails.
+    assert "18 passed, 1 failed, 1 inconclusive" not in warnings
     successes = " ".join(str(s.value) for s in at.success)
     assert "Candidate only" not in successes
 
