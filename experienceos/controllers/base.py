@@ -1,4 +1,4 @@
-"""Shared specialized-controller conventions (Phase 11, Prompt 6).
+"""Shared specialized-controller conventions.
 
 Controllers propose; the deterministic ExperienceOS kernel validates
 and decides. Everything here supports proposal-only contracts: frozen

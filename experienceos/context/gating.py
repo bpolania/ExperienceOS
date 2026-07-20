@@ -1,4 +1,4 @@
-"""Shadow-gate integration helper (Phase 11, Prompt 5).
+"""Shadow-gate integration helper.
 
 Runs strictly after canonical retrieval, selection, and token-budget
 enforcement are final: it reads the completed ``RetrievalResult``,

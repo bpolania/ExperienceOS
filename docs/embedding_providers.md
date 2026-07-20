@@ -1,19 +1,19 @@
-# Embedding Providers (Phase 11, Prompt 2)
+# Embedding Providers
 
 The `experienceos/embeddings/` package is the provider-independent
-embedding abstraction defined by `docs/phase11_contract.md` §12. It
-exists so later Phase 11 prompts can request embeddings without
+embedding abstraction. It
+exists so later work can request embeddings without
 coupling ExperienceOS core logic to a particular model, library, or
 service.
 
-**Status: consumed by opt-in semantic retrieval (Prompt 3) only.**
+**Status: consumed by opt-in semantic retrieval only.**
 `HybridRetrievalStrategy` can be configured with a
 `SemanticCandidateGenerator` and an explicit semantic mode — see
 `docs/semantic_retrieval.md`; the default mode is `disabled` and
-preserves the Phase 9 path byte-for-byte. Score fusion begins in
-Prompt 4. No retrieval benchmark has been run for this implementation,
+preserves the v2 path byte-for-byte. Score fusion is a
+separate layer. No retrieval benchmark has been run for this implementation,
 no retrieval-improvement claim is made, and benchmark adoption is
-deferred to Prompt 7. The deterministic provider validates lifecycle
+deferred. The deterministic provider validates lifecycle
 and retrieval plumbing — it is not neural semantic-quality evidence;
 the optional local provider remains optional and no real model was
 downloaded.

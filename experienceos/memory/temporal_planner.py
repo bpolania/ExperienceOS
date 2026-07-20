@@ -1,6 +1,6 @@
 """TemporalMemoryPlanner: temporal + provenance metadata on planning.
 
-Phase 9 Prompt 6 planning strategy. Extends the Prompt 2
+The temporal planning strategy. Extends the
 ``SemanticMemoryPlanner`` (rules extraction + conservative semantic
 supersession — required so corrections produce validity transitions)
 and adds:
@@ -113,8 +113,8 @@ class TemporalMemoryPlanner(SemanticMemoryPlanner):
         super().__init__(normalizer=normalizer)
         self.temporal_normalizer = temporal_normalizer or TemporalNormalizer()
         self.assistant_ingestion = assistant_ingestion
-        # Optional Phase 9 Prompt 7 seam: when None (the default and
-        # the Prompt 6 configuration), forget handling below is the
+        # Optional forget-resolver seam: when None (the default and
+        # the temporal configuration), forget handling below is the
         # unchanged v1 pattern set.
         self.forget_resolver = forget_resolver
         self.reference_time: str | None = None
@@ -208,10 +208,10 @@ class TemporalMemoryPlanner(SemanticMemoryPlanner):
         )
         return actions
 
-    # -- Prompt 7 forget resolution -------------------------------------------------
+    # -- forget resolution -------------------------------------------------
 
     def _plan_forgets(self, message, existing):
-        """When a Prompt 7 resolver is configured it OWNS forgetting:
+        """When a forget resolver is configured it OWNS forgetting:
         the v1 pattern pass (which has no negation/question/quote
         guards) is suppressed so 'Don't forget X' can never forget X.
         Without a resolver, v1 behavior is untouched."""

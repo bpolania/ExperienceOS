@@ -1,4 +1,4 @@
-"""Smallest configuration seam for embedding providers (Phase 11).
+"""Smallest configuration seam for embedding providers.
 
 Nothing in ExperienceOS constructs a provider unless a caller
 explicitly asks for one; the default mode is ``disabled`` and returns

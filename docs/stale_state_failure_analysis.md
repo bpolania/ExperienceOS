@@ -13,11 +13,11 @@ All per-stage evidence is captured from the frozen competitive-viability run (`r
 - ahead / behind: 0 / 0
 - merge commits in range: 0
 - working tree: clean (before this evidence document)
-- Phase 17 committed artifacts verified unchanged by hash: viability manifest (`9c7f3009…`), raw records (`bb9c1362…`), scoring freeze raw hash, and score/judge artifact hashes all match; committed benchmark evidence, frozen scenarios, and annotations show 0 uncommitted changes.
+- Committed competitive artifacts verified unchanged by hash: viability manifest (`9c7f3009…`), raw records (`bb9c1362…`), scoring freeze raw hash, and score/judge artifact hashes all match; committed benchmark evidence, frozen scenarios, and annotations show 0 uncommitted changes.
 
 ## 2. Publication status
 
-Phase 17 is **already published**: local HEAD equals `origin/main` (`350f389`), ahead 0 / behind 0. No publication action was required or taken; publication was left untouched.
+The competitive evidence is **already published**: local HEAD equals `origin/main` (`350f389`), ahead 0 / behind 0. No publication action was required or taken; publication was left untouched.
 
 ## 3. Validation results
 

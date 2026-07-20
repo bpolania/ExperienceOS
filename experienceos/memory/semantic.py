@@ -7,7 +7,7 @@ ExperienceOS can recognize that "Phone is a Pixel 9." replaces
 seats for short work trips." and "Prefers window seats for long
 international trips." coexist because their scopes differ.
 
-Design principles (Phase 9 contract):
+Design principles:
 
 - Exact structured identity beats fuzzy text similarity: attributes
   come from a small deterministic registry, never broad matching.
@@ -20,8 +20,8 @@ Design principles (Phase 9 contract):
   ``ExperienceEntry.metadata`` JSON channel — additive, backward
   compatible, and it survives the SQLite round trip unchanged.
 - Extension seams (``valid_from``/``valid_until``/``observed_at``/
-  ``source_type``) are reserved for the Phase 9 temporal/provenance
-  prompt and are carried but not yet interpreted.
+  ``source_type``) are reserved for the temporal/provenance
+  work and are carried but not yet interpreted.
 
 No benchmark oracle data (scenario IDs, expected answers, answer
 sessions) is referenced anywhere in this module.

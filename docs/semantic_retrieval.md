@@ -1,16 +1,16 @@
-# Semantic Retrieval (Phase 11, Prompt 3)
+# Semantic Retrieval
 
 Lifecycle-safe semantic candidate scoring and generation over the
-Prompt 2 embedding abstraction. This is plumbing plus a clearly
+embedding abstraction. This is plumbing plus a clearly
 separated experimental mode — **not** the canonical retrieval
-configuration: full lexical+semantic score fusion is Prompt 4, and no
-benchmark evidence exists yet (Prompt 7). No retrieval-improvement
+configuration: full lexical+semantic score fusion is a separate layer, and no
+benchmark evidence exists yet. No retrieval-improvement
 claim is made here.
 
 ## Lifecycle-first order (binding)
 
 `HybridRetrievalStrategy.retrieve` (`experienceos/context/retrieval.py`)
-keeps its Phase 9 shape: user scoping happens at the store, lifecycle
+keeps its v2 shape: user scoping happens at the store, lifecycle
 eligibility is decided in step 1 (active only; superseded admitted
 solely by the audited temporal policy under explicit historical
 intents; forgotten never), and **semantic scoring runs strictly after
@@ -22,27 +22,27 @@ memory eligible, and there is no second admission path.
 
 ## Modes (`semantic_mode`, fixed per strategy instance)
 
-Prompt 4 added a fourth mode, **`fused`**, which combines normalized
+A fourth mode, **`fused`**, combines normalized
 lexical/structured/semantic/temporal evidence under fixed versioned
-profiles — see `docs/retrieval_score_fusion.md`. The three Prompt 3
+profiles — see `docs/retrieval_score_fusion.md`. The three
 modes below remain available and unchanged; semantic scores are now
 consumable by fused retrieval through the same single
 `SemanticCandidateGenerator` invocation. No canonical adoption
 decision has been made for any semantic or fused mode.
 
-- **`disabled`** (default): byte-identical Phase 9 behavior. No
+- **`disabled`** (default): byte-identical v2 behavior. No
   provider constructed or invoked, no cache activity, empty
   `result.semantic`, `candidate.semantic is None`. Regression-tested
   against the plain strategy for identical candidates, order, scores,
   reasons, and rendered context.
-- **`score_only`**: the Prompt 4 seam. Semantic scores are computed
+- **`score_only`**: the fusion seam. Semantic scores are computed
   and attached as diagnostics (`candidate.semantic`,
   `component_scores` untouched); lexical ranking and selection are
   provably unchanged.
 - **`semantic_only`**: embedding similarity generates candidates from
   the admitted pool — the mode that can find a memory whose *text*
   lexically mismatches the query (via canonicalized identity fields).
-  Experimental, not canonical; benchmarked in Prompt 7.
+  Experimental, not canonical; benchmarked later.
 
 Mode selection is explicit, deterministic, and never derived from
 query content.
@@ -88,7 +88,7 @@ unrelated short texts reach ~0.25 via shared stopwords and signed-hash
 collisions, while two-plus shared meaningful tokens score 0.45–0.60.
 The floor is fixed configuration — never query- or benchmark-derived —
 and is *not* claimed optimal (weak single-token matches on long
-queries fall below it); Prompt 7 evaluates it. A zero-vector query
+queries fall below it); benchmarking evaluates it. A zero-vector query
 (no tokens) yields zero scores and no candidates — recorded, never
 fabricated. No zero-score padding toward K: fewer qualifying memories
 mean fewer candidates.
@@ -96,7 +96,7 @@ mean fewer candidates.
 Semantic-only ranking tuple: `(-semantic_score, -(phrase+entity)=0,
 -kind_priority, -confidence, -created_at, memory.id)` — the shared
 deterministic step-4 sort with non-relevance refiners only; lexical
-scores are never mixed in (that is fusion, Prompt 4). Candidate
+scores are never mixed in (that is fusion). Candidate
 limits, downstream selection (K), and the context-token budget apply
 unchanged.
 
@@ -120,12 +120,11 @@ query-zero flag, `{"elapsed_ms": …}` timing blocks (wall-clock,
 non-deterministic, named for the existing digest-normalization
 convention), cache counters, fallback state. `summary()` gains a
 `semantic_retrieval` block only when configured. Old payloads remain
-valid; disabled mode adds nothing. Dashboard visibility is Prompt 8.
+valid; disabled mode adds nothing. Dashboard visibility comes later.
 
-## Measured status (Prompt 7)
+## Measured status
 
-Benchmarked in `docs/phase11_semantic_retrieval_report.md`:
-`semantic_only` (as `experienceos_embedding_only_v1`) is classified
+Benchmarked, `semantic_only` (as `experienceos_embedding_only_v1`) is classified
 **not_adopted** under the deterministic test provider (lifecycle
 Recall@K 2/17, external selection 2/50 vs 12/50) — a result about the
 test provider's token-overlap embeddings, not learned embeddings.

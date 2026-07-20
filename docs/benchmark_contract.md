@@ -1,6 +1,6 @@
-# ExperienceOS Benchmark Contract (Phase 8)
+# ExperienceOS Benchmark Contract
 
-This document locks the measurement rules for the Phase 8 benchmark
+This document locks the measurement rules for the benchmark
 **before any result exists**. Later prompts implement scenarios,
 baselines, runners, and reports against this contract; they may not
 change a metric's definition, denominator, or comparison rule after
@@ -266,7 +266,7 @@ Benchmarking Chat Assistants on Long-Term Interactive Memory*, ICLR
 - **Official evaluation**: GPT-4o judge via the repo's
   `evaluate_qa.py`.
 
-**Phase 8 boundary**: a committed manifest of ~50 `question_id`
+**Scope boundary**: a committed manifest of ~50 `question_id`
 references (IDs only — no copied haystack data in the repo), selected
 by a deterministic procedure: sort official question IDs
 lexicographically within each category, then take every ⌈N/10⌉-th ID
@@ -279,7 +279,7 @@ hackathon) a Qwen judge rather than the official GPT-4o judge, any
 result **must** be labeled **"LongMemEval 50-case stratified
 subset"** and is not an official LongMemEval score. An official score
 would require the full 500-question set, the official GPT-4o judge,
-and the official evaluation scripts. Prompt 6 must re-verify: exact
+and the official evaluation scripts. Re-verification must confirm: exact
 dataset file checksums, the cleaned-distribution license text, and
 judge-prompt compatibility.
 

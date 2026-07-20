@@ -1,6 +1,6 @@
 """Local-policy v2: one-action structured proposals, strictly contained.
 
-Phase 9 Prompt 7. A narrow single-action proposal schema replaces the
+A narrow single-action proposal schema replaces the
 v1 multi-decision array; strict parsing with SYNTAX-ONLY repair and at
 most one bounded retry; per-action deterministic fallback that never
 broadens the action; and complete raw-to-applied audit evidence.
@@ -543,7 +543,7 @@ class LocalPolicyV2:
         A malformed forget can only apply deterministic FORGET
         actions; a malformed remember/update only creates/updates;
         an unclassifiable failure applies the full deterministic plan
-        (the Phase 8 containment contract)."""
+        (the base containment contract)."""
         if action == "forget":
             audit.fallback_type = "forget"
             self.counters["fallback_forget"] += 1

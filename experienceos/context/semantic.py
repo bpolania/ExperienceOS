@@ -1,11 +1,11 @@
-"""Lifecycle-safe semantic candidate scoring (Phase 11, Prompt 3).
+"""Lifecycle-safe semantic candidate scoring.
 
 The semantic component scores *supplied* memories against a query
-using the Prompt 2 embedding abstraction. Callers (the retrieval
+using the embedding abstraction. Callers (the retrieval
 strategy) apply lifecycle eligibility first: this module never sees a
 store, engine, manager, or event bus, receives only already-admitted
 entries, mutates nothing, and can therefore never widen lifecycle
-admission. Full lexical+semantic score fusion is deferred to Prompt 4;
+admission. Full lexical+semantic score fusion is handled by a later stage;
 here semantic scores either ride along as diagnostics (``score_only``)
 or drive a clearly separated ``semantic_only`` candidate mode.
 
@@ -18,8 +18,8 @@ provider, unrelated short texts reach ~0.25 (shared stopwords, signed
 hash collisions) while texts sharing two or more meaningful tokens
 score 0.45-0.60. The floor is a fixed configuration value, never
 query- or benchmark-dependent; it is not claimed optimal — weak
-single-token matches on long queries can fall below it — and Prompt 7
-evaluates it before any adoption decision.
+single-token matches on long queries can fall below it — and adoption
+measurement evaluates it before any adoption decision.
 """
 
 from __future__ import annotations

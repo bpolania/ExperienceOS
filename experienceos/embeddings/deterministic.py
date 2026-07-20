@@ -1,4 +1,4 @@
-"""Deterministic test embedding provider (Phase 11, Prompt 2).
+"""Deterministic test embedding provider.
 
 A dependency-free, offline, cross-process-stable feature-hashing
 provider for unit tests, CI, plumbing validation, and deterministic

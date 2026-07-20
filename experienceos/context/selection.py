@@ -1,6 +1,6 @@
-"""Coverage-aware context selection over Prompt 4 retrieval candidates.
+"""Coverage-aware context selection over scored retrieval candidates.
 
-The Phase 9 final-selection layer. Prompt 4 generates and scores
+The final-selection layer. Retrieval generates and scores
 lifecycle-filtered active candidates; this module chooses the final
 bounded subset so the same K and token budget carry complementary,
 non-redundant, source-diverse experience instead of several copies of
@@ -14,7 +14,7 @@ the strongest facet:
       (base relevance + coverage gains − redundancy/conflict penalties)
     → deterministic bounded selection with documented tie-breaking
 
-Principles (Phase 9 contract): retrieval relevance stays the
+Principles: retrieval relevance stays the
 foundation of utility; the strongest direct match normally stays
 first; diversity without relevance earns nothing; source-session
 diversity is a bounded bonus, never a quota; multi-valued facts are
@@ -48,7 +48,7 @@ COVERAGE_WEIGHTS_VERSION = "1"
 # Explicit, versioned, provider-independent, scenario-agnostic weights.
 # Tuned on phase9_dev fixtures only — never on frozen scenario IDs.
 COVERAGE_WEIGHTS = {
-    "base_relevance": 1.0,  # Prompt 4 final score, untouched
+    "base_relevance": 1.0,  # retrieval final score, untouched
     "facet_gain": 0.6,  # per newly covered query-relevant facet
     "attribute_gain": 0.8,  # first coverage of a semantic attribute
     "entity_gain": 0.5,  # first coverage of a matched entity
@@ -212,7 +212,7 @@ def redundancy_signals(candidate, selected: list) -> tuple:
 
 @dataclass(frozen=True)
 class SelectionRequest:
-    """Bounded final-selection input: the Prompt 4 scored ACTIVE
+    """Bounded final-selection input: the scored ACTIVE
     candidate pool only. Never carries expected answers, answer-session
     IDs, scenario IDs, categories, or inactive records."""
 
@@ -289,7 +289,7 @@ class CoverageSelectionStrategy:
     5. memory-kind priority (instruction > fact > preference)
     6. confidence, descending
     7. token estimate, ascending
-    8. Prompt 4 retrieval rank, ascending (stable creation-ordered)
+    8. retrieval rank, ascending (stable creation-ordered)
 
     Rank is unique per candidate, so ordering never depends on runtime
     UUIDs, wall-clock values, or dict ordering. Repeated runs produce
@@ -336,7 +336,7 @@ class CoverageSelectionStrategy:
         weights = self.weights
         # Chronology modes: same-slot different-value records are
         # TIMELINE VARIANTS (requested history), not redundancy or
-        # concealable conflicts. Current mode keeps Prompt 5 behavior.
+        # concealable conflicts. Current mode keeps coverage behavior.
         self._timeline_mode = request.temporal_mode in (
             "timeline", "historical", "as_of"
         )

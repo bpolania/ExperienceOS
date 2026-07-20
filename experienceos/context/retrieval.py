@@ -1,13 +1,13 @@
 """Lifecycle-aware hybrid retrieval: broad lexical recall, filtered.
 
-The Phase 9 retrieval strategy seam. Naive retrieval finds text;
+The retrieval strategy seam. Naive retrieval finds text;
 ExperienceOS retrieves current, valid, scoped experience:
 
     query
     → broad lexical candidate generation (BM25-style IDF weighting,
       phrase/entity overlap, a small transparent alias registry)
-    → structured semantic signals (Prompt 2 identity fields: attribute,
-      value, scope; Prompt 3 extraction confidence)
+    → structured semantic signals (identity fields: attribute,
+      value, scope; extraction confidence)
     → active-state lifecycle filtering (forgotten/superseded records
       are excluded before ranking and can never enter context)
     → query-aware scoring with explicit versioned weights
@@ -17,8 +17,8 @@ ExperienceOS retrieves current, valid, scoped experience:
 The strategy selects existing memories only. It never creates,
 updates, supersedes, or forgets memories, never changes lifecycle
 status, and never alters provenance. Coverage-aware/diversity-aware
-final composition is deliberately out of scope (Prompt 5), as is
-temporal/historical query reasoning (Prompt 6): current queries use
+final composition is deliberately out of scope, as is
+temporal/historical query reasoning: current queries use
 active memories only, and no historical mode is implemented because
 the repository has none to preserve.
 
@@ -242,7 +242,7 @@ class RetrievalRequest:
     k: int
     session_id: str = ""
     token_budget: int | None = None  # optional; None preserves v1 rules
-    historical_mode: bool = False  # unsupported: Prompt 6 owns temporal
+    historical_mode: bool = False  # unsupported: temporal queries owned elsewhere
     strategy_version: str = RETRIEVAL_STRATEGY_VERSION
 
 
@@ -266,11 +266,11 @@ class RetrievalCandidate:
     selected: bool = False
     exclusion_reason: str | None = None  # inactive_*, zero_relevance,
     # not_top_k, token_budget, below_semantic_floor
-    semantic: dict | None = None  # Phase 11: vector-free semantic
+    semantic: dict | None = None  # vector-free semantic
     # evidence; None whenever semantic retrieval is disabled
-    fusion: dict | None = None  # Phase 11 Prompt 4: reconstructable
+    fusion: dict | None = None  # reconstructable
     # fusion breakdown; None outside fused mode
-    gate: dict | None = None  # Phase 11 Prompt 5: shadow-gate
+    gate: dict | None = None  # shadow-gate
     # proposal evidence; None whenever no gate is configured
 
 
@@ -295,11 +295,11 @@ class RetrievalResult:
     strategy: str = "hybrid_retrieval"
     strategy_version: str = RETRIEVAL_STRATEGY_VERSION
     warnings: tuple = ()
-    coverage: dict = field(default_factory=dict)  # Prompt 5 evidence
-    semantic: dict = field(default_factory=dict)  # Phase 11 summary;
+    coverage: dict = field(default_factory=dict)  # coverage evidence
+    semantic: dict = field(default_factory=dict)  # semantic summary;
     # empty whenever semantic retrieval is disabled
-    gate: dict = field(default_factory=dict)  # Phase 11 Prompt 5
-    # shadow-gate summary; empty whenever no gate is configured
+    gate: dict = field(default_factory=dict)  # shadow-gate
+    # summary; empty whenever no gate is configured
 
 
 class RetrievalStrategy(Protocol):
@@ -367,19 +367,19 @@ class HybridRetrievalStrategy:
         # Candidate limit bounds scored candidates when populations are
         # large; it is always >= K at selection time and never padded.
         self.candidate_limit = candidate_limit
-        # Optional Phase 9 Prompt 5 seam: when None (the default and
-        # every Prompt 4 configuration), final selection below is the
+        # Optional coverage-selection seam: when None (the default and
+        # every fusion configuration), final selection below is the
         # unchanged deterministic top-K loop.
         self.selection_strategy = selection_strategy
-        # Optional Phase 9 Prompt 6 seam: when None (the default and
+        # Optional temporal-policy seam: when None (the default and
         # every earlier configuration), admission, scoring, and
-        # rendering below are byte-identical to Prompt 4/5.
+        # rendering below are byte-identical to the fusion/coverage path.
         self.temporal_policy = temporal_policy
-        # Optional Phase 11 Prompt 3 seam: mode is explicit, fixed per
+        # Optional semantic-scoring seam: mode is explicit, fixed per
         # strategy instance, and never chosen from query content. With
         # the default "disabled" mode (and every earlier
         # configuration) no provider is invoked, no cache exists, and
-        # retrieval below is byte-identical to Phase 9.
+        # retrieval below is byte-identical to the lexical path.
         from experienceos.context.semantic import SEMANTIC_MODES
 
         if semantic_mode not in SEMANTIC_MODES:
@@ -387,10 +387,10 @@ class HybridRetrievalStrategy:
                 f"unknown semantic_mode {semantic_mode!r}; expected one "
                 f"of {SEMANTIC_MODES}"
             )
-        # Phase 11 Prompt 4 seam: an explicit, versioned fusion profile
+        # Fusion seam: an explicit, versioned fusion profile
         # applies only in "fused" mode. The lexical_reference profile
         # bypasses fusion entirely and routes through the unchanged
-        # Phase 9 path (the zero-semantic-weight equivalence design).
+        # lexical path (the zero-semantic-weight equivalence design).
         if semantic_mode == "fused":
             from experienceos.context.fusion import resolve_fusion_profile
 
@@ -419,7 +419,7 @@ class HybridRetrievalStrategy:
         self.semantic_generator = semantic_generator
         self.semantic_mode = semantic_mode
         self.semantic_strict = semantic_strict
-        # Optional Phase 11 Prompt 5 seam: a shadow-only MemoryGate
+        # Optional shadow-gate seam: a shadow-only MemoryGate
         # evaluated strictly AFTER canonical selection and budget
         # enforcement. It observes the finished result and attaches
         # additive diagnostics; it can never alter it. Default None:
@@ -467,10 +467,10 @@ class HybridRetrievalStrategy:
             "candidate_limit": self.candidate_limit,
             "semantic_scoring_enabled": True,  # structured identity fields
             "embedding_scoring_enabled": False,  # deferred (see docs)
-            "historical_mode_support": False,  # Prompt 6 owns temporal
+            "historical_mode_support": False,  # temporal queries owned elsewhere
             "lifecycle_filtering": "active_only_before_ranking",
             "scoring_weights_version": LEXICAL_SCORING_VERSION,
-            # Additive Phase 11 block, present only when configured so
+            # Additive semantic block, present only when configured so
             # every earlier configuration's summary stays identical.
             **(
                 {"semantic_retrieval": self._semantic_summary()}
@@ -507,7 +507,7 @@ class HybridRetrievalStrategy:
         )
         if request.historical_mode:
             # No historical retrieval exists to preserve; current
-            # active experience only (Prompt 6 owns temporal queries).
+            # active experience only (temporal queries owned elsewhere).
             result.warnings = (
                 "historical_mode unsupported: using current active "
                 "experience only",
@@ -549,7 +549,7 @@ class HybridRetrievalStrategy:
             result.inactive_filtered += 1
         result.active_count = len(active)
 
-        # Phase 11 Prompt 3: semantic scoring runs strictly AFTER the
+        # Semantic scoring runs strictly AFTER the
         # lifecycle filter above — only admitted entries are ever
         # embedded, so similarity can never widen admission. Provider
         # failure or unavailability falls back to the unchanged
@@ -585,7 +585,7 @@ class HybridRetrievalStrategy:
         else:
             # disabled mode, the lexical_reference profile, score_only
             # mode, and every semantic/fused fallback: the unchanged
-            # Phase 9 lexical path.
+            # lexical path.
             scored = self._lexical_scored(
                 request, query, active, intent, result
             )
@@ -654,7 +654,7 @@ class HybridRetrievalStrategy:
 
         self._count(result)
 
-        # Phase 11 Prompt 5: shadow-gate evaluation of the FINISHED
+        # Shadow-gate evaluation of the FINISHED
         # canonical result — selection, ordering, reasons, and budgets
         # above are final; the gate can only attach diagnostics.
         if self.memory_gate is not None:
@@ -677,9 +677,9 @@ class HybridRetrievalStrategy:
     def _lexical_scored(
         self, request, query, active, intent, result
     ) -> list[RetrievalCandidate]:
-        """Steps 2-3 of the Phase 9 pipeline, moved verbatim: corpus
+        """Steps 2-3 of the lexical pipeline, moved verbatim: corpus
         statistics plus lexical/structured scoring of every admitted
-        memory. Behavior is unchanged from Phase 9."""
+        memory. Behavior is unchanged from the lexical path."""
         # 2. Corpus statistics for BM25-style IDF over active memories.
         doc_tokens = {e.id: tokenize(e.text) for e in active}
         doc_count = len(active)
@@ -788,7 +788,7 @@ class HybridRetrievalStrategy:
         """Semantic-only candidate generation over admitted entries.
 
         Ranking is semantic score first; lexical scores are never
-        mixed in (fusion is Prompt 4). Entries at or below the
+        mixed in (fusion is a separate stage). Entries at or below the
         relevance floor are excluded as ``below_semantic_floor`` —
         never padded toward K. The shared step-4 sort then orders
         candidates by (-final_score, -(phrase+entity)=0, -kind
@@ -822,7 +822,7 @@ class HybridRetrievalStrategy:
     def _attach_semantic_diagnostics(self, scored, result, outcome) -> None:
         """score_only mode: semantic evidence rides along as
         diagnostics on the lexically-scored candidates; final scores
-        and ranking are untouched (fusion is Prompt 4)."""
+        and ranking are untouched (fusion is a separate stage)."""
         for candidate in scored:
             score = outcome.scores.get(candidate.memory.id)
             if score is not None:
@@ -995,10 +995,10 @@ class HybridRetrievalStrategy:
         }
 
     def _coverage_selection(self, request, query, scored, result) -> int:
-        """Delegate final selection to the configured Prompt 5 strategy.
+        """Delegate final selection to the configured coverage strategy.
 
         The strategy receives the full positive-relevance active pool
-        (Prompt 4 ranks preserved) and returns a bounded subset in
+        (fusion ranks preserved) and returns a bounded subset in
         final context order plus per-candidate skip reasons. Retrieval
         component scores stay untouched; coverage evidence rides
         ``result.coverage`` keyed by memory ID.

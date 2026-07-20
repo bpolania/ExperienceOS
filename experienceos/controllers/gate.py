@@ -1,10 +1,9 @@
-"""Shadow-mode MemoryGate: the first specialized controller seam
-(Phase 11, Prompt 5).
+"""Shadow-mode MemoryGate: the first specialized controller seam.
 
 MemoryGate proposes; ExperienceOS decides. A gate receives one bounded,
 immutable evidence snapshot per lifecycle-eligible, canonically-ranked
 candidate and returns an immutable proposal (admit / reject / abstain).
-In Phase 11 every gate is shadow-only: ``shadow_mode`` is always true,
+Every gate is shadow-only: ``shadow_mode`` is always true,
 ``affected_selection`` is always false, and no proposal can change
 candidate eligibility, selection, ordering, token accounting, rendered
 context, or memory state. There is no enforcement mode; canonical gate
@@ -120,7 +119,7 @@ class GateProposal:
                 )
         if self.shadow_mode is not True:
             raise GateProposalError(
-                "Phase 11 gates are shadow-only: shadow_mode must be True"
+                "Gates are shadow-only: shadow_mode must be True"
             )
         if self.affected_selection is not False:
             raise GateProposalError(

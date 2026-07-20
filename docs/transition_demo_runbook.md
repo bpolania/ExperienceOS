@@ -19,7 +19,7 @@ The historical walkthrough below runs **offline**: no Qwen credentials, no
 network, no model download. Budget 8–10 minutes. It documents the
 pre-activation state in which the transition path proposed correctly but
 was classified candidate-only pending the governed-replacement fix that
-Phase 20 later delivered.
+was later delivered.
 
 ## 1. Preparation
 

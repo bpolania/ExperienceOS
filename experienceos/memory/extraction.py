@@ -1,6 +1,6 @@
 """Hybrid conversational memory extraction: gate, candidates, validation.
 
-This module owns the extraction side of the Phase 9 hybrid pipeline:
+This module owns the extraction side of the hybrid pipeline:
 
 - ``DurabilityGate``: a deterministic, provider-independent decision on
   whether an unmatched user sentence MAY contain durable experience.

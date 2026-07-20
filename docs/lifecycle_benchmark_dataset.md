@@ -3,8 +3,8 @@
 **Dataset**: `experienceos-lifecycle` · **Version**: `experienceos-lifecycle-v1`
 · **Scenarios**: 40 · **Manifest**: `benchmarks/scenarios/lifecycle_manifest.json`
 
-The committed dataset that Phase 8's comparative benchmark executes.
-Every scenario is a declarative JSON file conforming to the Prompt 1
+The committed dataset that the comparative benchmark executes.
+Every scenario is a declarative JSON file conforming to the
 case contract ([benchmark_contract.md](benchmark_contract.md));
 every oracle was fixed here **before any comparative result
 existed** (the canonical results now live under
@@ -45,7 +45,7 @@ The manifest records per scenario: id, path, group, contract
 category, tags, optional-mode flags, evaluation mode, seed (distinct,
 fixed, 201–240), context budget, selection K, and a per-file
 `content_hash` (SHA-256 of the canonical case payload). The overall
-`manifest_hash` uses the Prompt 1 `manifest_hash` helper over the
+`manifest_hash` uses the `manifest_hash` helper over the
 ordered payloads, so any content or order change is detectable.
 
 ## Oracle semantics
@@ -103,7 +103,7 @@ Oracles were fixed with these known: they will produce failed cases
 for some systems, including ExperienceOS configurations, and those
 failures are reported, never excluded.
 
-## Phase 7 findings encoded
+## Earlier findings encoded
 
 `creation_001` (verified explicit create), `updates_004` ("I now
 prefer" planner fix), `updates_005` ("instead of" clause hygiene),

@@ -1,4 +1,4 @@
-# ExperienceOS Benchmark Adapters (Phase 8, Prompt 4)
+# ExperienceOS Benchmark Adapters
 
 The `experienceos_rules` and `experienceos_local` systems behind the
 same `BenchmarkSystem` interface as the four
@@ -35,7 +35,7 @@ engine containment, applied actions, and final state stay separate**:
   action's `decision_source` is `fallback`, never presented as
   local-model correctness.
 - *Semantically wrong but valid proposal* → applied action recorded;
-  the oracle comparison (Prompt 5) surfaces the wrong outcome.
+  the oracle comparison surfaces the wrong outcome.
 - *No usable proposal* → fallback or empty evidence; state preserved.
 - *Duplicate proposal* → visible proposal + `duplicate_of_active`
   rejection + single active record.
@@ -45,7 +45,7 @@ engine containment, applied actions, and final state stay separate**:
 Public seams only: `ExperienceOS(model=…, memory_policy=…,
 context_builder=…)`, `chat`, `memories_for_user(status=…)`, and the
 public event stream. No private store access, no monkey-patching, no
-benchmark flags in the production package — the Prompt 1 audit's
+benchmark flags in the production package — the initial audit's
 conclusion (events already expose proposals, confidence, decision
 source, fallback provenance, rejections, selection records,
 compression, and context messages) held: **zero production changes
@@ -133,7 +133,7 @@ character floors): total context = built context messages + current
 message; memory context = built context minus the leading static
 system instruction. Latency: end-to-end from a monotonic clock around
 `chat()`, plus retrieval / memory-decision / response stages derived
-from event timestamps (documented approximations; Prompt 5 does the
+from event timestamps (documented approximations; the runner does the
 aggregation).
 
 ## Oracle firewall

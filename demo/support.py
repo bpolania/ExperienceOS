@@ -648,7 +648,7 @@ def supplied_context_lines(events: list[ExperienceEvent]) -> list[str]:
 
 
 # ---------------------------------------------------------------------------
-# Phase 11 retrieval diagnostics (Prompt 8). Pure, Streamlit-free,
+# Retrieval diagnostics. Pure, Streamlit-free,
 # tolerant helpers: they read recorded event evidence and committed
 # report data only — they never construct providers, load models,
 # recompute retrieval, or mutate anything.
@@ -748,10 +748,10 @@ EXCLUSION_KIND_LABELS = {
 
 
 def retrieval_diagnostics(events: list[ExperienceEvent]) -> dict | None:
-    """Bounded Phase 11 retrieval summary from the last context event.
+    """Bounded retrieval summary from the last context event.
 
     Returns None before any retrieval; every field is guarded so old
-    (Phase 8/9) events without diagnostics render safely.
+    events without diagnostics render safely.
     """
     for event in reversed(events):
         if event.type != EventType.CONTEXT_BUILT:
@@ -805,7 +805,7 @@ def retrieval_diagnostics(events: list[ExperienceEvent]) -> dict | None:
 
 def gate_shadow_summary(events: list[ExperienceEvent]) -> dict | None:
     """Shadow-gate tallies from the last context event; None when no
-    gate is configured or the event predates Phase 11."""
+    gate is configured or the event has no gate diagnostics."""
     for event in reversed(events):
         if event.type != EventType.CONTEXT_BUILT:
             continue
@@ -841,8 +841,8 @@ def _gate_cell(record_gate) -> str:
 
 
 def phase11_candidate_rows(records: list[dict] | None) -> list[dict]:
-    """Phase 11 columns for the selection table, preserving canonical
-    audit order; safe on old records without Phase 11 fields."""
+    """Selection-table columns, preserving canonical
+    audit order; safe on old records without those fields."""
     rows = []
     for record in records or []:
         reason = record.get("exclusion_reason")
@@ -979,7 +979,7 @@ def phase11_benchmark_summary(
     report_data_path: str = PHASE11_REPORT_DATA_PATH,
     adoption_path: str = PHASE11_ADOPTION_PATH,
 ) -> dict | None:
-    """Compact Prompt 7 summary read from committed report data.
+    """Compact summary read from committed report data.
 
     Returns None when the committed artifacts are missing or
     malformed — the dashboard shows an unavailable state and never

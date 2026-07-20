@@ -1,4 +1,4 @@
-# Benchmark Runner and Artifacts (Phase 8, Prompt 5)
+# Benchmark Runner and Artifacts
 
 Deterministic six-system orchestration over the committed
 [lifecycle dataset](lifecycle_benchmark_dataset.md), scoring against

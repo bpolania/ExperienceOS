@@ -1,4 +1,4 @@
-# Benchmark Baselines (Phase 8, Prompt 3)
+# Benchmark Baselines
 
 Four comparison systems implemented behind the common
 `BenchmarkSystem` interface from the
@@ -27,7 +27,7 @@ the generated report at [benchmark_report.md](benchmark_report.md).
 | full_history | yes (transcript) | no | no | no | no | no | no | yes |
 | append_only | yes | yes | no | no | recency cap only | no | no | yes |
 | naive_top_k | yes | yes | no | no | yes | no | no | yes |
-| experienceos_* (Prompt 4) | yes | yes | yes | yes | yes | yes | yes | rules: yes |
+| experienceos_* | yes | yes | yes | yes | yes | yes | yes | rules: yes |
 
 ## Shared machinery (`benchmarks/baselines/common.py`)
 
@@ -125,7 +125,7 @@ forever.
   containment cases): baselines have no memory-policy proposal
   engine, so the channel is recorded as
   `diagnostics.scripted_proposals = "not_applicable_to_baseline"`
-  and the turns execute normally. The Prompt 4 ExperienceOS adapters
+  and the turns execute normally. The ExperienceOS adapters
   consume those fixtures.
 - **`requires_local_model` cases** (2): skipped with an explicit
   reason in default offline paths; no model is ever invoked.

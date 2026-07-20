@@ -1,4 +1,4 @@
-"""Bounded process-local embedding cache (Phase 11, Prompt 3).
+"""Bounded process-local embedding cache.
 
 Stores vectors only — never memory records, lifecycle state, or store
 handles. The canonical key is

@@ -13,7 +13,7 @@ engine lifecycle controls.
 Failure containment: structural validation is strict; malformed or
 unsupported output is rejected safely as a no-candidate result with a
 recorded reason — never fabricated fallback memory. Broader local
-reliability work is out of scope here (Prompt 7).
+reliability work is out of scope here.
 """
 
 from __future__ import annotations

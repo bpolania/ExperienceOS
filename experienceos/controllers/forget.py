@@ -1,10 +1,9 @@
-"""ForgetIntentController contract (Phase 11, Prompt 6;
-interface-only).
+"""ForgetIntentController contract (interface-only).
 
 Question answered: does this interaction appear to request that
 specific experience stop being used? The proposal names candidate
 targets; detecting, resolving, validating, and applying forgets
-remains the deterministic kernel's job (the Phase 9 forget resolver
+remains the deterministic kernel's job (the deterministic forget resolver
 plus engine validation). Canonical forgetting behavior is untouched.
 """
 

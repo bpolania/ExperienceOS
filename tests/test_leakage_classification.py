@@ -10,6 +10,7 @@ classification and frozen Phase 17 evidence are consistent and unchanged.
 from __future__ import annotations
 
 import hashlib
+import pytest
 import json
 
 from experiments.competitive_viability import leakage as LK
@@ -182,6 +183,9 @@ def test_frozen_evidence_hashes_unchanged():
     import experiments.competitive_viability.viability_subset as vs
     assert vs.manifest_hash(vs.build_viability_manifest())[:8] == "9c7f3009"
     raw = "benchmarks/results/local/competitive-viability/records.jsonl"
+    import os
+    if not os.path.exists(raw):
+        pytest.skip("local competitive-viability records scratch not present")
     assert hashlib.sha256(open(raw, "rb").read()).hexdigest()[:8] == "bb9c1362"
 
 

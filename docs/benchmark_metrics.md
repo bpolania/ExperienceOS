@@ -1,9 +1,9 @@
-# Benchmark Metric Behavior (Phase 8, Prompt 5)
+# Benchmark Metric Behavior
 
 How the evaluators implement the fixed
 [contract](benchmark_contract.md) metric registry. Definitions
 (numerators, denominators, zero-denominator rule, percentile
-convention, leakage levels) are unchanged from Prompt 1; this
+convention, leakage levels) are unchanged from the contract; this
 documents evaluator mechanics.
 
 ## Ground rules

@@ -70,7 +70,7 @@ class ContextSelectionRecord:
     # Hybrid-retrieval extensions (empty on the default v1 path).
     component_scores: dict = field(default_factory=dict)
     exclusion_reason: str | None = None
-    # Phase 11 diagnostics (None whenever the feature is disabled, so
+    # Retrieval diagnostics (None whenever the feature is disabled, so
     # earlier configurations serialize with null-valued additive keys
     # and old consumers keep working via .get()).
     semantic: dict | None = None
@@ -89,9 +89,9 @@ class ContextBuildResult:
     memory_budget: int | None = None
     selection_records: list[ContextSelectionRecord] = field(default_factory=list)
     summaries: list[ExperienceSummary] = field(default_factory=list)
-    # Phase 11: bounded retrieval-level diagnostics (mode, provider,
+    # Bounded retrieval-level diagnostics (mode, provider,
     # fallback, gate summary, counts); empty on the legacy path and
-    # for pre-Phase 11 strategies.
+    # for strategies without semantic retrieval.
     retrieval_diagnostics: dict = field(default_factory=dict)
 
 
@@ -106,8 +106,9 @@ class ContextBuilder:
     ):
         self.memory_budget = memory_budget
         self.compressor = compressor
-        # Optional Phase 9 seam: when None (the default and every v1
-        # configuration), selection below is byte-identical to Phase 8.
+        # Optional retrieval-strategy seam: when None (the default and
+        # every v1 configuration), selection below is byte-identical to
+        # the base format.
         self.retrieval_strategy = retrieval_strategy
 
     @property
@@ -380,7 +381,7 @@ class ContextBuilder:
     ) -> list[str]:
         """Memories grouped under kind labels, known kinds first.
         ``annotator`` (temporal configurations only) appends concise
-        bounded labels; None renders exactly the Phase 8 format."""
+        bounded labels; None renders exactly the base format."""
         known_kinds = {kind for kind, _ in _KIND_SECTIONS}
         groups = [
             *_KIND_SECTIONS,

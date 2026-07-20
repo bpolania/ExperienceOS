@@ -1,4 +1,4 @@
-"""UpdateController contract (Phase 11, Prompt 6; interface-only).
+"""UpdateController contract (interface-only).
 
 Question answered: does this candidate appear to modify or replace
 existing experience? The proposal names a relationship; applying any

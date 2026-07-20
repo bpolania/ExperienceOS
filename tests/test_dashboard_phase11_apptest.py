@@ -42,13 +42,13 @@ def test_initial_render_shows_lifecycle_authority_and_empty_states():
     text = _all_text(at)
     assert "Lifecycle rules are applied before semantic scoring" in text
     assert "No retrieval event yet" in text
-    assert "Retrieval diagnostics (Phase 11)" in text
+    assert "Retrieval diagnostics (semantic)" in text
 
 
 def test_benchmark_summary_renders_from_committed_data():
     at = _fresh_app()
     labels = [str(e.label) for e in at.expander]
-    assert any("Phase 11 benchmark summary" in label for label in labels)
+    assert any("Semantic-retrieval benchmark summary" in label for label in labels)
     text = _all_text(at)
     assert "deterministic test" in text.lower()
     assert "official longmemeval score" in text.lower()
@@ -84,7 +84,7 @@ def test_reset_keeps_dashboard_stable():
         pytest.skip("no reset button exposed")
     reset_buttons[0].click().run()
     assert not at.exception
-    assert "Retrieval diagnostics (Phase 11)" in _all_text(at)
+    assert "Retrieval diagnostics (semantic)" in _all_text(at)
 
 
 def test_dashboard_render_does_not_mutate_benchmark_artifacts():

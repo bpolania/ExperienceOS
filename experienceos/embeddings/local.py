@@ -1,4 +1,4 @@
-"""Optional local sentence-transformers embedding provider (Phase 11).
+"""Optional local sentence-transformers embedding provider.
 
 An inference adapter only: supplied text in, vectors out. All
 sentence-transformers specifics live in this module; the dependency is

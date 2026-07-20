@@ -1,11 +1,11 @@
-"""Provider-independent embedding contracts (Phase 11, Prompt 2).
+"""Provider-independent embedding contracts.
 
 Embedding providers are scoring utilities: they turn supplied text into
 fixed-dimension vectors and report safe diagnostics. They hold no
 MemoryStore access, receive no mutation callbacks, emit no lifecycle
 events, and make no memory decisions. Nothing here is wired into
-retrieval yet — semantic candidate generation begins in Prompt 3 per
-``docs/phase11_contract.md``, and lifecycle eligibility always remains
+retrieval yet — semantic candidate generation begins in the semantic
+scoring stage, and lifecycle eligibility always remains
 decided before any similarity computation.
 
 Diagnostics safety: availability and result metadata never contain

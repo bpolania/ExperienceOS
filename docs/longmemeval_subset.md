@@ -79,7 +79,7 @@ provider, `ceil(chars/4)` accounting; the expected answer and
   date-prefixed) plus the dated final question; untruncated offline
   (`full_history_untruncated`).
 - **naive_top_k** — every history turn is one retrieval unit; the
-  Prompt 3 formula (1.0·word-overlap + 0.5·recency, stable
+  scoring formula (1.0·word-overlap + 0.5·recency, stable
   tie-break); top 6 into context.
 - **experienceos_rules** — real production ingestion: each **user**
   turn through `chat()` per official session (assistant turns are not

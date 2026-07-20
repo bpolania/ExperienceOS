@@ -21,7 +21,7 @@ Machine-readable companion:
   are present.
 - Frozen artifacts verified unchanged by hash: viability manifest
   `9c7f3009…`, raw records `bb9c1362…`. Core `experienceos/` is 0-line
-  diff vs the published baseline `6f893f9`. No Phase 17 frozen artifact,
+  diff vs the published baseline `6f893f9`. No frozen artifact,
   benchmark case, scoring rule, answer prompt, or judge prompt changed;
   no implementation correction has been introduced.
 
@@ -155,16 +155,16 @@ Every classification traces to `records.jsonl` (per-turn actions), the
    policy only ever `create`s; it never supersedes or forgets, so every
    obsolete value stays active. High confidence. One bounded correction
    *could* address all of these — but it is **upstream** (extraction /
-   transition intelligence / lifecycle governance), which Phase 18
-   forbids.
+   transition intelligence / lifecycle governance), which the current
+   scope forbids.
 2. **EVALUATOR_ERROR — deterministic/judge over-flagging (5 cases).** The
    deterministic `must_exclude` substring scorer false-positives on
    negation ("not tea"), contrast ("instead of #eng-daily"), and correct
    avoidance ("peanut-free"); one judge case over-flags a forget
    confirmation. High confidence (4 deterministic), medium (1 judge). A
    correction here is an **allowed** class (evaluator correction) but
-   fixes *measurement*, not stale suppression, and must not touch frozen
-   Phase 17 outputs.
+   fixes *measurement*, not stale suppression, and must not touch the frozen
+   competitive outputs.
 3. No downstream (retrieval/selection/rendering/history/prompt) or
    model-reintroduction cause is present in any case.
 
@@ -182,21 +182,21 @@ one cause that is in scope (evaluator) does not suppress stale answers.
 | no downstream system can know which ACTIVE memory is obsolete | **TRIGGERED** | 3 genuine cases render current+stale both active with no distinguishing metadata |
 | correction would require case-specific prompt tuning | **TRIGGERED** | no general authority signal distinguishes two governed active memories |
 | correction would require modifying frozen evidence | NOT_TRIGGERED | not required by this analysis |
-| correction would require reopening extraction or lifecycle governance | **TRIGGERED** | the real fix (supersede/forget) is lifecycle governance, forbidden in Phase 18 |
+| correction would require reopening extraction or lifecycle governance | **TRIGGERED** | the real fix (supersede/forget) is lifecycle governance, forbidden in the current scope |
 | no single bounded cause explains a meaningful share | NOT_TRIGGERED | one upstream cause explains all nine dirty states |
 
-**Key question — can an allowed Phase 18 downstream correction
+**Key question — can an allowed downstream correction
 distinguish obsolete ACTIVE memories from valid ACTIVE memories using
 existing general metadata and rules? NO.** Both obsolete and valid
 memories carry identical `active` lifecycle status; the only signal that
 would separate them (`superseded`/`forgotten`) was never set because the
 chat-path policy never ran supersession or forgetting.
 
-## 14. Phase 18 scope compatibility assessment
+## 14. Scope compatibility assessment
 
 The dominant cause is **upstream lifecycle-state generation**, not
 downstream leakage. It is classified accurately (not disguised as a
-retrieval or context bug). The allowed Phase 18 downstream correction
+retrieval or context bug). The allowed downstream correction
 classes — earlier lifecycle filtering, context rendering correction,
 history isolation, prompt authority clarification, bounded generation-side
 validation, evaluator correction — **cannot reliably suppress the four
@@ -206,7 +206,7 @@ isolation and prompt-authority clarification do not apply (the stale value
 came from governed memory, not raw history, and there is no
 memory-vs-history authority conflict). Evaluator correction is allowed and
 would remove the five false positives, but it corrects measurement rather
-than suppressing stale answers, and cannot touch frozen Phase 17 outputs.
+than suppressing stale answers, and cannot touch the frozen competitive outputs.
 
 ## 15. Candidate correction boundaries (no implementation, no selection)
 
@@ -242,7 +242,7 @@ The dominant cause of every dirty state — and of all four genuine stale
 answers — is upstream lifecycle-state generation (a create-only default
 memory policy that never supersedes or forgets on the chat path).
 Obsolete and valid memories are indistinguishably ACTIVE, so no allowed
-Phase 18 downstream correction can reliably suppress stale answers
+downstream correction can reliably suppress stale answers
 without reopening forbidden extraction / transition / lifecycle
 governance. The remaining five failures are evaluator false positives —
 a real measurement finding, but not a stale-suppression opportunity.

@@ -1,4 +1,4 @@
-"""Provider-independent embedding abstraction (Phase 11, Prompt 2).
+"""Provider-independent embedding abstraction.
 
 Importing this package stays lightweight: it exposes the contracts,
 the dependency-free deterministic provider, and the factory. The

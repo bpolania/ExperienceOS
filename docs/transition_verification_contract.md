@@ -104,8 +104,8 @@ artifacts and code:
 - historical evidence frozen and reproducible (regenerated
   grounded-extraction digests match committed exactly).
 
-Baseline variance: none. The prompt narrative referenced a
-`report-phase12` directory; the actual Phase 12 evidence is committed
+Baseline variance: none. An internal working note referenced a
+`report-phase12` directory; the actual grounded-extraction evidence is committed
 under feature-named directories (`grounded-extraction`,
 `grounded-extraction-ablation`, `report-grounded-extraction`), which is
 the correct, policy-compliant location. This is a naming observation,

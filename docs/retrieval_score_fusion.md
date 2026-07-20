@@ -1,10 +1,10 @@
-# Retrieval Score Fusion (Phase 11, Prompt 4)
+# Retrieval Score Fusion
 
 Deterministic, inspectable fusion of the existing retrieval signals in
 `experienceos/context/fusion.py`, consumed by `HybridRetrievalStrategy`
 in the new `fused` semantic mode. This is the mechanism only: **no
 benchmark has evaluated any fused profile, and no adoption claim is
-made** — Prompt 7 measures it, and every profile may end up classified
+made** — benchmarking measures it, and every profile may end up classified
 experimental.
 
 ## Component inventory and classification (audited)
@@ -13,7 +13,7 @@ experimental.
 |---|---|---|---|
 | `lexical` | `component_scores["lexical_score"]` (summed IDF) | unbounded ≥ 0 (observed 1.8–5.4) | primary relevance |
 | `structured` | SCORING_WEIGHTS-weighted sum of `phrase/entity/attribute/value/scope/domain` raw scores (`fusion.structured_aggregate`) | small ≥ 0 (strong ≈ 3.5) | primary relevance |
-| `semantic` | Prompt 3 semantic score | [0, 1] | primary relevance |
+| `semantic` | semantic score | [0, 1] | primary relevance |
 | `temporal` | `TemporalRetrievalPolicy.score` bonus — includes `trust_score`, the only implemented provenance signal (no separate provenance component exists; none was invented) | [0, ≈0.85] | compatibility |
 | kind priority, confidence, recency, stable ID | existing refiners | — | rank refiners (never fused, never create relevance) |
 | user scope, lifecycle status, historical admission | store scoping + step-1 filter + temporal policy | — | hard eligibility (never a weight) |
@@ -37,8 +37,8 @@ infinity, negatives, and unknown components raise `FusionConfigError`.
 
 | Profile | Weights | Purpose |
 |---|---|---|
-| `lexical_reference` | — (bypass) | routes through the unchanged Phase 9 lexical path; fusion math never runs, the provider is never inspected. The zero-semantic reference. |
-| `embedding_only` | semantic 1.0 | delegates to the Prompt 3 `semantic_only` implementation (no duplication); lexical never mixed in. |
+| `lexical_reference` | — (bypass) | routes through the unchanged v2 lexical path; fusion math never runs, the provider is never inspected. The zero-semantic reference. |
+| `embedding_only` | semantic 1.0 | delegates to the `semantic_only` implementation (no duplication); lexical never mixed in. |
 | `lexical_semantic` | lexical 0.55, semantic 0.45 | token-vs-embedding ablation. |
 | `structured_semantic` | structured 0.55, semantic 0.45 | the whole lexical token aggregate is excluded (not just exact matches); structured-identity-vs-embedding ablation. |
 | `full_fusion` (default) | lexical 0.35, structured 0.25, semantic 0.30, temporal 0.10 | candidate recommended configuration. |
@@ -47,7 +47,7 @@ Weight rationale: lexical+structured hold the majority (0.60) so exact
 matches stay competitive; semantic 0.30 can lift lexically missed
 candidates; temporal 0.10 refines. Chosen from the range audit, signal
 precision, and exact-match preservation on unit fixtures — never from
-LongMemEval labels, frozen scenarios, or Phase 9 per-case misses.
+LongMemEval labels, frozen scenarios, or v2 per-case misses.
 These are architectural starting values, not learned truth.
 
 ## Fused candidate pool
@@ -112,7 +112,7 @@ profile — can admit an inactive record. `candidate_limit`, selection
 K, and token budgets are enforced unchanged. The fusion layer holds no
 store, bus, engine, or mutation handle and persists nothing.
 
-## Gate shadow observation (Prompt 5)
+## Gate shadow observation
 
 The shadow MemoryGate (`docs/memory_gate.md`) observes retrieval
 results strictly after selection and budget enforcement are final: it
@@ -120,15 +120,14 @@ reads fusion breakdowns as evidence and attaches additive diagnostics,
 but cannot alter fusion scores, the candidate union, ranking, or
 selection in any configuration.
 
-## Measured status (Prompt 7)
+## Measured status
 
-Benchmarked in `docs/phase11_semantic_retrieval_report.md`:
-`experienceos_fused_retrieval_v1` (this module's `full_fusion`
+Benchmarked, `experienceos_fused_retrieval_v1` (this module's `full_fusion`
 profile) is classified **experimental** — external selection improved
 by one case (13/50 vs 12/50) with fewer context tokens (5,448 vs
 5,527), but MRR regressed materially (0.293 vs 0.305, −3.8%) under the
 deterministic test provider; lifecycle outcomes were identical to the
-Phase 9 reference and all safety gates passed. Mixed single-metric
+v2 reference and all safety gates passed. Mixed single-metric
 evidence tied to the test provider is inconclusive for learned
 embeddings.
 

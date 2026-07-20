@@ -1,4 +1,4 @@
-"""TransitionVerifier contract (Phase 11, Prompt 6; interface-only).
+"""TransitionVerifier contract (interface-only).
 
 Question answered: is this proposed lifecycle transition supported by
 the supplied evidence and allowed by the lifecycle rules? The verifier

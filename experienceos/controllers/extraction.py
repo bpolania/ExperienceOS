@@ -1,8 +1,8 @@
-"""ExtractionController contract (Phase 11, Prompt 6; interface-only).
+"""ExtractionController contract (interface-only).
 
 Question answered: what candidate memory, if any, appears grounded in
 this interaction? The contract can represent exactly one grounded
-candidate or none — the likely Phase 12 direction — with optional
+candidate or none — the likely future direction — with optional
 evidence spans. Nothing here persists anything: a proposed candidate
 has no durable ID, no lifecycle status, and no supersession links, and
 canonical extraction behavior is untouched.

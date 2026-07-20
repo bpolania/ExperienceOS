@@ -1,4 +1,4 @@
-"""SemanticMemoryPlanner: the Phase 9 slots-v2 planning strategy.
+"""SemanticMemoryPlanner: the slots-v2 planning strategy.
 
 Runs the unchanged v1 ``MemoryPlanner`` first (its keyed supersession,
 duplicate skipping, and forget handling stay authoritative), then

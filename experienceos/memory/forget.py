@@ -1,6 +1,6 @@
 """Forget-intent detection and conservative target resolution.
 
-Phase 9 Prompt 7. Forget intent and forget target resolution are
+Forget intent and forget target resolution are
 SEPARATE components:
 
 - ``ForgetIntentDetector``: deterministic detection of durable forget

@@ -1,4 +1,4 @@
-# Specialized Controller Architecture (Phase 11, Prompt 6)
+# Specialized Controller Architecture
 
 Controllers propose. The deterministic ExperienceOS kernel validates
 and decides. This document records why ExperienceOS is moving from one
@@ -10,7 +10,7 @@ that does not yet exist.
 
 ## Why specialized controllers
 
-Phase 9 proved a single small local model cannot reliably own every
+The v2 experience layer proved a single small local model cannot reliably own every
 memory decision (0/15 and 0/8 directly valid proposals; contained by
 deterministic fallback). Specialization is the response: different
 memory decisions need different evidence; a narrow question ("does
@@ -32,13 +32,13 @@ context budgets and rendering (`ContextBuilder`).
 
 ## Controller inventory
 
-| Controller | Question answered | Evidence in | Proposal out | Authority limit | Phase 11 status |
+| Controller | Question answered | Evidence in | Proposal out | Authority limit | Status |
 |---|---|---|---|---|---|
 | `AdmissionController` | Should this interaction enter memory processing? | `AdmissionEvidence` (bounded messages, session ref, counts) | admit / reject / abstain | never decides durability | interface-only; `admission_abstain-1` default |
 | `ExtractionController` | What candidate memory, if any, is grounded here? | `ExtractionEvidence` (bounded texts, role, temporal/provenance labels) | one `ProposedMemoryCandidate` or none / abstain | never persists; candidate has no ID, status, or links | interface-only; `extraction_noop-1` default |
 | `UpdateController` | Does this candidate modify existing experience? | `UpdateEvidence` (candidate + `MemorySnapshot` + similarity signals) | no_relation / duplicate / reinforce / supersede / correct / merge_candidate / abstain | never applies updates or links | interface-only; `update_abstain-1` default |
 | `ForgetIntentController` | Does this interaction request forgetting? | `ForgetIntentEvidence` (bounded message, target snapshots, detected phrases) | no_forget_intent / forget_candidate / ambiguous / abstain | never forgets or hides memory | interface-only; `forget_intent_none-1` default |
-| `MemoryGate` | Does this retrieved candidate look useful? | `GateCandidateEvidence` (post-selection audit snapshot) | admit / reject / abstain | shadow-only; `affected_selection` always false | **integrated (shadow)** since Prompt 5 — see `docs/memory_gate.md` |
+| `MemoryGate` | Does this retrieved candidate look useful? | `GateCandidateEvidence` (post-selection audit snapshot) | admit / reject / abstain | shadow-only; `affected_selection` always false | **integrated (shadow)** — see `docs/memory_gate.md` |
 | `TransitionVerifier` | Is this proposed transition supported and allowed? | `TransitionEvidence` (transition type/target, snapshots, policy results) | approve / reject / abstain | never applies transitions | interface-only; `transition_abstain-1` default |
 
 Every controller must eventually clear the same bar before adoption:
@@ -66,7 +66,7 @@ deliberately not generalized.
 ## Active status
 
 `MemoryGate` is the only meaningfully integrated specialized
-controller, and it is shadow-only. The five Prompt 6 contracts are
+controller, and it is shadow-only. The five other controller contracts are
 interface-only: their deterministic defaults abstain or return
 no-op proposals (the transition default abstains rather than
 "approving", so no output can be read as authority), exist for tests
@@ -88,12 +88,12 @@ applied anywhere.
 
 Likely future integration seams (documented, not wired): admission →
 before the planner's extraction gate in the policy path; extraction →
-alongside the Phase 9 hybrid extractor; update → beside the
+alongside the v2 hybrid extractor; update → beside the
 semantic-identity supersession logic; forget-intent → beside the
-Phase 9 forget resolver; transition verification → beside the engine's
+v2 forget resolver; transition verification → beside the engine's
 pre-application validation.
 
-## Likely Phase 12 direction
+## Likely future direction
 
 Focused grounded extraction: one grounded candidate or none, evidence
 spans over the source text, strict kernel validation, benchmarked

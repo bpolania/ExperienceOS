@@ -403,149 +403,6 @@ assertions, not prose. The local mode uses a fake runner by design
 separately through `local_runner_smoke.py` and a real memory-policy
 interaction (see the local model runner section above).
 
-
-## Phase 9: the full v2 experience layer
-
-Phase 9 rebuilt experience quality end to end. The final system,
-**`experienceos_hybrid_full_v2`**, composes every measured component:
-
-- **semantic identity + generalized supersession** — "my phone is a
-  Pixel 9 now" supersedes the Pixel 6 fact without per-domain rules;
-  scoped preferences (aisle for short work trips, window for long
-  international trips) coexist
-- **hybrid conversational extraction** — durable facts stated
-  naturally ("I work for Globex now", "my daughter's soccer practice
-  moved to Thursday") become gated, grounded, validated memories
-- **lifecycle-aware hybrid retrieval** — BM25-style lexical +
-  structured-identity recall over ACTIVE memories only; forgotten and
-  superseded records can never enter current context
-- **coverage-aware context selection** — complementary, non-redundant
-  evidence within the unchanged K and budget; zero-value padding is
-  gone
-- **temporal + provenance metadata** — observed vs event time,
-  validity derived from supersession links,
-  current/historical/as-of/timeline query modes, source types with a
-  documented trust ordering; exact dates are never fabricated
-- **generalized forget resolution** — paraphrased forget requests
-  ("forget my morning drink preference") resolve conservatively;
-  ambiguity and "forget everything" are rejected, never guessed
-- **local-policy v2 containment** — one-action structured proposals,
-  strict parsing, syntax-only repair, one bounded retry, per-action
-  deterministic fallback; malformed model output cannot corrupt state
-
-The canonical policy mode is **scripted-simulated**
-(`simulated_proposal: true`, `direct_model_inference: false`): the
-deterministic plan is serialized through the real local-policy-v2
-parse/validation/audit pipeline. The development real-local mode
-(Qwen2.5-0.5B-Instruct Q4_K_M) produced **0/15 and 0/8 directly valid
-proposals** in bounded runs — every failure was contained by
-deterministic fallback with zero state corruption. The local model
-path currently demonstrates model-failure containment, not reliable
-autonomous memory management.
-
-### Phase 9 benchmark evidence (v2)
-
-Lifecycle benchmark (frozen 40 scenarios; raw numerators/denominators;
-full ablation across nine systems in
-[docs/benchmark_report_v2.md](docs/benchmark_report_v2.md)):
-
-| Metric | Rules (v1) | Full v2 |
-|---|---:|---:|
-| Lifecycle cases passed | 17/40 | **21/40** |
-| Creation recall | 10/13 | **12/13** |
-| Supersession | 2/7 | **6/7** |
-| Forget detection | 2/4 | **4/4** |
-| Forgotten exclusion | 0/2 | **2/2** |
-| Recall@K | 15/17 | **17/17** |
-| Inactive contamination ↓ | 2/20 | **0/18** |
-| State corruption | 0 | 0 |
-
-LongMemEval fixed subset (frozen 50-case stratified subset,
-deterministic offline provider — **not an official LongMemEval
-score**):
-
-| Metric | Rules (v1) | Full v2 |
-|---|---:|---:|
-| Candidate rate | 28/50 | **31/50** |
-| Selection rate | 14/50 | 12/50 |
-| MRR | 0.186 | **0.305** |
-| Context tokens | 10,328 | **5,527** |
-
-Read the selection row carefully: the selection rate **fell** because
-Phase 9 removed zero-relevance K-padding (part of v1's credit was
-accidental), while MRR rose and context tokens dropped 46.5%. The
-naive top-K baseline retains higher raw-turn retrieval recall (42/50
-selection, 0.658 MRR) — it retrieves raw conversation turns, while
-ExperienceOS retrieves distilled durable memories with lifecycle
-guarantees. Remaining gaps (stale leakage 7/11, 19 external
-candidate-absence cases, no embeddings) are itemized in the report.
-
-Validate and reproduce the v2 evidence (offline, no model, no
-network):
-
-```bash
-./scripts/run_benchmarks.sh validate-v2
-./scripts/run_benchmarks.sh validate-external-v2
-./scripts/run_benchmarks.sh validate-v2-consistency
-./scripts/run_benchmarks.sh validate-report-v2
-./scripts/run_benchmarks.sh report-v2   # regenerate the comparative report
-```
-
-Full comparative report: [docs/benchmark_report_v2.md](docs/benchmark_report_v2.md)
-· Phase 9 closure: [docs/phase9_closure.md](docs/phase9_closure.md)
-· Component docs: [semantic identity](docs/phase9_semantic_identity.md),
-[extraction](docs/phase9_hybrid_extraction.md),
-[retrieval](docs/phase9_hybrid_retrieval.md),
-[coverage](docs/phase9_coverage_selection.md),
-[temporal/provenance](docs/phase9_temporal_provenance.md),
-[forgetting & local policy](docs/phase9_forget_policy.md).
-
-## Phase 11: semantic retrieval and controller foundation
-
-Phase 11 added an optional, measured semantic-retrieval capability
-and the first specialized-controller seams on top of the deterministic
-kernel — **without changing the canonical default**: Phase 9
-lexical/hybrid retrieval remains the recommended path.
-
-What exists now:
-
-- **provider-independent embedding abstraction**
-  (`experienceos/embeddings/`): a deterministic test provider
-  (`stable-feature-hash-v1`, 512 dims) for CI/reproducibility, plus an
-  optional local sentence-transformers provider (`pip install -e
-  ".[embeddings-local]"`, lazy import, local-files-only, never
-  downloads) — implemented but **unmeasured** (dependency not
-  installed)
-- **lifecycle-safe semantic scoring** with a bounded process-local
-  cache: eligibility is decided before any similarity, so forgotten
-  and superseded memories are never embedded and can never be
-  resurrected
-- **deterministic fixed-weight score fusion** with frozen versioned
-  profiles and a reference bypass proven byte-identical to Phase 9
-- **shadow-only MemoryGate**: proposes admit/reject/abstain on the
-  finished selection; `affected_selection` is invariantly zero
-- **proposal-only contracts** for six specialized controller roles
-  (admission, extraction, update, forget-intent, gate, transition
-  verification) — interface-only except the shadow gate
-- **dashboard diagnostics**: retrieval mode, provider status, score
-  breakdowns, lifecycle-exclusion labels, cache counters, and
-  shadow-gate proposals (see
-  [docs/dashboard_phase11_diagnostics.md](docs/dashboard_phase11_diagnostics.md))
-
-**Measured result** (fixed 50-case subset, deterministic test
-embedding provider — plumbing evidence, not learned semantic quality,
-and not an official LongMemEval score): the Phase 9 reference
-reproduced exactly (selection 12/50, MRR 0.305, 5,527 context
-tokens); embedding-only retrieval regressed materially (2/50, MRR
-0.168) and is **not adopted**; fused retrieval selected one more case
-(13/50) with fewer tokens (5,448) but materially regressed MRR
-(0.293) and remains **experimental**; the gate shadow produced 34,148
-proposals with zero selection effect and zero failures. Lifecycle
-leakage stayed zero for every system. Full evidence:
-[docs/phase11_semantic_retrieval_report.md](docs/phase11_semantic_retrieval_report.md);
-architecture:
-[docs/controller_architecture.md](docs/controller_architecture.md).
-
 ## Grounded experience extraction
 
 ExperienceOS can accept memory proposals from deterministic or learned
@@ -643,10 +500,10 @@ Canonical final-answer accuracy rose from **27/38 = 71.05%** to
 the strongest live baseline (stateless, **31/38 = 81.58%**), within the
 frozen ~5-point comparability heuristic — **comparable with notes, not
 superior**. The four genuine stale failures are fixed at the final-answer
-level; the five residual stale flags are the same known Phase 18 evaluator
+level; the five residual stale flags are the same known evaluator
 false positives under the unchanged frozen scoring contract. Context stays
 compact: canonical averages **58.05** context tokens/case versus
-full-history's **454.45** (an **87.23%** reduction, live Phase 20). Full
+full-history's **454.45** (an **87.23%** reduction, measured live). Full
 evidence:
 [benchmarks/results/committed/canonical-lifecycle-activation-live/](benchmarks/results/committed/canonical-lifecycle-activation-live/)
 (live) and
@@ -686,7 +543,7 @@ credential-presence checks print only a boolean, never the value.
 
 The following describes the mechanism and the evaluation that classified
 the path candidate-only *before* activation; the append-both cause it
-documents is the defect Phase 20's governed replacement resolved.
+documents is the defect the governed replacement resolved.
 
 What the mechanism provides:
 
@@ -763,7 +620,7 @@ network, no model):
 ./scripts/run_benchmarks.sh validate-transition-verification
 ```
 
-The section below is the frozen **Phase 8 (v1)** evidence, preserved
+The section below is the frozen **v1** evidence, preserved
 unchanged as the historical baseline the v2 numbers are measured
 against.
 
@@ -797,9 +654,8 @@ Naive lexical retrieval outperforms ExperienceOS's sparse rule-based extraction 
 ## Benchmarking
 
 A lifecycle benchmark compares ExperienceOS against stateless,
-full-history, append-only, and naive-retrieval baselines, and the
-Phase 9 ablation extends it across nine system configurations (see
-the Phase 9 section above). The measurement rules — schemas, metric denominators, leakage
+full-history, append-only, and naive-retrieval baselines, and an
+ablation extends it across nine system configurations. The measurement rules — schemas, metric denominators, leakage
 definitions, context accounting, and fair-comparison constraints —
 are committed **before** any results in
 [docs/benchmark_contract.md](docs/benchmark_contract.md), with
@@ -836,23 +692,13 @@ Run and validate the offline benchmark:
 ./scripts/run_benchmarks.sh validate-report
 ```
 
-Validate the Phase 9 v2 evidence and report:
+Validate the v2 evidence and report:
 
 ```bash
 ./scripts/run_benchmarks.sh validate-v2
 ./scripts/run_benchmarks.sh validate-external-v2
 ./scripts/run_benchmarks.sh validate-v2-consistency
 ./scripts/run_benchmarks.sh validate-report-v2
-```
-
-Validate the committed Phase 11 retrieval evidence (four systems,
-double-run digest-locked, deterministic test embedding provider):
-
-```bash
-./scripts/run_benchmarks.sh validate-phase11
-./scripts/run_benchmarks.sh validate-external-phase11
-./scripts/run_benchmarks.sh validate-phase11-consistency
-./scripts/run_benchmarks.sh validate-report-phase11
 ```
 
 Validate the committed transition evidence (three artifact families:

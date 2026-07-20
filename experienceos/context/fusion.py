@@ -1,4 +1,4 @@
-"""Deterministic retrieval score fusion (Phase 11, Prompt 4).
+"""Deterministic retrieval score fusion.
 
 Pure configuration and math: this module normalizes already-computed
 retrieval component scores and combines them under fixed, versioned
@@ -12,7 +12,7 @@ Component classification (audited against the live code):
 - **Primary query relevance**: ``lexical`` (unbounded BM25-style IDF
   sum, ``lexical_score``), ``structured`` (the weighted
   phrase/entity/attribute/value/scope/domain aggregate, bounded-ish
-  small values), ``semantic`` (Prompt 3 score, already [0, 1]).
+  small values), ``semantic`` (semantic score, already [0, 1]).
 - **Compatibility evidence**: ``temporal`` — the temporal policy's
   bounded additive bonus (max ≈ 0.85), which already contains the
   only implemented provenance signal (``trust_score``); no separate
@@ -38,7 +38,7 @@ always means the same normalized value):
 
 Weights are architectural starting values chosen from score ranges,
 signal precision, and exact-match preservation — never from benchmark
-labels. Prompt 7 measures whether any profile deserves adoption.
+labels. Adoption measurement determines whether any profile deserves adoption.
 """
 
 from __future__ import annotations
@@ -202,7 +202,7 @@ def _register(profile: RetrievalFusionProfile) -> RetrievalFusionProfile:
     return profile
 
 
-# Reference: routes through the unchanged Phase 9 lexical path; the
+# Reference: routes through the unchanged lexical path; the
 # weights below are documentation only — fusion math never runs and
 # the embedding provider is never inspected.
 LEXICAL_REFERENCE = _register(
@@ -213,7 +213,7 @@ LEXICAL_REFERENCE = _register(
     )
 )
 
-# Delegates to the Prompt 3 semantic_only path: semantic evidence and
+# Delegates to the semantic_only path: semantic evidence and
 # non-relevance refiners only, lexical never mixed in.
 EMBEDDING_ONLY = _register(
     RetrievalFusionProfile(
@@ -246,8 +246,8 @@ STRUCTURED_SEMANTIC = _register(
 # Default full fusion: lexical+structured keep the majority (0.60) so
 # exact matches stay competitive; semantic (0.30) can lift lexically
 # missed candidates; temporal compatibility (0.10) refines. Starting
-# values from the range audit — not benchmark-optimized, and Prompt 7
-# may classify this profile as experimental.
+# values from the range audit — not benchmark-optimized, and adoption
+# measurement may classify this profile as experimental.
 FULL_FUSION = _register(
     RetrievalFusionProfile(
         profile_id=DEFAULT_FUSION_PROFILE_ID,

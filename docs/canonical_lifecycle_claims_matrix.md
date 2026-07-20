@@ -29,8 +29,8 @@ from the six-system `qwen-plus` campaign
 | Claim | Note |
 |-------|------|
 | Competitive comparability | canonical 78.95% is 2.63 pts below strongest live baseline (stateless 81.58%), within the frozen ~5-point heuristic; one stochastic sample; **not superior** |
-| Stale-answer improvement | 9/18 → 5/18; the four genuine failures fixed, the five residual flags are the known Phase 18 evaluator false positives under the unchanged frozen contract |
-| Context economy | canonical 58.05 vs full-history 454.45 avg tokens/case = 87.23% reduction, from the live Phase 20 campaign |
+| Stale-answer improvement | 9/18 → 5/18; the four genuine failures fixed, the five residual flags are the known evaluator false positives under the unchanged frozen contract |
+| Context economy | canonical 58.05 vs full-history 454.45 avg tokens/case = 87.23% reduction, from the live governed-replacement campaign |
 
 ## Not supported
 

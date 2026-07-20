@@ -25,8 +25,8 @@ an activation stop condition. A negative result is acceptable.
 branch `main`; HEAD `dbd9a80`; parent `d04ac6d`; upstream `origin/main`;
 direct remote `main` `350f389`; ahead 2 / behind 0; 0 merges; clean tree;
 0 staged, 0 untracked non-ignored. the audit commit `dbd9a80`
-present with `docs/canonical_lifecycle_activation_audit.md`. Phase 17
-published (`origin/main` == `350f389`) and frozen; Phase 18 artifacts
+present with `docs/canonical_lifecycle_activation_audit.md`. Competitive evidence
+published (`origin/main` == `350f389`) and frozen; investigative artifacts
 present. Core `experienceos/` 0-line diff vs the published baseline
 `6f893f9`. Frozen hashes unchanged (`9c7f3009…`, `bb9c1362…`). No tracked
 secrets. `dbd9a80` is the actual HEAD.
@@ -255,7 +255,7 @@ persisted lifecycle state.
 
 **Classification: `SINGLE_MUTATION_BOUNDARY_PRESERVED_WITH_EXISTING_SEAM`.**
 
-## 14. Four genuine Phase 18 cases
+## 14. Four genuine cases
 
 | Case | Type | Planner result | Controller result | Verifier | Authorization available | Replacement needed | Adopted supports effect | Exact defect |
 |---|---|---|---|---|---|---|---|---|

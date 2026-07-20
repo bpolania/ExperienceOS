@@ -1,4 +1,4 @@
-"""AdmissionController contract (Phase 11, Prompt 6; interface-only).
+"""AdmissionController contract (interface-only).
 
 Question answered: should this interaction enter the memory-processing
 pipeline for further deterministic validation? The controller never

@@ -1,6 +1,6 @@
 """HybridMemoryPlanner: deterministic rules first, gated extraction second.
 
-The Phase 9 extraction-only planning strategy:
+The extraction-only planning strategy:
 
 1. The unchanged v1 ``MemoryPlanner`` runs first and stays authoritative
    for everything it detects — creation, keyed supersession, duplicate
@@ -18,7 +18,7 @@ Isolation properties (extraction-only ablation, by construction):
   a planner, and planning never reads or ranks memories for context;
 - accepted candidates never supersede or forget anything: extraction
   proposes creations only, so v1 lifecycle planning is retained and
-  generalized Prompt 2 supersession stays out of this strategy;
+  generalized slot supersession stays out of this strategy;
 - every emitted action still flows through ExperienceManager
   validation and ExperienceEngine lifecycle checks.
 
@@ -376,11 +376,11 @@ class HybridMemoryPlanner(MemoryPlanner):
     ) -> SemanticIdentity | None:
         """Semantic identity for an accepted candidate.
 
-        The Prompt 2 registry normalizer is authoritative when it
+        The slot registry normalizer is authoritative when it
         recognizes the stored statement (full confidence, known
         cardinality). Otherwise a conservative generic identity is
         built from the candidate's own structured fields — unknown
-        cardinality and sub-1.0 confidence, so Prompt 2 conflict rules
+        cardinality and sub-1.0 confidence, so slot conflict rules
         can never supersede on it, only deduplicate and coexist.
         """
         identity = self.normalizer.normalize(

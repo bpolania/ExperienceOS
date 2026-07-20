@@ -441,14 +441,14 @@ with col_platform:
     else:
         st.caption("No context selection has been built yet.")
 
-    st.markdown("**Retrieval diagnostics (Phase 11)**")
+    st.markdown("**Retrieval diagnostics (semantic)**")
     st.caption(LIFECYCLE_AUTHORITY_NOTICE)
     diagnostics = retrieval_diagnostics(agent.events)
     if diagnostics is None:
         st.caption("No retrieval event yet.")
     elif diagnostics["retrieval_mode"] == "disabled":
         st.caption(
-            "Retrieval mode: lexical (Phase 9 path). Semantic retrieval "
+            "Retrieval mode: lexical (default path). Semantic retrieval "
             "disabled — no embedding provider configured, no cache, no "
             "shadow gate."
         )
@@ -503,14 +503,14 @@ with col_platform:
                 )
                 st.json(candidate_detail(record))
 
-    with st.expander("Phase 11 benchmark summary (committed evidence)"):
+    with st.expander("Semantic-retrieval benchmark summary (committed evidence)"):
         benchmark = phase11_benchmark_summary()
         if benchmark is None:
             st.caption("Benchmark summary unavailable.")
         else:
             st.dataframe(
                 [
-                    {"System": "Phase 9 reference",
+                    {"System": "v2 reference",
                      **benchmark["reference"]},
                     {"System": "Embedding-only",
                      **benchmark["embedding_only"]},

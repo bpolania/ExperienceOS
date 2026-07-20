@@ -1,9 +1,9 @@
-"""Specialized controller seams (Phase 11).
+"""Specialized controller seams.
 
 Controllers propose; the deterministic ExperienceOS kernel validates
-and decides. Prompt 5 introduced the shadow-only MemoryGate — the only
-meaningfully integrated controller. Prompt 6 added interface-only,
-proposal-only contracts for admission, extraction, update,
+and decides. The shadow-only MemoryGate is the only
+meaningfully integrated controller. Additional interface-only,
+proposal-only contracts cover admission, extraction, update,
 forget-intent, and transition verification, with deterministic
 abstaining/no-op defaults; none participates in canonical behavior. No
 controller receives a store, engine, manager, bus, or mutation handle,

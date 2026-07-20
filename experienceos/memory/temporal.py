@@ -1,6 +1,6 @@
 """Temporal and provenance metadata for durable experience.
 
-Phase 9 Prompt 6. This module owns:
+This module owns:
 
 - ``TemporalMetadata`` / ``ProvenanceMetadata``: additive, versioned,
   optional-field structures stored on the existing entry metadata JSON

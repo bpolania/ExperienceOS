@@ -12,8 +12,8 @@ application infrastructure already exist?**
 
 - branch `main`, local HEAD `d04ac6d`, upstream `origin/main` (`350f389`),
   ahead 2 / behind 0, 0 merges, clean tree, nothing pushed.
-- Phase 17 competitive evidence published and frozen (`origin/main` ==
-  `350f389`); Phase 18 investigative artifacts present.
+- Competitive evidence published and frozen (`origin/main` ==
+  `350f389`); investigative artifacts present.
 - Frozen hashes unchanged: viability manifest `9c7f3009…`, raw records
   `bb9c1362…`. Core `experienceos/` is 0-line diff vs the published
   baseline `6f893f9`. No tracked secrets.
@@ -81,7 +81,7 @@ Ordinary creation is correct and must be preserved.
 ## 5. Stage-by-stage trace — update statement (intent lost)
 
 Example: existing "Prefers tea in the morning." + "Actually, I prefer
-coffee in the morning." (Phase 18 `updates_001` / `containment_002`).
+coffee in the morning." (cases `updates_001` / `containment_002`).
 
 | Stage | Input | Output | Mode / controller | Update/forget runs | Transition proposal | Verify | Authorize | Canonical effect | Final action list | Persisted |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -107,7 +107,7 @@ coffee in the morning." (Phase 18 `updates_001` / `containment_002`).
 
 Example: existing "Send my daily status summary to the #eng-daily
 channel." + "Forget the instruction about my daily status channel."
-(Phase 18 `forgetting_005`); and "…evening study preference…"/"I don't
+(case `forgetting_005`); and "…evening study preference…"/"I don't
 care about it anymore" (`forgetting_002`).
 
 | Stage | Input | Output | Mode / controller | Update/forget runs | Transition proposal | Verify | Authorize | Canonical effect | Final action list | Persisted |
@@ -125,7 +125,7 @@ care about it anymore" (`forgetting_002`).
 2. The transition coordinator's `forget_controller` route is disabled on
    the canonical path.
 
-## 7. Per genuine Phase 18 case — where the transition was lost
+## 7. Per genuine case — where the transition was lost
 
 | Case | Intended | Planner outcome | Transition coordinator | Result |
 |---|---|---|---|---|
@@ -134,7 +134,7 @@ care about it anymore" (`forgetting_002`).
 | containment_002 | SUPERSEDE (tea→coffee) | create-only (`preference_domain`=None) | disabled | tea stays ACTIVE |
 | forgetting_005 | FORGET (#eng-daily) | no action (topic unmatched) | disabled | instruction stays ACTIVE |
 
-(The five Phase 18 evaluator false positives share the same create-only
+(The five known evaluator false positives share the same create-only
 state but did not produce a genuinely stale answer.)
 
 ## 8. The missing / bypassed seam
@@ -164,7 +164,7 @@ replacement machinery lives behind the **transition integration
 coordinator seam, which the canonical demo composition never configures**
 (`transition=None` → `DISABLED`). The only generator that runs on the
 chat path is the default `MemoryPlanner`, whose domain/update-key/topic
-matchers do not recognize the Phase 18 update and forget statements, so
+matchers do not recognize these update and forget statements, so
 they fall through to plain `create`. This is an **integration/activation
 gap on the canonical composition**, not a missing capability and not a
 downstream leakage problem.

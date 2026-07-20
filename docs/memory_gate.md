@@ -1,15 +1,15 @@
-# MemoryGate (Phase 11, Prompt 5)
+# MemoryGate
 
 The first specialized controller seam: a shadow-only gate that
 inspects bounded retrieval evidence and proposes `admit` / `reject` /
 `abstain` per candidate. **MemoryGate proposes; ExperienceOS
-decides.** In Phase 11 every proposal is diagnostic: `shadow_mode` is
+decides.** Currently every proposal is diagnostic: `shadow_mode` is
 always true, `affected_selection` is always false, there is no
 enforcement mode, and canonical selection, ordering, budgets, rendered
 context, and memory state are provably unchanged by any gate —
 including a failing one. MemoryGate is not an autonomous memory
 manager, and no claim is made that gating improves retrieval;
-Prompt 7 measures its shadow proposals.
+the benchmark measures its shadow proposals.
 
 ## Proposal versus authority
 
@@ -22,7 +22,7 @@ Prompt 7 measures its shadow proposals.
 - `GateCandidateEvidence` (frozen): query, memory ID/kind, memory text
   (truncated to 300 chars), lifecycle status, canonical selected flag
   and rank, exclusion reason, token estimate, component-score copy,
-  Prompt 3 semantic evidence, Prompt 4 fusion breakdown, retrieval
+  semantic evidence, fusion breakdown, retrieval
   mode, fusion profile ID. Never included: live memory records,
   stores, engines, buses, callbacks, vectors, cache objects, paths,
   or secrets.
@@ -48,7 +48,7 @@ query-dependent.
 ## Evaluation scope
 
 The gate evaluates the final post-limit candidate set (rank > 0),
-selected and skipped alike, so Prompt 7 can compare proposals against
+selected and skipped alike, so the benchmark can compare proposals against
 canonical selection. Never evaluated: lifecycle-excluded records
 (forgotten, superseded-in-current-mode, cross-user — proven with a
 poisoned gate under maximum-evidence fixtures) and pre-ranking
@@ -80,7 +80,7 @@ gate-evaluated; forgotten records never are, in any mode.
 
 selected + admit = agreement; skipped + reject = agreement; abstain =
 neutral; selected + reject and skipped + admit = disagreement.
-Disagreement is expected shadow evidence for Prompt 7, never an error,
+Disagreement is expected shadow evidence for the benchmark, never an error,
 and never affects canonical behavior.
 
 ## Failure containment
@@ -107,8 +107,8 @@ selected_proposed_reject, skipped_proposed_admit, failures,
 `affected_selection` (invariantly 0), status, first failure type, and
 an `{"elapsed_ms": …}` timing block following the digest-exclusion
 convention. All fields additive; no-gate mode leaves `gate` empty/None
-so old events and consumers are untouched. Dashboard exposure is
-Prompt 8.
+so old events and consumers are untouched. Dashboard exposure comes
+later.
 
 ## Verified guarantees
 
@@ -122,16 +122,15 @@ metadata untouched; gate constructors accept no authority handles.
 ## Place in the controller architecture
 
 MemoryGate is the first of six specialized controller seams and the
-only one meaningfully integrated (shadow-only) in Phase 11; the other
+only one meaningfully integrated (shadow-only) so far; the other
 five are interface-only contracts — see
-`docs/controller_architecture.md`. Prompt 6 changed nothing in this
+`docs/controller_architecture.md`. The controller-architecture work changed nothing in this
 module: gate IDs, proposal schema, invariants, and selection identity
 are byte-unchanged.
 
-## Measured status (Prompt 7)
+## Measured status
 
-Benchmarked at scale in `docs/phase11_semantic_retrieval_report.md`
-(`experienceos_gate_shadow_v1`): canonical metrics identical to the
+Benchmarked at scale as `experienceos_gate_shadow_v1`: canonical metrics identical to the
 fused system on both benchmarks, `affected_selection` 0 across every
 case, zero gate failures, and measurable proposal distributions
 (external: 34,148 evaluated — 5,028 admit, 2,047 reject, 27,073
@@ -143,7 +142,7 @@ quality metric.
 
 No enforcement, no learned gate, no local-model or Qwen gate, no
 persistence of proposals, no controller registry. Whether shadow
-proposals correlate with useful selection is unknown until Prompt 7
+proposals correlate with useful selection is unknown until benchmarking
 measures agreement/disagreement on the frozen benchmarks; canonical
 gate enforcement would additionally require explicit adoption in a
 later phase.
